@@ -218,7 +218,8 @@ export function montarExploracion({ mapa, pozos, resumen }) {
           <dt>Tipo</dt><dd>${esc(f.tp || '—')} · ${esc(f.c || '')} ${f.sc ? '/ ' + esc(f.sc) : ''}</dd>
           ${f.fperf ? `<dt>Perforado</dt><dd>${esc(f.fperf)}${f.fterm ? ` · terminado ${esc(f.fterm)}` : ''}</dd>` : '<dt>Perforado</dt><dd><em>sin fecha en el registro</em></dd>'}
           ${f.pp ? `<dt>Primera producción</dt><dd>${f.pp06 ? 'ya figuraba en enero de 2006 (inicio de la serie)' : esc(f.pp)}</dd>` : ''}
-          ${f.up ? `<dt>Última producción</dt><dd>${esc(f.up)}${anios ? ` · ${anios} ${anios === 1 ? 'año' : 'años'} sin producir` : ''}</dd>` : ''}
+          ${f.up ? `<dt>Última producción</dt><dd>${esc(f.up)}${anios ? ` · ${f.ud ? 'al menos ' : ''}${anios} ${anios === 1 ? 'año' : 'años'} sin producir` : ''}</dd>` : ''}
+          ${f.ud ? `<dt>Declaración mensual</dt><dd>hasta ${mesAnio(f.ud)}; después la operadora no lo declara</dd>` : ''}
           ${declaradoAbandonado(f)}
           ${f.conc === false ? `<dt>Concesión</dt><dd><em>el área no figura como concesión vigente</em></dd>` : ''}
           ${f.prof ? `<dt>Profundidad</dt><dd>${fmt(f.prof)} m</dd>` : ''}

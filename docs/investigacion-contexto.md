@@ -126,6 +126,34 @@ Sin confirmar (no usar): fechas de fundación de Km 3 y de Astra (las fuentes ch
 y Laprida "de orígenes netamente petroleros" (solo un artículo de la UNPSJB, Usach y Freddo 2016: académico, no oficial).
 Nunca decir "pozos sobre casas": las viviendas no están georreferenciadas; decir "pozos dentro del barrio".
 
+## Convivir con pozos (tarjeta 7, 27/09/2026)
+
+Verificado con fuente oficial (informe completo de la búsqueda: 27/09/2026):
+- Municipalidad, 20/03/2024: "Existen más de 4 mil dentro del ejido urbano"; los radios de seguridad de los pozos terminan
+  "impidiéndole a los vecinos tener servicios como el gas".
+  https://www.comodoro.gov.ar/2024/03/20/coluccio-con-esta-ordenanza-nos-ponemos-a-la-altura-de-la-industria-hidrocarburifera/
+  Ojo: el mismo texto dice "pozos mal abandonados": no citarlo (regla 2).
+- Resolución municipal 3404-19 (30/10/2019; Boletín Oficial municipal N° 002, 03/01/2020): asentamiento "Grupo Arrieta y
+  Chacras" del barrio Don Bosco, "ZONA DE RIESGO por afectación de pozos petroleros que mantienen radio de 60 mts"; los
+  ocupantes no pueden pedir la venta de la tierra "mientras subsista el radio de seguridad de los pozos petroleros".
+  https://www.comodoro.gov.ar/archivos/boletin_oficial/pdf/bol_002-2020.pdf
+- Municipalidad, 26/09/2024: relevamiento de pozos inactivos del ejido "por cuadrículas"; registra "si hay o no interacción con
+  viviendas o terrenos particulares"; 40 % de los cuadrantes a esa fecha; primero Km 3 y Km 5.
+  https://www.comodoro.gov.ar/2024/09/26/el-municipio-avanza-en-el-relevamiento-de-pozos-petroleros-inactivos-dentro-su-ejido/
+- Municipalidad, 13/06/2024: operativo en yacimientos; en General Mosconi, "ante la preocupación de los vecinos, acudimos al
+  pasivo del pozo CH44" (en el Capítulo IV: YPF.Ch.-44, idpozo 121051, Abandonado).
+  https://www.comodoro.gov.ar/2024/06/13/el-municipio-realizo-fuertes-controles-en-yacimientos-para-relevar-los-pasivos-ambientales/
+- Res. SE 5/96: su "ejido urbano" (A.1) incluye los pozos a menos de 100 m de viviendas. Sin distancias a viviendas no se puede
+  decir qué pozos son A.1: no afirmar incumplimientos.
+- Otros comunicados municipales (no usados en la tarjeta): derrame a "escasos 100 metros" de Laprida (27/04/2026), Km 5
+  (24/08/2026), auditoría en Diadema (21/03/2026), mesa Municipio–UNPSJB (16 y 18/09/2025).
+
+Solo medios (no usar): las cifras del relevamiento (1.700 inactivos, 150/151 sin localizar, 765, 83 %, 12 en lotes habitados,
+3.700, 6.000; se contradicen y no hay informe publicado); el pozo que apareció en una casa de Sismográfica (enero de 2026) y el
+petróleo en un patio de Km 5 (febrero de 2026); la demanda del municipio contra YPF (agosto de 2026); la campaña Chubut–McGill.
+YPF.Ch.-325 (Mosconi) y YPF.Ch.-724 (Presidente Ortiz, perforado en 1928, abandonado el 15/05/1996 según el listado) caen en
+las zonas de esas notas, pero nada oficial dice que sean esos pozos.
+
 ## Sin confirmación oficial (no usar)
 
 "6.300 pozos en funcionamiento en Chubut" (declaración en prensa, 2020); "3.700 pozos inactivos a

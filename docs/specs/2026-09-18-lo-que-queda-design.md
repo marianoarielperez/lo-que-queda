@@ -31,8 +31,8 @@ Opción A: relato primero, mapa después. Una página; el mapa ocupa la pantalla
 | 3 | Operadoras | Puntos por operadora, antes/después | 21.509 pozos de YPF → 0; 251 sin empresa (179 abandonados) |
 | 4 | Ejido | Límite del ejido + radios urbanos + población | 6.205 pozos; 817 activos, 574 producen; 84.519 personas (42,0 % de Comodoro) en radios con pozo |
 | 5 | Zona norte | Barrios al norte del cerro Chenque (lista municipal); pozos fuera de ellos atenuados | 33 de 36 barrios con pozos; 2.370 pozos (1.801 abandonados, 95 activos); 86,1 % de los vecinos en barrios con 10 o más; Astra 492 pozos y 328 hab.; Mosconi (Km 3, Pozo N° 2) 195 y ninguno activo |
-| 6 | Un radio | Radio urbano 260211203 (Km 3) | 408 pozos, 936 habitantes, 303 abandonados, 3 activos; surgencia CH-679 (27/8/2024) |
-| 7 | Cierre | Mapa liberado | 28.499 pozos sin producir; 13.175 inactivos hace más de 5 años; 169 declaraciones de abandono por año (2018–2025); provisión YPF US$ 915 M |
+| 6 | Convivir con pozos | Núcleo de zona norte, solo inactivos y a abandonar; marcador del CH-679 | 474 pozos no dados de baja en barrios de zona norte, 393 con 5 años o más sin producir; radios de seguridad y gas (20/3/2024); Res. 3404-19 (Don Bosco, radio de 60 m); relevamiento municipal (26/9/2024); surgencia CH-679 (27/8/2024) |
+| 7 | Cierre | Mapa liberado | 28.499 pozos sin producir; 13.018 inactivos hace más de 5 años (meses declarados); 169 declaraciones de abandono por año (2018–2025); provisión YPF US$ 915 M |
 
 Exploración: filtros por estado (4 grupos, con detalle de los 17 originales en la ficha), operadora,
 yacimiento, provincia; capa de población; buscador por sigla; ficha al clic; contadores.

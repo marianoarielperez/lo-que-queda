@@ -497,7 +497,8 @@
    "hasta": "2026-08",
    "pozos_con_registro": 44354
   },
-  "nota": "ultima_prod = último mes con petróleo o gas > 0 dentro de la cobertura; 'nunca_en_serie' = ningún mes con producción en toda la cobertura",
+  "nota": "ultima_prod = último mes con petróleo o gas > 0 dentro de la cobertura; 'nunca_en_serie' = ningún mes con producción en toda la cobertura; 'más de 5 años' = 60 meses o más declarados sin producir (no cuentan los meses en que la operadora ya no declara el pozo)",
+  "dejaron_de_declararse": 9598,
   "con_ultima_prod": 19232,
   "nunca_en_serie": 25158,
   "nunca_en_serie_por_grupo": {
@@ -508,14 +509,16 @@
   },
   "nunca_en_serie_no_abandonados": 11243,
   "produjeron_ultimos_12_meses": 13778,
-  "sin_producir_1_a_5_anios": 2906,
-  "sin_producir_mas_de_5_anios": 2548,
-  "sin_producir_mas_de_5_anios_no_abandonados": 2405,
+  "sin_producir_1_a_5_anios": 2978,
+  "sin_producir_mas_de_5_anios": 2476,
+  "sin_producir_mas_de_5_anios_no_abandonados": 2333,
   "inactivos_por_tiempo_sin_producir": {
    "menos_de_1_anio": 1589,
-   "1_a_5_anios": 2574,
-   "5_a_9_anios": 1932,
-   "nunca_en_serie": 11243
+   "1_a_5_anios": 2598,
+   "5_a_9_anios": 1908,
+   "nunca_en_serie": 11243,
+   "nunca_en_serie_60_meses_declarados": 11110,
+   "mas_de_5_anios": 13018
   },
   "ejido_nunca_en_serie": 5256,
   "ejido_nunca_en_serie_no_abandonados": 1509,
@@ -677,6 +680,17 @@
   "pobl_en_barrios_con_10_o_mas": 59594,
   "pobl_en_barrios_con_10_o_mas_pct": 86.1,
   "barrio_pozo_2": "General Enrique Mosconi",
+  "no_dados_de_baja": 474,
+  "no_dados_de_baja_5_anios": 393,
+  "no_dados_de_baja_por_estado": {
+   "En Estudio": 263,
+   "En Reserva para Recup. Sec./Asist.": 101,
+   "Parado Transitoriamente": 53,
+   "A Abandonar": 43,
+   "Abandono Temporario": 7,
+   "Parado Alta Relación Agua/Petróleo": 5,
+   "En Espera de Reparación": 2
+  },
   "por_barrio": {
    "Astra": {
     "Activo": 23,

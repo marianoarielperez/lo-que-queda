@@ -98,7 +98,7 @@ public/img/                 fotos a 1000 px, WebP + JPEG; se generan con scripts
 - Mensual por pozo 2017-01 → 2026-08 (`raw/produccion-mensual_gsj.zip`, 41 MB; el pipeline lo lee
   comprimido) → `meses_cod` en el binario (65535 = sin ningún mes de producción en la serie), `up`/`msp`/`pab`
   en la ficha, `resumen.trayectoria`. Hallazgos: 11.243 pozos no abandonados sin un mes de producción desde
-  2017; 13.175 inactivos hace más de 5 años; ~169 declaraciones de abandono por año entre 2018 y 2025 (los
+  2017; 13.018 inactivos hace más de 5 años (desde el 27/09, solo meses declarados: antes daba 13.175); ~169 declaraciones de abandono por año entre 2018 y 2025 (los
   9.895 de "2017" ya estaban abandonados al inicio de la serie: no usar ese año como "declarados en 2017").
 
 - Barrios de Comodoro (`raw/limites-barrios-2026.gpkg`, 77 polígonos) → `barrios.geojson`, `b` en la ficha,
@@ -145,6 +145,14 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   `barrios.geojson` para el enfoque del mapa (`enfocarZonaNorte`). Decir "pozos dentro del barrio", nunca "sobre casas":
   las viviendas no están georreferenciadas. La población por barrio sirve para totales; no comparar pozos por habitante
   entre barrios salvo donde coincide con los radios (Astra sí).
+
+- 27/09: la tarjeta 7 pasa de "Un radio censal" a "Convivir con pozos": 474 pozos en barrios de zona norte que la operadora no
+  dio de baja (`zona_norte.no_dados_de_baja`), 393 con 60 meses o más declarados sin producir, y hechos del municipio con fuente
+  (radios de seguridad y gas, Res. 3404-19 de Don Bosco, relevamiento de pozos inactivos, CH-679). Las cifras del relevamiento
+  municipal que circulan en medios (1.700, 150 sin localizar, 3.700, 6.000) no tienen fuente oficial: no usarlas.
+- 27/09: "meses sin producir" cuenta solo meses declarados. CRI, CPAT e INER dejan de declarar sus pozos antes del final de la
+  serie; esos meses no son "sin producir". `meses_desde_ultima_prod` (calendario) sirve para "produjo en el último año";
+  `meses_declarados_sin_producir` para "más de cinco años". La ficha muestra "Declaración mensual: hasta …" (`ud`).
 
 ## Qué NO hacer
 

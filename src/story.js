@@ -16,8 +16,14 @@ const CONTEXTO = {
   municipioCH679: 'https://www.comodoro.gov.ar/2024/08/27/el-municipio-intervino-ante-un-nuevo-derrame-de-petroleo-en-un-yacimiento-ypf/',
   vacaMuerta: 'https://www.argentina.gob.ar/economia/energia/vaca-muerta/historia',
   vacaMuerta2019: 'https://www.argentina.gob.ar/noticias/por-el-crecimiento-de-vaca-muerta-la-produccion-de-petroleo-y-gas-fue-record-en-mayo',
+  radiosGas: 'https://www.comodoro.gov.ar/2024/03/20/coluccio-con-esta-ordenanza-nos-ponemos-a-la-altura-de-la-industria-hidrocarburifera/',
+  res340419: 'https://www.comodoro.gov.ar/archivos/boletin_oficial/pdf/bol_002-2020.pdf',
+  relevamiento: 'https://www.comodoro.gov.ar/2024/09/26/el-municipio-avanza-en-el-relevamiento-de-pozos-petroleros-inactivos-dentro-su-ejido/',
   zonaNorte: 'https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/zona-norte/',
 };
+// Núcleo de zona norte (Km 3 a Km 8, Laprida, Castelli), elegido por los autores para las tarjetas 6 y 7: Astra, Diadema y
+// Caleta Córdova quedan afuera. [[oeste, sur], [este, norte]]; el mapa lo ajusta a cada pantalla.
+const NUCLEO_ZONA_NORTE = [[-67.601, -45.870], [-67.389, -45.769]];
 /** Enlace a un dataset por su clave en resumen.datasets (procesar.py → DATASETS). */
 const dataset = (R, clave, t) => ({ t, url: R.datasets?.find((d) => d.clave === clave)?.url });
 
@@ -50,8 +56,6 @@ export function textoPortada(R) {
 export function definirPasos(R) {
   const c = R.cuenca, e = R.ejido, p = R.poblacion, pr = R.produccion;
   const t = R.trayectoria; // null si no se procesó el mensual
-  const radio = (p.radio_urbano_mas_pozos || p.radio_mas_pozos)[0];
-  const B = R.barrios; // null si no hay capa de barrios
   const Z = R.zona_norte; // barrios de zona norte con pozos y población (procesar.py → resumir_zona_norte)
   const astra = Z.por_barrio.Astra, mosconi = Z.por_barrio['General Enrique Mosconi'];
   // Ritmo de declaraciones de abandono: años completos posteriores al primero de la serie
@@ -63,7 +67,7 @@ export function definirPasos(R) {
     const completos = anios.filter(([a]) => a > desde && a < hasta);
     if (completos.length) {
       const total = completos.reduce((acc, [, n]) => acc + n, 0);
-      const paradosMas5 = t.inactivos_por_tiempo_sin_producir['5_a_9_anios'] + t.inactivos_por_tiempo_sin_producir.nunca_en_serie;
+      const paradosMas5 = t.inactivos_por_tiempo_sin_producir.mas_de_5_anios; // 60 meses declarados sin producir (procesar.py)
       ritmo = { desdeAnio: completos[0][0], hastaAnio: completos[completos.length - 1][0], total, porAnio: Math.round(total / completos.length), paradosMas5 };
     }
   }
@@ -132,21 +136,27 @@ export function definirPasos(R) {
       // Las fuentes de Astra, Km 5 y Mosconi (Km 3) quedan en la metodología (decisión de los autores: no engordar la tarjeta).
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Municipalidad de Comodoro Rivadavia, Relevamiento de barrios', url: CONTEXTO.zonaNorte },
         dataset(R, 'poblacion_barrios', 'Censo 2022 por barrio')],
-      // Encuadre del núcleo de zona norte (Km 3 a Km 8, Laprida, Castelli), elegido por los autores: Astra, Diadema y
-      // Caleta Córdova quedan afuera. El mapa lo ajusta a cada pantalla.
-      vista: { bounds: [[-67.601, -45.870], [-67.389, -45.769]] },
+      vista: { bounds: NUCLEO_ZONA_NORTE },
       focoArriba: true,
       marcador: { idpozo: 121014, etiqueta: 'Pozo N° 2 · 1907' }, // se destaca; el resto de los pozos sigue a la vista
       // Toda la cuenca, con los pozos fuera de los barrios de zona norte atenuados y el contorno de esos barrios.
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
-      id: 7, kicker: 'Paso 7 · Un radio censal', cifra: fmt(radio.pozos),
-      titulo: `pozos en un radio censal donde viven ${fmt(radio.pobl)} personas`,
-      texto: `${B?.barrio_del_radio_urbano_mas_pozos ? `Barrio ${B.barrio_del_radio_urbano_mas_pozos}. ` : ''}Es el radio censal urbano con más pozos de la ciudad: ${fmt(radio.abandonados)} abandonados y ${fmt(radio.activos)} activos. En agosto de 2024 el municipio intervino por la surgencia del pozo abandonado CH-679, en el Yacimiento Central, que afectó el arroyo Belgrano.`,
-      fuente: [dataset(R, 'radios_censo', 'Censo 2022'), { t: 'Municipalidad de Comodoro Rivadavia, 27/8/2024', url: CONTEXTO.municipioCH679 }],
-      vista: { center: [radio.lon ?? -67.50, radio.lat ?? -45.83], zoom: 14.5 },
-      capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: true, poblacion: true, limites: false, pais: false, concesiones: false, barrios: true },
+      // Convivir con pozos (autores, 27/09): pozos de barrios de zona norte que la operadora no dio de baja y lo que documenta
+      // el municipio. Lo que dice el municipio va entre comillas y atribuido; nada de adjetivos propios (regla 2).
+      id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(Z.no_dados_de_baja),
+      titulo: 'pozos en barrios de zona norte que la operadora no dio de baja',
+      texto: `Están declarados inactivos o a abandonar y ${fmt(Z.no_dados_de_baja_5_anios)} llevan al menos cinco años sin producir. Según el municipio, los radios de seguridad de los pozos impiden a los vecinos «tener servicios como el gas»; en un asentamiento de Don Bosco, que declaró «zona de riesgo» en 2019, los ocupantes no pueden comprar la tierra mientras siga ese radio. También releva los pozos inactivos y anota si hay «interacción con viviendas». En 2024 intervino por la surgencia del CH-679.`,
+      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), '; Municipalidad de Comodoro Rivadavia: ', { t: '20/3/2024', url: CONTEXTO.radiosGas },
+        ', ', { t: 'Res. 3404-19', url: CONTEXTO.res340419 }, ', ', { t: '26/9/2024', url: CONTEXTO.relevamiento }, ' y ',
+        { t: '27/8/2024', url: CONTEXTO.municipioCH679 }],
+      fuenteSep: '',
+      vista: { bounds: NUCLEO_ZONA_NORTE },
+      focoArriba: true,
+      marcador: { idpozo: 121621, etiqueta: 'CH-679' },
+      // Mismo encuadre que la tarjeta 6, pero solo los pozos inactivos o a abandonar (los que no están dados de baja).
+      capas: { estadosVisibles: new Set([1, 2]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
       id: 8, kicker: 'Paso 8 · Lo que queda', cifra: fmt(c.sin_produccion),
@@ -190,7 +200,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
           <button type="button" class="empezar" data-ir="explorar">Explorá el mapa</button>
           <button type="button" class="empezar" data-abrir="metodologia">Metodología</button>
         </div>` : ''}
-        <p class="fuente">Fuente: ${htmlFuente(s.fuente)}</p>
+        <p class="fuente">Fuente: ${htmlFuente(s.fuente, s.fuenteSep)}</p>
       </div>`;
     cont.appendChild(sec);
   }

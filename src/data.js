@@ -36,9 +36,9 @@ async function leerBinario(nombre) {
   return { meta, n, cols, positions };
 }
 
-// Tramos de tiempo sin producir (filtro del panel). meses_cod = meses entre el último mes con producción y
-// el último mes de la serie mensual; 65535 = ningún mes con producción en toda la serie. Mismos cortes que
-// resumen.trayectoria (≤ 12 meses / 13–59 / ≥ 60 / nunca).
+// Tramos de tiempo sin producir (filtro del panel). meses_cod (procesar.py): ≤ 12 = produjo en el último año de la serie;
+// ≥ 60 = 60 meses o más declarados sin producir (no cuentan los meses en que la operadora ya no declara el pozo);
+// 13–59 = el resto; 65535 = ningún mes con producción en toda la serie. Mismos cortes que resumen.trayectoria.
 export const TRAMOS_SIN_PRODUCIR = ['ultimo_anio', '1_a_5', 'mas_de_5', 'nunca'];
 function tramoSinProducir(m) {
   if (m === 65535) return 3;

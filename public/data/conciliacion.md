@@ -30,4 +30,6 @@ Generado: 2026-09-27
 | EPH Comodoro–Rada Tilly | 2026T2: 9,2 % (IC 90 %: 3,8–14,6; CV 35,5 %); último valor mayor: 2005T4 (9,3 %, 20,5 años antes) |
 | Zona norte: barrios con pozos / pozos (abandonados, activos) | 33 de 36 / 2.370 (1.801, 95) |
 | Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | 69.219 / 59.594 (86.1 %); sin población: Chacras El Faro, Franja Forestal Cerro de la Cruz |
+| Zona norte: no dados de baja / con 60+ meses declarados sin producir | 474 / 393 |
+| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | 13.018 / 9.598 |
 | Radio urbano con más pozos | 260211203 (408 pozos, 936 hab.) |

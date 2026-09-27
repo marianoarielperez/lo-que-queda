@@ -154,7 +154,7 @@ CLAVES_FICHA = {"idpozo": "id", "sigla": "s", "empresa": "e", "operador_anterior
                 "tipoextraccion": "tx", "clasificacion": "c", "subclasificacion": "sc", "profundidad": "prof",
                 "adjiv_fecha_inicio_perf": "fperf", "adjiv_fecha_fin_term": "fterm", "en_ejido": "ej",
                 "radio": "r", "radio_pobl": "rp", "primera_prod": "pp", "ya_en_2006": "pp06", "ultima_prod": "up",
-                "primer_abandono": "pab", "fecha_abandono_listado": "fab", "meses_sin_producir": "msp", "en_concesion": "conc", "barrio": "b"}
+                "primer_abandono": "pab", "fecha_abandono_listado": "fab", "meses_sin_producir": "msp", "ultima_declaracion": "ud", "en_concesion": "conc", "barrio": "b"}
 
 # Caja de Argentina para validar coordenadas
 LON_MIN, LON_MAX, LAT_MIN, LAT_MAX = -74.0, -53.0, -56.0, -21.0
@@ -224,8 +224,13 @@ def cargar_padron():
 
 
 def cargar_mensual():
-    """Mensual por pozo (salida de filtrar_mensuales.py). Devuelve por pozo: último mes con producción,
-    primer mes en estado Abandonado, y meses sin producir hasta el último mes disponible."""
+    """Mensual por pozo (salida de filtrar_mensuales.py). Devuelve por pozo: último mes con producción, primer mes en
+    estado Abandonado, último mes declarado y meses sin producir.
+    Algunas operadoras dejan de declarar sus pozos antes del final de la serie (CRI desde 2023, CPAT desde 2019-11,
+    INER desde 2020-02): esos meses no se cuentan como "sin producir". Por eso hay dos medidas:
+      meses_desde_ultima_prod        calendario, del último mes con producción al último de la serie ("produjo en el último año")
+      meses_declarados_sin_producir  meses con declaración y sin producción después del último con producción (o todos, si
+                                     nunca produjo en la serie): lo que se puede afirmar ("más de cinco años sin producir")."""
     # Acepta .csv, .csv.gz o .zip (pandas descomprime solo). El .gz es el que va al repo (~40 MB).
     f = next((os.path.join(RAW, n) for n in ("produccion-mensual_gsj.csv.gz", "produccion-mensual_gsj.zip", "produccion-mensual_gsj.csv")
               if os.path.exists(os.path.join(RAW, n))), None)
@@ -238,16 +243,26 @@ def cargar_mensual():
     m = pd.concat(partes, ignore_index=True)
     m["t"] = m.anio * 12 + m.mes - 1
     ultimo_t = int(m.t.max())
-    prod = m[(m.prod_pet.fillna(0) > 0) | (m.prod_gas.fillna(0) > 0)]
-    ult = prod.groupby("idpozo").t.max().rename("t_ultima_prod")
+    m["con_prod"] = (m.prod_pet.fillna(0) > 0) | (m.prod_gas.fillna(0) > 0)
+    mes = m.groupby(["idpozo", "t"], as_index=False).con_prod.max()  # un renglón por pozo y mes declarado
+    ult = mes[mes.con_prod].groupby("idpozo").t.max().rename("t_ultima_prod")
+    decl = mes.groupby("idpozo").t.max().rename("t_ultima_declaracion")
     ab = m[m.tipoestado == "Abandonado"].groupby("idpozo").t.min().rename("t_primer_abandono")
-    r = pd.concat([ult, ab], axis=1).reset_index()
-    r["ultima_prod"] = r.t_ultima_prod.map(lambda t: f"{int(t // 12)}-{int(t % 12) + 1:02d}" if t == t else None)
-    r["primer_abandono"] = r.t_primer_abandono.map(lambda t: f"{int(t // 12)}-{int(t % 12) + 1:02d}" if t == t else None)
-    r["meses_sin_producir"] = (ultimo_t - r.t_ultima_prod).where(r.t_ultima_prod.notna())
+    mes = mes.merge(ult, on="idpozo", how="left")
+    sin = mes[mes.t_ultima_prod.isna() | (mes.t > mes.t_ultima_prod)].groupby("idpozo").size().rename("meses_declarados_sin_producir")
+    r = pd.concat([ult, decl, ab, sin], axis=1).reset_index()
+    r["meses_declarados_sin_producir"] = r.meses_declarados_sin_producir.fillna(0)
+    am = lambda t: f"{int(t // 12)}-{int(t % 12) + 1:02d}" if t == t else None
+    r["ultima_prod"] = r.t_ultima_prod.map(am)
+    r["primer_abandono"] = r.t_primer_abandono.map(am)
+    # último mes declarado, solo si es anterior al final de la serie (la ficha avisa que después no hay datos)
+    r["ultima_declaracion"] = r.t_ultima_declaracion.where(r.t_ultima_declaracion < ultimo_t).map(am)
+    r["meses_desde_ultima_prod"] = (ultimo_t - r.t_ultima_prod).where(r.t_ultima_prod.notna())
+    r["meses_sin_producir"] = r.meses_declarados_sin_producir.where(r.t_ultima_prod.notna())  # la ficha: lo que se puede afirmar
     cobertura = {"desde": f"{int(m.t.min() // 12)}-{int(m.t.min() % 12) + 1:02d}", "hasta": f"{ultimo_t // 12}-{ultimo_t % 12 + 1:02d}",
                  "pozos_con_registro": int(m.idpozo.nunique())}
-    return r[["idpozo", "ultima_prod", "primer_abandono", "meses_sin_producir"]], cobertura
+    return r[["idpozo", "ultima_prod", "primer_abandono", "ultima_declaracion", "meses_desde_ultima_prod",
+              "meses_declarados_sin_producir", "meses_sin_producir"]], cobertura
 
 
 def barrio_de_punto(barrios, fila):
@@ -335,6 +350,7 @@ def resumir_zona_norte(g, barrios, conteo):
     pobl = int(zn.poblacion.sum())
     con1, con10 = zn[zn.pozos >= 1], zn[zn.pozos >= 10]
     en_zn = g[g.barrio.isin(ZONA_NORTE)]
+    nb = en_zn[en_zn.grupo.isin(["Inactivo", "A abandonar"])]
     por_barrio = {b: conteo(en_zn[en_zn.barrio == b]) for b in ZONA_NORTE}
     for fila in zn.itertuples():  # población solo en los renglones de un único polígono
         if len(fila.pols) == 1:
@@ -354,6 +370,10 @@ def resumir_zona_norte(g, barrios, conteo):
         "pobl_en_barrios_con_10_o_mas": int(con10.poblacion.sum()),
         "pobl_en_barrios_con_10_o_mas_pct": round(con10.poblacion.sum() / pobl * 100, 1),
         "barrio_pozo_2": None if pozo2.isna().all() else str(pozo2.iat[0]),
+        # tarjeta 7: pozos que la operadora no dio de baja (Inactivo o A abandonar) y cuántos llevan 60 meses declarados sin producir
+        "no_dados_de_baja": int(nb.shape[0]),
+        "no_dados_de_baja_5_anios": int((nb.meses_declarados_sin_producir >= 60).sum()),
+        "no_dados_de_baja_por_estado": {k: int(v) for k, v in nb.tipoestado.value_counts().items()},
         "por_barrio": dict(sorted(por_barrio.items(), key=lambda kv: -kv[1]["total"])),
     }
 
@@ -467,7 +487,8 @@ def main(check=False):
     if mens is not None:
         g = g.merge(mens, on="idpozo", how="left")
     else:
-        g["ultima_prod"] = None; g["primer_abandono"] = None; g["meses_sin_producir"] = np.nan
+        g["ultima_prod"] = None; g["primer_abandono"] = None; g["ultima_declaracion"] = None
+        g["meses_desde_ultima_prod"] = np.nan; g["meses_declarados_sin_producir"] = np.nan; g["meses_sin_producir"] = np.nan
     barrios = cargar_barrios()
     if barrios is not None:
         pts_b = gpd.GeoDataFrame(g[["idpozo"]], geometry=gpd.points_from_xy(g.lon, g.lat), crs=4326)
@@ -492,7 +513,11 @@ def main(check=False):
     g["ejido_cod"] = g.en_ejido.astype("uint8")
     g["zn_cod"] = g.barrio.isin(ZONA_NORTE).astype("uint8")  # dentro de un barrio de zona norte (tarjeta 6)
     g["primera_cod"] = pd.to_numeric(g.primera_prod.str[:4], errors="coerce").fillna(0).astype("uint16")
-    g["meses_cod"] = g.meses_sin_producir.fillna(65535).clip(0, 65535).astype("uint16")  # 65535 = sin dato
+    # Tramo de tiempo sin producir (filtro del panel, ver data.js): "último año" por calendario; "más de 5 años" solo con
+    # 60 meses declarados sin producir; el resto, 1 a 5 años (mínimo 13). 65535 = ningún mes con producción en la serie.
+    mc = g.meses_declarados_sin_producir.where(g.meses_desde_ultima_prod > 12, g.meses_desde_ultima_prod)
+    mc = mc.where(~((g.meses_desde_ultima_prod > 12) & (mc <= 12)), 13)
+    g["meses_cod"] = mc.where(g.ultima_prod.notna()).fillna(65535).clip(0, 65535).astype("uint16")
     g["conc_cod"] = (g.en_concesion.map({True: 1, False: 0}) if conc is not None else pd.Series(np.nan, index=g.index)).fillna(255).astype("uint8")
 
     log("4/7 escribiendo binarios…")
@@ -518,7 +543,7 @@ def main(check=False):
                   "tipoestado", "grupo", "tipopozo", "tipoextraccion", "clasificacion", "subclasificacion",
                   "profundidad", "adjiv_fecha_inicio_perf", "adjiv_fecha_fin_term", "en_ejido", "radio",
                   "radio_pobl", "primera_prod", "ya_en_2006", "ultima_prod", "primer_abandono", "fecha_abandono_listado",
-                  "meses_sin_producir", "en_concesion", "barrio"]
+                  "meses_sin_producir", "ultima_declaracion", "en_concesion", "barrio"]
     fichas = g[ficha_cols].copy()
     fichas["adjiv_fecha_inicio_perf"] = fichas.adjiv_fecha_inicio_perf.where(g.fecha_perf.notna())
     fichas["lote"] = (fichas.idpozo // 1000).astype(int)
@@ -630,6 +655,7 @@ def main(check=False):
     pais_cuenca = {c: conteo(p[p.cuenca == c]) for c in ["GOLFO SAN JORGE", "NEUQUINA", "CUYANA", "AUSTRAL", "NOROESTE"]}
     ypf_antes = int((g.operador_anterior == "YPF").sum())
     a1, a2 = anual.loc[2006], anual.loc[ultimo_anio_completo]
+    no_baja = g.grupo.isin(["Inactivo", "A abandonar"])  # no declarados abandonados ni activos
     # Desde qué año la producción del GSJ cae todos los años sin interrupción (hasta el último año completo)
     gsj_cae_desde = None
     for a in range(ultimo_anio_completo, int(anual.index.min()), -1):
@@ -702,20 +728,24 @@ def main(check=False):
         },
         "trayectoria": None if mens is None else {
             "cobertura": cobertura_mensual,
-            "nota": "ultima_prod = último mes con petróleo o gas > 0 dentro de la cobertura; 'nunca_en_serie' = ningún mes con producción en toda la cobertura",
+            "nota": "ultima_prod = último mes con petróleo o gas > 0 dentro de la cobertura; 'nunca_en_serie' = ningún mes con producción en toda la cobertura; 'más de 5 años' = 60 meses o más declarados sin producir (no cuentan los meses en que la operadora ya no declara el pozo)",
+            "dejaron_de_declararse": int(g.ultima_declaracion.notna().sum()),
             "con_ultima_prod": int(g.ultima_prod.notna().sum()),
             "nunca_en_serie": int(g.ultima_prod.isna().sum()),
             "nunca_en_serie_por_grupo": {k: int((g.ultima_prod.isna() & (g.grupo == k)).sum()) for k in GRUPO_ORDEN[:4]},
             "nunca_en_serie_no_abandonados": int((g.ultima_prod.isna() & g.grupo.isin(["Inactivo", "A abandonar"])).sum()),
-            "produjeron_ultimos_12_meses": int((g.meses_sin_producir <= 12).sum()),
-            "sin_producir_1_a_5_anios": int(((g.meses_sin_producir > 12) & (g.meses_sin_producir < 60)).sum()),
+            "produjeron_ultimos_12_meses": int((g.meses_desde_ultima_prod <= 12).sum()),
+            "sin_producir_1_a_5_anios": int(((g.meses_desde_ultima_prod > 12) & (g.meses_sin_producir < 60)).sum()),
             "sin_producir_mas_de_5_anios": int((g.meses_sin_producir >= 60).sum()),
             "sin_producir_mas_de_5_anios_no_abandonados": int(((g.meses_sin_producir >= 60) & (g.grupo != "Abandonado")).sum()),
             "inactivos_por_tiempo_sin_producir": {
-                "menos_de_1_anio": int((g.grupo.isin(["Inactivo", "A abandonar"]) & (g.meses_sin_producir <= 12)).sum()),
-                "1_a_5_anios": int((g.grupo.isin(["Inactivo", "A abandonar"]) & (g.meses_sin_producir > 12) & (g.meses_sin_producir < 60)).sum()),
-                "5_a_9_anios": int((g.grupo.isin(["Inactivo", "A abandonar"]) & (g.meses_sin_producir >= 60)).sum()),
-                "nunca_en_serie": int((g.grupo.isin(["Inactivo", "A abandonar"]) & g.ultima_prod.isna()).sum()),
+                "menos_de_1_anio": int((no_baja & (g.meses_desde_ultima_prod <= 12)).sum()),
+                "1_a_5_anios": int((no_baja & (g.meses_desde_ultima_prod > 12) & (g.meses_sin_producir < 60)).sum()),
+                "5_a_9_anios": int((no_baja & (g.meses_sin_producir >= 60)).sum()),
+                "nunca_en_serie": int((no_baja & g.ultima_prod.isna()).sum()),
+                "nunca_en_serie_60_meses_declarados": int((no_baja & g.ultima_prod.isna() & (g.meses_declarados_sin_producir >= 60)).sum()),
+                # tarjeta 8: más de cinco años sin producir (con producción antes o sin ninguna en la serie), solo meses declarados
+                "mas_de_5_anios": int((no_baja & (g.meses_declarados_sin_producir >= 60)).sum()),
             },
             "ejido_nunca_en_serie": int((g.ultima_prod.isna() & g.en_ejido).sum()),
             "ejido_nunca_en_serie_no_abandonados": int((g.ultima_prod.isna() & g.en_ejido & g.grupo.isin(["Inactivo", "A abandonar"])).sum()),
@@ -768,6 +798,9 @@ def main(check=False):
     Z = resumen["zona_norte"]
     zn_linea = "-" if Z is None else f"{Z['barrios_con_pozos']} de {Z['barrios']} / {fmt(Z['pozos']['total'])} ({fmt(Z['pozos']['Abandonado'])}, {fmt(Z['pozos']['Activo'])})"
     zn_pobl = "-" if Z is None else f"{fmt(Z['poblacion'])} / {fmt(Z['pobl_en_barrios_con_10_o_mas'])} ({Z['pobl_en_barrios_con_10_o_mas_pct']} %); sin población: {', '.join(Z['barrios_sin_poblacion'])}"
+    zn_nb = "-" if Z is None else f"{fmt(Z['no_dados_de_baja'])} / {fmt(Z['no_dados_de_baja_5_anios'])}"
+    T = resumen["trayectoria"]
+    t_mas5 = "-" if T is None else f"{fmt(T['inactivos_por_tiempo_sin_producir']['mas_de_5_anios'])} / {fmt(T['dejaron_de_declararse'])}"
     lines = ["# Conciliación de cifras", "", f"Generado: {date.today().isoformat()}", "",
              "| Cifra | Valor |", "|---|---|",
              f"| Pozos país | {fmt(resumen['pais']['pozos'])} |",
@@ -796,6 +829,8 @@ def main(check=False):
              f"| EPH Comodoro–Rada Tilly | {eph_linea} |",
              f"| Zona norte: barrios con pozos / pozos (abandonados, activos) | {zn_linea} |",
              f"| Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | {zn_pobl} |",
+             f"| Zona norte: no dados de baja / con 60+ meses declarados sin producir | {zn_nb} |",
+             f"| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | {t_mas5} |",
              f"| Radio urbano con más pozos | {resumen['poblacion']['radio_urbano_mas_pozos'][0]['radio']} ({fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pozos'])} pozos, {fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pobl'])} hab.) |",
              ]
     open(os.path.join(OUT, "conciliacion.md"), "w", encoding="utf-8").write("\n".join(lines))
