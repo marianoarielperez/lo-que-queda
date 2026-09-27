@@ -60,9 +60,6 @@ const LOCALE = {
   'AttributionControl.MapFeedback': 'Comentarios sobre el mapa',
   'Marker.Title': 'Marcador',
   'Popup.Close': 'Cerrar',
-  'CooperativeGesturesHandler.WindowsHelpText': 'Usá Ctrl + la rueda del mouse para acercar o alejar el mapa',
-  'CooperativeGesturesHandler.MacHelpText': 'Usá ⌘ + la rueda del mouse para acercar o alejar el mapa',
-  'CooperativeGesturesHandler.MobileHelpText': 'Usá dos dedos para mover el mapa',
 };
 
 // Gestos del mapa que se prenden solo al explorar (ver habilitarExploracion).
@@ -140,7 +137,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     attributionControl: { compact: true },
     locale: LOCALE,
     // Durante el recorrido el mapa no toma gestos: la rueda y el dedo (en el celular) desplazan el texto.
-    // Al explorar se prenden con "gestos cooperativos" (ver habilitarExploracion).
+    // Al explorar se prenden todos (ver habilitarExploracion).
     scrollZoom: false, dragPan: false, dragRotate: false, touchZoomRotate: false, touchPitch: false,
     doubleClickZoom: false, keyboard: false, boxZoom: false,
   });
@@ -499,7 +496,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
           return html ? { html, className: 'tooltip-pozo', style: ESTILO_TOOLTIP } : null;
         },
         onHover: ({ layer, index }) => {
-          map.getCanvas().style.cursor = layer?.id === 'pozos' && index >= 0 ? 'pointer' : '';
+          map.getCanvas().style.cursor = explorando && layer?.id === 'pozos' && index >= 0 ? 'pointer' : '';
         },
       });
       map.addControl(overlay);
@@ -536,12 +533,18 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     },
     filaDe(idpozo) { return pozos?.filaPorId.get(idpozo); },
     coordsDe,
+    /** Centro y zoom actuales (para volver al visualizador como se lo dejó). */
+    vista() {
+      const c = map.getCenter();
+      return { center: [c.lng, c.lat], zoom: map.getZoom() };
+    },
+    /** Salta a una vista sin animación. */
+    irA(vista) { map.jumpTo({ ...vista, padding: { top: 0, bottom: 0, left: 0, right: 0 } }); },
     habilitarExploracion(on) {
-      // Gestos cooperativos: Ctrl + rueda para acercar y dos dedos para mover; la rueda y un dedo
-      // siguen desplazando la página (el recorrido y la metodología están arriba y abajo del mapa).
+      // En el visualizador el mapa es libre: la rueda acerca, el mouse o un dedo lo mueven, anda el teclado.
+      // En el recorrido no toma gestos: la rueda y el dedo desplazan el texto.
       for (const h of GESTOS) on ? map[h].enable() : map[h].disable();
       if (on) map.touchZoomRotate.disableRotation();
-      on ? map.cooperativeGestures.enable() : map.cooperativeGestures.disable();
       explorando = on;
       document.body.classList.toggle('explorando', on);
       ajustarFoco();

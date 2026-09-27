@@ -3,9 +3,17 @@
 // (también cuando el recorrido cambia de paso), así nunca muestran un filtro que no está aplicado.
 
 import { ESTADOS, POBLACION_RAMPA, CORTES_POBLACION } from './paleta.js';
-import { cargarFicha, cargarSiglas, normalizarSigla, fmt, esc, mesAnio, reducirMovimiento, TRAMOS_SIN_PRODUCIR } from './data.js';
+import { cargarFicha, cargarSiglas, normalizarSigla, fmt, esc, mesAnio, TRAMOS_SIN_PRODUCIR } from './data.js';
 
 const MAX_RESULTADOS = 12;
+
+// Vista de la cuenca (la del paso 8) y filtros de fábrica: así arranca el visualizador la primera vez.
+const VISTA_CUENCA = { center: [-68.3, -46.2], zoom: 7 };
+const estadoInicial = () => ({
+  estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, sinProducir: null,
+  soloEjido: false, enfocarEjido: false, poblacion: false, limites: false, pozos: true, pais: false,
+  concesiones: false, barrios: false, soloId: null, resaltado: null,
+});
 
 export function montarExploracion({ mapa, pozos, resumen }) {
   const $ = (id) => document.getElementById(id);
@@ -148,8 +156,10 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   const ficha = $('ficha');
   let pedido = 0;       // descarta respuestas viejas si se hace clic en otro pozo mientras carga
   let disparador = null;
-  async function abrirPozo(idpozo, { volar = false } = {}) {
+  let fichaAbierta = null; // idpozo de la ficha visible (se recupera al volver al visualizador)
+  async function abrirPozo(idpozo, { volar = false, foco = true } = {}) {
     const mio = ++pedido;
+    fichaAbierta = idpozo;
     if (ficha.classList.contains('hidden')) disparador = document.activeElement;
     if (volar) {
       const c = mapa.coordsDe(idpozo);
@@ -162,9 +172,9 @@ export function montarExploracion({ mapa, pozos, resumen }) {
       f = { error: 'No se pudo cargar la ficha. Revisá tu conexión y probá de nuevo.' };
     }
     if (mio !== pedido) return;
-    mostrarFicha(f);
+    mostrarFicha(f, foco);
   }
-  function mostrarFicha(f) {
+  function mostrarFicha(f, foco = true) {
     const cerrar = '<button type="button" class="cerrar" aria-label="Cerrar la ficha">×</button>';
     if (!f || f.error) {
       ficha.innerHTML = `${cerrar}<p id="ficha-titulo" class="ficha-error">${esc(f?.error || 'Sin datos para este pozo.')}</p>`;
@@ -193,18 +203,20 @@ export function montarExploracion({ mapa, pozos, resumen }) {
         <p class="fuente">Estado declarado por la operadora ante la Secretaría de Energía. No describe el estado físico del pozo.</p>`;
     }
     ficha.classList.remove('hidden');
-    ficha.querySelector('.cerrar').addEventListener('click', cerrarFicha);
-    ficha.querySelector('.cerrar').focus();
+    ficha.querySelector('.cerrar').addEventListener('click', () => cerrarFicha());
+    if (foco) ficha.querySelector('.cerrar').focus();
   }
-  function cerrarFicha() {
+  function cerrarFicha({ devolverFoco = true } = {}) {
     if (ficha.classList.contains('hidden')) return;
     pedido++;
+    fichaAbierta = null;
     ficha.classList.add('hidden');
     mapa.aplicar({ resaltado: null });
-    if (disparador && disparador !== document.body && document.contains(disparador)) disparador.focus();
+    if (devolverFoco && disparador && disparador !== document.body && document.contains(disparador)) disparador.focus();
     disparador = null;
   }
-  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') cerrarFicha(); });
+  // Escape cierra la ficha (salvo con la ventana de Metodología abierta: ahí Escape es de la ventana)
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && !document.querySelector('.ventana[open]')) cerrarFicha(); });
 
   // ---- mostrar/ocultar panel ----
   // En celular el panel se pliega a su encabezado para ver el mapa entero (en escritorio el botón no se ve).
@@ -216,26 +228,33 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   }
   plegar.addEventListener('click', () => plegarPanel(!panel.classList.contains('plegado')));
 
-  /** foco: true cuando lo abre un botón (el foco pasa al panel, para seguir con el teclado). */
-  function mostrarPanel({ foco = false } = {}) {
-    panel.classList.remove('hidden');
+  // ---- entrar y salir del visualizador (avisa src/navegacion.js) ----
+  // Al salir se guarda cómo quedó (filtros, vista y ficha) para recuperarlo al volver en la misma visita.
+  let guardado = null;
+  function entrar() {
+    panel.classList.remove('hidden', 'cargando');
     plegarPanel(false);
-    if (foco) $('explore-titulo').focus();
-    document.body.classList.remove('sin-leyenda'); // al explorar, la leyenda siempre está
     mapa.habilitarExploracion(true);
-    sincronizar(mapa.estado);
+    mapa.marcador(null);
+    if (guardado) {
+      mapa.aplicar(guardado.estado);
+      mapa.irA(guardado.vista);
+      if (guardado.ficha !== null) abrirPozo(guardado.ficha, { foco: false });
+    } else {
+      mapa.aplicar(estadoInicial());
+      mapa.volar(VISTA_CUENCA);
+    }
+    $('explore-titulo').focus({ preventScroll: true });
     cargarSiglas().then((S) => { indiceSiglas = S; }).catch(() => {}); // para el tooltip y el buscador
   }
-  $('btn-recorrido').addEventListener('click', () => {
+  function salir() {
+    guardado = { estado: { ...mapa.estado, estadosVisibles: new Set(mapa.estado.estadosVisibles) }, vista: mapa.vista(), ficha: fichaAbierta };
+    cerrarFicha({ devolverFoco: false });
     panel.classList.add('hidden');
     mapa.habilitarExploracion(false);
-    const destino = document.querySelector('#story .step[data-step="1"] .titulo-paso');
-    destino.tabIndex = -1;
-    destino.focus({ preventScroll: true }); // el foco no se pierde al ocultar el panel
-    destino.closest('.step').scrollIntoView({ behavior: reducirMovimiento() ? 'auto' : 'smooth' });
-  });
+  }
 
-  return { alClickPozo: (idpozo) => abrirPozo(idpozo), tooltipPozo, mostrarPanel };
+  return { alClickPozo: (idpozo) => abrirPozo(idpozo), tooltipPozo, entrar, salir };
 }
 
 function hayFiltros(e) {

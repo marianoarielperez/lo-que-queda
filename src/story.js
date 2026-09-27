@@ -155,8 +155,8 @@ export function htmlFuente(partes, sep = '; ') {
       : esc(p.t))).join(sep);
 }
 
-/** Inserta las tarjetas en #story y conecta scrollama con el mapa. */
-export function montarRecorrido({ pasos, mapa, produccion, alTerminar, alExplorar }) {
+/** Inserta las tarjetas en #story y conecta scrollama con el mapa. Devuelve { pausar, reanudar }. */
+export function montarRecorrido({ pasos, mapa, produccion }) {
   const cont = document.getElementById('story');
   for (const s of pasos) {
     const sec = document.createElement('section');
@@ -170,13 +170,15 @@ export function montarRecorrido({ pasos, mapa, produccion, alTerminar, alExplora
         <h2 class="titulo-paso">${s.titulo}</h2>
         <p class="texto">${s.texto}</p>
         ${s.grafico ? '<div class="grafico" id="grafico-cuencas"></div>' : ''}
-        ${s.final ? '<button type="button" class="empezar btn-explorar">Explorá los pozos</button>' : ''}
+        ${s.final ? `<div class="acciones-cierre">
+          <button type="button" class="empezar" data-ir="explorar">Explorá el mapa</button>
+          <button type="button" class="empezar" data-abrir="metodologia">Metodología</button>
+        </div>` : ''}
         <p class="fuente">Fuente: ${htmlFuente(s.fuente)}</p>
       </div>`;
     cont.appendChild(sec);
   }
   if (produccion) dibujarProduccion(document.getElementById('grafico-cuencas'), produccion);
-  cont.querySelector('.btn-explorar')?.addEventListener('click', () => alExplorar?.());
 
   function entrar(seccion) {
     const id = Number(seccion.dataset.step);
@@ -195,26 +197,39 @@ export function montarRecorrido({ pasos, mapa, produccion, alTerminar, alExplora
     mapa.marcador(paso.marcador?.idpozo ?? null, paso.marcador?.etiqueta);
     const padding = paso.pozoArriba && MOVIL.matches ? { top: 0, bottom: Math.round(window.innerHeight * 0.45), left: 0, right: 0 } : undefined;
     mapa.volar(paso.vista, { ...(paso.vuelo || {}), ...(padding ? { padding } : {}) });
-    // En celular el panel taparía la tarjeta final: se abre con su botón ("Explorá los pozos").
-    if (paso.final && !MOVIL.matches) alTerminar?.();
   }
 
   // Cuándo cambia de paso. En escritorio, cuando la sección (con la tarjeta centrada) cruza el 55 % de la
   // pantalla. En celular la tarjeta va al pie de su sección, debajo del mapa: se dispara con la tarjeta misma
   // cuando asoma (85 %), así el mapa no cambia mientras todavía se lee la tarjeta anterior.
+  const disparador = () => (MOVIL.matches ? { step: '#story .step > .card', offset: 0.85 } : { step: '#story .step', offset: 0.55 });
   let scroller;
+  let pausado = false;
   function configurar() {
     scroller?.destroy();
-    const movil = MOVIL.matches;
     scroller = scrollama();
-    scroller
-      .setup({ step: movil ? '#story .step > .card' : '#story .step', offset: movil ? 0.85 : 0.55, progress: false })
-      .onStepEnter(({ element }) => entrar(element.closest('.step')));
+    scroller.setup({ ...disparador(), progress: false }).onStepEnter(({ element }) => entrar(element.closest('.step')));
+    if (pausado) scroller.disable();
   }
   configurar();
   MOVIL.addEventListener('change', configurar); // p. ej., un celular que se gira y pasa a la vista de escritorio
   window.addEventListener('resize', () => scroller.resize());
-  return scroller;
+
+  // Paso en pantalla con el mismo criterio que scrollama (para retomar al volver del visualizador).
+  function pasoEnPantalla() {
+    const { step, offset } = disparador();
+    const linea = window.innerHeight * offset;
+    let actual = null;
+    for (const el of document.querySelectorAll(step)) if (!actual || el.getBoundingClientRect().top <= linea) actual = el;
+    return actual.closest('.step');
+  }
+
+  return {
+    /** Mientras se explora, el recorrido no reacciona al desplazamiento. */
+    pausar() { pausado = true; scroller.disable(); },
+    /** Al volver del visualizador: vuelve a escuchar y reaplica el paso que quedó en pantalla. */
+    reanudar() { pausado = false; scroller.enable(); entrar(pasoEnPantalla()); },
+  };
 }
 
 const MOVIL = window.matchMedia('(max-width: 700px)');

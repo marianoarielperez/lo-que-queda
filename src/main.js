@@ -10,6 +10,7 @@ import { cargarPozos, cargarPais, cargarResumen, cargarRadios, cargarLimites, ca
 import { definirPasos, montarRecorrido, textoPortada, htmlFuente } from './story.js';
 import { montarExploracion } from './explore.js';
 import { montarMetodologia } from './metodologia.js';
+import { iniciarNavegacion } from './navegacion.js';
 
 // Cede el hilo principal entre etapas pesadas: así el navegador puede pintar y responder en el medio.
 const pausa = () => new Promise((resolver) => setTimeout(resolver, 0));
@@ -41,6 +42,25 @@ async function iniciar() {
   const empezar = document.getElementById('btn-empezar');
   avisarCarga(empezar, true);
 
+  const panel = document.getElementById('explore');
+  let exploracion = null;
+  let recorrido = null;
+  // Estados de la página (recorrido, visualizador …/#explorar). Si se entra al visualizador antes de que lleguen
+  // los pozos (p. ej., por el link), el panel avisa que está cargando y el visualizador se arma cuando llegan.
+  const nav = iniciarNavegacion({
+    alEntrar: () => {
+      recorrido?.pausar();
+      if (exploracion) exploracion.entrar();
+      else panel.classList.remove('hidden');
+      if (!exploracion) panel.classList.add('cargando');
+    },
+    alSalir: () => {
+      if (exploracion) exploracion.salir();
+      else panel.classList.add('hidden');
+      recorrido?.reanudar();
+    },
+  });
+
   // Primero lo liviano (resumen y la serie del gráfico). Los datos pesados y el código del mapa esperan a que la
   // portada esté pintada y su foto bajada: evaluar MapLibre lleva tiempo de CPU y los binarios le disputan la red.
   // El país espera además a que lleguen los pozos.
@@ -62,19 +82,14 @@ async function iniciar() {
   });
 
   const { crearMapa, precargarDeck } = await moduloMapa;
-  let exploracion = null;
-  let panelPedido = null; // si se llega al final del recorrido antes de que cargue el panel
   const mapa = crearMapa({
-    onClickPozo: (idpozo) => exploracion?.alClickPozo(idpozo),
+    onClickPozo: (idpozo) => nav.explorando && exploracion?.alClickPozo(idpozo), // la ficha es del visualizador
     tooltipPozo: (idpozo, fila) => exploracion?.tooltipPozo(idpozo, fila),
   });
   precargarDeck();
   const pasos = definirPasos(resumen);
-  montarRecorrido({
-    pasos, mapa, produccion: await produccion,
-    alTerminar: () => (exploracion ? exploracion.mostrarPanel() : (panelPedido = {})),
-    alExplorar: () => (exploracion ? exploracion.mostrarPanel({ foco: true }) : (panelPedido = { foco: true })), // botón de la tarjeta final
-  });
+  recorrido = montarRecorrido({ pasos, mapa, produccion: await produccion });
+  if (nav.explorando) recorrido.pausar();
 
   // ---- 2) pozos y capas ----
   const [pozos, radios, limites, concesiones, barrios] = await datos;
@@ -82,7 +97,7 @@ async function iniciar() {
   await mapa.cargarCapas({ pozos, radios, limites, concesiones, barrios });
   await pausa();
   exploracion = montarExploracion({ mapa, pozos, resumen });
-  if (panelPedido) exploracion.mostrarPanel(panelPedido);
+  if (nav.explorando) exploracion.entrar();
   avisarCarga(empezar, false);
   document.body.classList.add('listo');
 

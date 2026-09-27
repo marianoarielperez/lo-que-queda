@@ -33,16 +33,25 @@
         <span class="empezar-texto">Desplazá para empezar</span>
         <svg class="empezar-flecha" width="14" height="16" viewBox="0 0 14 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 1 L7 14 M1.5 8.5 L7 14 L12.5 8.5"/></svg>
       </button>
+      <p class="accesos">
+        <a href="#explorar" class="enlace-chico" data-ir="explorar">Ir directo al mapa</a>
+        <span aria-hidden="true">·</span>
+        <a href="#metodologia" class="enlace-chico" data-abrir="metodologia">Metodología</a>
+      </p>
       <p class="fuente" id="portada-fuente"></p>
     </div></section>
     <!-- Los pasos 1..8 se generan desde src/story.js -->
   </main>
 
-  <!-- Panel de exploración: aparece al terminar el recorrido -->
-  <aside id="explore" class="hidden" aria-label="Filtros y leyenda">
+  <!-- Panel del visualizador (…/#explorar) -->
+  <aside id="explore" class="hidden" aria-label="Filtros del visualizador">
     <div class="explore-head">
+      <nav class="explore-nav" aria-label="Salir del visualizador">
+        <a href="./" class="enlace-chico" data-ir="inicio"><span aria-hidden="true">←</span> Volver al inicio</a>
+        <a href="#metodologia" class="enlace-chico" data-abrir="metodologia">Metodología</a>
+      </nav>
       <h2 id="explore-titulo" tabindex="-1">Explorá los <span id="n-total"></span> pozos</h2>
-      <p class="muted" aria-live="polite">Mostrando <strong id="n-visible"></strong></p>
+      <p class="muted" aria-live="polite"><span class="panel-cargando">Cargando el mapa…</span><span class="panel-conteo">Mostrando <strong id="n-visible"></strong></span></p>
       <!-- Solo en celular: el panel es una hoja inferior que se pliega para ver el mapa entero -->
       <button type="button" id="btn-plegar" class="plegar" aria-expanded="true" aria-controls="explore-cuerpo">Ocultar filtros</button>
     </div>
@@ -90,8 +99,7 @@
       <input type="search" id="f-buscar" placeholder="Ej.: CH-679" autocomplete="off" aria-describedby="f-resultados">
       <div id="f-resultados" aria-live="polite"></div>
     </div>
-    <button id="btn-recorrido" type="button" class="link-btn">Volver al recorrido <span aria-hidden="true">↑</span></button>
-    <p class="fuente">Fuentes: Secretaría de Energía (Capítulo IV – Pozos, CC-BY 4.0); Municipalidad de Comodoro Rivadavia (límites y radios censales 2022). <a href="#metodologia">Metodología</a></p>
+    <p class="fuente">Fuentes: Secretaría de Energía (Capítulo IV – Pozos, CC-BY 4.0); Municipalidad de Comodoro Rivadavia (límites y radios censales 2022). <a href="#metodologia" data-abrir="metodologia">Metodología</a></p>
     </div>
   </aside>
 

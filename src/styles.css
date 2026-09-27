@@ -52,7 +52,7 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .fuente a:hover { color: var(--texto); }
 /* texto solo para lectores de pantalla (p. ej., "se abre en otra pestaña") */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.btn-explorar { margin: 2px 0 14px; }
+
 .card-portada .titulo { margin: 8px 0 0; font-family: var(--serif); font-weight: 600; font-size: 48px; line-height: 1; white-space: nowrap; letter-spacing: -0.01em; }
 .card-portada .bajada { margin: 6px 0 18px; font-family: var(--serif); font-weight: 300; font-size: 26px; line-height: 1.15; color: var(--acento-portada); }
 .hint { color: var(--texto-sec); font-size: 14px; }
@@ -70,6 +70,15 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 @keyframes empezar-baja { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
 @media (prefers-reduced-motion: reduce) { .empezar-flecha { animation: none; } .empezar { transition: none; } }
 .empezar.cargando .empezar-flecha { display: none; } /* "Cargando el mapa…" (main.js) */
+/* tarjeta final: "Explorá el mapa" y "Metodología", con el estilo del botón de la portada */
+.acciones-cierre { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0 14px; }
+/* enlaces chicos: portada ("Ir directo al mapa · Metodología") y encabezado del panel */
+.accesos { margin: 12px 0 0; font-size: 14px; color: var(--texto-sec); }
+.enlace-chico { font-size: 14px; color: var(--texto); text-underline-offset: 2px; }
+.enlace-chico:hover { text-decoration-thickness: 2px; }
+
+/* ---- estados de la página (src/navegacion.js) ---- */
+body.modo-explorar #story, body.modo-explorar #leyenda { display: none; }
 .grafico { margin: 8px 0 12px; }
 /* tarjeta con foto (paso del Pozo N° 2): la foto va a sangre arriba */
 .foto-paso { margin: -28px -30px 16px; }
@@ -107,6 +116,11 @@ body:has(#explore:not(.hidden)) #leyenda { display: none; }
 .explore-head h2:focus { outline: none; }
 .explore-head h2:focus-visible { outline: 3px solid var(--texto); outline-offset: 2px; }
 .plegar { display: none; } /* solo en celular (ver la media query) */
+.explore-nav { display: flex; flex-wrap: wrap; gap: 0 16px; margin: -6px 0 6px; }
+.explore-nav .enlace-chico { display: inline-flex; align-items: center; min-height: 32px; }
+.panel-cargando { display: none; }
+#explore.cargando .panel-cargando { display: inline; }
+#explore.cargando .panel-conteo, #explore.cargando #explore-cuerpo, #explore.cargando .plegar { display: none; }
 .muted { color: var(--texto-sec); font-size: 14px; margin: 4px 0 12px; }
 .filtro { margin: 10px 0; border: 0; padding: 0; }
 .filtro legend, .filtro:not(.filtro-inline) > label { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--texto-sec); margin-bottom: 6px; }
@@ -121,8 +135,6 @@ body:has(#explore:not(.hidden)) #leyenda { display: none; }
 #f-resultados > p { margin: 6px 0 0; font-size: 14px; }
 select, input[type="search"] { width: 100%; padding: 8px 10px; font: inherit; font-size: 15px; border: 1px solid var(--borde-control); border-radius: 4px; background: #fff; color: var(--texto); }
 input[type="checkbox"] { width: 18px; height: 18px; }
-.link-btn { margin: 12px 0; padding: 10px 14px; font: inherit; font-size: 15px; background: none; border: 1px solid var(--borde); border-radius: 4px; cursor: pointer; color: var(--texto); min-height: 44px; }
-.link-btn:hover { background: #fff; }
 .hidden { display: none !important; }
 
 /* ---- ficha ---- */
@@ -175,6 +187,7 @@ input[type="checkbox"] { width: 18px; height: 18px; }
   /* hoja inferior plegable: plegada queda solo el encabezado y el mapa se ve entero */
   .explore-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 12px; }
   .explore-head h2 { flex-basis: 100%; font-size: 20px; }
+  .explore-nav { flex-basis: 100%; }
   .explore-head .muted { margin: 4px 0; }
   .plegar { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--texto); background: #fff; border: 1px solid var(--borde-control); border-radius: 4px; cursor: pointer; }
   #explore.plegado #explore-cuerpo { display: none; }
