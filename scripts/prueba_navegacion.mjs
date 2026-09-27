@@ -155,6 +155,58 @@ async function bajarHastaElFinal(page) {
   await page.close();
 }
 
+// ---- Satélite y ubicación (visualizador) ----
+{
+  const ctx = await browser.createBrowserContext();
+  await ctx.overridePermissions(new URL(BASE).origin, ['geolocation']);
+  const page = await ctx.newPage();
+  await page.setViewport({ width: 1366, height: 800 });
+  await page.goto(`${BASE}#explorar`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.body.classList.contains('listo'), { timeout: 60000 });
+  await espera(1500);
+  const base = () => page.evaluate(() => ({
+    boton: document.querySelector('.boton-base')?.textContent,
+    esri: (document.querySelector('.maplibregl-ctrl-attrib')?.textContent || '').includes('Esri'),
+  }));
+  const ubic = () => page.evaluate(() => {
+    const a = document.getElementById('aviso-mapa');
+    return { clase: document.querySelector('.boton-ubicacion')?.className || '', aviso: a.hidden ? '' : a.textContent };
+  });
+  let b = await base();
+  ok(b.boton === 'Satélite' && !b.esri, 'botón "Satélite" en el visualizador, sin Esri en los créditos');
+  await page.click('.boton-base');
+  await espera(2000);
+  b = await base();
+  ok(b.boton === 'Mapa' && b.esri, 'modo satélite: el botón dice "Mapa" y los créditos citan a Esri');
+  await page.click('.explore-nav [data-ir="inicio"]');
+  await espera(2000);
+  ok(!(await base()).esri, 'el recorrido vuelve al mapa papel');
+  await page.click('.accesos [data-ir="explorar"]');
+  await espera(2000);
+  b = await base();
+  ok(b.boton === 'Mapa' && b.esri, 'al volver a entrar sigue en satélite');
+
+  await page.setGeolocation({ latitude: -45.82, longitude: -67.49, accuracy: 30 }); // Km 3
+  await page.click('.boton-ubicacion');
+  await espera(2500);
+  let u = await ubic();
+  ok(u.clase.includes('siguiendo') && u.aviso === '', `en la cuenca te ubica y te sigue (${u.clase})`);
+  await page.click('.boton-ubicacion'); // apaga
+  await espera(300);
+  ok((await ubic()).clase.includes('apagado'), 'otro toque apaga la ubicación');
+
+  await page.setGeolocation({ latitude: -34.6, longitude: -58.38, accuracy: 30 }); // Buenos Aires
+  await page.click('.boton-ubicacion');
+  await espera(2500);
+  u = await ubic();
+  ok(u.clase.includes('quieto') && u.aviso === 'Estás fuera de la cuenca del Golfo San Jorge.', `fuera de la cuenca: aviso (${u.aviso})`);
+
+  await page.click('.explore-nav [data-ir="inicio"]');
+  await espera(800);
+  ok((await ubic()).clase.includes('apagado'), 'al salir del visualizador la ubicación se apaga');
+  await ctx.close();
+}
+
 // ---- Celular ----
 {
   const page = await pagina(BASE, true);

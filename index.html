@@ -109,6 +109,9 @@
   <!-- Leyenda compacta siempre visible durante el recorrido -->
   <div id="leyenda" role="group" aria-label="Leyenda del mapa"></div>
 
+  <!-- Avisos breves del mapa en el visualizador ("Estás fuera de la cuenca…"): src/explore.js -->
+  <p id="aviso-mapa" class="aviso-mapa" role="status" hidden></p>
+
   <!-- Mapa fijo detrás de todo (va al final para que el teclado recorra primero el texto) -->
   <div id="map"></div>
 
@@ -175,6 +178,8 @@
       <ul class="met-lista">
         <li>Fotos: Pozo N° 2, diciembre de 1907, Fototeca de Comodoro Rivadavia – Archivo Histórico Municipal (negativo cedido por el Archivo General de la Nación). Comodoro Rivadavia hoy: gentileza El Patagónico.</li>
         <li>Mapa base: <a href="https://openfreemap.org/">OpenFreeMap</a>, con datos de <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (ODbL) y <a href="https://openmaptiles.org/">OpenMapTiles</a>.</li>
+        <li>Imagen satelital (visualizador): © Esri — Esri, Vantor, Earthstar Geographics y la comunidad de usuarios GIS.</li>
+        <li>Privacidad: si pedís tu ubicación en el visualizador, se usa solo en tu dispositivo para mostrarte en el mapa; no se guarda, no se envía y no se calcula nada con ella.</li>
         <li>Tipografías: Fraunces y Source Sans 3 (SIL Open Font License; licencias en <code>public/fonts/</code>).</li>
         <li>Programas: MapLibre GL JS (BSD-3-Clause), deck.gl (MIT), D3 (ISC), Scrollama (MIT), Vite (MIT).</li>
         <li>Esta pieza: código con licencia MIT; datos derivados con licencia CC-BY 4.0, citando las fuentes de arriba.</li>

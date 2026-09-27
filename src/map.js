@@ -48,6 +48,21 @@ const ESTILO_RESPALDO = {
   layers: [{ id: 'fondo', type: 'background', paint: { 'background-color': PALETA.fondo } }],
 };
 
+// Imagen satelital del visualizador: Esri World Imagery, sin clave, con la atribución que usan los autores en otras
+// iniciativas (docs/specs/2026-09-27-satelite-y-ubicacion-design.md). Solo figura en los créditos mientras se ve.
+const FUENTE_SATELITE = {
+  type: 'raster',
+  tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+  tileSize: 256,
+  maxzoom: 19,
+  attribution: 'Imagen satelital © Esri — Esri, Vantor, Earthstar Geographics y la comunidad de usuarios GIS',
+};
+// La ubicación cuenta como "dentro de la cuenca" si cae en el rectángulo de los pozos más este margen (grados).
+const MARGEN_CUENCA = 0.25;
+// Sobre la imagen satelital: borde blanco de los pozos y anillos claros (forma, no color).
+const BLANCO = [255, 255, 255];
+const ANILLO_CLARO = [255, 255, 255, 150];
+
 const VISTA_INICIAL = { center: [-66.5, -41.5], zoom: 4.3 }; // la de la portada: el país, sin pozos
 
 // Textos de los controles de MapLibre en castellano (los leen los lectores de pantalla y los avisos de gestos).
@@ -160,6 +175,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     barrios: false,
     soloId: null,      // idpozo: si está definido, se ve solo ese pozo (paso del Pozo N° 2)
     resaltado: null,   // idpozo resaltado con un anillo (el de la ficha abierta)
+    satelite: false,   // imagen satelital de fondo (solo en el visualizador)
   };
 
   // ---- datos: llegan después del mapa base (cargarCapas, agregarPais) ----
@@ -230,7 +246,10 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       radiusMinPixels: 1.6,
       radiusMaxPixels: 7,
       radiusUnits: 'meters',
-      stroked: false,
+      stroked: estado.satelite, // sobre la imagen satelital, borde blanco fino
+      getLineColor: BLANCO,
+      getLineWidth: 0.8,
+      lineWidthUnits: 'pixels',
       pickable: true,
       opacity: 0.9 * fundido,
       visible: estado.pozos && !estado.pais, // con la capa país encendida, los puntos de la cuenca los dibuja esa capa
@@ -283,7 +302,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       radiusMaxPixels: 9,
       filled: false,
       stroked: true,
-      getLineColor: anilloSinConcesion,
+      getLineColor: estado.satelite ? ANILLO_CLARO : anilloSinConcesion,
       getLineWidth: 1,
       lineWidthUnits: 'pixels',
       opacity: fundido,
@@ -306,11 +325,44 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       radiusUnits: 'pixels',
       filled: false,
       stroked: true,
-      getLineColor: anilloTexto,
+      getLineColor: estado.satelite ? BLANCO : anilloTexto,
       getLineWidth: 2,
       lineWidthUnits: 'pixels',
       pickable: false,
     });
+  }
+
+  // Ubicación de la persona (botón del visualizador): círculo de precisión tenue y punto negro con borde blanco
+  // (no se confunde con el azul de "Activo").
+  let datosUbicacion = [];
+  function capasUbicacion() {
+    if (!datosUbicacion.length) return [];
+    return [
+      new deck.ScatterplotLayer({
+        id: 'ubicacion-precision', data: datosUbicacion, getPosition: (d) => [d.lng, d.lat], getRadius: (d) => d.precision,
+        radiusUnits: 'meters', getFillColor: [23, 24, 27, 28], stroked: true, getLineColor: [23, 24, 27, 90],
+        getLineWidth: 1, lineWidthUnits: 'pixels', pickable: false,
+      }),
+      new deck.ScatterplotLayer({
+        id: 'ubicacion', data: datosUbicacion, getPosition: (d) => [d.lng, d.lat], getRadius: 7, radiusUnits: 'pixels',
+        getFillColor: [23, 24, 27], stroked: true, getLineColor: BLANCO, getLineWidth: 2.5, lineWidthUnits: 'pixels', pickable: false,
+      }),
+    ];
+  }
+
+  // Rectángulo de la cuenca (pozos + margen), para saber si la ubicación cae adentro. Se calcula una vez.
+  let rectanguloCuenca = null;
+  function limitesCuenca() {
+    if (!rectanguloCuenca && pozos) {
+      let oeste = 180, sur = 90, este = -180, norte = -90;
+      const p = pozos.positions;
+      for (let i = 0; i < p.length; i += 2) {
+        oeste = Math.min(oeste, p[i]); este = Math.max(este, p[i]);
+        sur = Math.min(sur, p[i + 1]); norte = Math.max(norte, p[i + 1]);
+      }
+      rectanguloCuenca = [oeste - MARGEN_CUENCA, sur - MARGEN_CUENCA, este + MARGEN_CUENCA, norte + MARGEN_CUENCA];
+    }
+    return rectanguloCuenca ?? [-180, -90, 180, 90];
   }
 
   // Polígonos: sin picking (no tienen ficha); si no, con pickingRadius le robarían el clic a los pozos.
@@ -432,7 +484,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
 
   function render() {
     if (!overlay) return;
-    overlay.setProps({ layers: [capaPais(), capaConcesiones(), capaRadios(), capaBarrios(), capaLimites(), capaPozos(), capaSinConcesion(), capaResaltado()].filter(Boolean) });
+    overlay.setProps({ layers: [capaPais(), capaConcesiones(), capaRadios(), capaBarrios(), capaLimites(), capaPozos(), capaSinConcesion(), capaResaltado(), ...capasUbicacion()].filter(Boolean) });
   }
 
   // Foco con teclado: durante el recorrido el mapa no es interactivo, así que su lienzo no entra en el
@@ -448,6 +500,26 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     }
   }
   map.on('load', () => { ajustarFoco(); cargarEstiloRemoto(map); });
+
+  // Mapa base papel o satélite. La imagen va apenas arriba del fondo del estilo; en satélite se apagan los rellenos
+  // del mapa papel (agua, usos del suelo, edificios) y quedan calles, rutas, límites y nombres: un mapa híbrido.
+  // Si el estilo todavía no terminó de cargar, se aplica cuando carga (y otra vez si se reemplaza por el remoto).
+  function aplicarBase() {
+    try {
+      if (estado.satelite && !map.getLayer('satelite')) {
+        if (!map.getSource('satelite')) map.addSource('satelite', FUENTE_SATELITE);
+        const encima = map.getStyle().layers.find((c) => c.type !== 'background');
+        map.addLayer({ id: 'satelite', type: 'raster', source: 'satelite' }, encima?.id);
+      }
+      if (map.getLayer('satelite')) map.setLayoutProperty('satelite', 'visibility', estado.satelite ? 'visible' : 'none');
+      for (const c of map.getStyle().layers) {
+        if (c.type === 'fill') map.setLayoutProperty(c.id, 'visibility', estado.satelite ? 'none' : 'visible');
+      }
+    } catch {
+      map.once('style.load', aplicarBase);
+    }
+  }
+  map.on('style.load', () => { if (estado.satelite) aplicarBase(); });
   // al cambiar de estilo (remoto cargado) deck.gl conserva sus capas; nada que hacer.
 
   const oyentes = [];
@@ -514,9 +586,11 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       const eraUnSolo = estado.soloId !== null;
       const habiaPozos = estado.pozos;
       const enfocabaEjido = estado.enfocarEjido;
+      const eraSatelite = estado.satelite;
       Object.assign(estado, cambios);
       // Copia propia: los pasos del recorrido definen su Set y el panel modifica el del mapa; no compartirlos.
       if (cambios.estadosVisibles) estado.estadosVisibles = new Set(cambios.estadosVisibles);
+      if (estado.satelite !== eraSatelite) aplicarBase();
       const aparecenPozos = (eraUnSolo && estado.soloId === null) || (!habiaPozos && estado.pozos);
       actualizar({ fundir: aparecenPozos, repintar: estado.enfocarEjido !== enfocabaEjido });
       return visibles;
@@ -540,6 +614,13 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     },
     /** Salta a una vista sin animación. */
     irA(vista) { map.jumpTo({ ...vista, padding: { top: 0, bottom: 0, left: 0, right: 0 } }); },
+    /** Agrega un grupo de botones propio (satélite, ubicación) junto a los de zoom. */
+    agregarControl(elemento) { map.addControl({ onAdd: () => elemento, onRemove: () => elemento.remove() }, 'bottom-right'); },
+    /** Dibuja (o borra, con null) la ubicación de la persona: { lng, lat, precision } (precisión en metros). */
+    mostrarUbicacion(pos) { datosUbicacion = pos ? [pos] : []; render(); },
+    limitesCuenca,
+    /** fn se llama cuando la persona arrastra el mapa (el seguimiento de la ubicación se detiene). */
+    alMoverConLaMano(fn) { map.on('dragstart', fn); },
     habilitarExploracion(on) {
       // En el visualizador el mapa es libre: la rueda acerca, el mouse o un dedo lo mueven, anda el teclado.
       // En el recorrido no toma gestos: la rueda y el dedo desplazan el texto.

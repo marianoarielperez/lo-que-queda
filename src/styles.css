@@ -78,6 +78,17 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .enlace-chico { font-size: 14px; color: var(--texto); text-underline-offset: 2px; }
 .enlace-chico:hover { text-decoration-thickness: 2px; }
 
+/* ---- botones propios sobre el mapa (visualizador): satélite y ubicación ---- */
+.maplibregl-ctrl-group.botonera button { width: auto; min-width: 40px; height: 40px; padding: 0 10px; font: 600 14px/1 var(--sans); color: var(--texto); }
+.botonera .boton-ubicacion svg { display: block; margin: 0 auto; }
+/* activo: negro también con el mouse encima (el :hover de MapLibre lo aclararía) */
+.maplibregl-ctrl-group.botonera .boton-ubicacion.siguiendo, .maplibregl-ctrl-group.botonera .boton-ubicacion.siguiendo:hover { background: var(--texto); color: #fff; }
+.botonera .boton-ubicacion.buscando svg { animation: ubicando 1s ease-in-out infinite; }
+@keyframes ubicando { 50% { opacity: .3; } }
+@media (prefers-reduced-motion: reduce) { .botonera .boton-ubicacion.buscando svg { animation: none; } }
+/* avisos del mapa ("Estás fuera de la cuenca…") */
+.aviso-mapa { position: fixed; top: 16px; left: 50%; z-index: 6; transform: translateX(-50%); max-width: calc(100vw - 32px); margin: 0; padding: 8px 14px; font-size: 15px; color: var(--texto); background: var(--tarjeta-solida); border-radius: 6px; box-shadow: 0 4px 16px rgba(0, 0, 0, .18); }
+
 /* ---- estados de la página (src/navegacion.js) ---- */
 body.modo-explorar #story, body.modo-explorar #leyenda { display: none; }
 .grafico { margin: 8px 0 12px; }
@@ -199,7 +210,8 @@ html:has(.ventana[open]) { overflow: hidden; } /* la página de atrás no se des
   #explore.plegado #explore-cuerpo { display: none; }
   /* en celular se acerca con dos dedos: sin botones de zoom; al explorar, los créditos del mapa suben arriba a la
      derecha (el panel ocupa el pie y la leyenda flotante no está) */
-  .maplibregl-ctrl-group { display: none; }
+  .maplibregl-ctrl-group:not(.botonera) { display: none; }
+  .aviso-mapa { left: 12px; right: 64px; transform: none; } /* deja libre la columna de botones de la derecha */
   body.explorando .maplibregl-ctrl-bottom-right,
   body.explorando:has(#explore:not(.hidden)) .maplibregl-ctrl-bottom-right { top: 8px; right: 0; bottom: auto; }
   #ficha { max-height: calc(100svh - 24px); }

@@ -4,6 +4,7 @@
 
 import { ESTADOS, POBLACION_RAMPA, CORTES_POBLACION } from './paleta.js';
 import { cargarFicha, cargarSiglas, normalizarSigla, fmt, esc, mesAnio, TRAMOS_SIN_PRODUCIR } from './data.js';
+import { montarUbicacion } from './ubicacion.js';
 
 const MAX_RESULTADOS = 12;
 
@@ -12,7 +13,7 @@ const VISTA_CUENCA = { center: [-68.3, -46.2], zoom: 7 };
 const estadoInicial = () => ({
   estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, sinProducir: null,
   soloEjido: false, enfocarEjido: false, poblacion: false, limites: false, pozos: true, pais: false,
-  concesiones: false, barrios: false, soloId: null, resaltado: null,
+  concesiones: false, barrios: false, soloId: null, resaltado: null, satelite: false,
 });
 
 export function montarExploracion({ mapa, pozos, resumen }) {
@@ -75,6 +76,26 @@ export function montarExploracion({ mapa, pozos, resumen }) {
 
   $('n-total').textContent = fmt(pozos.n);
 
+  // ---- botones sobre el mapa (solo en el visualizador): mapa base y ubicación ----
+  const grupoBase = document.createElement('div');
+  grupoBase.className = 'maplibregl-ctrl maplibregl-ctrl-group botonera';
+  const botonBase = document.createElement('button');
+  botonBase.type = 'button';
+  botonBase.className = 'boton-base';
+  grupoBase.append(botonBase);
+  botonBase.addEventListener('click', () => mapa.aplicar({ satelite: !mapa.estado.satelite }));
+  mapa.agregarControl(grupoBase);
+
+  const aviso = $('aviso-mapa');
+  let temporizadorAviso = null;
+  function avisar(texto) {
+    aviso.textContent = texto;
+    aviso.hidden = false;
+    clearTimeout(temporizadorAviso);
+    temporizadorAviso = setTimeout(() => { aviso.hidden = true; }, 6000);
+  }
+  const ubicacion = montarUbicacion({ mapa, avisar });
+
   // ---- leyenda (recorrido) y controles del panel: se redibujan con cada cambio del mapa ----
   const leyenda = $('leyenda');
   function sincronizar(e) {
@@ -99,6 +120,8 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     $('f-conc-nota').hidden = !e.concesiones;
     $('f-conc-nota').textContent = `Con anillo: ${fmt(mapa.sinConcesion)} pozos en áreas que no figuran como concesión vigente.`;
     $('n-visible').textContent = fmt(mapa.visibles);
+    botonBase.textContent = e.satelite ? 'Mapa' : 'Satélite';
+    botonBase.title = e.satelite ? 'Volver al mapa' : 'Ver imagen satelital';
   }
   mapa.alCambiar(sincronizar);
   sincronizar(mapa.estado);
@@ -249,6 +272,7 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   }
   function salir() {
     guardado = { estado: { ...mapa.estado, estadosVisibles: new Set(mapa.estado.estadosVisibles) }, vista: mapa.vista(), ficha: fichaAbierta };
+    ubicacion.apagar();
     cerrarFicha({ devolverFoco: false });
     panel.classList.add('hidden');
     mapa.habilitarExploracion(false);

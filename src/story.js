@@ -187,12 +187,12 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     if (!paso) { // portada: el país, sin ningún pozo
       mapa.marcador(null);
       document.body.classList.add('sin-leyenda'); // sin pozos en el mapa, la leyenda no tiene qué explicar
-      mapa.aplicar({ soloId: null, pozos: false, soloEjido: false, enfocarEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false });
+      mapa.aplicar({ soloId: null, pozos: false, soloEjido: false, enfocarEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false, satelite: false });
       mapa.volar({ center: [-66.5, -41.5], zoom: 4.3 });
       return;
     }
     // Cada paso define su vista completa: los filtros que se hayan tocado en el panel no se arrastran.
-    mapa.aplicar({ soloId: null, enfocarEjido: false, sinProducir: null, pozos: true, ...paso.capas });
+    mapa.aplicar({ soloId: null, enfocarEjido: false, sinProducir: null, satelite: false, pozos: true, ...paso.capas });
     document.body.classList.toggle('sin-leyenda', Boolean(paso.capas.soloId)); // un solo pozo: la leyenda cuenta 44.390
     mapa.marcador(paso.marcador?.idpozo ?? null, paso.marcador?.etiqueta);
     const padding = paso.pozoArriba && MOVIL.matches ? { top: 0, bottom: Math.round(window.innerHeight * 0.45), left: 0, right: 0 } : undefined;
