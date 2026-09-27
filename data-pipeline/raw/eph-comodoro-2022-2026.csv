@@ -1,0 +1,865 @@
+anio,trimestre,aglomerado,indicador,valor,unidad,provisorio
+2022,1,Comodoro Rivadavia-Rada Tilly,tasa_actividad,39.6,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,tasa_empleo,38.7,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,2.1,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,4.2,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,3.9,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.0,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.9,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,244.0,miles de personas,no
+2022,1,Comodoro Rivadavia-Rada Tilly,pea_miles,96.0,miles de personas,no
+2022,1,Comodoro Rivadavia-Rada Tilly,ocupados_miles,94.0,miles de personas,no
+2022,1,Comodoro Rivadavia-Rada Tilly,desocupados_miles,2.0,miles de personas,no
+2022,1,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,4.0,miles de personas,no
+2022,1,Comodoro Rivadavia-Rada Tilly,subocupados_miles,4.0,miles de personas,no
+2022,1,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,39.0,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.7,porcentaje,no
+2022,1,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,3.4,porcentaje,no
+2022,1,Region Patagonia,tasa_actividad,43.9,porcentaje,no
+2022,1,Region Patagonia,tasa_empleo,41.8,porcentaje,no
+2022,1,Region Patagonia,tasa_desocupacion,4.8,porcentaje,no
+2022,1,Region Patagonia,tasa_ocupados_demandantes,9.7,porcentaje,no
+2022,1,Region Patagonia,tasa_subocupacion,5.5,porcentaje,no
+2022,1,Region Patagonia,tasa_subocupacion_demandante,4.5,porcentaje,no
+2022,1,Region Patagonia,tasa_subocupacion_no_demandante,0.9,porcentaje,no
+2022,1,Region Patagonia,poblacion_total_miles,1087.0,miles de personas,no
+2022,1,Region Patagonia,pea_miles,478.0,miles de personas,no
+2022,1,Region Patagonia,ocupados_miles,455.0,miles de personas,no
+2022,1,Region Patagonia,desocupados_miles,23.0,miles de personas,no
+2022,1,Region Patagonia,ocupados_demandantes_miles,46.0,miles de personas,no
+2022,1,Region Patagonia,subocupados_miles,26.0,miles de personas,no
+2022,1,Region Patagonia,cv_desocupacion,11.6,porcentaje,no
+2022,1,Region Patagonia,ic90_inf_desocupacion,3.9,porcentaje,no
+2022,1,Region Patagonia,ic90_sup_desocupacion,5.7,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,tasa_actividad,46.5,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,tasa_empleo,43.3,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,tasa_desocupacion,7.0,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,15.5,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,tasa_subocupacion,10.0,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,6.9,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.1,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,poblacion_total_miles,29073.0,miles de personas,no
+2022,1,Total 31 aglomerados urbanos,pea_miles,13527.0,miles de personas,no
+2022,1,Total 31 aglomerados urbanos,ocupados_miles,12584.0,miles de personas,no
+2022,1,Total 31 aglomerados urbanos,desocupados_miles,943.0,miles de personas,no
+2022,1,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2100.0,miles de personas,no
+2022,1,Total 31 aglomerados urbanos,subocupados_miles,1355.0,miles de personas,no
+2022,1,Total 31 aglomerados urbanos,cv_desocupacion,4.9,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,ic90_inf_desocupacion,6.4,porcentaje,no
+2022,1,Total 31 aglomerados urbanos,ic90_sup_desocupacion,7.5,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,tasa_actividad,39.7,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,tasa_empleo,39.0,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,1.6,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,4.6,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,2.8,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,1.7,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,1.0,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,245.0,miles de personas,no
+2022,2,Comodoro Rivadavia-Rada Tilly,pea_miles,97.0,miles de personas,no
+2022,2,Comodoro Rivadavia-Rada Tilly,ocupados_miles,96.0,miles de personas,no
+2022,2,Comodoro Rivadavia-Rada Tilly,desocupados_miles,2.0,miles de personas,no
+2022,2,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,4.0,miles de personas,no
+2022,2,Comodoro Rivadavia-Rada Tilly,subocupados_miles,3.0,miles de personas,no
+2022,2,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,38.8,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.6,porcentaje,no
+2022,2,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,2.7,porcentaje,no
+2022,2,Region Patagonia,tasa_actividad,44.8,porcentaje,no
+2022,2,Region Patagonia,tasa_empleo,42.7,porcentaje,no
+2022,2,Region Patagonia,tasa_desocupacion,4.7,porcentaje,no
+2022,2,Region Patagonia,tasa_ocupados_demandantes,9.3,porcentaje,no
+2022,2,Region Patagonia,tasa_subocupacion,6.5,porcentaje,no
+2022,2,Region Patagonia,tasa_subocupacion_demandante,4.8,porcentaje,no
+2022,2,Region Patagonia,tasa_subocupacion_no_demandante,1.7,porcentaje,no
+2022,2,Region Patagonia,poblacion_total_miles,1091.0,miles de personas,no
+2022,2,Region Patagonia,pea_miles,489.0,miles de personas,no
+2022,2,Region Patagonia,ocupados_miles,466.0,miles de personas,no
+2022,2,Region Patagonia,desocupados_miles,23.0,miles de personas,no
+2022,2,Region Patagonia,ocupados_demandantes_miles,45.0,miles de personas,no
+2022,2,Region Patagonia,subocupados_miles,32.0,miles de personas,no
+2022,2,Region Patagonia,cv_desocupacion,11.9,porcentaje,no
+2022,2,Region Patagonia,ic90_inf_desocupacion,3.8,porcentaje,no
+2022,2,Region Patagonia,ic90_sup_desocupacion,5.7,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,tasa_actividad,47.9,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,tasa_empleo,44.6,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,tasa_desocupacion,6.9,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.3,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,tasa_subocupacion,11.1,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.7,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.5,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,poblacion_total_miles,29137.0,miles de personas,no
+2022,2,Total 31 aglomerados urbanos,pea_miles,13950.0,miles de personas,no
+2022,2,Total 31 aglomerados urbanos,ocupados_miles,12993.0,miles de personas,no
+2022,2,Total 31 aglomerados urbanos,desocupados_miles,957.0,miles de personas,no
+2022,2,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2269.0,miles de personas,no
+2022,2,Total 31 aglomerados urbanos,subocupados_miles,1552.0,miles de personas,no
+2022,2,Total 31 aglomerados urbanos,cv_desocupacion,4.3,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,ic90_inf_desocupacion,6.4,porcentaje,no
+2022,2,Total 31 aglomerados urbanos,ic90_sup_desocupacion,7.3,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,tasa_actividad,42.4,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,tasa_empleo,41.8,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,1.4,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,2.6,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,2.9,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,1.2,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,1.7,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,246.0,miles de personas,no
+2022,3,Comodoro Rivadavia-Rada Tilly,pea_miles,104.0,miles de personas,no
+2022,3,Comodoro Rivadavia-Rada Tilly,ocupados_miles,103.0,miles de personas,no
+2022,3,Comodoro Rivadavia-Rada Tilly,desocupados_miles,1.0,miles de personas,no
+2022,3,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,3.0,miles de personas,no
+2022,3,Comodoro Rivadavia-Rada Tilly,subocupados_miles,3.0,miles de personas,no
+2022,3,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,45.6,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.3,porcentaje,no
+2022,3,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,2.4,porcentaje,no
+2022,3,Region Patagonia,tasa_actividad,44.9,porcentaje,no
+2022,3,Region Patagonia,tasa_empleo,43.0,porcentaje,no
+2022,3,Region Patagonia,tasa_desocupacion,4.2,porcentaje,no
+2022,3,Region Patagonia,tasa_ocupados_demandantes,9.4,porcentaje,no
+2022,3,Region Patagonia,tasa_subocupacion,5.6,porcentaje,no
+2022,3,Region Patagonia,tasa_subocupacion_demandante,4.2,porcentaje,no
+2022,3,Region Patagonia,tasa_subocupacion_no_demandante,1.4,porcentaje,no
+2022,3,Region Patagonia,poblacion_total_miles,1095.0,miles de personas,no
+2022,3,Region Patagonia,pea_miles,492.0,miles de personas,no
+2022,3,Region Patagonia,ocupados_miles,471.0,miles de personas,no
+2022,3,Region Patagonia,desocupados_miles,21.0,miles de personas,no
+2022,3,Region Patagonia,ocupados_demandantes_miles,46.0,miles de personas,no
+2022,3,Region Patagonia,subocupados_miles,27.0,miles de personas,no
+2022,3,Region Patagonia,cv_desocupacion,12.3,porcentaje,no
+2022,3,Region Patagonia,ic90_inf_desocupacion,3.3,porcentaje,no
+2022,3,Region Patagonia,ic90_sup_desocupacion,5.0,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,tasa_actividad,47.6,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,tasa_empleo,44.2,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,tasa_desocupacion,7.1,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.0,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,tasa_subocupacion,11.0,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.6,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.4,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,poblacion_total_miles,29204.0,miles de personas,no
+2022,3,Total 31 aglomerados urbanos,pea_miles,13911.0,miles de personas,no
+2022,3,Total 31 aglomerados urbanos,ocupados_miles,12922.0,miles de personas,no
+2022,3,Total 31 aglomerados urbanos,desocupados_miles,989.0,miles de personas,no
+2022,3,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2230.0,miles de personas,no
+2022,3,Total 31 aglomerados urbanos,subocupados_miles,1535.0,miles de personas,no
+2022,3,Total 31 aglomerados urbanos,cv_desocupacion,4.6,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,ic90_inf_desocupacion,6.6,porcentaje,no
+2022,3,Total 31 aglomerados urbanos,ic90_sup_desocupacion,7.6,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,tasa_actividad,40.6,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,tasa_empleo,39.7,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,2.1,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,6.4,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,3.2,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,2.6,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.6,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,247.0,miles de personas,no
+2022,4,Comodoro Rivadavia-Rada Tilly,pea_miles,100.0,miles de personas,no
+2022,4,Comodoro Rivadavia-Rada Tilly,ocupados_miles,98.0,miles de personas,no
+2022,4,Comodoro Rivadavia-Rada Tilly,desocupados_miles,2.0,miles de personas,no
+2022,4,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,6.0,miles de personas,no
+2022,4,Comodoro Rivadavia-Rada Tilly,subocupados_miles,3.0,miles de personas,no
+2022,4,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,38.8,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.8,porcentaje,no
+2022,4,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,3.4,porcentaje,no
+2022,4,Region Patagonia,tasa_actividad,45.0,porcentaje,no
+2022,4,Region Patagonia,tasa_empleo,43.0,porcentaje,no
+2022,4,Region Patagonia,tasa_desocupacion,4.5,porcentaje,no
+2022,4,Region Patagonia,tasa_ocupados_demandantes,8.8,porcentaje,no
+2022,4,Region Patagonia,tasa_subocupacion,5.1,porcentaje,no
+2022,4,Region Patagonia,tasa_subocupacion_demandante,4.0,porcentaje,no
+2022,4,Region Patagonia,tasa_subocupacion_no_demandante,1.2,porcentaje,no
+2022,4,Region Patagonia,poblacion_total_miles,1099.0,miles de personas,no
+2022,4,Region Patagonia,pea_miles,495.0,miles de personas,no
+2022,4,Region Patagonia,ocupados_miles,472.0,miles de personas,no
+2022,4,Region Patagonia,desocupados_miles,22.0,miles de personas,no
+2022,4,Region Patagonia,ocupados_demandantes_miles,44.0,miles de personas,no
+2022,4,Region Patagonia,subocupados_miles,25.0,miles de personas,no
+2022,4,Region Patagonia,cv_desocupacion,12.0,porcentaje,no
+2022,4,Region Patagonia,ic90_inf_desocupacion,3.6,porcentaje,no
+2022,4,Region Patagonia,ic90_sup_desocupacion,5.3,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,tasa_actividad,47.6,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,tasa_empleo,44.6,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,tasa_desocupacion,6.3,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,15.4,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,tasa_subocupacion,10.9,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.1,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.8,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,poblacion_total_miles,29269.0,miles de personas,no
+2022,4,Total 31 aglomerados urbanos,pea_miles,13937.0,miles de personas,no
+2022,4,Total 31 aglomerados urbanos,ocupados_miles,13061.0,miles de personas,no
+2022,4,Total 31 aglomerados urbanos,desocupados_miles,875.0,miles de personas,no
+2022,4,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2151.0,miles de personas,no
+2022,4,Total 31 aglomerados urbanos,subocupados_miles,1517.0,miles de personas,no
+2022,4,Total 31 aglomerados urbanos,cv_desocupacion,4.8,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,ic90_inf_desocupacion,5.8,porcentaje,no
+2022,4,Total 31 aglomerados urbanos,ic90_sup_desocupacion,6.8,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,tasa_actividad,42.9,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,tasa_empleo,41.2,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,3.8,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,6.5,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,4.8,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.8,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,1.0,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,248.0,miles de personas,no
+2023,1,Comodoro Rivadavia-Rada Tilly,pea_miles,107.0,miles de personas,no
+2023,1,Comodoro Rivadavia-Rada Tilly,ocupados_miles,102.0,miles de personas,no
+2023,1,Comodoro Rivadavia-Rada Tilly,desocupados_miles,4.0,miles de personas,no
+2023,1,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,7.0,miles de personas,no
+2023,1,Comodoro Rivadavia-Rada Tilly,subocupados_miles,5.0,miles de personas,no
+2023,1,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,26.7,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,2.1,porcentaje,no
+2023,1,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,5.5,porcentaje,no
+2023,1,Region Patagonia,tasa_actividad,46.4,porcentaje,no
+2023,1,Region Patagonia,tasa_empleo,44.5,porcentaje,no
+2023,1,Region Patagonia,tasa_desocupacion,4.1,porcentaje,no
+2023,1,Region Patagonia,tasa_ocupados_demandantes,11.4,porcentaje,no
+2023,1,Region Patagonia,tasa_subocupacion,5.9,porcentaje,no
+2023,1,Region Patagonia,tasa_subocupacion_demandante,4.7,porcentaje,no
+2023,1,Region Patagonia,tasa_subocupacion_no_demandante,1.2,porcentaje,no
+2023,1,Region Patagonia,poblacion_total_miles,1103.0,miles de personas,no
+2023,1,Region Patagonia,pea_miles,512.0,miles de personas,no
+2023,1,Region Patagonia,ocupados_miles,491.0,miles de personas,no
+2023,1,Region Patagonia,desocupados_miles,21.0,miles de personas,no
+2023,1,Region Patagonia,ocupados_demandantes_miles,58.0,miles de personas,no
+2023,1,Region Patagonia,subocupados_miles,30.0,miles de personas,no
+2023,1,Region Patagonia,cv_desocupacion,11.7,porcentaje,no
+2023,1,Region Patagonia,ic90_inf_desocupacion,3.3,porcentaje,no
+2023,1,Region Patagonia,ic90_sup_desocupacion,4.8,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,tasa_actividad,48.3,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,tasa_empleo,45.0,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,tasa_desocupacion,6.9,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,14.8,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,tasa_subocupacion,9.4,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,6.3,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.1,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,poblacion_total_miles,29335.0,miles de personas,no
+2023,1,Total 31 aglomerados urbanos,pea_miles,14165.0,miles de personas,no
+2023,1,Total 31 aglomerados urbanos,ocupados_miles,13191.0,miles de personas,no
+2023,1,Total 31 aglomerados urbanos,desocupados_miles,974.0,miles de personas,no
+2023,1,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2097.0,miles de personas,no
+2023,1,Total 31 aglomerados urbanos,subocupados_miles,1332.0,miles de personas,no
+2023,1,Total 31 aglomerados urbanos,cv_desocupacion,4.6,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,ic90_inf_desocupacion,6.4,porcentaje,no
+2023,1,Total 31 aglomerados urbanos,ic90_sup_desocupacion,7.4,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,tasa_actividad,43.3,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,tasa_empleo,42.0,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,3.2,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,6.7,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,4.3,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.6,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.7,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,249.0,miles de personas,no
+2023,2,Comodoro Rivadavia-Rada Tilly,pea_miles,108.0,miles de personas,no
+2023,2,Comodoro Rivadavia-Rada Tilly,ocupados_miles,105.0,miles de personas,no
+2023,2,Comodoro Rivadavia-Rada Tilly,desocupados_miles,3.0,miles de personas,no
+2023,2,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,7.0,miles de personas,no
+2023,2,Comodoro Rivadavia-Rada Tilly,subocupados_miles,5.0,miles de personas,no
+2023,2,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,28.2,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,1.7,porcentaje,no
+2023,2,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,4.7,porcentaje,no
+2023,2,Region Patagonia,tasa_actividad,45.9,porcentaje,no
+2023,2,Region Patagonia,tasa_empleo,43.9,porcentaje,no
+2023,2,Region Patagonia,tasa_desocupacion,4.3,porcentaje,no
+2023,2,Region Patagonia,tasa_ocupados_demandantes,11.1,porcentaje,no
+2023,2,Region Patagonia,tasa_subocupacion,7.2,porcentaje,no
+2023,2,Region Patagonia,tasa_subocupacion_demandante,5.4,porcentaje,no
+2023,2,Region Patagonia,tasa_subocupacion_no_demandante,1.8,porcentaje,no
+2023,2,Region Patagonia,poblacion_total_miles,1107.0,miles de personas,no
+2023,2,Region Patagonia,pea_miles,508.0,miles de personas,no
+2023,2,Region Patagonia,ocupados_miles,486.0,miles de personas,no
+2023,2,Region Patagonia,desocupados_miles,22.0,miles de personas,no
+2023,2,Region Patagonia,ocupados_demandantes_miles,57.0,miles de personas,no
+2023,2,Region Patagonia,subocupados_miles,36.0,miles de personas,no
+2023,2,Region Patagonia,cv_desocupacion,10.4,porcentaje,no
+2023,2,Region Patagonia,ic90_inf_desocupacion,3.6,porcentaje,no
+2023,2,Region Patagonia,ic90_sup_desocupacion,5.1,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,tasa_actividad,47.6,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,tasa_empleo,44.6,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,tasa_desocupacion,6.2,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.2,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,tasa_subocupacion,10.6,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.4,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.2,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,poblacion_total_miles,29399.0,miles de personas,no
+2023,2,Total 31 aglomerados urbanos,pea_miles,13980.0,miles de personas,no
+2023,2,Total 31 aglomerados urbanos,ocupados_miles,13108.0,miles de personas,no
+2023,2,Total 31 aglomerados urbanos,desocupados_miles,872.0,miles de personas,no
+2023,2,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2265.0,miles de personas,no
+2023,2,Total 31 aglomerados urbanos,subocupados_miles,1484.0,miles de personas,no
+2023,2,Total 31 aglomerados urbanos,cv_desocupacion,4.8,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,ic90_inf_desocupacion,5.7,porcentaje,no
+2023,2,Total 31 aglomerados urbanos,ic90_sup_desocupacion,6.7,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,tasa_actividad,42.9,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,tasa_empleo,41.1,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,4.2,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,6.8,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,5.1,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,4.5,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.6,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,251.0,miles de personas,no
+2023,3,Comodoro Rivadavia-Rada Tilly,pea_miles,108.0,miles de personas,no
+2023,3,Comodoro Rivadavia-Rada Tilly,ocupados_miles,103.0,miles de personas,no
+2023,3,Comodoro Rivadavia-Rada Tilly,desocupados_miles,4.0,miles de personas,no
+2023,3,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,7.0,miles de personas,no
+2023,3,Comodoro Rivadavia-Rada Tilly,subocupados_miles,6.0,miles de personas,no
+2023,3,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,26.5,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,2.4,porcentaje,no
+2023,3,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,6.0,porcentaje,no
+2023,3,Region Patagonia,tasa_actividad,46.2,porcentaje,no
+2023,3,Region Patagonia,tasa_empleo,43.9,porcentaje,no
+2023,3,Region Patagonia,tasa_desocupacion,5.0,porcentaje,no
+2023,3,Region Patagonia,tasa_ocupados_demandantes,10.2,porcentaje,no
+2023,3,Region Patagonia,tasa_subocupacion,6.0,porcentaje,no
+2023,3,Region Patagonia,tasa_subocupacion_demandante,4.0,porcentaje,no
+2023,3,Region Patagonia,tasa_subocupacion_no_demandante,1.9,porcentaje,no
+2023,3,Region Patagonia,poblacion_total_miles,1111.0,miles de personas,no
+2023,3,Region Patagonia,pea_miles,513.0,miles de personas,no
+2023,3,Region Patagonia,ocupados_miles,488.0,miles de personas,no
+2023,3,Region Patagonia,desocupados_miles,26.0,miles de personas,no
+2023,3,Region Patagonia,ocupados_demandantes_miles,53.0,miles de personas,no
+2023,3,Region Patagonia,subocupados_miles,31.0,miles de personas,no
+2023,3,Region Patagonia,cv_desocupacion,10.8,porcentaje,no
+2023,3,Region Patagonia,ic90_inf_desocupacion,4.1,porcentaje,no
+2023,3,Region Patagonia,ic90_sup_desocupacion,5.9,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,tasa_actividad,48.2,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,tasa_empleo,45.5,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,tasa_desocupacion,5.7,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,15.2,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,tasa_subocupacion,10.3,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,6.8,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.5,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,poblacion_total_miles,29464.0,miles de personas,no
+2023,3,Total 31 aglomerados urbanos,pea_miles,14210.0,miles de personas,no
+2023,3,Total 31 aglomerados urbanos,ocupados_miles,13396.0,miles de personas,no
+2023,3,Total 31 aglomerados urbanos,desocupados_miles,814.0,miles de personas,no
+2023,3,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2160.0,miles de personas,no
+2023,3,Total 31 aglomerados urbanos,subocupados_miles,1467.0,miles de personas,no
+2023,3,Total 31 aglomerados urbanos,cv_desocupacion,4.5,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,ic90_inf_desocupacion,5.3,porcentaje,no
+2023,3,Total 31 aglomerados urbanos,ic90_sup_desocupacion,6.1,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,tasa_actividad,39.5,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,tasa_empleo,38.7,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,1.8,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,9.7,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,3.5,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,2.2,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,1.4,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,252.0,miles de personas,no
+2023,4,Comodoro Rivadavia-Rada Tilly,pea_miles,99.0,miles de personas,no
+2023,4,Comodoro Rivadavia-Rada Tilly,ocupados_miles,98.0,miles de personas,no
+2023,4,Comodoro Rivadavia-Rada Tilly,desocupados_miles,2.0,miles de personas,no
+2023,4,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,10.0,miles de personas,no
+2023,4,Comodoro Rivadavia-Rada Tilly,subocupados_miles,4.0,miles de personas,no
+2023,4,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,40.7,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.6,porcentaje,no
+2023,4,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,3.1,porcentaje,no
+2023,4,Region Patagonia,tasa_actividad,46.1,porcentaje,no
+2023,4,Region Patagonia,tasa_empleo,44.6,porcentaje,no
+2023,4,Region Patagonia,tasa_desocupacion,3.4,porcentaje,no
+2023,4,Region Patagonia,tasa_ocupados_demandantes,10.1,porcentaje,no
+2023,4,Region Patagonia,tasa_subocupacion,5.4,porcentaje,no
+2023,4,Region Patagonia,tasa_subocupacion_demandante,3.6,porcentaje,no
+2023,4,Region Patagonia,tasa_subocupacion_no_demandante,1.8,porcentaje,no
+2023,4,Region Patagonia,poblacion_total_miles,1115.0,miles de personas,no
+2023,4,Region Patagonia,pea_miles,514.0,miles de personas,no
+2023,4,Region Patagonia,ocupados_miles,497.0,miles de personas,no
+2023,4,Region Patagonia,desocupados_miles,18.0,miles de personas,no
+2023,4,Region Patagonia,ocupados_demandantes_miles,52.0,miles de personas,no
+2023,4,Region Patagonia,subocupados_miles,28.0,miles de personas,no
+2023,4,Region Patagonia,cv_desocupacion,12.0,porcentaje,no
+2023,4,Region Patagonia,ic90_inf_desocupacion,2.8,porcentaje,no
+2023,4,Region Patagonia,ic90_sup_desocupacion,4.1,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,tasa_actividad,48.6,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,tasa_empleo,45.8,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,tasa_desocupacion,5.7,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,15.5,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,tasa_subocupacion,10.5,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,6.8,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.7,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,poblacion_total_miles,29529.0,miles de personas,no
+2023,4,Total 31 aglomerados urbanos,pea_miles,14340.0,miles de personas,no
+2023,4,Total 31 aglomerados urbanos,ocupados_miles,13518.0,miles de personas,no
+2023,4,Total 31 aglomerados urbanos,desocupados_miles,822.0,miles de personas,no
+2023,4,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2227.0,miles de personas,no
+2023,4,Total 31 aglomerados urbanos,subocupados_miles,1502.0,miles de personas,no
+2023,4,Total 31 aglomerados urbanos,cv_desocupacion,4.7,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,ic90_inf_desocupacion,5.3,porcentaje,no
+2023,4,Total 31 aglomerados urbanos,ic90_sup_desocupacion,6.2,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,tasa_actividad,39.6,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,tasa_empleo,38.5,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,2.8,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,7.0,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,3.6,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.1,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.4,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,253.0,miles de personas,no
+2024,1,Comodoro Rivadavia-Rada Tilly,pea_miles,100.0,miles de personas,no
+2024,1,Comodoro Rivadavia-Rada Tilly,ocupados_miles,97.0,miles de personas,no
+2024,1,Comodoro Rivadavia-Rada Tilly,desocupados_miles,3.0,miles de personas,no
+2024,1,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,7.0,miles de personas,no
+2024,1,Comodoro Rivadavia-Rada Tilly,subocupados_miles,4.0,miles de personas,no
+2024,1,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,39.2,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,1.0,porcentaje,no
+2024,1,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,4.6,porcentaje,no
+2024,1,Region Patagonia,tasa_actividad,46.3,porcentaje,no
+2024,1,Region Patagonia,tasa_empleo,44.0,porcentaje,no
+2024,1,Region Patagonia,tasa_desocupacion,4.8,porcentaje,no
+2024,1,Region Patagonia,tasa_ocupados_demandantes,10.6,porcentaje,no
+2024,1,Region Patagonia,tasa_subocupacion,6.3,porcentaje,no
+2024,1,Region Patagonia,tasa_subocupacion_demandante,5.0,porcentaje,no
+2024,1,Region Patagonia,tasa_subocupacion_no_demandante,1.3,porcentaje,no
+2024,1,Region Patagonia,poblacion_total_miles,1119.0,miles de personas,no
+2024,1,Region Patagonia,pea_miles,518.0,miles de personas,no
+2024,1,Region Patagonia,ocupados_miles,493.0,miles de personas,no
+2024,1,Region Patagonia,desocupados_miles,25.0,miles de personas,no
+2024,1,Region Patagonia,ocupados_demandantes_miles,55.0,miles de personas,no
+2024,1,Region Patagonia,subocupados_miles,33.0,miles de personas,no
+2024,1,Region Patagonia,cv_desocupacion,11.4,porcentaje,no
+2024,1,Region Patagonia,ic90_inf_desocupacion,3.9,porcentaje,no
+2024,1,Region Patagonia,ic90_sup_desocupacion,5.7,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,tasa_actividad,48.0,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,tasa_empleo,44.3,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,tasa_desocupacion,7.7,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.0,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,tasa_subocupacion,10.2,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.0,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.2,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,poblacion_total_miles,29593.0,miles de personas,no
+2024,1,Total 31 aglomerados urbanos,pea_miles,14202.0,miles de personas,no
+2024,1,Total 31 aglomerados urbanos,ocupados_miles,13114.0,miles de personas,no
+2024,1,Total 31 aglomerados urbanos,desocupados_miles,1088.0,miles de personas,no
+2024,1,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2274.0,miles de personas,no
+2024,1,Total 31 aglomerados urbanos,subocupados_miles,1444.0,miles de personas,no
+2024,1,Total 31 aglomerados urbanos,cv_desocupacion,4.4,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,ic90_inf_desocupacion,7.1,porcentaje,no
+2024,1,Total 31 aglomerados urbanos,ic90_sup_desocupacion,8.2,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,tasa_actividad,41.1,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,tasa_empleo,39.6,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,3.6,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,4.6,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,2.0,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,1.6,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.4,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,254.0,miles de personas,no
+2024,2,Comodoro Rivadavia-Rada Tilly,pea_miles,104.0,miles de personas,no
+2024,2,Comodoro Rivadavia-Rada Tilly,ocupados_miles,101.0,miles de personas,no
+2024,2,Comodoro Rivadavia-Rada Tilly,desocupados_miles,4.0,miles de personas,no
+2024,2,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,5.0,miles de personas,no
+2024,2,Comodoro Rivadavia-Rada Tilly,subocupados_miles,2.0,miles de personas,no
+2024,2,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,29.9,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,1.8,porcentaje,no
+2024,2,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,5.3,porcentaje,no
+2024,2,Region Patagonia,tasa_actividad,45.3,porcentaje,no
+2024,2,Region Patagonia,tasa_empleo,42.9,porcentaje,no
+2024,2,Region Patagonia,tasa_desocupacion,5.4,porcentaje,no
+2024,2,Region Patagonia,tasa_ocupados_demandantes,11.1,porcentaje,no
+2024,2,Region Patagonia,tasa_subocupacion,6.8,porcentaje,no
+2024,2,Region Patagonia,tasa_subocupacion_demandante,5.4,porcentaje,no
+2024,2,Region Patagonia,tasa_subocupacion_no_demandante,1.5,porcentaje,no
+2024,2,Region Patagonia,poblacion_total_miles,1123.0,miles de personas,no
+2024,2,Region Patagonia,pea_miles,509.0,miles de personas,no
+2024,2,Region Patagonia,ocupados_miles,482.0,miles de personas,no
+2024,2,Region Patagonia,desocupados_miles,27.0,miles de personas,no
+2024,2,Region Patagonia,ocupados_demandantes_miles,57.0,miles de personas,no
+2024,2,Region Patagonia,subocupados_miles,35.0,miles de personas,no
+2024,2,Region Patagonia,cv_desocupacion,10.1,porcentaje,no
+2024,2,Region Patagonia,ic90_inf_desocupacion,4.5,porcentaje,no
+2024,2,Region Patagonia,ic90_sup_desocupacion,6.3,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,tasa_actividad,48.5,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,tasa_empleo,44.8,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,tasa_desocupacion,7.6,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.0,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,tasa_subocupacion,11.8,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,8.1,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.7,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,poblacion_total_miles,29656.0,miles de personas,no
+2024,2,Total 31 aglomerados urbanos,pea_miles,14386.0,miles de personas,no
+2024,2,Total 31 aglomerados urbanos,ocupados_miles,13298.0,miles de personas,no
+2024,2,Total 31 aglomerados urbanos,desocupados_miles,1088.0,miles de personas,no
+2024,2,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2299.0,miles de personas,no
+2024,2,Total 31 aglomerados urbanos,subocupados_miles,1699.0,miles de personas,no
+2024,2,Total 31 aglomerados urbanos,cv_desocupacion,4.3,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,ic90_inf_desocupacion,7.0,porcentaje,no
+2024,2,Total 31 aglomerados urbanos,ic90_sup_desocupacion,8.1,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,tasa_actividad,39.5,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,tasa_empleo,38.4,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,2.7,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,5.4,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,2.9,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,2.3,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.6,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,255.0,miles de personas,no
+2024,3,Comodoro Rivadavia-Rada Tilly,pea_miles,101.0,miles de personas,no
+2024,3,Comodoro Rivadavia-Rada Tilly,ocupados_miles,98.0,miles de personas,no
+2024,3,Comodoro Rivadavia-Rada Tilly,desocupados_miles,3.0,miles de personas,no
+2024,3,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,5.0,miles de personas,no
+2024,3,Comodoro Rivadavia-Rada Tilly,subocupados_miles,3.0,miles de personas,no
+2024,3,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,37.1,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,1.1,porcentaje,no
+2024,3,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,4.4,porcentaje,no
+2024,3,Region Patagonia,tasa_actividad,44.7,porcentaje,no
+2024,3,Region Patagonia,tasa_empleo,42.3,porcentaje,no
+2024,3,Region Patagonia,tasa_desocupacion,5.4,porcentaje,no
+2024,3,Region Patagonia,tasa_ocupados_demandantes,10.1,porcentaje,no
+2024,3,Region Patagonia,tasa_subocupacion,6.3,porcentaje,no
+2024,3,Region Patagonia,tasa_subocupacion_demandante,4.6,porcentaje,no
+2024,3,Region Patagonia,tasa_subocupacion_no_demandante,1.7,porcentaje,no
+2024,3,Region Patagonia,poblacion_total_miles,1127.0,miles de personas,no
+2024,3,Region Patagonia,pea_miles,504.0,miles de personas,no
+2024,3,Region Patagonia,ocupados_miles,477.0,miles de personas,no
+2024,3,Region Patagonia,desocupados_miles,27.0,miles de personas,no
+2024,3,Region Patagonia,ocupados_demandantes_miles,51.0,miles de personas,no
+2024,3,Region Patagonia,subocupados_miles,32.0,miles de personas,no
+2024,3,Region Patagonia,cv_desocupacion,10.6,porcentaje,no
+2024,3,Region Patagonia,ic90_inf_desocupacion,4.4,porcentaje,no
+2024,3,Region Patagonia,ic90_sup_desocupacion,6.3,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,tasa_actividad,48.3,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,tasa_empleo,45.0,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,tasa_desocupacion,6.9,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,17.6,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,tasa_subocupacion,11.4,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,8.1,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.3,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,poblacion_total_miles,29720.0,miles de personas,no
+2024,3,Total 31 aglomerados urbanos,pea_miles,14362.0,miles de personas,no
+2024,3,Total 31 aglomerados urbanos,ocupados_miles,13368.0,miles de personas,no
+2024,3,Total 31 aglomerados urbanos,desocupados_miles,994.0,miles de personas,no
+2024,3,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2530.0,miles de personas,no
+2024,3,Total 31 aglomerados urbanos,subocupados_miles,1632.0,miles de personas,no
+2024,3,Total 31 aglomerados urbanos,cv_desocupacion,4.4,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,ic90_inf_desocupacion,6.4,porcentaje,no
+2024,3,Total 31 aglomerados urbanos,ic90_sup_desocupacion,7.4,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,tasa_actividad,40.7,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,tasa_empleo,39.9,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,1.9,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,6.2,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,4.3,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.1,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,1.1,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,256.0,miles de personas,no
+2024,4,Comodoro Rivadavia-Rada Tilly,pea_miles,104.0,miles de personas,no
+2024,4,Comodoro Rivadavia-Rada Tilly,ocupados_miles,102.0,miles de personas,no
+2024,4,Comodoro Rivadavia-Rada Tilly,desocupados_miles,2.0,miles de personas,no
+2024,4,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,6.0,miles de personas,no
+2024,4,Comodoro Rivadavia-Rada Tilly,subocupados_miles,4.0,miles de personas,no
+2024,4,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,49.9,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.3,porcentaje,no
+2024,4,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,3.5,porcentaje,no
+2024,4,Region Patagonia,tasa_actividad,45.3,porcentaje,no
+2024,4,Region Patagonia,tasa_empleo,43.5,porcentaje,no
+2024,4,Region Patagonia,tasa_desocupacion,4.0,porcentaje,no
+2024,4,Region Patagonia,tasa_ocupados_demandantes,9.4,porcentaje,no
+2024,4,Region Patagonia,tasa_subocupacion,6.5,porcentaje,no
+2024,4,Region Patagonia,tasa_subocupacion_demandante,4.5,porcentaje,no
+2024,4,Region Patagonia,tasa_subocupacion_no_demandante,2.0,porcentaje,no
+2024,4,Region Patagonia,poblacion_total_miles,1131.0,miles de personas,no
+2024,4,Region Patagonia,pea_miles,512.0,miles de personas,no
+2024,4,Region Patagonia,ocupados_miles,492.0,miles de personas,no
+2024,4,Region Patagonia,desocupados_miles,20.0,miles de personas,no
+2024,4,Region Patagonia,ocupados_demandantes_miles,48.0,miles de personas,no
+2024,4,Region Patagonia,subocupados_miles,33.0,miles de personas,no
+2024,4,Region Patagonia,cv_desocupacion,11.7,porcentaje,no
+2024,4,Region Patagonia,ic90_inf_desocupacion,3.2,porcentaje,no
+2024,4,Region Patagonia,ic90_sup_desocupacion,4.7,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,tasa_actividad,48.8,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,tasa_empleo,45.7,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,tasa_desocupacion,6.4,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.6,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,tasa_subocupacion,11.3,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.6,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.6,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,poblacion_total_miles,29784.0,miles de personas,no
+2024,4,Total 31 aglomerados urbanos,pea_miles,14533.0,miles de personas,no
+2024,4,Total 31 aglomerados urbanos,ocupados_miles,13596.0,miles de personas,no
+2024,4,Total 31 aglomerados urbanos,desocupados_miles,937.0,miles de personas,no
+2024,4,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2419.0,miles de personas,no
+2024,4,Total 31 aglomerados urbanos,subocupados_miles,1641.0,miles de personas,no
+2024,4,Total 31 aglomerados urbanos,cv_desocupacion,4.9,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,ic90_inf_desocupacion,5.9,porcentaje,no
+2024,4,Total 31 aglomerados urbanos,ic90_sup_desocupacion,7.0,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,tasa_actividad,41.6,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,tasa_empleo,41.0,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,1.3,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,5.0,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,3.3,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.0,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.4,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,257.0,miles de personas,no
+2025,1,Comodoro Rivadavia-Rada Tilly,pea_miles,107.0,miles de personas,no
+2025,1,Comodoro Rivadavia-Rada Tilly,ocupados_miles,106.0,miles de personas,no
+2025,1,Comodoro Rivadavia-Rada Tilly,desocupados_miles,1.0,miles de personas,no
+2025,1,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,5.0,miles de personas,no
+2025,1,Comodoro Rivadavia-Rada Tilly,subocupados_miles,4.0,miles de personas,no
+2025,1,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,65.3,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.0,porcentaje,no
+2025,1,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,2.7,porcentaje,no
+2025,1,Region Patagonia,tasa_actividad,45.4,porcentaje,no
+2025,1,Region Patagonia,tasa_empleo,43.2,porcentaje,no
+2025,1,Region Patagonia,tasa_desocupacion,4.9,porcentaje,no
+2025,1,Region Patagonia,tasa_ocupados_demandantes,7.8,porcentaje,no
+2025,1,Region Patagonia,tasa_subocupacion,4.6,porcentaje,no
+2025,1,Region Patagonia,tasa_subocupacion_demandante,3.6,porcentaje,no
+2025,1,Region Patagonia,tasa_subocupacion_no_demandante,1.0,porcentaje,no
+2025,1,Region Patagonia,poblacion_total_miles,1135.0,miles de personas,no
+2025,1,Region Patagonia,pea_miles,515.0,miles de personas,no
+2025,1,Region Patagonia,ocupados_miles,490.0,miles de personas,no
+2025,1,Region Patagonia,desocupados_miles,25.0,miles de personas,no
+2025,1,Region Patagonia,ocupados_demandantes_miles,40.0,miles de personas,no
+2025,1,Region Patagonia,subocupados_miles,24.0,miles de personas,no
+2025,1,Region Patagonia,cv_desocupacion,10.5,porcentaje,no
+2025,1,Region Patagonia,ic90_inf_desocupacion,4.1,porcentaje,no
+2025,1,Region Patagonia,ic90_sup_desocupacion,5.8,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,tasa_actividad,48.2,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,tasa_empleo,44.4,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,tasa_desocupacion,7.9,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.1,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,tasa_subocupacion,10.0,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.0,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.0,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,poblacion_total_miles,29847.0,miles de personas,no
+2025,1,Total 31 aglomerados urbanos,pea_miles,14394.0,miles de personas,no
+2025,1,Total 31 aglomerados urbanos,ocupados_miles,13259.0,miles de personas,no
+2025,1,Total 31 aglomerados urbanos,desocupados_miles,1136.0,miles de personas,no
+2025,1,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2323.0,miles de personas,no
+2025,1,Total 31 aglomerados urbanos,subocupados_miles,1437.0,miles de personas,no
+2025,1,Total 31 aglomerados urbanos,cv_desocupacion,4.7,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,ic90_inf_desocupacion,7.3,porcentaje,no
+2025,1,Total 31 aglomerados urbanos,ic90_sup_desocupacion,8.5,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,tasa_actividad,40.5,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,tasa_empleo,39.7,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,2.0,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,3.8,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,4.0,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,1.9,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,2.1,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,258.0,miles de personas,no
+2025,2,Comodoro Rivadavia-Rada Tilly,pea_miles,105.0,miles de personas,no
+2025,2,Comodoro Rivadavia-Rada Tilly,ocupados_miles,102.0,miles de personas,no
+2025,2,Comodoro Rivadavia-Rada Tilly,desocupados_miles,2.0,miles de personas,no
+2025,2,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,4.0,miles de personas,no
+2025,2,Comodoro Rivadavia-Rada Tilly,subocupados_miles,4.0,miles de personas,no
+2025,2,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,50.2,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.4,porcentaje,no
+2025,2,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,3.7,porcentaje,no
+2025,2,Region Patagonia,tasa_actividad,45.0,porcentaje,no
+2025,2,Region Patagonia,tasa_empleo,42.9,porcentaje,no
+2025,2,Region Patagonia,tasa_desocupacion,4.7,porcentaje,no
+2025,2,Region Patagonia,tasa_ocupados_demandantes,9.1,porcentaje,no
+2025,2,Region Patagonia,tasa_subocupacion,6.4,porcentaje,no
+2025,2,Region Patagonia,tasa_subocupacion_demandante,4.7,porcentaje,no
+2025,2,Region Patagonia,tasa_subocupacion_no_demandante,1.7,porcentaje,no
+2025,2,Region Patagonia,poblacion_total_miles,1139.0,miles de personas,no
+2025,2,Region Patagonia,pea_miles,513.0,miles de personas,no
+2025,2,Region Patagonia,ocupados_miles,489.0,miles de personas,no
+2025,2,Region Patagonia,desocupados_miles,24.0,miles de personas,no
+2025,2,Region Patagonia,ocupados_demandantes_miles,47.0,miles de personas,no
+2025,2,Region Patagonia,subocupados_miles,33.0,miles de personas,no
+2025,2,Region Patagonia,cv_desocupacion,10.8,porcentaje,no
+2025,2,Region Patagonia,ic90_inf_desocupacion,3.8,porcentaje,no
+2025,2,Region Patagonia,ic90_sup_desocupacion,5.5,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,tasa_actividad,48.1,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,tasa_empleo,44.5,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,tasa_desocupacion,7.6,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,17.1,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,tasa_subocupacion,11.6,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.9,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.7,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,poblacion_total_miles,29909.0,miles de personas,no
+2025,2,Total 31 aglomerados urbanos,pea_miles,14395.0,miles de personas,no
+2025,2,Total 31 aglomerados urbanos,ocupados_miles,13304.0,miles de personas,no
+2025,2,Total 31 aglomerados urbanos,desocupados_miles,1091.0,miles de personas,no
+2025,2,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2469.0,miles de personas,no
+2025,2,Total 31 aglomerados urbanos,subocupados_miles,1668.0,miles de personas,no
+2025,2,Total 31 aglomerados urbanos,cv_desocupacion,4.7,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,ic90_inf_desocupacion,7.0,porcentaje,no
+2025,2,Total 31 aglomerados urbanos,ic90_sup_desocupacion,8.2,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,tasa_actividad,40.3,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,tasa_empleo,39.2,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,2.7,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,5.1,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,2.8,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,2.3,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,0.5,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,259.0,miles de personas,no
+2025,3,Comodoro Rivadavia-Rada Tilly,pea_miles,105.0,miles de personas,no
+2025,3,Comodoro Rivadavia-Rada Tilly,ocupados_miles,102.0,miles de personas,no
+2025,3,Comodoro Rivadavia-Rada Tilly,desocupados_miles,3.0,miles de personas,no
+2025,3,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,5.0,miles de personas,no
+2025,3,Comodoro Rivadavia-Rada Tilly,subocupados_miles,3.0,miles de personas,no
+2025,3,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,40.8,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,0.9,porcentaje,no
+2025,3,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,4.6,porcentaje,no
+2025,3,Region Patagonia,tasa_actividad,44.3,porcentaje,no
+2025,3,Region Patagonia,tasa_empleo,42.0,porcentaje,no
+2025,3,Region Patagonia,tasa_desocupacion,5.0,porcentaje,no
+2025,3,Region Patagonia,tasa_ocupados_demandantes,10.8,porcentaje,no
+2025,3,Region Patagonia,tasa_subocupacion,7.6,porcentaje,no
+2025,3,Region Patagonia,tasa_subocupacion_demandante,6.4,porcentaje,no
+2025,3,Region Patagonia,tasa_subocupacion_no_demandante,1.2,porcentaje,no
+2025,3,Region Patagonia,poblacion_total_miles,1142.0,miles de personas,no
+2025,3,Region Patagonia,pea_miles,506.0,miles de personas,no
+2025,3,Region Patagonia,ocupados_miles,480.0,miles de personas,no
+2025,3,Region Patagonia,desocupados_miles,25.0,miles de personas,no
+2025,3,Region Patagonia,ocupados_demandantes_miles,55.0,miles de personas,no
+2025,3,Region Patagonia,subocupados_miles,39.0,miles de personas,no
+2025,3,Region Patagonia,cv_desocupacion,10.9,porcentaje,no
+2025,3,Region Patagonia,ic90_inf_desocupacion,4.1,porcentaje,no
+2025,3,Region Patagonia,ic90_sup_desocupacion,5.9,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,tasa_actividad,48.6,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,tasa_empleo,45.4,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,tasa_desocupacion,6.6,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.1,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,tasa_subocupacion,10.9,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.3,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.6,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,poblacion_total_miles,29971.0,miles de personas,no
+2025,3,Total 31 aglomerados urbanos,pea_miles,14564.0,miles de personas,no
+2025,3,Total 31 aglomerados urbanos,ocupados_miles,13606.0,miles de personas,no
+2025,3,Total 31 aglomerados urbanos,desocupados_miles,958.0,miles de personas,no
+2025,3,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2345.0,miles de personas,no
+2025,3,Total 31 aglomerados urbanos,subocupados_miles,1581.0,miles de personas,no
+2025,3,Total 31 aglomerados urbanos,cv_desocupacion,4.2,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,ic90_inf_desocupacion,6.1,porcentaje,no
+2025,3,Total 31 aglomerados urbanos,ic90_sup_desocupacion,7.0,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,tasa_actividad,40.2,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,tasa_empleo,38.3,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,4.7,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,6.7,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,3.4,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.4,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,260.0,miles de personas,no
+2025,4,Comodoro Rivadavia-Rada Tilly,pea_miles,105.0,miles de personas,no
+2025,4,Comodoro Rivadavia-Rada Tilly,ocupados_miles,100.0,miles de personas,no
+2025,4,Comodoro Rivadavia-Rada Tilly,desocupados_miles,5.0,miles de personas,no
+2025,4,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,7.0,miles de personas,no
+2025,4,Comodoro Rivadavia-Rada Tilly,subocupados_miles,4.0,miles de personas,no
+2025,4,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,28.6,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,2.5,porcentaje,no
+2025,4,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,7.0,porcentaje,no
+2025,4,Region Patagonia,tasa_actividad,44.5,porcentaje,no
+2025,4,Region Patagonia,tasa_empleo,42.3,porcentaje,no
+2025,4,Region Patagonia,tasa_desocupacion,4.8,porcentaje,no
+2025,4,Region Patagonia,tasa_ocupados_demandantes,8.9,porcentaje,no
+2025,4,Region Patagonia,tasa_subocupacion,5.3,porcentaje,no
+2025,4,Region Patagonia,tasa_subocupacion_demandante,3.7,porcentaje,no
+2025,4,Region Patagonia,tasa_subocupacion_no_demandante,1.5,porcentaje,no
+2025,4,Region Patagonia,poblacion_total_miles,1146.0,miles de personas,no
+2025,4,Region Patagonia,pea_miles,510.0,miles de personas,no
+2025,4,Region Patagonia,ocupados_miles,485.0,miles de personas,no
+2025,4,Region Patagonia,desocupados_miles,25.0,miles de personas,no
+2025,4,Region Patagonia,ocupados_demandantes_miles,46.0,miles de personas,no
+2025,4,Region Patagonia,subocupados_miles,27.0,miles de personas,no
+2025,4,Region Patagonia,cv_desocupacion,11.7,porcentaje,no
+2025,4,Region Patagonia,ic90_inf_desocupacion,3.9,porcentaje,no
+2025,4,Region Patagonia,ic90_sup_desocupacion,5.7,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,tasa_actividad,48.6,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,tasa_empleo,45.0,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,tasa_desocupacion,7.5,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.5,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,tasa_subocupacion,11.3,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.8,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.6,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,poblacion_total_miles,30033.0,miles de personas,no
+2025,4,Total 31 aglomerados urbanos,pea_miles,14596.0,miles de personas,no
+2025,4,Total 31 aglomerados urbanos,ocupados_miles,13503.0,miles de personas,no
+2025,4,Total 31 aglomerados urbanos,desocupados_miles,1093.0,miles de personas,no
+2025,4,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2407.0,miles de personas,no
+2025,4,Total 31 aglomerados urbanos,subocupados_miles,1654.0,miles de personas,no
+2025,4,Total 31 aglomerados urbanos,cv_desocupacion,4.5,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,ic90_inf_desocupacion,6.9,porcentaje,no
+2025,4,Total 31 aglomerados urbanos,ic90_sup_desocupacion,8.0,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,tasa_actividad,41.5,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,tasa_empleo,40.4,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,2.7,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,5.7,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,5.9,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,4.4,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,1.5,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,262.0,miles de personas,no
+2026,1,Comodoro Rivadavia-Rada Tilly,pea_miles,108.0,miles de personas,no
+2026,1,Comodoro Rivadavia-Rada Tilly,ocupados_miles,106.0,miles de personas,no
+2026,1,Comodoro Rivadavia-Rada Tilly,desocupados_miles,3.0,miles de personas,no
+2026,1,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,6.0,miles de personas,no
+2026,1,Comodoro Rivadavia-Rada Tilly,subocupados_miles,6.0,miles de personas,no
+2026,1,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,39.1,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,1.0,porcentaje,no
+2026,1,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,4.4,porcentaje,no
+2026,1,Region Patagonia,tasa_actividad,45.1,porcentaje,no
+2026,1,Region Patagonia,tasa_empleo,42.8,porcentaje,no
+2026,1,Region Patagonia,tasa_desocupacion,5.0,porcentaje,no
+2026,1,Region Patagonia,tasa_ocupados_demandantes,9.3,porcentaje,no
+2026,1,Region Patagonia,tasa_subocupacion,6.3,porcentaje,no
+2026,1,Region Patagonia,tasa_subocupacion_demandante,5.2,porcentaje,no
+2026,1,Region Patagonia,tasa_subocupacion_no_demandante,1.1,porcentaje,no
+2026,1,Region Patagonia,poblacion_total_miles,1150.0,miles de personas,no
+2026,1,Region Patagonia,pea_miles,519.0,miles de personas,no
+2026,1,Region Patagonia,ocupados_miles,492.0,miles de personas,no
+2026,1,Region Patagonia,desocupados_miles,26.0,miles de personas,no
+2026,1,Region Patagonia,ocupados_demandantes_miles,48.0,miles de personas,no
+2026,1,Region Patagonia,subocupados_miles,33.0,miles de personas,no
+2026,1,Region Patagonia,cv_desocupacion,10.4,porcentaje,no
+2026,1,Region Patagonia,ic90_inf_desocupacion,4.2,porcentaje,no
+2026,1,Region Patagonia,ic90_sup_desocupacion,5.9,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,tasa_actividad,48.6,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,tasa_empleo,44.8,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,tasa_desocupacion,7.8,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,15.8,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,tasa_subocupacion,11.1,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,7.5,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.6,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,poblacion_total_miles,30095.0,miles de personas,no
+2026,1,Total 31 aglomerados urbanos,pea_miles,14616.0,miles de personas,no
+2026,1,Total 31 aglomerados urbanos,ocupados_miles,13472.0,miles de personas,no
+2026,1,Total 31 aglomerados urbanos,desocupados_miles,1145.0,miles de personas,no
+2026,1,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2316.0,miles de personas,no
+2026,1,Total 31 aglomerados urbanos,subocupados_miles,1629.0,miles de personas,no
+2026,1,Total 31 aglomerados urbanos,cv_desocupacion,4.4,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,ic90_inf_desocupacion,7.3,porcentaje,no
+2026,1,Total 31 aglomerados urbanos,ic90_sup_desocupacion,8.4,porcentaje,no
+2026,2,Comodoro Rivadavia-Rada Tilly,tasa_actividad,42.4,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,tasa_empleo,38.5,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,tasa_desocupacion,9.2,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,tasa_ocupados_demandantes,6.8,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion,5.5,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_demandante,3.1,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,tasa_subocupacion_no_demandante,2.3,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,poblacion_total_miles,263.0,miles de personas,si
+2026,2,Comodoro Rivadavia-Rada Tilly,pea_miles,111.0,miles de personas,si
+2026,2,Comodoro Rivadavia-Rada Tilly,ocupados_miles,101.0,miles de personas,si
+2026,2,Comodoro Rivadavia-Rada Tilly,desocupados_miles,10.0,miles de personas,si
+2026,2,Comodoro Rivadavia-Rada Tilly,ocupados_demandantes_miles,8.0,miles de personas,si
+2026,2,Comodoro Rivadavia-Rada Tilly,subocupados_miles,6.0,miles de personas,si
+2026,2,Comodoro Rivadavia-Rada Tilly,cv_desocupacion,35.5,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,ic90_inf_desocupacion,3.8,porcentaje,si
+2026,2,Comodoro Rivadavia-Rada Tilly,ic90_sup_desocupacion,14.6,porcentaje,si
+2026,2,Region Patagonia,tasa_actividad,46.0,porcentaje,si
+2026,2,Region Patagonia,tasa_empleo,43.1,porcentaje,si
+2026,2,Region Patagonia,tasa_desocupacion,6.3,porcentaje,si
+2026,2,Region Patagonia,tasa_ocupados_demandantes,10.7,porcentaje,si
+2026,2,Region Patagonia,tasa_subocupacion,8.0,porcentaje,si
+2026,2,Region Patagonia,tasa_subocupacion_demandante,6.2,porcentaje,si
+2026,2,Region Patagonia,tasa_subocupacion_no_demandante,1.7,porcentaje,si
+2026,2,Region Patagonia,poblacion_total_miles,1154.0,miles de personas,si
+2026,2,Region Patagonia,pea_miles,531.0,miles de personas,si
+2026,2,Region Patagonia,ocupados_miles,497.0,miles de personas,si
+2026,2,Region Patagonia,desocupados_miles,34.0,miles de personas,si
+2026,2,Region Patagonia,ocupados_demandantes_miles,57.0,miles de personas,si
+2026,2,Region Patagonia,subocupados_miles,42.0,miles de personas,si
+2026,2,Region Patagonia,cv_desocupacion,13.7,porcentaje,si
+2026,2,Region Patagonia,ic90_inf_desocupacion,4.9,porcentaje,si
+2026,2,Region Patagonia,ic90_sup_desocupacion,7.8,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,tasa_actividad,48.9,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,tasa_empleo,45.0,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,tasa_desocupacion,7.9,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,tasa_ocupados_demandantes,16.9,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,tasa_subocupacion,11.5,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,tasa_subocupacion_demandante,8.0,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,tasa_subocupacion_no_demandante,3.4,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,poblacion_total_miles,30158.0,miles de personas,si
+2026,2,Total 31 aglomerados urbanos,pea_miles,14733.0,miles de personas,si
+2026,2,Total 31 aglomerados urbanos,ocupados_miles,13569.0,miles de personas,si
+2026,2,Total 31 aglomerados urbanos,desocupados_miles,1164.0,miles de personas,si
+2026,2,Total 31 aglomerados urbanos,ocupados_demandantes_miles,2495.0,miles de personas,si
+2026,2,Total 31 aglomerados urbanos,subocupados_miles,1687.0,miles de personas,si
+2026,2,Total 31 aglomerados urbanos,cv_desocupacion,3.8,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,ic90_inf_desocupacion,7.4,porcentaje,si
+2026,2,Total 31 aglomerados urbanos,ic90_sup_desocupacion,8.4,porcentaje,si

@@ -1,0 +1,1204 @@
+{
+ "generado": "2026-09-26",
+ "fuentes": {
+  "pozos": "Secretaría de Energía, Capítulo IV – Pozos (datos.energia.gob.ar), descargado 18/09/2026, CC-BY 4.0",
+  "listado_anterior": "Secretaría de Energía, Listado de pozos cargados por empresas operadoras (actualizado 20/10/2025)",
+  "produccion": "Secretaría de Energía, serie histórica de producción de petróleo por cuenca",
+  "geo": "Municipalidad de Comodoro Rivadavia, datos.comodoro.gov.ar: límites administrativos 2025 y radios censales 2022 (INDEC)"
+ },
+ "pais": {
+  "pozos": 85611,
+  "por_cuenca": {
+   "GOLFO SAN JORGE": {
+    "Activo": 15880,
+    "Inactivo": 15894,
+    "A abandonar": 1444,
+    "Abandonado": 11161,
+    "No informado": 11,
+    "total": 44390,
+    "extraccion_efectiva": 12353
+   },
+   "NEUQUINA": {
+    "Activo": 14034,
+    "Inactivo": 12008,
+    "A abandonar": 879,
+    "Abandonado": 6195,
+    "No informado": 39,
+    "total": 33155,
+    "extraccion_efectiva": 11783
+   },
+   "CUYANA": {
+    "Activo": 1150,
+    "Inactivo": 894,
+    "A abandonar": 366,
+    "Abandonado": 1331,
+    "No informado": 0,
+    "total": 3741,
+    "extraccion_efectiva": 882
+   },
+   "AUSTRAL": {
+    "Activo": 973,
+    "Inactivo": 1120,
+    "A abandonar": 25,
+    "Abandonado": 1113,
+    "No informado": 5,
+    "total": 3236,
+    "extraccion_efectiva": 924
+   },
+   "NOROESTE": {
+    "Activo": 111,
+    "Inactivo": 244,
+    "A abandonar": 88,
+    "Abandonado": 622,
+    "No informado": 0,
+    "total": 1065,
+    "extraccion_efectiva": 72
+   }
+  },
+  "sin_empresa": 964
+ },
+ "cuenca": {
+  "Activo": 15880,
+  "Inactivo": 15894,
+  "A abandonar": 1444,
+  "Abandonado": 11161,
+  "No informado": 11,
+  "total": 44390,
+  "extraccion_efectiva": 12353,
+  "por_provincia": {
+   "Chubut": {
+    "Activo": 8817,
+    "Inactivo": 6341,
+    "A abandonar": 567,
+    "Abandonado": 6866,
+    "No informado": 11,
+    "total": 22602,
+    "extraccion_efectiva": 6562
+   },
+   "Santa Cruz": {
+    "Activo": 7063,
+    "Inactivo": 9553,
+    "A abandonar": 877,
+    "Abandonado": 4295,
+    "No informado": 0,
+    "total": 21788,
+    "extraccion_efectiva": 5791
+   }
+  },
+  "sin_empresa": {
+   "Activo": 13,
+   "Inactivo": 48,
+   "A abandonar": 0,
+   "Abandonado": 179,
+   "No informado": 11,
+   "total": 251,
+   "extraccion_efectiva": 11
+  },
+  "sin_produccion": 28499,
+  "ypf_pozos_listado_anterior": 21509,
+  "ypf_pozos_actual": 0,
+  "con_fecha_perforacion_pct": 46.4
+ },
+ "produccion": {
+  "anio_base": 2006,
+  "anio_ref": 2025,
+  "gsj_pct_base": 44.1,
+  "gsj_pct_ref": 22.8,
+  "gsj_ref_sobre_base_pct": 65,
+  "neuquina_ref_sobre_base_pct": 218,
+  "shale_pct_ref": 62.5
+ },
+ "ejido": {
+  "Activo": 817,
+  "Inactivo": 1642,
+  "A abandonar": 203,
+  "Abandonado": 3543,
+  "No informado": 0,
+  "total": 6205,
+  "extraccion_efectiva": 574,
+  "activos_pct": 13.2,
+  "abandonados_pct": 57.1,
+  "sin_empresa": 113,
+  "por_yacimiento": {
+   "CAMPAMENTO CENTRAL - BELLA VISTA ESTE": {
+    "Activo": 77,
+    "Inactivo": 226,
+    "A abandonar": 114,
+    "Abandonado": 1812,
+    "No informado": 0,
+    "total": 2229,
+    "extraccion_efectiva": 56
+   },
+   "DIADEMA": {
+    "Activo": 407,
+    "Inactivo": 294,
+    "A abandonar": 0,
+    "Abandonado": 357,
+    "No informado": 0,
+    "total": 1058,
+    "extraccion_efectiva": 272
+   },
+   "KM. 8": {
+    "Activo": 19,
+    "Inactivo": 359,
+    "A abandonar": 0,
+    "Abandonado": 345,
+    "No informado": 0,
+    "total": 723,
+    "extraccion_efectiva": 13
+   },
+   "KM. 20": {
+    "Activo": 23,
+    "Inactivo": 65,
+    "A abandonar": 0,
+    "Abandonado": 435,
+    "No informado": 0,
+    "total": 523,
+    "extraccion_efectiva": 11
+   },
+   "CAÑADON PERDIDO": {
+    "Activo": 40,
+    "Inactivo": 237,
+    "A abandonar": 64,
+    "Abandonado": 121,
+    "No informado": 0,
+    "total": 462,
+    "extraccion_efectiva": 27
+   },
+   "BELLA VISTA": {
+    "Activo": 86,
+    "Inactivo": 171,
+    "A abandonar": 14,
+    "Abandonado": 38,
+    "No informado": 0,
+    "total": 309,
+    "extraccion_efectiva": 64
+   },
+   "DON ERNESTO": {
+    "Activo": 17,
+    "Inactivo": 39,
+    "A abandonar": 1,
+    "Abandonado": 115,
+    "No informado": 0,
+    "total": 172,
+    "extraccion_efectiva": 13
+   },
+   "ALBERTO": {
+    "Activo": 45,
+    "Inactivo": 40,
+    "A abandonar": 0,
+    "Abandonado": 45,
+    "No informado": 0,
+    "total": 130,
+    "extraccion_efectiva": 38
+   },
+   "RESTINGA ALI": {
+    "Activo": 24,
+    "Inactivo": 28,
+    "A abandonar": 7,
+    "Abandonado": 68,
+    "No informado": 0,
+    "total": 127,
+    "extraccion_efectiva": 20
+   },
+   "BELLA VISTA OESTE - BLOQUE I": {
+    "Activo": 58,
+    "Inactivo": 41,
+    "A abandonar": 0,
+    "Abandonado": 22,
+    "No informado": 0,
+    "total": 121,
+    "extraccion_efectiva": 43
+   },
+   "BELLA VISTA OESTE ": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 97,
+    "No informado": 0,
+    "total": 97,
+    "extraccion_efectiva": 0
+   },
+   "SINDICATO": {
+    "Activo": 2,
+    "Inactivo": 64,
+    "A abandonar": 0,
+    "Abandonado": 19,
+    "No informado": 0,
+    "total": 85,
+    "extraccion_efectiva": 2
+   }
+  },
+  "por_empresa": {
+   "PECOM SERVICIOS ENERGIA SAU": {
+    "Activo": 220,
+    "Inactivo": 649,
+    "A abandonar": 194,
+    "Abandonado": 1975,
+    "No informado": 0,
+    "total": 3038,
+    "extraccion_efectiva": 160
+   },
+   "COMPAÑÍAS ASOCIADAS PETROLERAS S.A.": {
+    "Activo": 432,
+    "Inactivo": 439,
+    "A abandonar": 0,
+    "Abandonado": 828,
+    "No informado": 0,
+    "total": 1699,
+    "extraccion_efectiva": 285
+   },
+   "CRI HOLDING, INC.": {
+    "Activo": 19,
+    "Inactivo": 359,
+    "A abandonar": 0,
+    "Abandonado": 345,
+    "No informado": 0,
+    "total": 723,
+    "extraccion_efectiva": 13
+   },
+   "PETROLERA PATAGONIA S.R.L.": {
+    "Activo": 62,
+    "Inactivo": 79,
+    "A abandonar": 1,
+    "Abandonado": 160,
+    "No informado": 0,
+    "total": 302,
+    "extraccion_efectiva": 51
+   },
+   "COPESA CIA CONSTRUCTORA PETROLERA SA": {
+    "Activo": 24,
+    "Inactivo": 28,
+    "A abandonar": 7,
+    "Abandonado": 68,
+    "No informado": 0,
+    "total": 127,
+    "extraccion_efectiva": 20
+   },
+   "CAPEX S.A.": {
+    "Activo": 58,
+    "Inactivo": 41,
+    "A abandonar": 0,
+    "Abandonado": 22,
+    "No informado": 0,
+    "total": 121,
+    "extraccion_efectiva": 43
+   },
+   "(sin empresa)": {
+    "Activo": 2,
+    "Inactivo": 2,
+    "A abandonar": 0,
+    "Abandonado": 109,
+    "No informado": 0,
+    "total": 113,
+    "extraccion_efectiva": 2
+   },
+   "CAPETROL S.A.": {
+    "Activo": 0,
+    "Inactivo": 45,
+    "A abandonar": 1,
+    "Abandonado": 31,
+    "No informado": 0,
+    "total": 77,
+    "extraccion_efectiva": 0
+   }
+  },
+  "rada_tilly": {
+   "Activo": 0,
+   "Inactivo": 0,
+   "A abandonar": 0,
+   "Abandonado": 4,
+   "No informado": 0,
+   "total": 4,
+   "extraccion_efectiva": 0
+  },
+  "escalante": {
+   "Activo": 5358,
+   "Inactivo": 5467,
+   "A abandonar": 418,
+   "Abandonado": 6266,
+   "No informado": 0,
+   "total": 17509,
+   "extraccion_efectiva": 3918
+  }
+ },
+ "km3": {
+  "Activo": 77,
+  "Inactivo": 226,
+  "A abandonar": 114,
+  "Abandonado": 1816,
+  "No informado": 0,
+  "total": 2233,
+  "extraccion_efectiva": 56,
+  "en_ejido": {
+   "Activo": 77,
+   "Inactivo": 226,
+   "A abandonar": 114,
+   "Abandonado": 1812,
+   "No informado": 0,
+   "total": 2229,
+   "extraccion_efectiva": 56
+  }
+ },
+ "poblacion": {
+  "total_radios": 214724,
+  "radios": 325,
+  "radios_con_pozo": 122,
+  "pobl_en_radios_con_pozo": 84796,
+  "pobl_en_radios_con_pozo_pct": 39.5,
+  "pobl_en_radios_con_abandonado": 82861,
+  "pobl_en_radios_con_10_o_mas": 39130,
+  "pozos_en_radios": {
+   "Activo": 744,
+   "Inactivo": 1557,
+   "A abandonar": 200,
+   "Abandonado": 3195,
+   "No informado": 0,
+   "total": 5696,
+   "extraccion_efectiva": 535
+  },
+  "radio_mas_pozos": [
+   {
+    "radio": "260210202",
+    "pozos": 1912,
+    "activos": 504,
+    "inactivos": 870,
+    "abandonados": 538,
+    "TIPO": "R",
+    "lon": -67.64204,
+    "lat": -45.79187,
+    "pobl": 16
+   },
+   {
+    "radio": "260210601",
+    "pozos": 786,
+    "activos": 139,
+    "inactivos": 241,
+    "abandonados": 406,
+    "TIPO": "M",
+    "lon": -67.63347,
+    "lat": -45.90616,
+    "pobl": 1134
+   },
+   {
+    "radio": "260211203",
+    "pozos": 408,
+    "activos": 3,
+    "inactivos": 102,
+    "abandonados": 303,
+    "TIPO": "U",
+    "lon": -67.50033,
+    "lat": -45.82788,
+    "pobl": 936
+   }
+  ],
+  "radio_urbano_mas_pozos": [
+   {
+    "radio": "260211203",
+    "pozos": 408,
+    "activos": 3,
+    "inactivos": 102,
+    "abandonados": 303,
+    "TIPO": "U",
+    "lon": -67.50033,
+    "lat": -45.82788,
+    "pobl": 936
+   },
+   {
+    "radio": "260210901",
+    "pozos": 407,
+    "activos": 25,
+    "inactivos": 170,
+    "abandonados": 212,
+    "TIPO": "U",
+    "lon": -67.42557,
+    "lat": -45.75659,
+    "pobl": 294
+   },
+   {
+    "radio": "260210912",
+    "pozos": 156,
+    "activos": 0,
+    "inactivos": 54,
+    "abandonados": 102,
+    "TIPO": "U",
+    "lon": -67.43876,
+    "lat": -45.8024,
+    "pobl": 1002
+   }
+  ],
+  "radio_urbano_mas_abandonados": [
+   {
+    "radio": "260211203",
+    "pozos": 408,
+    "activos": 3,
+    "inactivos": 102,
+    "abandonados": 303,
+    "TIPO": "U",
+    "lon": -67.50033,
+    "lat": -45.82788,
+    "pobl": 936
+   },
+   {
+    "radio": "260210901",
+    "pozos": 407,
+    "activos": 25,
+    "inactivos": 170,
+    "abandonados": 212,
+    "TIPO": "U",
+    "lon": -67.42557,
+    "lat": -45.75659,
+    "pobl": 294
+   },
+   {
+    "radio": "260211102",
+    "pozos": 128,
+    "activos": 2,
+    "inactivos": 3,
+    "abandonados": 123,
+    "TIPO": "U",
+    "lon": -67.48276,
+    "lat": -45.8184,
+    "pobl": 567
+   }
+  ]
+ },
+ "antiguedad": {
+  "nota": "primera_prod viene del padrón de la SE; la serie arranca en 2006-01, así que 'ya_en_2006' significa que el pozo ya figuraba al inicio de la serie",
+  "con_primera_prod": 44379,
+  "ya_en_2006": 36507,
+  "iniciaron_despues_2006": 7872,
+  "ya_en_2006_por_grupo": {
+   "Activo": 9909,
+   "Inactivo": 14178,
+   "A abandonar": 1404,
+   "Abandonado": 11016
+  },
+  "ya_en_2006_extraccion_efectiva": 7459,
+  "iniciaron_despues_2006_por_grupo": {
+   "Activo": 5971,
+   "Inactivo": 1716,
+   "A abandonar": 40,
+   "Abandonado": 145
+  },
+  "ejido_ya_en_2006": 5874
+ },
+ "trayectoria": {
+  "cobertura": {
+   "desde": "2017-01",
+   "hasta": "2026-08",
+   "pozos_con_registro": 44354
+  },
+  "nota": "ultima_prod = último mes con petróleo o gas > 0 dentro de la cobertura; 'nunca_en_serie' = ningún mes con producción en toda la cobertura",
+  "con_ultima_prod": 19232,
+  "nunca_en_serie": 25158,
+  "nunca_en_serie_por_grupo": {
+   "Activo": 2942,
+   "Inactivo": 10029,
+   "A abandonar": 1214,
+   "Abandonado": 10962
+  },
+  "nunca_en_serie_no_abandonados": 11243,
+  "produjeron_ultimos_12_meses": 13778,
+  "sin_producir_1_a_5_anios": 2906,
+  "sin_producir_mas_de_5_anios": 2548,
+  "sin_producir_mas_de_5_anios_no_abandonados": 2405,
+  "inactivos_por_tiempo_sin_producir": {
+   "menos_de_1_anio": 1589,
+   "1_a_5_anios": 2574,
+   "5_a_9_anios": 1932,
+   "nunca_en_serie": 11243
+  },
+  "ejido_nunca_en_serie": 5256,
+  "ejido_nunca_en_serie_no_abandonados": 1509,
+  "con_primer_abandono": 11282,
+  "abandonados_declarados_desde_2017": 11282,
+  "abandonados_por_anio_de_declaracion": {
+   "2017": 9895,
+   "2018": 284,
+   "2019": 272,
+   "2020": 96,
+   "2021": 99,
+   "2022": 127,
+   "2023": 202,
+   "2024": 136,
+   "2025": 136,
+   "2026": 35
+  }
+ },
+ "barrios": {
+  "cantidad": 77,
+  "pozos_en_barrios": 2507,
+  "barrios_con_pozo": 52,
+  "por_barrio": [
+   {
+    "barrio": "Astra",
+    "pozos": 492,
+    "activos": 23,
+    "inactivos": 63,
+    "abandonados": 406
+   },
+   {
+    "barrio": "Don Bosco",
+    "pozos": 364,
+    "activos": 3,
+    "inactivos": 150,
+    "abandonados": 211
+   },
+   {
+    "barrio": "Presidente Roberto M. Ortiz",
+    "pozos": 252,
+    "activos": 8,
+    "inactivos": 26,
+    "abandonados": 218
+   },
+   {
+    "barrio": "General Enrique Mosconi",
+    "pozos": 195,
+    "activos": 0,
+    "inactivos": 11,
+    "abandonados": 184
+   },
+   {
+    "barrio": "Manantial Rosales",
+    "pozos": 189,
+    "activos": 17,
+    "inactivos": 39,
+    "abandonados": 133
+   },
+   {
+    "barrio": "Caleta Córdova",
+    "pozos": 120,
+    "activos": 7,
+    "inactivos": 54,
+    "abandonados": 59
+   },
+   {
+    "barrio": "Bella Vista Norte",
+    "pozos": 91,
+    "activos": 8,
+    "inactivos": 8,
+    "abandonados": 75
+   },
+   {
+    "barrio": "Diadema Argentina",
+    "pozos": 88,
+    "activos": 19,
+    "inactivos": 28,
+    "abandonados": 41
+   },
+   {
+    "barrio": "Próspero Palazzo",
+    "pozos": 67,
+    "activos": 2,
+    "inactivos": 9,
+    "abandonados": 56
+   },
+   {
+    "barrio": "Juan José Castelli",
+    "pozos": 64,
+    "activos": 0,
+    "inactivos": 1,
+    "abandonados": 63
+   },
+   {
+    "barrio": "Laprida",
+    "pozos": 54,
+    "activos": 3,
+    "inactivos": 7,
+    "abandonados": 44
+   },
+   {
+    "barrio": "Humberto Beghin",
+    "pozos": 49,
+    "activos": 0,
+    "inactivos": 1,
+    "abandonados": 48
+   },
+   {
+    "barrio": "Nicolás Rodríguez Peña",
+    "pozos": 49,
+    "activos": 0,
+    "inactivos": 2,
+    "abandonados": 47
+   },
+   {
+    "barrio": "25 de Mayo",
+    "pozos": 48,
+    "activos": 0,
+    "inactivos": 0,
+    "abandonados": 48
+   },
+   {
+    "barrio": "Restinga Alí",
+    "pozos": 43,
+    "activos": 2,
+    "inactivos": 19,
+    "abandonados": 22
+   }
+  ],
+  "barrio_del_radio_urbano_mas_pozos": null
+ },
+ "concesiones": {
+  "poligonos": 55,
+  "pozos_en_area_con_concesion": 42183,
+  "pozos_en_area_sin_concesion": 2207,
+  "areas_sin_concesion": {
+   "KM. 8": 729,
+   "CAÑADON MINERALES": 617,
+   "DON ERNESTO": 172,
+   "ALBERTO": 130,
+   "BELLA VISTA OESTE": 114,
+   "BLOQUE 127": 105,
+   "CERRO OVERO": 59,
+   "MESETA SIRVEN": 56,
+   "RIO MAYO OESTE": 35,
+   "REVERTIDAS - CHUBUT": 34,
+   "CGSJ-5/A COLHUE HUAPI": 31,
+   "RIO MAYO": 23
+  },
+  "operadoras_en_concesiones": {
+   "COMPAÑÍA GENERAL DE COMBUSTIBLES S.A.": 11,
+   "COMPAÑÍAS ASOCIADAS PETROLERAS S.A.": 6,
+   "PAN AMERICAN ENERGY SL": 5,
+   "CROWN POINT ENERGIA S.A.": 5,
+   "PATAGONIA RESOURCES S.A.": 3,
+   "ROCH S.A.": 3,
+   "PECOM SERVICIOS ENERGIA SAU": 3,
+   "COPESA CIA CONSTRUCTORA PETROLERA SA": 3,
+   "QUINTANA E&P ARGENTINA S.R.L.": 2,
+   "PETROMINERA CHUBUT S.E.": 2,
+   "CAPEX S.A.": 2,
+   "ALIANZA PETROLERA ARGENTINA S.A.": 1,
+   "COLHUE HUAPI S.A.": 1,
+   "Clear Petroleum S.A.": 1,
+   "BREST S.A. DE SERVICIOS PETROLEROS": 1,
+   "AZRUGE S.A.": 1,
+   "INGENIERIA ALPA S.A.": 1,
+   "INTEROIL ARGENTINA S A": 1,
+   "Pilgrim Energy S.A.": 1,
+   "CAPETROL S.A.": 1,
+   "CAPETROL ARGENTINA S.A.": 1
+  }
+ },
+ "calidad": {
+  "coordenadas_corregidas": 0,
+  "coordenadas_invalidas": 0,
+  "fechas_relleno_descartadas": 375,
+  "sin_fecha_perforacion": 23787,
+  "duplicados_idpozo": 0,
+  "no_informado": 11
+ },
+ "grupos_de_estado": {
+  "Extracción Efectiva": "Activo",
+  "En Inyección Efectiva": "Activo",
+  "Mantenimiento de Presión": "Activo",
+  "Otras Situación Activo": "Activo",
+  "En Reparación": "Activo",
+  "En Estudio": "Inactivo",
+  "En Reserva para Recup. Sec./Asist.": "Inactivo",
+  "En Reserva de Gas": "Inactivo",
+  "Parado Transitoriamente": "Inactivo",
+  "En Espera de Reparación": "Inactivo",
+  "Otras Situación Inactivo": "Inactivo",
+  "Parado Alta Relación Agua/Petróleo": "Inactivo",
+  "Parado Alta Relación Gas/Petróleo": "Inactivo",
+  "Abandono Temporario": "Inactivo",
+  "A Abandonar": "A abandonar",
+  "Abandonado": "Abandonado",
+  "No informado": "No informado"
+ },
+ "cuenca_por_estado_original": {
+  "Extracción Efectiva": 12353,
+  "Abandonado": 11161,
+  "En Reserva para Recup. Sec./Asist.": 6771,
+  "En Estudio": 3707,
+  "En Inyección Efectiva": 3448,
+  "Parado Transitoriamente": 2313,
+  "A Abandonar": 1444,
+  "Abandono Temporario": 1244,
+  "En Espera de Reparación": 721,
+  "Otras Situación Inactivo": 652,
+  "Parado Alta Relación Agua/Petróleo": 229,
+  "En Reserva de Gas": 192,
+  "Parado Alta Relación Gas/Petróleo": 65,
+  "Otras Situación Activo": 45,
+  "En Reparación": 17,
+  "Mantenimiento de Presión": 17,
+  "No informado": 11
+ },
+ "datasets": [
+  {
+   "titulo": "Capítulo IV – Pozos",
+   "organismo": "Secretaría de Energía",
+   "url": "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c",
+   "descarga": "20/09/2026",
+   "licencia": "CC-BY 4.0",
+   "uso": "ubicación, operadora, yacimiento, área y estado declarado de cada pozo"
+  },
+  {
+   "titulo": "Padrón de pozos de Capítulo IV con fecha de primera producción",
+   "organismo": "Secretaría de Energía",
+   "url": "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c",
+   "descarga": "20/09/2026",
+   "licencia": "CC-BY 4.0",
+   "uso": "mes de primera producción (la serie empieza en enero de 2006)"
+  },
+  {
+   "titulo": "Producción de pozos de gas y petróleo, mensual 2017–2026",
+   "organismo": "Secretaría de Energía",
+   "url": "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c",
+   "descarga": "20/09/2026",
+   "licencia": "CC-BY 4.0",
+   "uso": "último mes con producción y primer mes declarado como abandonado"
+  },
+  {
+   "titulo": "Listado de pozos cargados por empresas operadoras (actualizado el 20/10/2025)",
+   "organismo": "Secretaría de Energía",
+   "url": "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c",
+   "descarga": "18/09/2026",
+   "licencia": "CC-BY 4.0",
+   "uso": "operadora anterior de cada pozo y fecha de abandono cuando figura"
+  },
+  {
+   "titulo": "Serie histórica de producción de petróleo por cuenca y subtipo de recurso",
+   "organismo": "Secretaría de Energía",
+   "url": "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c",
+   "descarga": "18/09/2026",
+   "licencia": "CC-BY 4.0",
+   "uso": "producción anual por cuenca"
+  },
+  {
+   "titulo": "Producción de hidrocarburos – Concesiones de explotación",
+   "organismo": "Secretaría de Energía",
+   "url": "http://datos.energia.gob.ar/dataset/produccion-hidrocarburos-concesiones-de-explotacion",
+   "descarga": "20/09/2026",
+   "licencia": "CC-BY 4.0",
+   "uso": "áreas con concesión de explotación vigente"
+  },
+  {
+   "titulo": "Límites administrativos 2025",
+   "organismo": "Municipalidad de Comodoro Rivadavia",
+   "url": "https://datos.comodoro.gov.ar/",
+   "descarga": "18/09/2026",
+   "licencia": null,
+   "uso": "ejido de Comodoro Rivadavia, Rada Tilly y departamento Escalante"
+  },
+  {
+   "titulo": "Radios censales y población por radio, Censo 2022 (INDEC)",
+   "organismo": "Municipalidad de Comodoro Rivadavia",
+   "url": "https://datos.comodoro.gov.ar/",
+   "descarga": "18/09/2026",
+   "licencia": null,
+   "uso": "población de cada radio censal"
+  },
+  {
+   "titulo": "Límites de barrios 2026",
+   "organismo": "Municipalidad de Comodoro Rivadavia",
+   "url": "https://datos.comodoro.gov.ar/",
+   "descarga": "20/09/2026",
+   "licencia": null,
+   "uso": "barrio de cada pozo"
+  },
+  {
+   "titulo": "EPH continua: tasa de desempleo, Comodoro Rivadavia (serie 45.2_ECTDTCR_0_T_52)",
+   "organismo": "INDEC, vía datos.gob.ar",
+   "url": "https://apis.datos.gob.ar/series/api/series/?ids=45.2_ECTDTCR_0_T_52",
+   "descarga": "26/09/2026",
+   "licencia": null,
+   "uso": "desocupación del aglomerado Comodoro Rivadavia–Rada Tilly (portada)"
+  },
+  {
+   "titulo": "Mercado de trabajo. Tasas e indicadores socioeconómicos (EPH), 2.º trimestre de 2026",
+   "organismo": "INDEC",
+   "url": "https://www.indec.gob.ar/uploads/informesdeprensa/mercado_trabajo_eph_2trim26433FCBC5A8.pdf",
+   "descarga": "26/09/2026",
+   "licencia": null,
+   "uso": "coeficiente de variación de esa estimación"
+  }
+ ],
+ "eph": {
+  "aglomerado": "Comodoro Rivadavia-Rada Tilly",
+  "periodo": "2026T2",
+  "anio": 2026,
+  "trimestre": 2,
+  "desocupacion": 9.2,
+  "serie_desde": "2003T3",
+  "ultimo_valor_mayor": {
+   "periodo": "2005T4",
+   "tasa": 9.3
+  },
+  "anios_sin_un_valor_mayor": 20.5,
+  "serie": [
+   {
+    "periodo": "2003T3",
+    "tasa": 12.4
+   },
+   {
+    "periodo": "2003T4",
+    "tasa": 12.7
+   },
+   {
+    "periodo": "2004T1",
+    "tasa": 10.4
+   },
+   {
+    "periodo": "2004T2",
+    "tasa": 7.3
+   },
+   {
+    "periodo": "2004T3",
+    "tasa": 8.7
+   },
+   {
+    "periodo": "2004T4",
+    "tasa": 7.8
+   },
+   {
+    "periodo": "2005T1",
+    "tasa": 8.9
+   },
+   {
+    "periodo": "2005T2",
+    "tasa": 6.9
+   },
+   {
+    "periodo": "2005T3",
+    "tasa": 7.6
+   },
+   {
+    "periodo": "2005T4",
+    "tasa": 9.3
+   },
+   {
+    "periodo": "2006T1",
+    "tasa": 8.3
+   },
+   {
+    "periodo": "2006T2",
+    "tasa": 6.7
+   },
+   {
+    "periodo": "2006T3",
+    "tasa": 6.7
+   },
+   {
+    "periodo": "2006T4",
+    "tasa": 5.9
+   },
+   {
+    "periodo": "2007T1",
+    "tasa": 4.2
+   },
+   {
+    "periodo": "2007T2",
+    "tasa": 5.7
+   },
+   {
+    "periodo": "2007T3",
+    "tasa": 5.6
+   },
+   {
+    "periodo": "2007T4",
+    "tasa": 2.5
+   },
+   {
+    "periodo": "2008T1",
+    "tasa": 4.8
+   },
+   {
+    "periodo": "2008T2",
+    "tasa": 5.1
+   },
+   {
+    "periodo": "2008T3",
+    "tasa": 4.9
+   },
+   {
+    "periodo": "2008T4",
+    "tasa": 3.6
+   },
+   {
+    "periodo": "2009T1",
+    "tasa": 5.3
+   },
+   {
+    "periodo": "2009T2",
+    "tasa": 6.5
+   },
+   {
+    "periodo": "2009T3",
+    "tasa": 3.3
+   },
+   {
+    "periodo": "2009T4",
+    "tasa": 2.7
+   },
+   {
+    "periodo": "2010T1",
+    "tasa": 4.2
+   },
+   {
+    "periodo": "2010T2",
+    "tasa": 4.8
+   },
+   {
+    "periodo": "2010T3",
+    "tasa": 3.4
+   },
+   {
+    "periodo": "2010T4",
+    "tasa": 3.6
+   },
+   {
+    "periodo": "2011T1",
+    "tasa": 5.1
+   },
+   {
+    "periodo": "2011T2",
+    "tasa": 5.2
+   },
+   {
+    "periodo": "2011T3",
+    "tasa": 4.8
+   },
+   {
+    "periodo": "2011T4",
+    "tasa": 2.9
+   },
+   {
+    "periodo": "2012T1",
+    "tasa": 3.4
+   },
+   {
+    "periodo": "2012T2",
+    "tasa": 3.5
+   },
+   {
+    "periodo": "2012T3",
+    "tasa": 4.0
+   },
+   {
+    "periodo": "2012T4",
+    "tasa": 4.2
+   },
+   {
+    "periodo": "2013T1",
+    "tasa": 4.6
+   },
+   {
+    "periodo": "2013T2",
+    "tasa": 4.8
+   },
+   {
+    "periodo": "2013T3",
+    "tasa": 4.2
+   },
+   {
+    "periodo": "2013T4",
+    "tasa": 5.0
+   },
+   {
+    "periodo": "2014T1",
+    "tasa": 5.8
+   },
+   {
+    "periodo": "2014T2",
+    "tasa": 4.0
+   },
+   {
+    "periodo": "2014T3",
+    "tasa": 3.9
+   },
+   {
+    "periodo": "2014T4",
+    "tasa": 6.2
+   },
+   {
+    "periodo": "2015T1",
+    "tasa": 4.0
+   },
+   {
+    "periodo": "2015T2",
+    "tasa": 3.0
+   },
+   {
+    "periodo": "2015T3",
+    "tasa": 3.1
+   },
+   {
+    "periodo": "2016T2",
+    "tasa": 2.4
+   },
+   {
+    "periodo": "2016T3",
+    "tasa": 3.6
+   },
+   {
+    "periodo": "2016T4",
+    "tasa": 3.4
+   },
+   {
+    "periodo": "2017T1",
+    "tasa": 5.3
+   },
+   {
+    "periodo": "2017T2",
+    "tasa": 6.0
+   },
+   {
+    "periodo": "2017T3",
+    "tasa": 3.0
+   },
+   {
+    "periodo": "2017T4",
+    "tasa": 3.7
+   },
+   {
+    "periodo": "2018T1",
+    "tasa": 4.0
+   },
+   {
+    "periodo": "2018T2",
+    "tasa": 3.7
+   },
+   {
+    "periodo": "2018T3",
+    "tasa": 3.9
+   },
+   {
+    "periodo": "2018T4",
+    "tasa": 2.9
+   },
+   {
+    "periodo": "2019T1",
+    "tasa": 2.0
+   },
+   {
+    "periodo": "2019T2",
+    "tasa": 6.0
+   },
+   {
+    "periodo": "2019T3",
+    "tasa": 4.2
+   },
+   {
+    "periodo": "2019T4",
+    "tasa": 3.4
+   },
+   {
+    "periodo": "2020T1",
+    "tasa": 5.8
+   },
+   {
+    "periodo": "2020T2",
+    "tasa": 6.5
+   },
+   {
+    "periodo": "2020T3",
+    "tasa": 2.2
+   },
+   {
+    "periodo": "2020T4",
+    "tasa": 3.3
+   },
+   {
+    "periodo": "2021T1",
+    "tasa": 4.4
+   },
+   {
+    "periodo": "2021T2",
+    "tasa": 2.6
+   },
+   {
+    "periodo": "2021T3",
+    "tasa": 3.3
+   },
+   {
+    "periodo": "2021T4",
+    "tasa": 2.4
+   },
+   {
+    "periodo": "2022T1",
+    "tasa": 2.1
+   },
+   {
+    "periodo": "2022T2",
+    "tasa": 1.6
+   },
+   {
+    "periodo": "2022T3",
+    "tasa": 1.4
+   },
+   {
+    "periodo": "2022T4",
+    "tasa": 2.1
+   },
+   {
+    "periodo": "2023T1",
+    "tasa": 3.8
+   },
+   {
+    "periodo": "2023T2",
+    "tasa": 3.2
+   },
+   {
+    "periodo": "2023T3",
+    "tasa": 4.2
+   },
+   {
+    "periodo": "2023T4",
+    "tasa": 1.8
+   },
+   {
+    "periodo": "2024T1",
+    "tasa": 2.8
+   },
+   {
+    "periodo": "2024T2",
+    "tasa": 3.6
+   },
+   {
+    "periodo": "2024T3",
+    "tasa": 2.7
+   },
+   {
+    "periodo": "2024T4",
+    "tasa": 1.9
+   },
+   {
+    "periodo": "2025T1",
+    "tasa": 1.3
+   },
+   {
+    "periodo": "2025T2",
+    "tasa": 2.0
+   },
+   {
+    "periodo": "2025T3",
+    "tasa": 2.7
+   },
+   {
+    "periodo": "2025T4",
+    "tasa": 4.7
+   },
+   {
+    "periodo": "2026T1",
+    "tasa": 2.7
+   },
+   {
+    "periodo": "2026T2",
+    "tasa": 9.2
+   }
+  ],
+  "fuente": "INDEC, EPH; datos.gob.ar, serie 45.2_ECTDTCR_0_T_52",
+  "provisorio": true,
+  "cv": 35.5,
+  "ic90": [
+   3.8,
+   14.6
+  ],
+  "total_31_aglomerados": 7.9,
+  "patagonia": 6.3
+ }
+}
