@@ -35,8 +35,10 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
       Ajustar `.filtro-inline label` (hoy la etiqueta de "Ver población" queda en mayúsculas) y los
       conteos entre paréntesis de los checkboxes de estado (alinearlos a la derecha como en la leyenda).
 - [x] 2.5 (26/09: sigla + estado + yacimiento; siglas desde `siglas.json`, que genera el pipeline) Hover: tooltip liviano con sigla + estado al pasar por un pozo (deck.gl `getTooltip`).
-- [ ] 2.6 (PARCIAL 26/09: el mapa ya no se queda con el dedo durante el recorrido; al explorar, un dedo desplaza y dos
-      mueven el mapa. Falta probar en un teléfono real y que el panel no tape la tarjeta 8) Móvil (390 px): recorrido con tarjetas apiladas y mapa fijo arriba; panel de exploración
+- [ ] 2.6 (PARCIAL 27/09: el mapa no toma el dedo durante el recorrido; al explorar, un dedo desplaza y dos mueven
+      el mapa. En celular: el paso cambia cuando asoma su tarjeta (no la sección), el panel se abre con el botón
+      "Explorá los pozos" de la tarjeta 8 y se pliega a su encabezado; sin botones de zoom; alturas en `svh`.
+      Falta: probar en un teléfono real (con el link de Pages)) Móvil (390 px): recorrido con tarjetas apiladas y mapa fijo arriba; panel de exploración
       como hoja inferior; probar en un teléfono real.
 - [x] 2.7 Portada y paso 1 con los 85.609 pozos del país (capa `pais`), la cuenca coloreada.
 - [x] 2.8 (26/09: `pct()` en `data.js`; GSJ y Neuquina etiquetadas, las otras tres con una sola etiqueta en gris) Gráfico del paso 1: las etiquetas de Cuyana/Austral/Noroeste se pisan; apilarlas o dejar solo
@@ -91,7 +93,8 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
       revisar la redacción, enlace del Decreto 1509/2024, enlace al repo (1.6)) Página "Metodología y fuentes" (`#metodologia` en `index.html`): datasets con enlace y
       fecha de descarga; tabla `GRUPOS`; correcciones; límites del dato; declaración de IA; créditos;
       licencias. Enlaces oficiales de `docs/investigacion-contexto.md`.
-- [ ] 3.3 Enlaces a fuentes oficiales desde las tarjetas (ícono al lado de "Fuente").
+- [x] 3.3 (27/09: los nombres de la línea "Fuente" son enlaces, se abren en otra pestaña; datasets por su `clave` en
+      `resumen.datasets`, contexto en `CONTEXTO` de `story.js`. Sin ícono: decide Aldana) Enlaces a fuentes oficiales desde las tarjetas (ícono al lado de "Fuente").
 - [ ] 3.4 Rendimiento: probar en una compu lenta y en Firefox/Safari; si hace falta, bajar
       `radiusMaxPixels` y agrupar en hexágonos por debajo de zoom 8 (`HexagonLayer`).
 - [ ] 3.5 (PARCIAL 26/09: vuelos y fundido respetan "reducir movimiento"; ficha con foco, Escape y nombre; controles del

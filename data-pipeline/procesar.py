@@ -81,35 +81,36 @@ GRUPOS = {
 }
 # Conjuntos de datos usados, con enlace y fecha de descarga (la de cada archivo en raw/). La sección
 # "Metodología y fuentes" de la web los lista desde resumen.json: si se agrega o reemplaza un insumo, actualizar acá.
+# `clave` es la que usan las tarjetas del recorrido (story.js) para enlazar su fuente: no cambiarla.
 CAP_IV = "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
 DATOS_COMODORO = "https://datos.comodoro.gov.ar/"
 DATASETS = [
-    {"titulo": "Capítulo IV – Pozos", "organismo": "Secretaría de Energía", "url": CAP_IV, "descarga": "18/09/2026",
+    {"clave": "capitulo_iv", "titulo": "Capítulo IV – Pozos", "organismo": "Secretaría de Energía", "url": CAP_IV, "descarga": "18/09/2026",
      "licencia": "CC-BY 4.0", "uso": "ubicación, operadora, yacimiento, área y estado declarado de cada pozo"},
-    {"titulo": "Padrón de pozos de Capítulo IV con fecha de primera producción", "organismo": "Secretaría de Energía",
+    {"clave": "padron", "titulo": "Padrón de pozos de Capítulo IV con fecha de primera producción", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "20/09/2026", "licencia": "CC-BY 4.0",
      "uso": "mes de primera producción (la serie empieza en enero de 2006)"},
-    {"titulo": "Producción de pozos de gas y petróleo, mensual 2017–2026", "organismo": "Secretaría de Energía",
+    {"clave": "mensual", "titulo": "Producción de pozos de gas y petróleo, mensual 2017–2026", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "20/09/2026", "licencia": "CC-BY 4.0",
      "uso": "último mes con producción y primer mes declarado como abandonado"},
-    {"titulo": "Listado de pozos cargados por empresas operadoras (actualizado el 20/10/2025)", "organismo": "Secretaría de Energía",
+    {"clave": "listado_operadoras", "titulo": "Listado de pozos cargados por empresas operadoras (actualizado el 20/10/2025)", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "18/09/2026", "licencia": "CC-BY 4.0",
      "uso": "operadora anterior de cada pozo y fecha de abandono cuando figura"},
-    {"titulo": "Serie histórica de producción de petróleo por cuenca y subtipo de recurso", "organismo": "Secretaría de Energía",
+    {"clave": "serie_cuencas", "titulo": "Serie histórica de producción de petróleo por cuenca y subtipo de recurso", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "18/09/2026", "licencia": "CC-BY 4.0", "uso": "producción anual por cuenca"},
-    {"titulo": "Producción de hidrocarburos – Concesiones de explotación", "organismo": "Secretaría de Energía",
+    {"clave": "concesiones", "titulo": "Producción de hidrocarburos – Concesiones de explotación", "organismo": "Secretaría de Energía",
      "url": "http://datos.energia.gob.ar/dataset/produccion-hidrocarburos-concesiones-de-explotacion",
      "descarga": "20/09/2026", "licencia": "CC-BY 4.0", "uso": "áreas con concesión de explotación vigente"},
-    {"titulo": "Límites administrativos 2025", "organismo": "Municipalidad de Comodoro Rivadavia", "url": DATOS_COMODORO,
+    {"clave": "limites", "titulo": "Límites administrativos 2025", "organismo": "Municipalidad de Comodoro Rivadavia", "url": DATOS_COMODORO,
      "descarga": "18/09/2026", "licencia": None, "uso": "ejido de Comodoro Rivadavia, Rada Tilly y departamento Escalante"},
-    {"titulo": "Radios censales y población por radio, Censo 2022 (INDEC)", "organismo": "Municipalidad de Comodoro Rivadavia",
+    {"clave": "radios_censo", "titulo": "Radios censales y población por radio, Censo 2022 (INDEC)", "organismo": "Municipalidad de Comodoro Rivadavia",
      "url": DATOS_COMODORO, "descarga": "18/09/2026", "licencia": None, "uso": "población de cada radio censal"},
-    {"titulo": "Límites de barrios 2026", "organismo": "Municipalidad de Comodoro Rivadavia", "url": DATOS_COMODORO,
+    {"clave": "barrios", "titulo": "Límites de barrios 2026", "organismo": "Municipalidad de Comodoro Rivadavia", "url": DATOS_COMODORO,
      "descarga": "20/09/2026", "licencia": None, "uso": "barrio de cada pozo"},
-    {"titulo": "EPH continua: tasa de desempleo, Comodoro Rivadavia (serie 45.2_ECTDTCR_0_T_52)", "organismo": "INDEC, vía datos.gob.ar",
+    {"clave": "eph_serie", "titulo": "EPH continua: tasa de desempleo, Comodoro Rivadavia (serie 45.2_ECTDTCR_0_T_52)", "organismo": "INDEC, vía datos.gob.ar",
      "url": "https://apis.datos.gob.ar/series/api/series/?ids=45.2_ECTDTCR_0_T_52", "descarga": "26/09/2026", "licencia": None,
      "uso": "desocupación del aglomerado Comodoro Rivadavia–Rada Tilly (portada)"},
-    {"titulo": "Mercado de trabajo. Tasas e indicadores socioeconómicos (EPH), 2.º trimestre de 2026", "organismo": "INDEC",
+    {"clave": "eph_indec", "titulo": "Mercado de trabajo. Tasas e indicadores socioeconómicos (EPH), 2.º trimestre de 2026", "organismo": "INDEC",
      "url": "https://www.indec.gob.ar/uploads/informesdeprensa/mercado_trabajo_eph_2trim26433FCBC5A8.pdf", "descarga": "26/09/2026",
      "licencia": None, "uso": "coeficiente de variación de esa estimación"},
 ]

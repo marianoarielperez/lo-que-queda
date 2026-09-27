@@ -6,3 +6,5 @@ data-pipeline/_tmp_*/
 # son la garantía de reproducibilidad. El Capítulo IV completo (200 MB) no; ver data-pipeline/README.md.
 # Respaldos comprimidos del proyecto (no van al repo; GitHub rechaza archivos de más de 100 MB)
 *.rar
+# Configuración local de Claude Code (no va al repo)
+.claude/

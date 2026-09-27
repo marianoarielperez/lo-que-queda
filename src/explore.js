@@ -207,8 +207,20 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') cerrarFicha(); });
 
   // ---- mostrar/ocultar panel ----
-  function mostrarPanel() {
+  // En celular el panel se pliega a su encabezado para ver el mapa entero (en escritorio el botón no se ve).
+  const plegar = $('btn-plegar');
+  function plegarPanel(plegado) {
+    panel.classList.toggle('plegado', plegado);
+    plegar.setAttribute('aria-expanded', String(!plegado));
+    plegar.textContent = plegado ? 'Mostrar filtros' : 'Ocultar filtros';
+  }
+  plegar.addEventListener('click', () => plegarPanel(!panel.classList.contains('plegado')));
+
+  /** foco: true cuando lo abre un botón (el foco pasa al panel, para seguir con el teclado). */
+  function mostrarPanel({ foco = false } = {}) {
     panel.classList.remove('hidden');
+    plegarPanel(false);
+    if (foco) $('explore-titulo').focus();
     document.body.classList.remove('sin-leyenda'); // al explorar, la leyenda siempre está
     mapa.habilitarExploracion(true);
     sincronizar(mapa.estado);

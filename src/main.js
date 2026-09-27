@@ -2,7 +2,7 @@
 
 import { cargarPozos, cargarPais, cargarResumen, cargarRadios, cargarLimites, cargarProduccion, cargarConcesiones, cargarBarrios, reducirMovimiento } from './data.js';
 import { crearMapa } from './map.js';
-import { definirPasos, montarRecorrido, textoPortada } from './story.js';
+import { definirPasos, montarRecorrido, textoPortada, htmlFuente } from './story.js';
 import { montarExploracion } from './explore.js';
 import { montarMetodologia } from './metodologia.js';
 
@@ -15,7 +15,7 @@ async function iniciar() {
   const resumen = await cargarResumen();
   const portada = textoPortada(resumen);
   document.getElementById('portada-texto').textContent = portada.texto;
-  document.getElementById('portada-fuente').textContent = portada.fuente;
+  document.getElementById('portada-fuente').innerHTML = htmlFuente(portada.fuente, '');
   montarMetodologia(resumen);
   // Botón de la portada: lleva al primer paso (con teclado también). Sin animación si el sistema lo pide.
   document.getElementById('btn-empezar').addEventListener('click', () => {
@@ -32,7 +32,11 @@ async function iniciar() {
   exploracion = montarExploracion({ mapa, pozos, resumen });
 
   const pasos = definirPasos(resumen);
-  montarRecorrido({ pasos, mapa, produccion, alTerminar: () => exploracion.mostrarPanel() });
+  montarRecorrido({
+    pasos, mapa, produccion,
+    alTerminar: () => exploracion.mostrarPanel(),
+    alExplorar: () => exploracion.mostrarPanel({ foco: true }), // botón de la tarjeta final
+  });
 
   document.body.classList.add('listo');
 }

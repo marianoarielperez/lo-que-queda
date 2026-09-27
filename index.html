@@ -33,9 +33,12 @@
   <!-- Panel de exploración: aparece al terminar el recorrido -->
   <aside id="explore" class="hidden" aria-label="Filtros y leyenda">
     <div class="explore-head">
-      <h2>Explorá los <span id="n-total"></span> pozos</h2>
+      <h2 id="explore-titulo" tabindex="-1">Explorá los <span id="n-total"></span> pozos</h2>
       <p class="muted" aria-live="polite">Mostrando <strong id="n-visible"></strong></p>
+      <!-- Solo en celular: el panel es una hoja inferior que se pliega para ver el mapa entero -->
+      <button type="button" id="btn-plegar" class="plegar" aria-expanded="true" aria-controls="explore-cuerpo">Ocultar filtros</button>
     </div>
+    <div id="explore-cuerpo">
     <fieldset id="f-estado" class="filtro">
       <legend>Estado declarado</legend>
       <!-- se llena desde explore.js con leyenda + conteos -->
@@ -81,6 +84,7 @@
     </div>
     <button id="btn-recorrido" type="button" class="link-btn">Volver al recorrido <span aria-hidden="true">↑</span></button>
     <p class="fuente">Fuentes: Secretaría de Energía (Capítulo IV – Pozos, CC-BY 4.0); Municipalidad de Comodoro Rivadavia (límites y radios censales 2022). <a href="#metodologia">Metodología</a></p>
+    </div>
   </aside>
 
   <!-- Ficha de pozo al hacer clic -->
