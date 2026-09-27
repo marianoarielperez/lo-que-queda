@@ -82,6 +82,11 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
       (`fab`) cuando existe; "2017-01" se muestra como "ya figuraba así al inicio de la serie". Correr
       `npm run data` para regenerar.
 
+- [x] 2.17 (27/09) Cierre, visualizador y Metodología: la tarjeta 8 cierra el recorrido con "Explorá el mapa" y
+      "Metodología"; el visualizador vive en `…/#explorar` (mapa libre, panel, "← Volver al inicio") y la Metodología
+      en una ventana (`…/#metodologia`). Spec: `docs/specs/2026-09-27-cierre-y-visualizador-design.md`; plan:
+      `docs/plans/2026-09-27-cierre-y-visualizador.md`; prueba: `scripts/prueba_navegacion.mjs`.
+
 ## Semana 3 · 3–9 oct · Pulido
 
 - [ ] 3.1 Paso 3 (operadoras): colorear por operadora (5 destacadas + "otras", validar paleta con

@@ -42,6 +42,8 @@ npm run dev                 # http://localhost:5173
 npm run build               # dist/
 npm run preview             # sirve dist/ en :4173
 npm run data                # regenera public/data/* desde data-pipeline/raw/ (necesita geopandas)
+node scripts/prueba_navegacion.mjs   # prueba de la navegación contra `npx vite preview --port 4173`
+                                     # (PUPPETEER_CORE_DIR = carpeta con node_modules/puppeteer-core; ver el script)
 ```
 
 Python del pipeline: `pip install pandas numpy geopandas shapely pyogrio`.
@@ -58,8 +60,10 @@ src/data.js                 carga de binario/JSON, fmt()
 src/map.js                  MapLibre + deck.gl (deck se importa a demanda); filtros en GPU (DataFilterExtension);
                             API: aplicar(), volar(), alCambiar(), cargarCapas(), agregarPais()
                             Mapa base: OpenFreeMap con rótulos `name:es` ("Islas Malvinas") y sin la capa `park`; IGN opcional
-src/story.js                pasos del recorrido (textos + vista + capas) y scrollama
-src/explore.js              panel de filtros, leyenda con conteos, buscador, ficha
+src/navegacion.js           estados de la página: recorrido (…/), visualizador (…/#explorar), ventana de
+                            Metodología (…/#metodologia); la dirección y el historial mandan
+src/story.js                pasos del recorrido (textos + vista + capas) y scrollama; pausar()/reanudar()
+src/explore.js              panel del visualizador (entrar()/salir() con estado guardado), leyenda, buscador, ficha
 src/chart.js                gráfico D3 de producción por cuenca (paso 2)
 src/paleta.js               colores validados
 src/styles.css              estilos; media query móvil al final
@@ -119,6 +123,10 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   pendientes para los autores). "Activo" ≠ "producen": usar `extraccion_efectiva` de `resumen.json` para decir que
   un pozo produce. El mapa no toma gestos durante el recorrido; al explorar usa gestos cooperativos (Ctrl + rueda,
   dos dedos). El panel se resincroniza con `mapa.alCambiar()`: los controles no guardan estado propio.
+
+- 27/09: la tarjeta 8 cierra el recorrido; el visualizador se abre solo con "Explorá el mapa" (o "Ir directo al
+  mapa" en la portada, o el link `#explorar`) y la Metodología es una ventana (`#metodologia`). En el recorrido el
+  clic en un pozo no abre la ficha (solo el tooltip); la ficha es del visualizador.
 
 ## Qué NO hacer
 

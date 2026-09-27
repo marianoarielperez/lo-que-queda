@@ -1,6 +1,7 @@
 # Cierre del recorrido, visualizador y Metodología — documento de diseño
 
-Fecha: 27 de septiembre de 2026. Estado: aprobado por Mariano en la conversación del 27/09 (tres rondas de preguntas).
+Fecha: 27 de septiembre de 2026. Estado: aprobado por Mariano en la conversación del 27/09 (tres rondas de preguntas);
+implementado el 27/09 (plan `docs/plans/2026-09-27-cierre-y-visualizador.md`, prueba `scripts/prueba_navegacion.mjs`).
 Reemplaza el comportamiento del paso 8 descrito en el spec del 18/09 (§1: "al final se libera el panel de exploración").
 
 ## 1. Problema
