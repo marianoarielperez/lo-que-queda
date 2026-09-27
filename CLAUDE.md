@@ -6,7 +6,7 @@ interactiva**. Cierre de inscripción: **15 de octubre de 2026**. Se entrega el 
 
 Tesis: *lo que queda cuando el petróleo se va*. La Cuenca del Golfo San Jorge, la más vieja del país,
 pierde producción; YPF se retiró; quedan 28.499 pozos sin producir, 6.205 de ellos dentro del ejido
-de Comodoro Rivadavia, donde 84.796 personas viven en radios censales con al menos un pozo.
+de Comodoro Rivadavia, donde 84.519 personas (el 42 % de la ciudad) viven en radios censales con al menos un pozo.
 
 Documento de diseño completo: `docs/specs/2026-09-18-lo-que-queda-design.md`. Plan por semanas:
 `docs/plans/`. Reparto de tareas: `docs/para-aldana.md`, `docs/para-mariano.md`. Leer el spec y el
@@ -133,6 +133,11 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
 - 27/09: en el visualizador, imagen satelital de Esri (atribución "Imagen satelital © Esri — Esri, Vantor, Earthstar
   Geographics y la comunidad de usuarios GIS"; el recorrido siempre en mapa papel) y botón de ubicación. La ubicación
   no se guarda, no se envía y no se usa para calcular nada (ni distancias ni "pozos cerca").
+
+- 27/09: textos de las tarjetas 2, 3 y 5 revisados con los autores. "Producen" = extracción efectiva en los pasos 3, 5
+  y 6 ("activos" es otra cosa). Paso 2: la Neuquina "gracias a Vaca Muerta" (fuentes en `docs/investigacion-contexto.md`),
+  `produccion.neuquina_pct_ref` y `produccion.gsj_cae_desde`. Paso 5: población solo de Comodoro
+  (`poblacion.comodoro`, 304 radios, 201.230 hab.); Rada Tilly queda afuera del porcentaje.
 
 ## Qué NO hacer
 

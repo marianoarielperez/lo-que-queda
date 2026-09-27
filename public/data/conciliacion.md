@@ -14,6 +14,9 @@ Generado: 2026-09-27
 | Km 3 dentro del ejido | 2.229 (abandonados 1.812, activos 77) |
 | En extracción efectiva (parte de "Activo"): cuenca / ejido / Km 3 en ejido / ya en 2006 | 12.353 / 574 / 56 / 7.459 |
 | Población en radios con pozo | 84.796 de 214.724 (39.5 %) |
+| Población de Comodoro (sin Rada Tilly) en radios con pozo | 84.519 de 201.230 (42.0 %) |
+| Producción 2025: GSJ / Neuquina / shale (% del total) | 22.8 / 73.7 / 62.5 |
+| GSJ: 2025 sobre 2006; cae todos los años desde | 65 %; 2019 |
 | Pozos en radios censales | 5.696 |
 | Coordenadas corregidas | 0 |
 | Fechas de relleno descartadas | 375 |

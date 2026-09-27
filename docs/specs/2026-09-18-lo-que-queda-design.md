@@ -26,11 +26,11 @@ Opción A: relato primero, mapa después. Una página; el mapa ocupa la pantalla
 | Paso | Escala | Qué se ve | Cifra ancla (de `resumen.json`) |
 |---|---|---|---|
 | 0 | Portada | Mapa papel; título | — |
-| 1 | País | Gráfico de producción por cuenca 2006–último año completo | GSJ: 44 % → 23 % del petróleo nacional; produce el 65 % de 2006; shale 62 % |
-| 2 | Cuenca | Puntos por estado | 44.390 pozos; 15.880 activos, 15.894 inactivos, 1.444 a abandonar, 11.161 abandonados; de los 36.507 que ya figuraban en 2006 producen 9.909; 11.243 no abandonados sin un mes de producción desde 2017 |
+| 1 | País | Gráfico de producción por cuenca 2006–último año completo | GSJ: 44 % → 23 % del petróleo nacional; produce el 65 % de 2006 y cae todos los años desde 2019; Neuquina 218 % de 2006 y 73,7 % del total (Vaca Muerta) |
+| 2 | Cuenca | Puntos por estado | 44.390 pozos; 15.880 activos, 15.894 inactivos, 1.444 a abandonar, 11.161 abandonados; de los 36.507 que ya figuraban en 2006 producen 7.459 (extracción efectiva); 11.243 no abandonados sin un mes de producción desde 2017 |
 | 3 | Operadoras | Puntos por operadora, antes/después | 21.509 pozos de YPF → 0; 251 sin empresa (179 abandonados) |
-| 4 | Ejido | Límite del ejido + radios urbanos + población | 6.205 pozos; 817 activos; 84.796 personas (39,5 %) en radios con pozo |
-| 5 | Km 3 | Zoom a Campamento Central – Bella Vista Este | 2.229 pozos en el ejido; 1.812 abandonados; 77 activos |
+| 4 | Ejido | Límite del ejido + radios urbanos + población | 6.205 pozos; 817 activos, 574 producen; 84.519 personas (42,0 % de Comodoro) en radios con pozo |
+| 5 | Km 3 | Zoom a Campamento Central – Bella Vista Este | 2.229 pozos en el ejido; 1.812 abandonados; 77 activos, 56 producen |
 | 6 | Un radio | Radio urbano 260211203 (Km 3) | 408 pozos, 936 habitantes, 303 abandonados, 3 activos; surgencia CH-679 (27/8/2024) |
 | 7 | Cierre | Mapa liberado | 28.499 pozos sin producir; 13.175 inactivos hace más de 5 años; 169 declaraciones de abandono por año (2018–2025); provisión YPF US$ 915 M |
 

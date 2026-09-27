@@ -15,6 +15,8 @@ const CONTEXTO = {
   decreto1509: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=87339',
   res596: 'https://servicios.infoleg.gob.ar/infolegInternet/anexos/30000-34999/31996/norma.htm',
   municipioCH679: 'https://www.comodoro.gov.ar/2024/08/27/el-municipio-intervino-ante-un-nuevo-derrame-de-petroleo-en-un-yacimiento-ypf/',
+  vacaMuerta: 'https://www.argentina.gob.ar/economia/energia/vaca-muerta/historia',
+  vacaMuerta2019: 'https://www.argentina.gob.ar/noticias/por-el-crecimiento-de-vaca-muerta-la-produccion-de-petroleo-y-gas-fue-record-en-mayo',
 };
 /** Enlace a un dataset por su clave en resumen.datasets (procesar.py → DATASETS). */
 const dataset = (R, clave, t) => ({ t, url: R.datasets?.find((d) => d.clave === clave)?.url });
@@ -85,18 +87,19 @@ export function definirPasos(R) {
       capas: { soloId: 121014, estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
+      // Texto de los autores del 27/09. "Desde <año>" solo si la caída es de todos los años hasta el último completo.
       id: 2, kicker: 'Paso 2 · País', cifra: `${pct(pr.gsj_pct_ref)} %`,
       titulo: 'del petróleo argentino sale hoy del Golfo San Jorge',
-      texto: `En ${pr.anio_base} era el ${pct(pr.gsj_pct_base)} %. Mientras la Cuenca Neuquina más que se duplicó y el shale ya es el ${pct(pr.shale_pct_ref)} % del total, la cuenca más vieja del país produce el ${pr.gsj_ref_sobre_base_pct} % de lo que producía entonces.`,
-      fuente: [dataset(R, 'serie_cuencas', 'Secretaría de Energía, serie histórica de producción por cuenca')],
+      texto: `Pero en ${pr.anio_base} era el ${pct(pr.gsj_pct_base)} %. Desde entonces la Cuenca Neuquina, gracias a Vaca Muerta, ${pr.neuquina_ref_sobre_base_pct >= 200 ? 'más que duplicó' : 'aumentó'} su producción y hoy aporta el ${pct(pr.neuquina_pct_ref)} % del total nacional. La cuenca más vieja del país, en cambio, ${pr.gsj_cae_desde ? `produce menos cada año desde ${pr.gsj_cae_desde}: hoy, el` : 'produce hoy el'} ${pr.gsj_ref_sobre_base_pct} % de lo que producía en ${pr.anio_base}.`,
+      fuente: [dataset(R, 'serie_cuencas', 'Secretaría de Energía, serie histórica de producción por cuenca'), { t: 'Historia de Vaca Muerta (Secretaría de Energía)', url: CONTEXTO.vacaMuerta }, { t: 'Argentina.gob.ar, 2/7/2019', url: CONTEXTO.vacaMuerta2019 }],
       vista: { center: [-66.5, -41.5], zoom: 4.3 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: true, concesiones: false, barrios: false },
       grafico: true,
     },
     {
       id: 3, kicker: 'Paso 3 · Cuenca', cifra: fmt(c.total),
-      titulo: 'pozos en la cuenca con más pozos del país',
-      texto: `Dos de cada tres no producen: ${fmt(c.Inactivo)} inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo que cada operadora declara ante la Secretaría de Energía. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, producen ${fmt(R.antiguedad.ya_en_2006_por_grupo.Activo)}.${t ? ` Y ${fmt(t.nunca_en_serie_no_abandonados)} pozos que no están declarados abandonados no registran ni un mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
+      titulo: 'pozos registrados. Es la cuenca con más pozos del país',
+      texto: `Dos de cada tres no producen: ${fmt(c.Inactivo)} inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo que cada operadora declara ante la Secretaría de Energía. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Y ${fmt(t.nunca_en_serie_no_abandonados)} pozos que no están declarados abandonados no registran ni un mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía, Capítulo IV – Pozos')],
       vista: { center: [-68.3, -46.2], zoom: 7 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
@@ -113,7 +116,8 @@ export function definirPasos(R) {
     {
       id: 5, kicker: 'Paso 5 · Ejido', cifra: fmt(e.total),
       titulo: 'pozos dentro del ejido de Comodoro Rivadavia',
-      texto: `${fmt(e.Activo)} producen. ${fmt(e.Abandonado)} están abandonados. ${fmt(p.pobl_en_radios_con_pozo)} personas, el ${pct(p.pobl_en_radios_con_pozo_pct)} % de Comodoro y Rada Tilly, viven en un radio censal con al menos un pozo.${t ? ` ${fmt(t.ejido_nunca_en_serie)} de los pozos del ejido no produjeron ni un mes desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
+      // "Producen" = extracción efectiva; "activos" incluye inyección y reparación. Población: solo los radios de Comodoro.
+      texto: `De los ${fmt(e.Activo)} pozos activos, solo ${fmt(e.extraccion_efectiva)} producen. Otros ${fmt(e.Abandonado)} están abandonados. ${fmt(p.comodoro.pobl_en_radios_con_pozo)} personas, el ${pct(p.comodoro.pobl_en_radios_con_pozo_pct)} % de Comodoro, viven en un radio censal con al menos un pozo.${t ? ` ${fmt(t.ejido_nunca_en_serie)} de los pozos del ejido no produjeron ni un mes desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), dataset(R, 'radios_censo', 'Municipalidad de Comodoro Rivadavia, Censo 2022')],
       vista: { center: [-67.55, -45.85], zoom: 10.3 },
       // Toda la cuenca, con los pozos fuera del ejido atenuados: la ciudad es el foco (plan 2.3).
@@ -122,7 +126,7 @@ export function definirPasos(R) {
     {
       id: 6, kicker: 'Paso 6 · Km 3', cifra: fmt(k.total),
       titulo: 'pozos en un yacimiento que es un barrio',
-      texto: `En Campamento Central – Bella Vista Este, el yacimiento del Pozo N° 2, hoy hay ${fmt(k.Abandonado)} pozos abandonados y ${fmt(k.Activo)} en producción. La Resolución SE 5/96 exige abandono definitivo en ejidos urbanos; muchos de estos pozos son anteriores a esa norma.${topBarrios.length ? ` Los barrios con más pozos: ${topBarrios.map((b) => `${b.barrio} (${fmt(b.pozos)})`).join(', ')}.${barrioSinActivos ? ` En ${barrioSinActivos.barrio} hay ${fmt(barrioSinActivos.pozos)} pozos y ninguno produce.` : ''}` : ''}`,
+      texto: `En Campamento Central – Bella Vista Este, el yacimiento del Pozo N° 2, hoy hay ${fmt(k.Abandonado)} pozos abandonados y ${fmt(k.Activo)} activos, de los que ${fmt(k.extraccion_efectiva)} producen. La Resolución SE 5/96 exige abandono definitivo en ejidos urbanos; muchos de estos pozos son anteriores a esa norma.${topBarrios.length ? ` Los barrios con más pozos: ${topBarrios.map((b) => `${b.barrio} (${fmt(b.pozos)})`).join(', ')}.${barrioSinActivos ? ` En ${barrioSinActivos.barrio} hay ${fmt(barrioSinActivos.pozos)} pozos y ninguno produce.` : ''}` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Resolución SE 5/96 (InfoLeg)', url: CONTEXTO.res596 }],
       vista: { center: [-67.49, -45.82], zoom: 13 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: true, poblacion: false, limites: true, pais: false, concesiones: false, barrios: true },
@@ -155,6 +159,9 @@ export function htmlFuente(partes, sep = '; ') {
       : esc(p.t))).join(sep);
 }
 
+/** "73,7 %" no se parte en dos renglones (el "%" solo al principio de una línea, en el celular). */
+const sinCorte = (t) => t.replace(/ %/g, ' %');
+
 /** Inserta las tarjetas en #story y conecta scrollama con el mapa. Devuelve { pausar, reanudar }. */
 export function montarRecorrido({ pasos, mapa, produccion }) {
   const cont = document.getElementById('story');
@@ -167,8 +174,8 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
         ${s.foto ? `<figure class="foto-paso"><picture><source srcset="${s.foto.src.replace(/\.jpg$/, '.webp')}" type="image/webp"><img src="${s.foto.src}" width="1000" height="562" alt="${s.foto.alt}" loading="lazy"></picture><figcaption>${s.foto.credito}</figcaption></figure>` : ''}
         <p class="kicker">${s.kicker}</p>
         <p class="cifra">${s.cifra}</p>
-        <h2 class="titulo-paso">${s.titulo}</h2>
-        <p class="texto">${s.texto}</p>
+        <h2 class="titulo-paso">${sinCorte(s.titulo)}</h2>
+        <p class="texto">${sinCorte(s.texto)}</p>
         ${s.grafico ? '<div class="grafico" id="grafico-cuencas"></div>' : ''}
         ${s.final ? `<div class="acciones-cierre">
           <button type="button" class="empezar" data-ir="explorar">Explorá el mapa</button>

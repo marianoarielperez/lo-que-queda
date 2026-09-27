@@ -535,6 +535,11 @@ def main(check=False):
     pob_con_pozo = int(pob[pob.LINK.isin(radios_con_pozo)].pobl.sum())
     pob_con_abandonado = int(pob[pob.LINK.isin(por_radio[por_radio.abandonados >= 1].index)].pobl.sum())
     pob_10 = int(pob[pob.LINK.isin(por_radio[por_radio.pozos >= 10].index)].pobl.sum())
+    # Solo Comodoro (tarjeta 5): radios cuyo punto interior cae en el ejido; el resto es Rada Tilly
+    en_cr = pob.geometry.representative_point().within(lim.loc[lim.Name == "Comodoro Rivadavia", "geometry"].iat[0])
+    pob_cr = pob[en_cr]
+    pob_cr_total = int(pob_cr.pobl.sum())
+    pob_cr_con_pozo = int(pob_cr[pob_cr.LINK.isin(radios_con_pozo)].pobl.sum())
     km3 = g[g.yacimiento == "CAMPAMENTO CENTRAL - BELLA VISTA ESTE"]
 
     def conteo(df):
@@ -547,6 +552,13 @@ def main(check=False):
     pais_cuenca = {c: conteo(p[p.cuenca == c]) for c in ["GOLFO SAN JORGE", "NEUQUINA", "CUYANA", "AUSTRAL", "NOROESTE"]}
     ypf_antes = int((g.operador_anterior == "YPF").sum())
     a1, a2 = anual.loc[2006], anual.loc[ultimo_anio_completo]
+    # Desde qué año la producción del GSJ cae todos los años sin interrupción (hasta el último año completo)
+    gsj_cae_desde = None
+    for a in range(ultimo_anio_completo, int(anual.index.min()), -1):
+        if anual.cuenca_gsj.loc[a] < anual.cuenca_gsj.loc[a - 1]:
+            gsj_cae_desde = a
+        else:
+            break
     resumen = {
         "generado": date.today().isoformat(),
         "fuentes": {
@@ -569,7 +581,9 @@ def main(check=False):
             "gsj_pct_base": float(a1.gsj_pct), "gsj_pct_ref": float(a2.gsj_pct),
             "gsj_ref_sobre_base_pct": round(float(a2.cuenca_gsj / a1.cuenca_gsj * 100)),
             "neuquina_ref_sobre_base_pct": round(float(a2.cuenca_neuquina / a1.cuenca_neuquina * 100)),
+            "neuquina_pct_ref": round(float(a2.cuenca_neuquina / a2.total * 100), 1),
             "shale_pct_ref": float(a2.shale_pct),
+            "gsj_cae_desde": gsj_cae_desde,
         },
         "ejido": conteo(ej) | {
             "activos_pct": round(float((ej.grupo == "Activo").mean() * 100), 1),
@@ -588,6 +602,11 @@ def main(check=False):
             "pobl_en_radios_con_pozo_pct": round(pob_con_pozo / pob_total * 100, 1),
             "pobl_en_radios_con_abandonado": pob_con_abandonado,
             "pobl_en_radios_con_10_o_mas": pob_10,
+            "comodoro": {
+                "radios": int(en_cr.sum()), "total": pob_cr_total,
+                "pobl_en_radios_con_pozo": pob_cr_con_pozo,
+                "pobl_en_radios_con_pozo_pct": round(pob_cr_con_pozo / pob_cr_total * 100, 1),
+            },
             "pozos_en_radios": conteo(urb),
             "radio_mas_pozos": por_radio.sort_values("pozos", ascending=False).head(3).reset_index().to_dict(orient="records"),
             "radio_urbano_mas_pozos": por_radio[por_radio.TIPO == "U"].sort_values("pozos", ascending=False).head(3).reset_index().to_dict(orient="records"),
@@ -679,6 +698,9 @@ def main(check=False):
              f"| Km 3 dentro del ejido | {fmt(resumen['km3']['en_ejido']['total'])} (abandonados {fmt(resumen['km3']['en_ejido']['Abandonado'])}, activos {fmt(resumen['km3']['en_ejido']['Activo'])}) |",
              f"| En extracción efectiva (parte de \"Activo\"): cuenca / ejido / Km 3 en ejido / ya en 2006 | {fmt(resumen['cuenca']['extraccion_efectiva'])} / {fmt(resumen['ejido']['extraccion_efectiva'])} / {fmt(resumen['km3']['en_ejido']['extraccion_efectiva'])} / {fmt(resumen['antiguedad']['ya_en_2006_extraccion_efectiva'])} |",
              f"| Población en radios con pozo | {fmt(pob_con_pozo)} de {fmt(pob_total)} ({resumen['poblacion']['pobl_en_radios_con_pozo_pct']} %) |",
+             f"| Población de Comodoro (sin Rada Tilly) en radios con pozo | {fmt(pob_cr_con_pozo)} de {fmt(pob_cr_total)} ({resumen['poblacion']['comodoro']['pobl_en_radios_con_pozo_pct']} %) |",
+             f"| Producción {ultimo_anio_completo}: GSJ / Neuquina / shale (% del total) | {resumen['produccion']['gsj_pct_ref']} / {resumen['produccion']['neuquina_pct_ref']} / {resumen['produccion']['shale_pct_ref']} |",
+             f"| GSJ: {ultimo_anio_completo} sobre 2006; cae todos los años desde | {resumen['produccion']['gsj_ref_sobre_base_pct']} %; {gsj_cae_desde} |",
              f"| Pozos en radios censales | {fmt(resumen['poblacion']['pozos_en_radios']['total'])} |",
              f"| Coordenadas corregidas | {resumen['calidad']['coordenadas_corregidas']} |",
              f"| Fechas de relleno descartadas | {resumen['calidad']['fechas_relleno_descartadas']} |",

@@ -72,9 +72,24 @@ que defina "En estudio", "En reserva…", "Parado transitoriamente" (solo las 3 
   Minas; Hermitte). Decreto de reserva de 100.000 ha el 14/12/1907. 1922: creación de YPF (Mosconi).
 - Censo 2022: Comodoro Rivadavia 201.854 habitantes; departamento Escalante 215.453
   (https://www.comodoro.gov.ar/miciudad/2025/10/13/censo-nacional-de-poblacion-hogares-y-viviendas-2022/).
-  Nota: nuestros radios suman 214.724 (Comodoro + Rada Tilly); usar esa cifra solo como base del
-  porcentaje de población en radios con pozo, y citar 201.854 como población de la ciudad.
+  Nota: nuestros radios suman 214.724 (Comodoro + Rada Tilly); los 304 radios del ejido de Comodoro suman
+  201.230. Desde el 27/09 la tarjeta 5 calcula el porcentaje solo sobre Comodoro (`resumen.poblacion.comodoro`:
+  84.519 de 201.230, 42,0 %). El porcentaje va siempre sobre los radios; si se cita la población de la ciudad,
+  es 201.854 con esta fuente.
 - Regalías hidrocarburíferas = 16 % de los ingresos totales de Chubut en 2025 (OPC).
+
+## Vaca Muerta y la Cuenca Neuquina (tarjeta 2, 27/09/2026)
+
+- Vaca Muerta "es una formación sedimentaria depositada en un mar de edad jurásica, en la Cuenca Neuquina".
+  Secretaría de Energía (Ministerio de Economía), Historia de Vaca Muerta:
+  https://www.argentina.gob.ar/economia/energia/vaca-muerta/historia
+- Nota oficial del 2/7/2019 sobre la producción récord de mayo de 2019: "las subas se explican por el
+  crecimiento de la producción del no convencional de Vaca Muerta".
+  https://www.argentina.gob.ar/noticias/por-el-crecimiento-de-vaca-muerta-la-produccion-de-petroleo-y-gas-fue-record-en-mayo
+- Con eso y la serie de la Secretaría de Energía (shale: 0 % del petróleo del país en 2006, 62,5 % en 2025;
+  Neuquina: 218 % de su producción de 2006, 73,7 % del total en 2025) se sostiene "la Cuenca Neuquina, gracias
+  a Vaca Muerta, más que duplicó su producción". La serie no separa el shale por cuenca: no dar una cifra de
+  "producción de Vaca Muerta".
 
 ## Sin confirmación oficial (no usar)
 

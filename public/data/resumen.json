@@ -106,7 +106,9 @@
   "gsj_pct_ref": 22.8,
   "gsj_ref_sobre_base_pct": 65,
   "neuquina_ref_sobre_base_pct": 218,
-  "shale_pct_ref": 62.5
+  "neuquina_pct_ref": 73.7,
+  "shale_pct_ref": 62.5,
+  "gsj_cae_desde": 2019
  },
  "ejido": {
   "Activo": 817,
@@ -348,6 +350,12 @@
   "pobl_en_radios_con_pozo_pct": 39.5,
   "pobl_en_radios_con_abandonado": 82861,
   "pobl_en_radios_con_10_o_mas": 39130,
+  "comodoro": {
+   "radios": 304,
+   "total": 201230,
+   "pobl_en_radios_con_pozo": 84519,
+   "pobl_en_radios_con_pozo_pct": 42.0
+  },
   "pozos_en_radios": {
    "Activo": 744,
    "Inactivo": 1557,
