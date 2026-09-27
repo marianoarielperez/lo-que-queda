@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lo que queda — pozos del Golfo San Jorge</title>
   <meta name="description" content="Lo que queda cuando el petróleo se va: %POZOS_CUENCA% pozos de la Cuenca del Golfo San Jorge, y una ciudad que creció encima. Datos abiertos de la Secretaría de Energía y del Censo 2022.">
+  <!-- Mapa base (OpenFreeMap): la conexión se abre ya, así el estilo y las teselas llegan antes -->
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Tipografías propias (public/fonts): se piden ya, en paralelo con la hoja de estilos -->
   <link rel="preload" href="./fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -13,7 +15,8 @@
 <body class="sin-leyenda">
   <!-- Recorrido guiado: una tarjeta por paso. Los textos viven en src/story.js -->
   <main id="story" aria-label="Recorrido guiado">
-    <section class="step" data-step="0"><div class="card card-portada">
+    <!-- La portada nace activa (tarjeta sin atenuar): el recorrido se conecta recién cuando llega el mapa -->
+    <section class="step activa" data-step="0"><div class="card card-portada">
       <figure class="foto-portada">
         <!-- WebP con JPEG de respaldo (scripts/optimizar_fotos.py). Es lo más grande de la portada: se pide primero. -->
         <picture>
