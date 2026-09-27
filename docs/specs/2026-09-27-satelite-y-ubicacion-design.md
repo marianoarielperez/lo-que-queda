@@ -1,6 +1,7 @@
 # Imagen satelital y ubicación en el visualizador — documento de diseño
 
-Fecha: 27 de septiembre de 2026. Estado: aprobado por Mariano en la conversación del 27/09 (dos rondas de preguntas).
+Fecha: 27 de septiembre de 2026. Estado: aprobado por Mariano en la conversación del 27/09 (dos rondas de preguntas);
+implementado el 27/09 (plan `docs/plans/2026-09-27-satelite-y-ubicacion.md`).
 Se suma al visualizador de `docs/specs/2026-09-27-cierre-y-visualizador-design.md` (`…/#explorar`).
 
 ## 1. Qué se agrega

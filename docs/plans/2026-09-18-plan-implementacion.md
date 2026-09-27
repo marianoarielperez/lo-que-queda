@@ -87,6 +87,10 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
       en una ventana (`…/#metodologia`). Spec: `docs/specs/2026-09-27-cierre-y-visualizador-design.md`; plan:
       `docs/plans/2026-09-27-cierre-y-visualizador.md`; prueba: `scripts/prueba_navegacion.mjs`.
 
+- [x] 2.18 (27/09) Satélite y ubicación en el visualizador: botón "Satélite"/"Mapa" (Esri World Imagery híbrido,
+      pozos con borde blanco) y botón de ubicación (sigue dentro de la cuenca; fuera, un aviso). Spec:
+      `docs/specs/2026-09-27-satelite-y-ubicacion-design.md`; plan: `docs/plans/2026-09-27-satelite-y-ubicacion.md`.
+
 ## Semana 3 · 3–9 oct · Pulido
 
 - [ ] 3.1 Paso 3 (operadoras): colorear por operadora (5 destacadas + "otras", validar paleta con

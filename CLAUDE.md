@@ -63,7 +63,9 @@ src/map.js                  MapLibre + deck.gl (deck se importa a demanda); filt
 src/navegacion.js           estados de la página: recorrido (…/), visualizador (…/#explorar), ventana de
                             Metodología (…/#metodologia); la dirección y el historial mandan
 src/story.js                pasos del recorrido (textos + vista + capas) y scrollama; pausar()/reanudar()
-src/explore.js              panel del visualizador (entrar()/salir() con estado guardado), leyenda, buscador, ficha
+src/explore.js              panel del visualizador (entrar()/salir() con estado guardado), leyenda, buscador, ficha,
+                            botón Satélite/Mapa
+src/ubicacion.js            botón de ubicación del visualizador (watchPosition; no importa MapLibre)
 src/chart.js                gráfico D3 de producción por cuenca (paso 2)
 src/paleta.js               colores validados
 src/styles.css              estilos; media query móvil al final
@@ -127,6 +129,10 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
 - 27/09: la tarjeta 8 cierra el recorrido; el visualizador se abre solo con "Explorá el mapa" (o "Ir directo al
   mapa" en la portada, o el link `#explorar`) y la Metodología es una ventana (`#metodologia`). En el recorrido el
   clic en un pozo no abre la ficha (solo el tooltip); la ficha es del visualizador.
+
+- 27/09: en el visualizador, imagen satelital de Esri (atribución "Imagen satelital © Esri — Esri, Vantor, Earthstar
+  Geographics y la comunidad de usuarios GIS"; el recorrido siempre en mapa papel) y botón de ubicación. La ubicación
+  no se guarda, no se envía y no se usa para calcular nada (ni distancias ni "pozos cerca").
 
 ## Qué NO hacer
 
