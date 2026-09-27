@@ -3,7 +3,7 @@
 // se desincronicen con los datos.
 
 import scrollama from 'scrollama';
-import { fmt, pct, esc } from './data.js';
+import { fmt, pct, esc, VISTA_CUENCA, paddingPanel } from './data.js';
 import { dibujarProduccion } from './chart.js';
 
 // Fuentes de contexto que citan las tarjetas (normas, informes, comunicados oficiales). Verificadas en
@@ -163,7 +163,9 @@ export function definirPasos(R) {
       titulo: 'pozos sin producir en la cuenca',
       texto: `${ritmo ? `${fmt(ritmo.paradosMas5)} pozos llevan más de cinco años sin producir y no están declarados abandonados. Entre ${ritmo.desdeAnio} y ${ritmo.hastaAnio} las operadoras declararon abandonados ${fmt(ritmo.total)} pozos: unos ${fmt(ritmo.porAnio)} por año. ` : ''}YPF tenía provisionados US$ 915 millones por abandono de pozos al cierre de 2024. No existe un registro público de pasivos ambientales hidrocarburíferos. Lo que hay es este dato, pozo por pozo. Exploralo.`,
       fuente: [{ t: 'YPF, Form 20-F 2024, Nota 17 (SEC)', url: CONTEXTO.ypf20F }],
-      vista: { center: [-68.3, -46.2], zoom: 7 },
+      vista: VISTA_CUENCA, // en la computadora, el mismo encuadre con el que arranca el visualizador
+      comoVisualizador: true,
+      focoArriba: true,
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: true, pais: false, concesiones: false, barrios: false },
       final: true,
     },
@@ -230,6 +232,8 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       const arriba = porLimites ? Math.round(document.getElementById('leyenda').getBoundingClientRect().bottom) + 8 : 0;
       const abajo = Math.max(window.innerHeight * 0.45, porLimites ? seccion.querySelector('.card').offsetHeight + 16 : 0);
       if (paso.focoArriba) padding = { top: arriba, bottom: Math.round(abajo), left: 0, right: 0 };
+    } else if (paso.comoVisualizador) {
+      padding = paddingPanel(); // mismo encuadre que el visualizador: el mapa no se mueve al pasar a él
     } else if (paso.vista.bounds) {
       const tarjeta = seccion.querySelector('.card').getBoundingClientRect();
       padding = { top: 24, bottom: 24, left: Math.round(tarjeta.right) + 24, right: 24 };

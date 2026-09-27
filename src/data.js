@@ -40,6 +40,22 @@ async function leerBinario(nombre) {
 // ≥ 60 = 60 meses o más declarados sin producir (no cuentan los meses en que la operadora ya no declara el pozo);
 // 13–59 = el resto; 65535 = ningún mes con producción en toda la serie. Mismos cortes que resumen.trayectoria.
 export const TRAMOS_SIN_PRODUCIR = ['ultimo_anio', '1_a_5', 'mas_de_5', 'nunca'];
+
+/** Vista de la cuenca (tarjeta 8 y arranque del visualizador): los pozos sin los extremos (percentiles 0,2–99,8),
+ *  como [[oeste, sur], [este, norte]]. El mapa la ajusta a cada pantalla, sin lo que tapan la tarjeta o el panel. */
+export const VISTA_CUENCA = { bounds: [[-70.0, -46.85], [-67.3, -45.5]] };
+
+/** Lo que tapa el panel del visualizador: a la derecha en la computadora, abajo en el celular. En la computadora la tarjeta 8
+ *  usa el mismo encuadre (el panel todavía oculto se mide por su CSS), así el mapa no se mueve al pasar al visualizador. */
+export function paddingPanel() {
+  const panel = document.getElementById('explore');
+  if (window.matchMedia('(max-width: 700px)').matches) {
+    const r = panel.getBoundingClientRect();
+    return { top: 16, bottom: Math.round(window.innerHeight - r.top) + 16, left: 16, right: 16 };
+  }
+  const cs = getComputedStyle(panel); // right y width (border-box) valen aunque el panel esté oculto
+  return { top: 24, bottom: 24, left: 24, right: Math.round(parseFloat(cs.right) + parseFloat(cs.width)) + 24 };
+}
 function tramoSinProducir(m) {
   if (m === 65535) return 3;
   if (m <= 12) return 0;

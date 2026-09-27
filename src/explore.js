@@ -3,13 +3,12 @@
 // (también cuando el recorrido cambia de paso), así nunca muestran un filtro que no está aplicado.
 
 import { ESTADOS, POBLACION_RAMPA, CORTES_POBLACION } from './paleta.js';
-import { cargarFicha, cargarSiglas, normalizarSigla, fmt, esc, mesAnio, TRAMOS_SIN_PRODUCIR } from './data.js';
+import { cargarFicha, cargarSiglas, normalizarSigla, fmt, esc, mesAnio, TRAMOS_SIN_PRODUCIR, VISTA_CUENCA, paddingPanel } from './data.js';
 import { montarUbicacion } from './ubicacion.js';
 
 const MAX_RESULTADOS = 12;
 
-// Vista de la cuenca (la del paso 8) y filtros de fábrica: así arranca el visualizador la primera vez.
-const VISTA_CUENCA = { center: [-68.3, -46.2], zoom: 7 };
+// Filtros de fábrica: así arranca el visualizador la primera vez (con la vista de la cuenca del paso 8, VISTA_CUENCA).
 const estadoInicial = () => ({
   estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, sinProducir: null,
   soloEjido: false, enfocarEjido: false, enfocarZonaNorte: false, poblacion: false, limites: false, pozos: true, pais: false,
@@ -267,7 +266,8 @@ export function montarExploracion({ mapa, pozos, resumen }) {
       if (guardado.ficha !== null) abrirPozo(guardado.ficha, { foco: false });
     } else {
       mapa.aplicar(estadoInicial());
-      mapa.volar(VISTA_CUENCA);
+      // La cuenca en lo que queda libre del mapa: a la izquierda del panel (computadora) o arriba de él (celular).
+      mapa.volar(VISTA_CUENCA, { padding: paddingPanel() });
     }
     $('explore-titulo').focus({ preventScroll: true });
     cargarSiglas().then((S) => { indiceSiglas = S; }).catch(() => {}); // para el tooltip y el buscador

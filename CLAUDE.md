@@ -53,7 +53,7 @@ Python del pipeline: `pip install pandas numpy geopandas shapely pyogrio`.
 ```
 data-pipeline/procesar.py   pipeline reproducible; GRUPOS = tabla de equivalencias de 17 estados → 4
 data-pipeline/raw/          insumos descargados (18/09/2026); ver data-pipeline/README.md
-public/data/                salidas: pozos_gsj.bin(+meta), fichas/, siglas.json, radios.geojson, limites.geojson,
+public/data/                salidas: pozos_gsj.bin(+meta), fichas/, siglas.json, radios.geojson, limites.geojson (solo el ejido),
                             produccion_cuencas.json, operadores.json, resumen.json, conciliacion.md
 src/main.js                 arranque en dos tiempos: portada con resumen.json; después MapLibre, deck.gl y datos
 src/data.js                 carga de binario/JSON, fmt()
@@ -153,6 +153,10 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
 - 27/09: "meses sin producir" cuenta solo meses declarados. CRI, CPAT e INER dejan de declarar sus pozos antes del final de la
   serie; esos meses no son "sin producir". `meses_desde_ultima_prod` (calendario) sirve para "produjo en el último año";
   `meses_declarados_sin_producir` para "más de cinco años". La ficha muestra "Declaración mensual: hasta …" (`ud`).
+- 27/09: vistas por límites (`vista: { bounds }`): el mapa las ajusta a cada pantalla sin lo que tapan la tarjeta o el panel.
+  `VISTA_CUENCA` (data.js) es la del arranque del visualizador; la tarjeta 8 usa el mismo encuadre en la computadora
+  (`comoVisualizador`, con `paddingPanel()`), así el mapa no se mueve al tocar "Explorá el mapa". Las tarjetas 6 y 7 usan
+  `NUCLEO_ZONA_NORTE` (story.js). La capa de límites dibuja solo el ejido de Comodoro.
 
 ## Qué NO hacer
 

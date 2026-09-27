@@ -27,7 +27,7 @@ Salidas (public/data/):
   fichas/NNN.json                        detalle por pozo, en lotes de 1.000, por idpozo
   siglas.json                            índice idpozo → sigla (buscador y tooltip)
   radios.geojson                         radios censales con población y pozos por estado
-  limites.geojson                        ejido, Rada Tilly, Escalante
+  limites.geojson                        límite del ejido de Comodoro Rivadavia (Rada Tilly y Escalante solo se usan para contar)
   barrios.geojson                        barrios de Comodoro con pozos por estado y zn = 1 en zona norte (si hay capa de barrios)
   produccion_cuencas.json                serie anual y mensual por cuenca
   operadores.json                        matriz operador anterior -> actual
@@ -601,7 +601,7 @@ def main(check=False):
         b2.to_file(os.path.join(OUT, "barrios.geojson"), driver="GeoJSON")
         # barrio del radio urbano con más pozos (para la tarjeta 6)
         cent_b = barrios.copy()
-    lim2 = lim.copy()
+    lim2 = lim[lim.Name == "Comodoro Rivadavia"].copy()  # el mapa dibuja solo el ejido (decisión de los autores, 27/09)
     lim2["geometry"] = lim2.geometry.simplify(0.0002, preserve_topology=True)
     lim2.to_file(os.path.join(OUT, "limites.geojson"), driver="GeoJSON")
 
