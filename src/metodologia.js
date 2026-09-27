@@ -6,7 +6,7 @@ import { ESTADOS } from './paleta.js';
 import { fmt, esc, mesAnio } from './data.js';
 
 export function montarMetodologia(R) {
-  const sec = document.getElementById('metodologia');
+  const sec = document.getElementById('ventana-metodologia');
   if (!sec) return;
 
   // Cifras: data-cifra="ruta.en.resumen"; data-formato="cantidad" (claves de un objeto) o "mes" ("2017-01").

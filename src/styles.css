@@ -10,6 +10,7 @@
 :root {
   --fondo: #f3efe7;
   --tarjeta: rgba(255, 252, 246, 0.94);
+  --tarjeta-solida: #fffcf6; /* el mismo papel de las tarjetas, sin transparencia (ventana de Metodología) */
   --texto: #17181b;
   --texto-sec: #5a5b5e;
   --borde: #d9d2c3;
@@ -117,7 +118,7 @@ body:has(#explore:not(.hidden)) #leyenda { display: none; }
 .explore-head h2:focus-visible { outline: 3px solid var(--texto); outline-offset: 2px; }
 .plegar { display: none; } /* solo en celular (ver la media query) */
 .explore-nav { display: flex; flex-wrap: wrap; gap: 0 16px; margin: -6px 0 6px; }
-.explore-nav .enlace-chico { display: inline-flex; align-items: center; min-height: 32px; }
+.explore-nav .enlace-chico { display: inline-flex; align-items: center; gap: .3em; min-height: 32px; }
 .panel-cargando { display: none; }
 #explore.cargando .panel-cargando { display: inline; }
 #explore.cargando .panel-conteo, #explore.cargando #explore-cuerpo, #explore.cargando .plegar { display: none; }
@@ -150,9 +151,14 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 .tooltip-sec { font-size: 12.5px; color: var(--texto-sec); }
 
 /* ---- metodología ---- */
-.metodologia { position: relative; z-index: 2; padding: 10vh 48px; background: var(--fondo); }
-.metodologia .card { width: 720px; opacity: 1; }
-.metodologia h2 { margin: 0 0 12px; font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.15; }
+/* ---- ventana de Metodología (<dialog>, src/navegacion.js) ---- */
+.ventana { width: min(800px, calc(100vw - 32px)); max-width: none; height: 80vh; height: 80svh; max-height: none; padding: 0; border: 0; border-radius: 8px; background: var(--tarjeta-solida); color: var(--texto); box-shadow: 0 20px 60px rgba(0, 0, 0, .28); }
+.ventana::backdrop { background: rgba(23, 24, 27, .5); }
+.ventana-cuerpo { height: 100%; overflow: auto; overscroll-behavior: contain; padding: 32px 40px 28px; }
+.ventana .cerrar { position: absolute; top: 6px; right: 8px; z-index: 1; width: 44px; height: 44px; border: 0; background: none; font-size: 26px; line-height: 1; cursor: pointer; color: var(--texto-sec); }
+.ventana .cerrar:hover { color: var(--texto); }
+html:has(.ventana[open]) { overflow: hidden; } /* la página de atrás no se desplaza */
+.metodologia h2 { margin: 0 40px 12px 0; font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.15; }
 .metodologia h3 { margin: 28px 0 8px; font-family: var(--serif); font-size: 21px; font-weight: 600; line-height: 1.2; }
 .metodologia p { margin: 0 0 12px; }
 .metodologia a { color: var(--texto); text-underline-offset: 2px; }
@@ -191,11 +197,14 @@ input[type="checkbox"] { width: 18px; height: 18px; }
   .explore-head .muted { margin: 4px 0; }
   .plegar { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--texto); background: #fff; border: 1px solid var(--borde-control); border-radius: 4px; cursor: pointer; }
   #explore.plegado #explore-cuerpo { display: none; }
-  /* en celular se acerca con dos dedos: sin botones de zoom; los créditos del mapa suben arriba a la izquierda */
+  /* en celular se acerca con dos dedos: sin botones de zoom; al explorar, los créditos del mapa suben arriba a la
+     derecha (el panel ocupa el pie y la leyenda flotante no está) */
   .maplibregl-ctrl-group { display: none; }
-  body.explorando .maplibregl-ctrl-bottom-right { top: 8px; right: auto; bottom: auto; left: 8px; }
+  body.explorando .maplibregl-ctrl-bottom-right,
+  body.explorando:has(#explore:not(.hidden)) .maplibregl-ctrl-bottom-right { top: 8px; right: 0; bottom: auto; }
   #ficha { max-height: calc(100svh - 24px); }
   .card.error { margin: 12px 16px 0; }
   #ficha { left: 12px; right: 12px; width: auto; }
-  .metodologia { padding: 6vh 16px; }
+  .ventana { width: 100vw; max-width: 100vw; height: 100vh; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; }
+  .ventana-cuerpo { padding: 24px 18px; }
 }

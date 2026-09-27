@@ -112,13 +112,15 @@
   <!-- Mapa fijo detrás de todo (va al final para que el teclado recorra primero el texto) -->
   <div id="map"></div>
 
-  <!-- Metodología y fuentes (plan 3.2). BORRADOR del 26/09 armado con los textos ya escritos en docs/ (spec §2 y §5,
+  <!-- Ventana de Metodología (…/#metodologia): un <dialog> que abre y cierra src/navegacion.js.
+       Metodología y fuentes (plan 3.2). BORRADOR del 26/09 armado con los textos ya escritos en docs/ (spec §2 y §5,
        formulario.md, investigacion-contexto.md, data-pipeline/README.md): la redacción final es de los autores.
        Las cifras NO se escriben acá: van como <span data-cifra="ruta.en.resumen"> y las completa src/metodologia.js
        desde resumen.json (data-formato="cantidad" cuenta claves; "mes" convierte "2017-01" en "enero de 2017").
        La lista de datasets y la tabla de estados también salen de resumen.json. -->
-  <section id="metodologia" class="metodologia" aria-labelledby="metodologia-titulo">
-    <div class="card">
+  <dialog id="ventana-metodologia" class="ventana" aria-labelledby="metodologia-titulo">
+    <button type="button" class="cerrar" data-cerrar-metodologia aria-label="Cerrar la metodología">×</button>
+    <div class="ventana-cuerpo metodologia">
       <h2 id="metodologia-titulo">Metodología y fuentes</h2>
       <p class="pendiente">Párrafo de apertura: lo escriben los autores.</p>
 
@@ -179,7 +181,7 @@
         <li class="pendiente">Enlace al repositorio con el código y los datos (tarea 1.6).</li>
       </ul>
     </div>
-  </section>
+  </dialog>
 
   <script type="module" src="./src/main.js"></script>
 </body>

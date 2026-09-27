@@ -104,6 +104,9 @@ async function bajarHastaElFinal(page) {
   ok(!e.explorar && e.scrollY === 0, '"Atrás" vuelve a la portada, desde donde se entró');
 
   await bajarHastaElFinal(page);
+  // El botón a la vista antes de medir (si no, el clic de Puppeteer desplaza la página después de medir)
+  await page.$eval('.step[data-step="8"] [data-ir="explorar"]', (b) => b.scrollIntoView({ block: 'center' }));
+  await espera(300);
   const y8 = (await estado(page)).scrollY;
   await page.click('.step[data-step="8"] [data-ir="explorar"]');
   await espera(800);
