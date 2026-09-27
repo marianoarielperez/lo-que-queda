@@ -98,7 +98,10 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
 - [ ] 3.4 (PARCIAL 27/09: carga en dos tiempos — la portada con un JS de 92 KB (antes 2,1 MB), MapLibre y deck.gl
       en chunks aparte, datos pesados después de la foto de portada, el país al final; tipografías servidas desde el
       sitio; fotos a 1000 px en WebP con JPEG de respaldo (`scripts/optimizar_fotos.py`, originales en
-      `fotos-originales/`). Medido con Lighthouse. Falta: probar en compu lenta y en Firefox/Safari) Rendimiento: probar en una compu lenta y en Firefox/Safari; si hace falta, bajar
+      `fotos-originales/`). Lighthouse en Pages, celular con red y CPU frenadas de verdad: puntaje 48 → 60, primer
+      contenido 2,7 → 2,3 s, mayor contenido 4,8 → 3,1 s, bloqueo 4,8 → 3,5 s (antes el texto de la portada no llegaba a
+      verse en 7 s). El bloqueo que queda es el arranque de MapLibre y deck.gl (en Chrome sin GPU, exagerado).
+      Falta: probar en compu lenta, en Firefox/Safari y en un teléfono) Rendimiento: probar en una compu lenta y en Firefox/Safari; si hace falta, bajar
       `radiusMaxPixels` y agrupar en hexágonos por debajo de zoom 8 (`HexagonLayer`).
 - [ ] 3.5 (PARCIAL 26/09: vuelos y fundido respetan "reducir movimiento"; ficha con foco, Escape y nombre; controles del
       mapa en castellano; el mapa fuera del orden de tabulación durante el recorrido. Falta: contraste de tarjetas
