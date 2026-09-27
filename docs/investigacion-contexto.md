@@ -115,6 +115,12 @@ Verificado con fuente oficial:
   Contra la suma de nuestros radios, 30 barrios coinciden a ±1 % (Astra 328/329) y 36 difieren mucho porque los radios
   cruzan límites de barrio: sirve para totales de zona norte, no para comparar pozos por habitante entre barrios.
 
+Afirmación de los autores (27/09/2026), en la tarjeta 6: "Casi todos estos barrios nacieron como asentamientos petroleros"
+(Diadema, Astra, Presidente Ortiz, Don Bosco, etc.). Con fuente oficial registrada solo Astra y Km 5 (arriba).
+PENDIENTE (regla 3): sumar acá la fuente oficial que lo confirme para el conjunto. Ojo: el mismo relevamiento
+municipal cuenta 14 barrios en Zona Norte en 2004 y 36 en 2025 (14 nuevos entre 2010 y 2022, p. ej. ARA San Juan y
+Franja Forestal Cerro de la Cruz, de 2025): la fuente tiene que explicar que "casi todos" alcanza a esos barrios.
+
 Sin confirmar (no usar): fechas de fundación de Km 3 y de Astra (las fuentes chocan); origen de Km 8 y de Diadema
 (solo Comodoro Turismo); "Castelli, Laprida y Rodríguez Peña como campamentos de los años 60"; Manantial Rosales, Sarmiento
 y Laprida "de orígenes netamente petroleros" (solo un artículo de la UNPSJB, Usach y Freddo 2016: académico, no oficial).

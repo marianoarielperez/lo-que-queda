@@ -17,9 +17,6 @@ const CONTEXTO = {
   vacaMuerta: 'https://www.argentina.gob.ar/economia/energia/vaca-muerta/historia',
   vacaMuerta2019: 'https://www.argentina.gob.ar/noticias/por-el-crecimiento-de-vaca-muerta-la-produccion-de-petroleo-y-gas-fue-record-en-mayo',
   zonaNorte: 'https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/zona-norte/',
-  astra: 'https://www.comodoro.gov.ar/2025/12/12/astra-celebro-su-113-aniversario/',
-  km5: 'https://www.comodoro.gov.ar/2021/08/03/se-presentara-el-libro-historico-sobre-km-5-historia-de-un-pueblo-entre-pozos-y-trenes/',
-  mosconi: 'https://www.comodoro.gov.ar/miciudad/2024/12/04/relevamiento-de-barrios-zona-norte-general-mosconi/',
 };
 /** Enlace a un dataset por su clave en resumen.datasets (procesar.py → DATASETS). */
 const dataset = (R, clave, t) => ({ t, url: R.datasets?.find((d) => d.clave === clave)?.url });
@@ -131,10 +128,10 @@ export function definirPasos(R) {
       // Población del CSV municipal por barrio (Censo 2022). El Pozo N° 2 cae en General Mosconi (resumen: barrio_pozo_2).
       id: 6, kicker: 'Paso 6 · Zona norte', cifra: `${Z.barrios_con_pozos} de ${Z.barrios}`,
       titulo: 'barrios de zona norte tienen pozos dentro',
-      texto: `Son los barrios al norte del cerro Chenque. Dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus vecinos vive en un barrio con diez pozos o más. Algunos, como Astra y Km 5, nacieron como asentamientos petroleros${astra.total > astra.poblacion ? `; en Astra hoy hay más pozos que habitantes (${fmt(astra.total)} y ${fmt(astra.poblacion)})` : ''}. En General Mosconi (Km 3), el barrio del Pozo N° 2, hay ${fmt(mosconi.total)} pozos y ${mosconi.Activo ? `${fmt(mosconi.Activo)} activos` : 'ninguno está activo'}.`,
+      texto: `Son los barrios al norte del cerro Chenque. Dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus vecinos vive en un barrio con diez pozos o más. Casi todos estos barrios nacieron como asentamientos petroleros${astra.total > astra.poblacion ? `; en Astra hoy hay más pozos que habitantes (${fmt(astra.total)} y ${fmt(astra.poblacion)})` : ''}. En General Mosconi (Km 3), el barrio del Pozo N° 2, hay ${fmt(mosconi.total)} pozos y ${mosconi.Activo ? `${fmt(mosconi.Activo)} activos` : 'ninguno está activo'}.`,
+      // Las fuentes de Astra, Km 5 y Mosconi (Km 3) quedan en la metodología (decisión de los autores: no engordar la tarjeta).
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Municipalidad de Comodoro Rivadavia, Relevamiento de barrios', url: CONTEXTO.zonaNorte },
-        dataset(R, 'poblacion_barrios', 'Censo 2022 por barrio'), { t: 'Astra (12/12/2025)', url: CONTEXTO.astra }, { t: 'Km 5 (3/8/2021)', url: CONTEXTO.km5 },
-        { t: 'General Mosconi (Km 3)', url: CONTEXTO.mosconi }],
+        dataset(R, 'poblacion_barrios', 'Censo 2022 por barrio')],
       // Encuadre del núcleo de zona norte (Km 3 a Km 8, Laprida, Castelli), elegido por los autores: Astra, Diadema y
       // Caleta Córdova quedan afuera. El mapa lo ajusta a cada pantalla.
       vista: { bounds: [[-67.601, -45.870], [-67.389, -45.769]] },
