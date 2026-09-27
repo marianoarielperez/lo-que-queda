@@ -1,6 +1,6 @@
 # Conciliación de cifras
 
-Generado: 2026-09-26
+Generado: 2026-09-27
 
 | Cifra | Valor |
 |---|---|

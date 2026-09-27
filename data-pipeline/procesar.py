@@ -84,7 +84,7 @@ GRUPOS = {
 CAP_IV = "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c"
 DATOS_COMODORO = "https://datos.comodoro.gov.ar/"
 DATASETS = [
-    {"titulo": "Capítulo IV – Pozos", "organismo": "Secretaría de Energía", "url": CAP_IV, "descarga": "20/09/2026",
+    {"titulo": "Capítulo IV – Pozos", "organismo": "Secretaría de Energía", "url": CAP_IV, "descarga": "18/09/2026",
      "licencia": "CC-BY 4.0", "uso": "ubicación, operadora, yacimiento, área y estado declarado de cada pozo"},
     {"titulo": "Padrón de pozos de Capítulo IV con fecha de primera producción", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "20/09/2026", "licencia": "CC-BY 4.0",

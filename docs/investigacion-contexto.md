@@ -32,7 +32,7 @@ que defina "En estudio", "En reserva…", "Parado transitoriamente" (solo las 3 
 ## Salida de YPF del Golfo San Jorge (Proyecto Andes / Plan 4x4)
 
 - Abril 2024: YPF abre la venta de 55 áreas convencionales en seis provincias ("Mature Fields Project" en sus estados contables).
-- **Chubut, Decreto 1509/2024** (B.O. 29/10/2024): cesión del 100 % de Escalante–El Trébol a PECOM
+- **Chubut, Decreto 1509/2024** (B.O. 29/10/2024; https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=87339): cesión del 100 % de Escalante–El Trébol a PECOM
   Servicios Energía SAU; PECOM también toma el 50 % de Campamento Central–Cañadón Perdido.
 - **Manantiales Behr**: 19/2/2026, YPF adjudica a PECOM (51 %) y San Benito Upstream (49 %) por
   US$ 410 M fijos + hasta US$ 40 M contingentes (YPF Form 6-K ante la SEC:

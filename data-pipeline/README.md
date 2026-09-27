@@ -11,7 +11,7 @@ python procesar.py --check
 
 | Archivo | Origen | Cómo se obtuvo |
 |---|---|---|
-| `capitulo-iv-pozos.csv` | Secretaría de Energía, dataset "Producción de petróleo y gas por pozo (Capítulo IV)", recurso "Capítulo IV – Pozos" (CSV, 34 MB, 85.611 pozos con geojson) | Descarga directa (20/09/2026). El script filtra la cuenca solo |
+| `capitulo-iv-pozos.csv` | Secretaría de Energía, dataset "Producción de petróleo y gas por pozo (Capítulo IV)", recurso "Capítulo IV – Pozos" (CSV, 34 MB, 85.611 pozos con geojson) | Descarga directa (18/09/2026; fecha confirmada el 27/09). El script filtra la cuenca solo |
 | `padron-primera-produccion.csv` | Mismo dataset, "Padrón de Pozos de Capítulo IV con fecha de primera producción" | Descarga directa (20/09/2026). La serie arranca en 2006-01: ese valor significa "ya figuraba al inicio de la serie" |
 | `concesiones-explotacion.zip` | Dataset "Producción de hidrocarburos – Concesiones de Explotación" (SHP) | Descarga directa (20/09/2026); 297 polígonos país, 55 en la cuenca |
 | `produccion-mensual_gsj.zip` | Mensuales "Producción de Pozos de Gas y Petróleo – AAAA", 2017 a 2026 | `python filtrar_mensuales.py` → 4.873.490 filas, comprimido (41 MB). El script lo lee comprimido |
