@@ -1,12 +1,13 @@
 // Mapa: MapLibre GL como base + deck.gl (MapboxOverlay) para los pozos y los polígonos.
 // Un solo ScatterplotLayer con los 44.390 pozos; los filtros se aplican en GPU
 // con DataFilterExtension, así cambiar de estado/operadora no reconstruye nada.
+//
+// Carga en dos tiempos (plan 3.4): este módulo trae solo MapLibre, así la portada tiene su mapa base enseguida.
+// deck.gl (~60 % del JavaScript) se importa aparte cuando llegan los pozos (cargarCapas) y el país al final
+// (agregarPais). Mientras tanto aplicar(), volar() y marcador() funcionan: guardan el estado y se ponen al día.
 
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { MapboxOverlay } from '@deck.gl/mapbox';
-import { ScatterplotLayer, GeoJsonLayer } from '@deck.gl/layers';
-import { DataFilterExtension, PathStyleExtension } from '@deck.gl/extensions';
 import { ESTADOS, PALETA, POBLACION_RAMPA, CORTES_POBLACION } from './paleta.js';
 import { esc, reducirMovimiento } from './data.js';
 
@@ -67,9 +68,21 @@ const LOCALE = {
 // Gestos del mapa que se prenden solo al explorar (ver habilitarExploracion).
 const GESTOS = ['scrollZoom', 'dragPan', 'touchZoomRotate', 'doubleClickZoom', 'keyboard'];
 
-// Extensiones: una instancia para todo el ciclo de vida (deck.gl compila un shader por combinación).
-const FILTRO = new DataFilterExtension({ filterSize: 1 });
-const PUNTEADO = new PathStyleExtension({ dash: true });
+// deck.gl, importado a demanda (un chunk aparte). Las extensiones se crean una sola vez: deck.gl compila un
+// shader por combinación.
+let deck = null;
+let deckCargando = null;
+function cargarDeck() {
+  deckCargando ??= Promise.all([import('@deck.gl/mapbox'), import('@deck.gl/layers'), import('@deck.gl/extensions')])
+    .then(([{ MapboxOverlay }, { ScatterplotLayer, GeoJsonLayer }, { DataFilterExtension, PathStyleExtension }]) => ({
+      MapboxOverlay, ScatterplotLayer, GeoJsonLayer,
+      FILTRO: new DataFilterExtension({ filterSize: 1 }),
+      PUNTEADO: new PathStyleExtension({ dash: true }),
+    }));
+  return deckCargando;
+}
+/** Empieza a bajar deck.gl sin esperar a los datos (main.js lo llama apenas crea el mapa). */
+export const precargarDeck = () => cargarDeck();
 
 // Opacidad de los pozos fuera del ejido cuando se enfoca la ciudad (paso Ejido): se ven, pero atrás.
 const ALFA_ATENUADO = 45;
@@ -118,7 +131,7 @@ async function cargarEstiloRemoto(map) {
   }
 }
 
-export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, onClickPozo, tooltipPozo }) {
+export function crearMapa({ onClickPozo, tooltipPozo }) {
   const map = new maplibregl.Map({
     container: 'map',
     style: ESTILO_RESPALDO,
@@ -152,10 +165,14 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
     resaltado: null,   // idpozo resaltado con un anillo (el de la ficha abierta)
   };
 
+  // ---- datos: llegan después del mapa base (cargarCapas, agregarPais) ----
+  let pozos = null, pais = null, radios = null, limites = null, concesiones = null, barrios = null;
+  let overlay = null; // deck.gl: existe desde que llegan los pozos
+
   const colorEstado = ESTADOS.map((e) => e.rgb);
 
   // Colores RGBA por pozo, calculados en CPU una vez. Solo se repintan cuando cambia el enfoque del ejido.
-  const colores = new Uint8Array(pozos.n * 4);
+  let colores;
   function pintarPozos() {
     const { estado_cod, ejido_cod } = pozos.cols;
     for (let i = 0, j = 0; i < pozos.n; i++, j += 4) {
@@ -168,8 +185,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
   // Vector de "pasa el filtro" recalculado en CPU cuando cambia un filtro (44k valores: instantáneo);
   // DataFilterExtension lo usa en GPU. De paso cuenta, por estado, los pozos que pasan los demás filtros:
   // son los números de la leyenda y del panel (así un estado desmarcado muestra cuántos agregaría).
-  const pasa = new Float32Array(pozos.n);
-  const pasaSinConcesion = new Float32Array(pozos.n); // visibles y en un área sin concesión vigente (anillo)
+  let pasa, pasaSinConcesion; // el segundo: visibles y en un área sin concesión vigente (anillo)
   const conteos = new Uint32Array(ESTADOS.length);
   let sinConcesion = 0;
   function recalcularFiltro() {
@@ -202,20 +218,15 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
 
   // Datos binarios del ScatterplotLayer. deck.gl vuelve a subir un atributo solo si cambia el objeto
   // envoltorio ({ value, size }), así que posiciones y colores quedan fijos y el filtro se renueva al cambiar.
-  const attrPosicion = { value: pozos.positions, size: 2 };
-  let attrColor = { value: colores, size: 4, normalized: true };
-  let attrFiltro = { value: pasa, size: 1 };
-  let datosPozos, datosSinConcesion;
+  let attrPosicion, attrColor, datosPozos, datosSinConcesion;
   const armarDatosPozos = () => {
-    datosPozos = { length: pozos.n, attributes: { getPosition: attrPosicion, getFillColor: attrColor, getFilterValue: attrFiltro } };
+    datosPozos = { length: pozos.n, attributes: { getPosition: attrPosicion, getFillColor: attrColor, getFilterValue: { value: pasa, size: 1 } } };
     datosSinConcesion = { length: pozos.n, attributes: { getPosition: attrPosicion, getFilterValue: { value: pasaSinConcesion, size: 1 } } };
   };
-  pintarPozos();
-  let visibles = recalcularFiltro();
-  armarDatosPozos();
+  let visibles = 0;
 
   function capaPozos() {
-    return new ScatterplotLayer({
+    return new deck.ScatterplotLayer({
       id: 'pozos',
       data: datosPozos,
       getRadius: 18,
@@ -227,13 +238,15 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
       opacity: 0.9 * fundido,
       visible: estado.pozos && !estado.pais, // con la capa país encendida, los puntos de la cuenca los dibuja esa capa
       filterRange: [0.5, 1.5],
-      extensions: [FILTRO],
+      extensions: [deck.FILTRO],
       onClick: ({ index }) => index >= 0 && onClickPozo?.(pozos.cols.idpozo[index], index),
     });
   }
 
   // País entero: puntos chicos y tenues; los del Golfo San Jorge un poco más presentes. Colores fijos.
-  const datosPais = pais && (() => {
+  // Llega último (solo lo usa el paso País): hasta entonces, ese paso muestra el mapa base.
+  let datosPais = null;
+  function prepararPais() {
     const c = new Uint8Array(pais.n * 4);
     const gris = hexARgb(PALETA.limite);
     for (let i = 0, j = 0; i < pais.n; i++, j += 4) {
@@ -241,11 +254,11 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
       const rgb = gsj ? colorEstado[pais.cols.estado_cod[i]] : gris;
       c[j] = rgb[0]; c[j + 1] = rgb[1]; c[j + 2] = rgb[2]; c[j + 3] = gsj ? 200 : 90;
     }
-    return { length: pais.n, attributes: { getPosition: { value: pais.positions, size: 2 }, getFillColor: { value: c, size: 4, normalized: true } } };
-  })();
+    datosPais = { length: pais.n, attributes: { getPosition: { value: pais.positions, size: 2 }, getFillColor: { value: c, size: 4, normalized: true } } };
+  }
   function capaPais() {
-    if (!pais) return null;
-    return new ScatterplotLayer({
+    if (!datosPais) return null;
+    return new deck.ScatterplotLayer({
       id: 'pais',
       visible: estado.pozos && estado.pais,
       opacity: fundido,
@@ -263,7 +276,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
   // (plan 2.10). Forma, no color, como el resaltado: el relleno sigue siendo el del estado.
   const anilloSinConcesion = [...hexARgb(PALETA.texto), 90]; // tenue: donde hay cientos juntos no debe volverse una mancha
   function capaSinConcesion() {
-    return new ScatterplotLayer({
+    return new deck.ScatterplotLayer({
       id: 'sin-concesion',
       data: datosSinConcesion,
       visible: estado.concesiones && estado.pozos && !estado.pais && estado.soloId === null,
@@ -279,7 +292,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
       opacity: fundido,
       pickable: false,
       filterRange: [0.5, 1.5],
-      extensions: [FILTRO],
+      extensions: [deck.FILTRO],
     });
   }
 
@@ -287,7 +300,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
   const anilloTexto = hexARgb(PALETA.texto);
   let datosResaltado = [];
   function capaResaltado() {
-    return new ScatterplotLayer({
+    return new deck.ScatterplotLayer({
       id: 'resaltado',
       data: datosResaltado,
       visible: estado.pozos && datosResaltado.length > 0,
@@ -306,7 +319,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
   // Polígonos: sin picking (no tienen ficha); si no, con pickingRadius le robarían el clic a los pozos.
   function capaConcesiones() {
     if (!concesiones) return null;
-    return new GeoJsonLayer({
+    return new deck.GeoJsonLayer({
       id: 'concesiones',
       data: concesiones,
       visible: estado.concesiones,
@@ -321,7 +334,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
 
   function capaBarrios() {
     if (!barrios) return null;
-    return new GeoJsonLayer({
+    return new deck.GeoJsonLayer({
       id: 'barrios',
       data: barrios,
       visible: estado.barrios,
@@ -342,7 +355,8 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
   }
 
   function capaRadios() {
-    return new GeoJsonLayer({
+    if (!radios) return null;
+    return new deck.GeoJsonLayer({
       id: 'radios',
       data: radios,
       visible: estado.poblacion,
@@ -356,7 +370,8 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
   }
 
   function capaLimites() {
-    return new GeoJsonLayer({
+    if (!limites) return null;
+    return new deck.GeoJsonLayer({
       id: 'limites',
       data: limites,
       visible: estado.limites,
@@ -367,7 +382,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
       lineWidthUnits: 'pixels',
       getDashArray: [6, 4],
       dashJustified: true,
-      extensions: [PUNTEADO],
+      extensions: [deck.PUNTEADO],
     });
   }
 
@@ -390,11 +405,15 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
 
   // Marcador del Pozo N° 2 (HTML, así tiene forma propia). El color del borde es el de su estado
   // declarado (Abandonado): el ícono agrega forma, no cambia la regla color = estado.
+  // Si se pide antes de que lleguen los pozos, queda pendiente y se pone cuando llegan.
   let marcador = null;
+  let marcadorPendiente = null;
   function mostrarMarcador(idpozo, etiqueta) {
     marcador?.remove();
     marcador = null;
+    marcadorPendiente = null;
     if (idpozo === null || idpozo === undefined) return;
+    if (!pozos) { marcadorPendiente = [idpozo, etiqueta]; return; }
     const c = coordsDe(idpozo);
     if (!c) return;
     const el = document.createElement('div');
@@ -410,26 +429,12 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
   }
 
   function coordsDe(idpozo) {
-    const i = pozos.filaPorId.get(idpozo);
+    const i = pozos?.filaPorId.get(idpozo);
     return i === undefined ? null : [pozos.positions[i * 2], pozos.positions[i * 2 + 1]];
   }
 
-  const overlay = new MapboxOverlay({
-    interleaved: false,
-    layers: [],
-    pickingRadius: 6, // los puntos miden 2–7 px: sin margen, tocarlos con el dedo es casi imposible
-    getTooltip: ({ layer, index }) => {
-      if (layer?.id !== 'pozos' || index < 0) return null;
-      const html = tooltipPozo?.(pozos.cols.idpozo[index], index);
-      return html ? { html, className: 'tooltip-pozo', style: ESTILO_TOOLTIP } : null;
-    },
-    onHover: ({ layer, index }) => {
-      map.getCanvas().style.cursor = layer?.id === 'pozos' && index >= 0 ? 'pointer' : '';
-    },
-  });
-  map.addControl(overlay);
-
   function render() {
+    if (!overlay) return;
     overlay.setProps({ layers: [capaPais(), capaConcesiones(), capaRadios(), capaBarrios(), capaLimites(), capaPozos(), capaSinConcesion(), capaResaltado()].filter(Boolean) });
   }
 
@@ -445,13 +450,25 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
       c.setAttribute('aria-hidden', 'true');
     }
   }
-  map.on('load', () => { render(); ajustarFoco(); cargarEstiloRemoto(map); });
-  map.once('idle', ajustarFoco);
+  map.on('load', () => { ajustarFoco(); cargarEstiloRemoto(map); });
   // al cambiar de estilo (remoto cargado) deck.gl conserva sus capas; nada que hacer.
 
   const oyentes = [];
 
-  // ---- API que usan story.js y explore.js ----
+  // Recalcula filtros y conteos con el estado actual y dibuja (solo si ya están los pozos).
+  function actualizar({ fundir = false, repintar = false } = {}) {
+    if (!pozos) return;
+    if (repintar) { pintarPozos(); attrColor = { value: colores, size: 4, normalized: true }; }
+    visibles = recalcularFiltro();
+    armarDatosPozos();
+    const c = estado.resaltado !== null ? coordsDe(estado.resaltado) : null;
+    datosResaltado = c ? [c] : [];
+    if (fundir) fundirEntrada();
+    else render();
+    for (const f of oyentes) f(estado);
+  }
+
+  // ---- API que usan main.js, story.js y explore.js ----
   return {
     map,
     estado,
@@ -461,6 +478,41 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
     get conteos() { return conteos; },
     /** Pozos visibles en áreas que no figuran como concesión vigente (los del anillo). */
     get sinConcesion() { return sinConcesion; },
+    /** Segundo tiempo de la carga: baja deck.gl y dibuja pozos y polígonos con el estado que haya
+     *  (el recorrido pudo haber avanzado mientras tanto). */
+    async cargarCapas(datos) {
+      deck = await cargarDeck();
+      ({ pozos, radios, limites, concesiones, barrios } = datos);
+      colores = new Uint8Array(pozos.n * 4);
+      pasa = new Float32Array(pozos.n);
+      pasaSinConcesion = new Float32Array(pozos.n);
+      attrPosicion = { value: pozos.positions, size: 2 };
+      attrColor = { value: colores, size: 4, normalized: true };
+      pintarPozos();
+      overlay = new deck.MapboxOverlay({
+        interleaved: false,
+        layers: [],
+        pickingRadius: 6, // los puntos miden 2–7 px: sin margen, tocarlos con el dedo es casi imposible
+        getTooltip: ({ layer, index }) => {
+          if (layer?.id !== 'pozos' || index < 0) return null;
+          const html = tooltipPozo?.(pozos.cols.idpozo[index], index);
+          return html ? { html, className: 'tooltip-pozo', style: ESTILO_TOOLTIP } : null;
+        },
+        onHover: ({ layer, index }) => {
+          map.getCanvas().style.cursor = layer?.id === 'pozos' && index >= 0 ? 'pointer' : '';
+        },
+      });
+      map.addControl(overlay);
+      actualizar({ fundir: estado.pozos });
+      if (marcadorPendiente) mostrarMarcador(...marcadorPendiente);
+      ajustarFoco();
+    },
+    /** Último tiempo: los pozos de todo el país (solo el paso País). */
+    agregarPais(datos) {
+      pais = datos;
+      prepararPais();
+      render();
+    },
     aplicar(cambios = {}) {
       const eraUnSolo = estado.soloId !== null;
       const habiaPozos = estado.pozos;
@@ -468,19 +520,11 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
       Object.assign(estado, cambios);
       // Copia propia: los pasos del recorrido definen su Set y el panel modifica el del mapa; no compartirlos.
       if (cambios.estadosVisibles) estado.estadosVisibles = new Set(cambios.estadosVisibles);
-      if (estado.enfocarEjido !== enfocabaEjido) { pintarPozos(); attrColor = { value: colores, size: 4, normalized: true }; }
-      visibles = recalcularFiltro();
-      attrFiltro = { value: pasa, size: 1 };
-      armarDatosPozos();
-      const c = estado.resaltado !== null ? coordsDe(estado.resaltado) : null;
-      datosResaltado = c ? [c] : [];
       const aparecenPozos = (eraUnSolo && estado.soloId === null) || (!habiaPozos && estado.pozos);
-      if (aparecenPozos) fundirEntrada();
-      else render();
-      for (const f of oyentes) f(estado);
+      actualizar({ fundir: aparecenPozos, repintar: estado.enfocarEjido !== enfocabaEjido });
       return visibles;
     },
-    /** Avisa después de cada aplicar() (el panel resincroniza controles, leyenda y contadores). */
+    /** Avisa después de cada cambio (el panel resincroniza controles, leyenda y contadores). */
     alCambiar(fn) { oyentes.push(fn); },
     marcador: mostrarMarcador,
     volar(vista, opciones = {}) {
@@ -490,7 +534,7 @@ export function crearMapa({ pozos, pais, radios, limites, concesiones, barrios, 
       if (reducirMovimiento()) { map.jumpTo({ ...vista, padding }); return; }
       map.flyTo({ ...vista, duration: 1600, essential: true, ...opciones, padding });
     },
-    filaDe(idpozo) { return pozos.filaPorId.get(idpozo); },
+    filaDe(idpozo) { return pozos?.filaPorId.get(idpozo); },
     coordsDe,
     habilitarExploracion(on) {
       // Gestos cooperativos: Ctrl + rueda para acercar y dos dedos para mover; la rueda y un dedo

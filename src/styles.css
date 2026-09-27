@@ -1,3 +1,11 @@
+/* Tipografías servidas desde el propio sitio (public/fonts, licencia OFL): la portada no espera a otro servidor.
+   Archivos variables de Google Fonts: uno por subconjunto sirve para todos los pesos. El "latin-ext" solo se baja
+   si aparece un carácter de ese rango. */
+@font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 300 600; font-display: swap; src: url('/fonts/fraunces-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 300 600; font-display: swap; src: url('/fonts/fraunces-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Source Sans 3'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/source-sans-3-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Source Sans 3'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/source-sans-3-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
 /* Paleta "Sobria · papel" — ver src/paleta.js y docs/specs §4 */
 :root {
   --fondo: #f3efe7;
@@ -52,7 +60,7 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .card-portada .fuente { margin-top: 14px; font-size: 11.5px; line-height: 1.4; }
 /* foto de la portada: igual que la del paso 1, pero también se ve en celular */
 .foto-portada { margin: -28px -30px 16px; }
-.foto-portada img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px 6px 0 0; background: var(--urbano, #e7e1d4); }
+.foto-portada img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px 6px 0 0; background: var(--urbano, #e7e1d4); }
 .foto-portada figcaption { padding: 6px 30px 0; font-size: 12px; line-height: 1.35; color: var(--texto-sec); }
 /* botón "Desplazá para empezar": negro y papel (el azul es "Activo" en esta pieza) */
 .empezar { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 18px; font: inherit; font-size: 15px; font-weight: 600; color: var(--texto); background: transparent; border: 1.5px solid var(--texto); border-radius: 4px; cursor: pointer; transition: background .2s, color .2s; }
@@ -61,10 +69,11 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .empezar-flecha { animation: empezar-baja 1.8s ease-in-out infinite; }
 @keyframes empezar-baja { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
 @media (prefers-reduced-motion: reduce) { .empezar-flecha { animation: none; } .empezar { transition: none; } }
+.empezar.cargando .empezar-flecha { display: none; } /* "Cargando el mapa…" (main.js) */
 .grafico { margin: 8px 0 12px; }
 /* tarjeta con foto (paso del Pozo N° 2): la foto va a sangre arriba */
 .foto-paso { margin: -28px -30px 16px; }
-.foto-paso img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: 45% 10%; border-radius: 6px 6px 0 0; background: var(--urbano, #e7e1d4); }
+.foto-paso img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: 45% 10%; border-radius: 6px 6px 0 0; background: var(--urbano, #e7e1d4); }
 .foto-paso figcaption { padding: 6px 30px 0; font-size: 12px; line-height: 1.35; color: var(--texto-sec); }
 
 /* marcador del Pozo N° 2 */
@@ -78,6 +87,7 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 #leyenda { position: fixed; right: 16px; top: 16px; z-index: 3; background: var(--tarjeta); border-radius: 6px; padding: 10px 14px; font-size: 14px; box-shadow: 0 4px 16px rgba(0,0,0,.12); display: flex; flex-direction: column; gap: 4px; }
 #leyenda { transition: opacity .4s; }
 body.sin-leyenda #leyenda { opacity: 0; pointer-events: none; } /* portada y paso del Pozo N° 2 */
+#leyenda:empty { display: none; } /* hasta que llegan los pozos */
 .ley-titulo { margin: 0 0 2px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--texto-sec); }
 .ley-item.apagado { color: var(--texto-sec); }
 .ley-item.apagado .ley-dot { opacity: .35; }

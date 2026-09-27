@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lo que queda — pozos del Golfo San Jorge</title>
   <meta name="description" content="Lo que queda cuando el petróleo se va: %POZOS_CUENCA% pozos de la Cuenca del Golfo San Jorge, y una ciudad que creció encima. Datos abiertos de la Secretaría de Energía y del Censo 2022.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Tipografías propias (public/fonts): se piden ya, en paralelo con la hoja de estilos -->
+  <link rel="preload" href="./fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./src/styles.css">
 </head>
 <body class="sin-leyenda">
@@ -14,7 +15,11 @@
   <main id="story" aria-label="Recorrido guiado">
     <section class="step" data-step="0"><div class="card card-portada">
       <figure class="foto-portada">
-        <img src="./img/comodoro-hoy.jpg" alt="Un aparato de bombeo petrolero cercado, en una ladera sobre Comodoro Rivadavia; atrás, la ciudad y el mar">
+        <!-- WebP con JPEG de respaldo (scripts/optimizar_fotos.py). Es lo más grande de la portada: se pide primero. -->
+        <picture>
+          <source srcset="./img/comodoro-hoy.webp" type="image/webp">
+          <img src="./img/comodoro-hoy.jpg" width="1000" height="563" fetchpriority="high" alt="Un aparato de bombeo petrolero cercado, en una ladera sobre Comodoro Rivadavia; atrás, la ciudad y el mar">
+        </picture>
         <figcaption>Comodoro Rivadavia hoy. Foto: gentileza El Patagónico.</figcaption>
       </figure>
       <p class="kicker">Exploración interactiva</p>
@@ -22,7 +27,7 @@
       <p class="bajada">cuando el petróleo se va</p>
       <p class="descripcion" id="portada-texto"></p>
       <button type="button" class="empezar" id="btn-empezar">
-        Desplazá para empezar
+        <span class="empezar-texto">Desplazá para empezar</span>
         <svg class="empezar-flecha" width="14" height="16" viewBox="0 0 14 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 1 L7 14 M1.5 8.5 L7 14 L12.5 8.5"/></svg>
       </button>
       <p class="fuente" id="portada-fuente"></p>
@@ -157,7 +162,7 @@
       <ul class="met-lista">
         <li>Fotos: Pozo N° 2, diciembre de 1907, Fototeca de Comodoro Rivadavia – Archivo Histórico Municipal (negativo cedido por el Archivo General de la Nación). Comodoro Rivadavia hoy: gentileza El Patagónico.</li>
         <li>Mapa base: <a href="https://openfreemap.org/">OpenFreeMap</a>, con datos de <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (ODbL) y <a href="https://openmaptiles.org/">OpenMapTiles</a>.</li>
-        <li>Tipografías: Fraunces y Source Sans 3 (SIL Open Font License), vía Google Fonts.</li>
+        <li>Tipografías: Fraunces y Source Sans 3 (SIL Open Font License; licencias en <code>public/fonts/</code>).</li>
         <li>Programas: MapLibre GL JS (BSD-3-Clause), deck.gl (MIT), D3 (ISC), Scrollama (MIT), Vite (MIT).</li>
         <li>Esta pieza: código con licencia MIT; datos derivados con licencia CC-BY 4.0, citando las fuentes de arriba.</li>
         <li class="pendiente">Enlace al repositorio con el código y los datos (tarea 1.6).</li>

@@ -53,16 +53,20 @@ data-pipeline/procesar.py   pipeline reproducible; GRUPOS = tabla de equivalenci
 data-pipeline/raw/          insumos descargados (18/09/2026); ver data-pipeline/README.md
 public/data/                salidas: pozos_gsj.bin(+meta), fichas/, siglas.json, radios.geojson, limites.geojson,
                             produccion_cuencas.json, operadores.json, resumen.json, conciliacion.md
-src/main.js                 arranque
+src/main.js                 arranque en dos tiempos: portada con resumen.json; después MapLibre, deck.gl y datos
 src/data.js                 carga de binario/JSON, fmt()
-src/map.js                  MapLibre + deck.gl; filtros en GPU (DataFilterExtension); API: aplicar(), volar(), alCambiar()
+src/map.js                  MapLibre + deck.gl (deck se importa a demanda); filtros en GPU (DataFilterExtension);
+                            API: aplicar(), volar(), alCambiar(), cargarCapas(), agregarPais()
                             Mapa base: OpenFreeMap con rótulos `name:es` ("Islas Malvinas") y sin la capa `park`; IGN opcional
 src/story.js                pasos del recorrido (textos + vista + capas) y scrollama
 src/explore.js              panel de filtros, leyenda con conteos, buscador, ficha
 src/chart.js                gráfico D3 de producción por cuenca (paso 2)
 src/paleta.js               colores validados
 src/styles.css              estilos; media query móvil al final
+src/metodologia.js          completa la metodología de index.html (cifras data-cifra, datasets, tabla de estados)
 index.html                  esqueleto + panel + ficha + sección metodología
+public/fonts/               Fraunces y Source Sans 3 (woff2, OFL): servidas desde el sitio, sin Google Fonts
+public/img/                 fotos a 1000 px, WebP + JPEG; se generan con scripts/optimizar_fotos.py desde fotos-originales/
 .github/workflows/deploy.yml  publica dist/ en GitHub Pages en cada push a main
 ```
 

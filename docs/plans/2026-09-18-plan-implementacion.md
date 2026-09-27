@@ -95,7 +95,10 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
       licencias. Enlaces oficiales de `docs/investigacion-contexto.md`.
 - [x] 3.3 (27/09: los nombres de la línea "Fuente" son enlaces, se abren en otra pestaña; datasets por su `clave` en
       `resumen.datasets`, contexto en `CONTEXTO` de `story.js`. Sin ícono: decide Aldana) Enlaces a fuentes oficiales desde las tarjetas (ícono al lado de "Fuente").
-- [ ] 3.4 Rendimiento: probar en una compu lenta y en Firefox/Safari; si hace falta, bajar
+- [ ] 3.4 (PARCIAL 27/09: carga en dos tiempos — la portada con un JS de 92 KB (antes 2,1 MB), MapLibre y deck.gl
+      en chunks aparte, datos pesados después de la foto de portada, el país al final; tipografías servidas desde el
+      sitio; fotos a 1000 px en WebP con JPEG de respaldo (`scripts/optimizar_fotos.py`, originales en
+      `fotos-originales/`). Medido con Lighthouse. Falta: probar en compu lenta y en Firefox/Safari) Rendimiento: probar en una compu lenta y en Firefox/Safari; si hace falta, bajar
       `radiusMaxPixels` y agrupar en hexágonos por debajo de zoom 8 (`HexagonLayer`).
 - [ ] 3.5 (PARCIAL 26/09: vuelos y fundido respetan "reducir movimiento"; ficha con foco, Escape y nombre; controles del
       mapa en castellano; el mapa fuera del orden de tabulación durante el recorrido. Falta: contraste de tarjetas

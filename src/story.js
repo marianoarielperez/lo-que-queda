@@ -164,7 +164,7 @@ export function montarRecorrido({ pasos, mapa, produccion, alTerminar, alExplora
     sec.dataset.step = s.id;
     sec.innerHTML = `
       <div class="card${s.foto ? ' card-foto' : ''}">
-        ${s.foto ? `<figure class="foto-paso"><img src="${s.foto.src}" alt="${s.foto.alt}" loading="lazy"><figcaption>${s.foto.credito}</figcaption></figure>` : ''}
+        ${s.foto ? `<figure class="foto-paso"><picture><source srcset="${s.foto.src.replace(/\.jpg$/, '.webp')}" type="image/webp"><img src="${s.foto.src}" width="1000" height="562" alt="${s.foto.alt}" loading="lazy"></picture><figcaption>${s.foto.credito}</figcaption></figure>` : ''}
         <p class="kicker">${s.kicker}</p>
         <p class="cifra">${s.cifra}</p>
         <h2 class="titulo-paso">${s.titulo}</h2>

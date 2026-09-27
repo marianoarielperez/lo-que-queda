@@ -5,5 +5,7 @@
 *.kmz  binary
 *.jpg  binary
 *.png  binary
+*.webp binary
+*.woff2 binary
 # Insumos del pipeline: se guardan tal cual, byte a byte (garantía de reproducibilidad)
 data-pipeline/raw/** -text
