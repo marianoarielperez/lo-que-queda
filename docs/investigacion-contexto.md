@@ -91,6 +91,35 @@ que defina "En estudio", "En reserva…", "Parado transitoriamente" (solo las 3 
   a Vaca Muerta, más que duplicó su producción". La serie no separa el shale por cuenca: no dar una cifra de
   "producción de Vaca Muerta".
 
+## Zona norte (tarjeta 6, 27/09/2026)
+
+Verificado con fuente oficial:
+- Zona norte = los barrios al norte del cerro Chenque. Municipalidad, DGMIT, "Relevamiento de barrios" (2025): "dos grandes
+  grupos temáticos divididos por el Cerro Chenque"; 77 barrios, 41 en Zona Sur y 36 en Zona Norte.
+  https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/ y la lista: https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/zona-norte/
+  (35 barrios en la lista + Franja Forestal Cerro de la Cruz, "nuevo barrio de Zona Norte desde el año 2025"). Es una
+  agrupación del relevamiento, no una división jurídica: decir "los barrios al norte del cerro Chenque", no "el distrito".
+  En `limites-barrios-2026.gpkg` no hay campo Norte/Sur; `circ` (circunscripción catastral, Disposición 05/01 de Catastro
+  Chubut) no alcanza: Ex Radio Estación es `circ` 5 y el municipio la pone en Zona Sur. Por eso `ZONA_NORTE` es una lista.
+- General Mosconi = Km 3. Ficha municipal: "El barrio histórico Gral. Enrique Mosconi (Km 3)…"
+  https://www.comodoro.gov.ar/miciudad/2024/12/04/relevamiento-de-barrios-zona-norte-general-mosconi/ . El Museo Nacional
+  del Petróleo (sobre el Pozo N° 2) está en "Barrio General Mosconi": https://www.argentina.gob.ar/cultura/monumentos/museopetroleo
+  La coordenada del Capítulo IV del Pozo N° 2 (idpozo 121014) cae en ese polígono (`resumen.zona_norte.barrio_pozo_2`).
+- Astra: "originalmente fundado como un asentamiento minero alemán y petrolero" (Municipalidad, 12/12/2025).
+  https://www.comodoro.gov.ar/2025/12/12/astra-celebro-su-113-aniversario/
+- Km 5 (Presidente Ortiz y Las Orquídeas): "La existencia del ferrocarril, de la usina y de un campamento petrolero…"
+  (Municipalidad, 3/8/2021). https://www.comodoro.gov.ar/2021/08/03/se-presentara-el-libro-historico-sobre-km-5-historia-de-un-pueblo-entre-pozos-y-trenes/
+- Población por barrio: "Población y Viviendas por Barrio Censo 2022", datos.comodoro.gov.ar (DGMIT; CC BY-SA 4.0; publicado
+  el 23/01/2026). Suma 201.854 = la población de la ciudad. No documenta cómo asignó radios a barrios, y las fichas
+  municipales por barrio dan cifras apenas distintas (Mosconi 7.339 en el CSV y 7.361 en la ficha): usar solo el CSV.
+  Contra la suma de nuestros radios, 30 barrios coinciden a ±1 % (Astra 328/329) y 36 difieren mucho porque los radios
+  cruzan límites de barrio: sirve para totales de zona norte, no para comparar pozos por habitante entre barrios.
+
+Sin confirmar (no usar): fechas de fundación de Km 3 y de Astra (las fuentes chocan); origen de Km 8 y de Diadema
+(solo Comodoro Turismo); "Castelli, Laprida y Rodríguez Peña como campamentos de los años 60"; Manantial Rosales, Sarmiento
+y Laprida "de orígenes netamente petroleros" (solo un artículo de la UNPSJB, Usach y Freddo 2016: académico, no oficial).
+Nunca decir "pozos sobre casas": las viviendas no están georreferenciadas; decir "pozos dentro del barrio".
+
 ## Sin confirmación oficial (no usar)
 
 "6.300 pozos en funcionamiento en Chubut" (declaración en prensa, 2020); "3.700 pozos inactivos a

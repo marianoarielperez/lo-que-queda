@@ -9,7 +9,7 @@ export function montarMetodologia(R) {
   const sec = document.getElementById('ventana-metodologia');
   if (!sec) return;
 
-  // Cifras: data-cifra="ruta.en.resumen"; data-formato="cantidad" (claves de un objeto) o "mes" ("2017-01").
+  // Cifras: data-cifra="ruta.en.resumen"; data-formato="cantidad" (claves de un objeto), "mes" ("2017-01") o "lista" (nombres).
   for (const el of sec.querySelectorAll('[data-cifra]')) {
     const v = el.dataset.cifra.split('.').reduce((o, k) => o?.[k], R);
     if (v === undefined || v === null) {
@@ -18,7 +18,8 @@ export function montarMetodologia(R) {
       continue;
     }
     const f = el.dataset.formato;
-    el.textContent = f === 'cantidad' ? fmt(Object.keys(v).length) : f === 'mes' ? mesAnio(v) : fmt(v);
+    el.textContent = f === 'cantidad' ? fmt(Object.keys(v).length) : f === 'mes' ? mesAnio(v)
+      : f === 'lista' ? v.join(', ').replace(/, ([^,]*)$/, ' y $1') : fmt(v);
   }
 
   // Datasets (procesar.py → DATASETS)

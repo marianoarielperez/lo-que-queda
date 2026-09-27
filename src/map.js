@@ -167,6 +167,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     sinProducir: null, // tramo de tiempo sin producir (cols.tramo_sp, ver data.js) o null
     soloEjido: false,
     enfocarEjido: false, // se ve toda la cuenca, pero los pozos fuera del ejido quedan atenuados (paso Ejido)
+    enfocarZonaNorte: false, // igual con los barrios de zona norte, que además se dibujan (paso Zona norte)
     poblacion: false,
     limites: false,
     pozos: false,      // si es false no se dibuja ningún pozo (portada)
@@ -187,12 +188,17 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
   // Colores RGBA por pozo, calculados en CPU una vez. Solo se repintan cuando cambia el enfoque del ejido.
   let colores;
   function pintarPozos() {
-    const { estado_cod, ejido_cod } = pozos.cols;
+    const { estado_cod } = pozos.cols;
     for (let i = 0, j = 0; i < pozos.n; i++, j += 4) {
       const c = colorEstado[estado_cod[i]];
       colores[j] = c[0]; colores[j + 1] = c[1]; colores[j + 2] = c[2];
-      colores[j + 3] = estado.enfocarEjido && ejido_cod[i] !== 1 ? ALFA_ATENUADO : 255;
+      colores[j + 3] = enFoco(i) ? 255 : ALFA_ATENUADO;
     }
+  }
+  /** Fuera del foco (ejido o zona norte, si el paso enfoca uno) el pozo se ve atenuado y no se cuenta. */
+  function enFoco(i) {
+    const { ejido_cod, zn_cod } = pozos.cols;
+    return (!estado.enfocarEjido || ejido_cod[i] === 1) && (!estado.enfocarZonaNorte || zn_cod?.[i] === 1);
   }
 
   // Vector de "pasa el filtro" recalculado en CPU cuando cambia un filtro (44k valores: instantáneo);
@@ -203,7 +209,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
   let sinConcesion = 0;
   function recalcularFiltro() {
     const { estado_cod, empresa_cod, yac_cod, prov_cod, ejido_cod, idpozo, tramo_sp, conc_cod } = pozos.cols;
-    const { soloId, estadosVisibles, empresa, yacimiento, provincia, sinProducir, soloEjido, enfocarEjido } = estado;
+    const { soloId, estadosVisibles, empresa, yacimiento, provincia, sinProducir, soloEjido } = estado;
     conteos.fill(0);
     sinConcesion = 0;
     let n = 0;
@@ -222,7 +228,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       const sinConc = ok && conc_cod !== undefined && conc_cod[i] === 0;
       pasaSinConcesion[i] = sinConc ? 1 : 0;
       if (sinConc) sinConcesion++;
-      const destacado = !enfocarEjido || ejido_cod[i] === 1;
+      const destacado = enFoco(i);
       if (resto && destacado) conteos[estado_cod[i]]++;
       if (ok && destacado) n++;
     }
@@ -381,16 +387,19 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     });
   }
 
+  const colorLimite = hexARgb(PALETA.limite);
   function capaBarrios() {
     if (!barrios) return null;
     return new deck.GeoJsonLayer({
       id: 'barrios',
       data: barrios,
-      visible: estado.barrios,
+      visible: estado.barrios || estado.enfocarZonaNorte,
       filled: false,
       stroked: true,
-      getLineColor: hexARgb(PALETA.limite),
-      lineWidthMinPixels: 0.8,
+      // Con zona norte enfocada se dibujan solo sus barrios (propiedad zn), con trazo más grueso.
+      getLineColor: (f) => (estado.enfocarZonaNorte && !f.properties.zn ? [0, 0, 0, 0] : colorLimite),
+      lineWidthMinPixels: estado.enfocarZonaNorte ? 1.6 : 0.8,
+      updateTriggers: { getLineColor: estado.enfocarZonaNorte },
       pickable: false,
     });
   }
@@ -585,14 +594,14 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     aplicar(cambios = {}) {
       const eraUnSolo = estado.soloId !== null;
       const habiaPozos = estado.pozos;
-      const enfocabaEjido = estado.enfocarEjido;
+      const enfoque = [estado.enfocarEjido, estado.enfocarZonaNorte];
       const eraSatelite = estado.satelite;
       Object.assign(estado, cambios);
       // Copia propia: los pasos del recorrido definen su Set y el panel modifica el del mapa; no compartirlos.
       if (cambios.estadosVisibles) estado.estadosVisibles = new Set(cambios.estadosVisibles);
       if (estado.satelite !== eraSatelite) aplicarBase();
       const aparecenPozos = (eraUnSolo && estado.soloId === null) || (!habiaPozos && estado.pozos);
-      actualizar({ fundir: aparecenPozos, repintar: estado.enfocarEjido !== enfocabaEjido });
+      actualizar({ fundir: aparecenPozos, repintar: estado.enfocarEjido !== enfoque[0] || estado.enfocarZonaNorte !== enfoque[1] });
       return visibles;
     },
     /** Avisa después de cada cambio (el panel resincroniza controles, leyenda y contadores). */
@@ -600,7 +609,13 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     marcador: mostrarMarcador,
     volar(vista, opciones = {}) {
       // El padding siempre se pasa explícito: MapLibre lo conserva entre vuelos si no.
-      const padding = opciones.padding || { top: 0, bottom: 0, left: 0, right: 0 };
+      let padding = opciones.padding || { top: 0, bottom: 0, left: 0, right: 0 };
+      // Vista por límites ([[oeste, sur], [este, norte]]): centro y zoom para esta pantalla, sin lo que tapa el padding.
+      // cameraForBounds ya corre el centro por el padding, así que el vuelo va sin padding (si no, lo corre dos veces).
+      if (vista.bounds) {
+        vista = map.cameraForBounds(vista.bounds, { padding }) || { center: map.getCenter(), zoom: map.getZoom() };
+        padding = { top: 0, bottom: 0, left: 0, right: 0 };
+      }
       // Con "reducir movimiento" se salta directo (MapLibre lo haría solo, pero `essential` lo impide).
       if (reducirMovimiento()) { map.jumpTo({ ...vista, padding }); return; }
       map.flyTo({ ...vista, duration: 1600, essential: true, ...opciones, padding });

@@ -12,7 +12,7 @@ const MAX_RESULTADOS = 12;
 const VISTA_CUENCA = { center: [-68.3, -46.2], zoom: 7 };
 const estadoInicial = () => ({
   estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, sinProducir: null,
-  soloEjido: false, enfocarEjido: false, poblacion: false, limites: false, pozos: true, pais: false,
+  soloEjido: false, enfocarEjido: false, enfocarZonaNorte: false, poblacion: false, limites: false, pozos: true, pais: false,
   concesiones: false, barrios: false, soloId: null, resaltado: null, satelite: false,
 });
 
@@ -100,7 +100,8 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   const leyenda = $('leyenda');
   function sincronizar(e) {
     const c = mapa.conteos;
-    const alcance = e.soloId !== null ? '' : (e.enfocarEjido || e.soloEjido) ? 'Pozos en el ejido de Comodoro'
+    const alcance = e.soloId !== null ? '' : e.enfocarZonaNorte ? 'Pozos en los barrios de zona norte'
+      : (e.enfocarEjido || e.soloEjido) ? 'Pozos en el ejido de Comodoro'
       : hayFiltros(e) ? 'Pozos con los filtros elegidos' : 'Pozos en la cuenca';
     leyenda.innerHTML = (alcance ? `<p class="ley-titulo">${alcance}</p>` : '')
       + estados.filter((x) => c[x.cod] > 0).map((x) => `<div class="ley-item${e.estadosVisibles.has(x.cod) ? '' : ' apagado'}"><span class="ley-dot" style="background:${x.hex}"></span>${x.nombre}<b>${fmt(c[x.cod])}</b></div>`).join('')

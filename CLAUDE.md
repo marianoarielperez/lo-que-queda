@@ -139,6 +139,13 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   `produccion.neuquina_pct_ref` y `produccion.gsj_cae_desde`. Paso 5: población solo de Comodoro
   (`poblacion.comodoro`, 304 radios, 201.230 hab.); Rada Tilly queda afuera del porcentaje.
 
+- 27/09: la tarjeta 6 pasa de "Km 3" a "Zona norte": los 36 barrios al norte del cerro Chenque según el relevamiento
+  de barrios de la Municipalidad (`ZONA_NORTE` en `procesar.py`; fuentes en `docs/investigacion-contexto.md`). Población por
+  barrio del Censo 2022 (`raw/poblacion-viviendas-barrios-2022.csv`) → `resumen.zona_norte`; `zn_cod` en el binario y `zn` en
+  `barrios.geojson` para el enfoque del mapa (`enfocarZonaNorte`). Decir "pozos dentro del barrio", nunca "sobre casas":
+  las viviendas no están georreferenciadas. La población por barrio sirve para totales; no comparar pozos por habitante
+  entre barrios salvo donde coincide con los radios (Astra sí).
+
 ## Qué NO hacer
 
 - No reemplazar el Capítulo IV base por una descarga posterior al 18/09/2026 sin avisar: las cifras

@@ -21,6 +21,7 @@ python procesar.py --check
 | `radios-censales-2022.zip` | datos.comodoro.gov.ar (Censo 2022, INDEC) | Shapefile, 325 radios del depto. Escalante |
 | `poblacion-radio-censal-2022.kmz` | datos.comodoro.gov.ar (Censo 2022, INDEC) | Polígonos con población por radio |
 | `limites-barrios-2026.gpkg` | datos.comodoro.gov.ar | 77 barrios de Comodoro Rivadavia (GeoPackage); 52 tienen pozos |
+| `poblacion-viviendas-barrios-2022.csv` | datos.comodoro.gov.ar, "Población y Viviendas por Barrio Censo 2022" (DGMIT; CC BY-SA 4.0) | Descarga directa (27/09/2026), 74 renglones. Los nombres no siempre coinciden con los polígonos 2026: `POBLACION_A_POLIGONOS` en `procesar.py`. Solo se usa para zona norte |
 | `eph-desempleo-comodoro-datosgobar.csv` | datos.gob.ar, serie `45.2_ECTDTCR_0_T_52` (INDEC, EPH continua: tasa de desempleo, Comodoro Rivadavia), trimestral 2003–2026 | Descarga de la API de series (26/09/2026). Define el último valor y hace cuántos años no había uno más alto |
 | `eph-comodoro-2022-2026.csv` | INDEC, EPH, informes "Mercado de trabajo. Tasas e indicadores socioeconómicos" 1T 2022 a 2T 2026 | Serie armada por Mariano (26/09/2026) con los cuadros 3.1 a 3.4 de cada informe: tasas, población y CV/IC 90 % de la desocupación para Comodoro Rivadavia–Rada Tilly, región Patagonia y total 31 aglomerados. 2T 2026 provisorio |
 

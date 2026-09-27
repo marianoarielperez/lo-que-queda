@@ -647,6 +647,427 @@
   ],
   "barrio_del_radio_urbano_mas_pozos": null
  },
+ "zona_norte": {
+  "fuente": "https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/zona-norte/",
+  "barrios": 36,
+  "barrios_con_pozos": 33,
+  "barrios_sin_pozos": [
+   "Chacras Km 18",
+   "Gesta de Malvinas",
+   "Franja Forestal Cerro de la Cruz"
+  ],
+  "pozos": {
+   "Activo": 95,
+   "Inactivo": 431,
+   "A abandonar": 43,
+   "Abandonado": 1801,
+   "No informado": 0,
+   "total": 2370,
+   "extraccion_efectiva": 71
+  },
+  "pozos_en_barrios_pct": 94.5,
+  "poblacion": 69219,
+  "viviendas": 24842,
+  "barrios_sin_poblacion": [
+   "Chacras El Faro",
+   "Franja Forestal Cerro de la Cruz"
+  ],
+  "pobl_en_barrios_con_pozo": 68732,
+  "pobl_en_barrios_con_pozo_pct": 99.3,
+  "pobl_en_barrios_con_10_o_mas": 59594,
+  "pobl_en_barrios_con_10_o_mas_pct": 86.1,
+  "barrio_pozo_2": "General Enrique Mosconi",
+  "por_barrio": {
+   "Astra": {
+    "Activo": 23,
+    "Inactivo": 63,
+    "A abandonar": 0,
+    "Abandonado": 406,
+    "No informado": 0,
+    "total": 492,
+    "extraccion_efectiva": 12,
+    "poblacion": 328,
+    "viviendas": 119
+   },
+   "Don Bosco": {
+    "Activo": 3,
+    "Inactivo": 148,
+    "A abandonar": 2,
+    "Abandonado": 211,
+    "No informado": 0,
+    "total": 364,
+    "extraccion_efectiva": 2,
+    "poblacion": 8570,
+    "viviendas": 2953
+   },
+   "Presidente Roberto M. Ortiz": {
+    "Activo": 8,
+    "Inactivo": 11,
+    "A abandonar": 15,
+    "Abandonado": 218,
+    "No informado": 0,
+    "total": 252,
+    "extraccion_efectiva": 8,
+    "poblacion": 4198,
+    "viviendas": 1740
+   },
+   "General Enrique Mosconi": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 11,
+    "Abandonado": 184,
+    "No informado": 0,
+    "total": 195,
+    "extraccion_efectiva": 0,
+    "poblacion": 7339,
+    "viviendas": 3226
+   },
+   "Manantial Rosales": {
+    "Activo": 17,
+    "Inactivo": 37,
+    "A abandonar": 2,
+    "Abandonado": 133,
+    "No informado": 0,
+    "total": 189,
+    "extraccion_efectiva": 13,
+    "poblacion": 761,
+    "viviendas": 260
+   },
+   "Caleta Córdova": {
+    "Activo": 7,
+    "Inactivo": 54,
+    "A abandonar": 0,
+    "Abandonado": 59,
+    "No informado": 0,
+    "total": 120,
+    "extraccion_efectiva": 7,
+    "poblacion": 819,
+    "viviendas": 269
+   },
+   "Bella Vista Norte": {
+    "Activo": 8,
+    "Inactivo": 8,
+    "A abandonar": 0,
+    "Abandonado": 75,
+    "No informado": 0,
+    "total": 91,
+    "extraccion_efectiva": 6,
+    "poblacion": 667,
+    "viviendas": 243
+   },
+   "Diadema Argentina": {
+    "Activo": 19,
+    "Inactivo": 28,
+    "A abandonar": 0,
+    "Abandonado": 41,
+    "No informado": 0,
+    "total": 88,
+    "extraccion_efectiva": 15,
+    "poblacion": 1392,
+    "viviendas": 508
+   },
+   "Próspero Palazzo": {
+    "Activo": 2,
+    "Inactivo": 7,
+    "A abandonar": 2,
+    "Abandonado": 56,
+    "No informado": 0,
+    "total": 67,
+    "extraccion_efectiva": 1,
+    "poblacion": 7555,
+    "viviendas": 2300
+   },
+   "Juan José Castelli": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 1,
+    "Abandonado": 63,
+    "No informado": 0,
+    "total": 64,
+    "extraccion_efectiva": 0,
+    "poblacion": 1706,
+    "viviendas": 617
+   },
+   "Laprida": {
+    "Activo": 3,
+    "Inactivo": 4,
+    "A abandonar": 3,
+    "Abandonado": 44,
+    "No informado": 0,
+    "total": 54,
+    "extraccion_efectiva": 3,
+    "poblacion": 4840,
+    "viviendas": 1518
+   },
+   "Nicolás Rodríguez Peña": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 2,
+    "Abandonado": 47,
+    "No informado": 0,
+    "total": 49,
+    "extraccion_efectiva": 0,
+    "poblacion": 1991,
+    "viviendas": 689
+   },
+   "25 de Mayo": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 48,
+    "No informado": 0,
+    "total": 48,
+    "extraccion_efectiva": 0,
+    "poblacion": 1190,
+    "viviendas": 509
+   },
+   "Restinga Alí": {
+    "Activo": 2,
+    "Inactivo": 19,
+    "A abandonar": 0,
+    "Abandonado": 22,
+    "No informado": 0,
+    "total": 43,
+    "extraccion_efectiva": 2,
+    "poblacion": 1120,
+    "viviendas": 340
+   },
+   "Nuestra Señora de la Divina Providencia": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 2,
+    "Abandonado": 38,
+    "No informado": 0,
+    "total": 40,
+    "extraccion_efectiva": 0,
+    "poblacion": 1573,
+    "viviendas": 572
+   },
+   "Las Orquídeas": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 2,
+    "Abandonado": 32,
+    "No informado": 0,
+    "total": 34,
+    "extraccion_efectiva": 0,
+    "poblacion": 2821,
+    "viviendas": 1076
+   },
+   "Sarmiento": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 32,
+    "No informado": 0,
+    "total": 32,
+    "extraccion_efectiva": 0,
+    "poblacion": 938,
+    "viviendas": 301
+   },
+   "Standard Norte": {
+    "Activo": 2,
+    "Inactivo": 16,
+    "A abandonar": 0,
+    "Abandonado": 11,
+    "No informado": 0,
+    "total": 29,
+    "extraccion_efectiva": 1,
+    "poblacion": 6813,
+    "viviendas": 2082
+   },
+   "Zona de Aeropuerto": {
+    "Activo": 0,
+    "Inactivo": 11,
+    "A abandonar": 0,
+    "Abandonado": 14,
+    "No informado": 0,
+    "total": 25,
+    "extraccion_efectiva": 0,
+    "poblacion": 161,
+    "viviendas": 67
+   },
+   "Gobernador Fontana": {
+    "Activo": 1,
+    "Inactivo": 11,
+    "A abandonar": 0,
+    "Abandonado": 8,
+    "No informado": 0,
+    "total": 20,
+    "extraccion_efectiva": 1,
+    "poblacion": 1776,
+    "viviendas": 586
+   },
+   "Saavedra": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 1,
+    "Abandonado": 19,
+    "No informado": 0,
+    "total": 20,
+    "extraccion_efectiva": 0,
+    "poblacion": 1766,
+    "viviendas": 634
+   },
+   "Standard Sur": {
+    "Activo": 0,
+    "Inactivo": 10,
+    "A abandonar": 0,
+    "Abandonado": 7,
+    "No informado": 0,
+    "total": 17,
+    "extraccion_efectiva": 0,
+    "poblacion": 1270,
+    "viviendas": 414
+   },
+   "Chacras El Faro": {
+    "Activo": 0,
+    "Inactivo": 1,
+    "A abandonar": 0,
+    "Abandonado": 7,
+    "No informado": 0,
+    "total": 8,
+    "extraccion_efectiva": 0
+   },
+   "Güemes": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 6,
+    "No informado": 0,
+    "total": 6,
+    "extraccion_efectiva": 0,
+    "poblacion": 109,
+    "viviendas": 45
+   },
+   "Acceso Noroeste": {
+    "Activo": 0,
+    "Inactivo": 2,
+    "A abandonar": 0,
+    "Abandonado": 2,
+    "No informado": 0,
+    "total": 4,
+    "extraccion_efectiva": 0,
+    "poblacion": 15,
+    "viviendas": 7
+   },
+   "Ciudadela": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 4,
+    "No informado": 0,
+    "total": 4,
+    "extraccion_efectiva": 0,
+    "poblacion": 1507,
+    "viviendas": 507
+   },
+   "Cuarteles Chacabuco": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 4,
+    "No informado": 0,
+    "total": 4,
+    "extraccion_efectiva": 0,
+    "poblacion": 411,
+    "viviendas": 124
+   },
+   "Centenario": {
+    "Activo": 0,
+    "Inactivo": 1,
+    "A abandonar": 0,
+    "Abandonado": 2,
+    "No informado": 0,
+    "total": 3,
+    "extraccion_efectiva": 0,
+    "poblacion": 603,
+    "viviendas": 235
+   },
+   "Dr. René Gerónimo Favaloro": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 2,
+    "No informado": 0,
+    "total": 2,
+    "extraccion_efectiva": 0,
+    "poblacion": 2655,
+    "viviendas": 1136
+   },
+   "Gasoducto": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 2,
+    "No informado": 0,
+    "total": 2,
+    "extraccion_efectiva": 0,
+    "poblacion": 391,
+    "viviendas": 149
+   },
+   "Padre Juan Corti": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 2,
+    "No informado": 0,
+    "total": 2,
+    "extraccion_efectiva": 0,
+    "poblacion": 789,
+    "viviendas": 242
+   },
+   "ARA San Juan": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 1,
+    "No informado": 0,
+    "total": 1,
+    "extraccion_efectiva": 0,
+    "poblacion": 1394,
+    "viviendas": 474
+   },
+   "Chacras Km 17": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 1,
+    "No informado": 0,
+    "total": 1,
+    "extraccion_efectiva": 0
+   },
+   "Chacras Km 18": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 0,
+    "No informado": 0,
+    "total": 0,
+    "extraccion_efectiva": 0
+   },
+   "Gesta de Malvinas": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 0,
+    "No informado": 0,
+    "total": 0,
+    "extraccion_efectiva": 0,
+    "poblacion": 487,
+    "viviendas": 180
+   },
+   "Franja Forestal Cerro de la Cruz": {
+    "Activo": 0,
+    "Inactivo": 0,
+    "A abandonar": 0,
+    "Abandonado": 0,
+    "No informado": 0,
+    "total": 0,
+    "extraccion_efectiva": 0
+   }
+  }
+ },
  "concesiones": {
   "poligonos": 55,
   "pozos_en_area_con_concesion": 42183,
@@ -810,12 +1231,21 @@
   },
   {
    "clave": "barrios",
-   "titulo": "Límites de barrios 2026",
+   "titulo": "Barrios de Comodoro Rivadavia (límites 2026)",
    "organismo": "Municipalidad de Comodoro Rivadavia",
-   "url": "https://datos.comodoro.gov.ar/",
+   "url": "https://datos.comodoro.gov.ar/dataset/barrios-de-comodoro-rivadavia",
    "descarga": "20/09/2026",
-   "licencia": null,
+   "licencia": "CC BY-SA 4.0",
    "uso": "barrio de cada pozo"
+  },
+  {
+   "clave": "poblacion_barrios",
+   "titulo": "Población y viviendas por barrio, Censo 2022",
+   "organismo": "Municipalidad de Comodoro Rivadavia (datos del INDEC)",
+   "url": "https://datos.comodoro.gov.ar/dataset/poblacion-y-viviendas-por-barrio-censo-2022",
+   "descarga": "27/09/2026",
+   "licencia": "CC BY-SA 4.0",
+   "uso": "población de los barrios de zona norte"
   },
   {
    "clave": "eph_serie",

@@ -30,7 +30,7 @@ Opción A: relato primero, mapa después. Una página; el mapa ocupa la pantalla
 | 2 | Cuenca | Puntos por estado | 44.390 pozos; 15.880 activos, 15.894 inactivos, 1.444 a abandonar, 11.161 abandonados; de los 36.507 que ya figuraban en 2006 producen 7.459 (extracción efectiva); 11.243 no abandonados sin un mes de producción desde 2017 |
 | 3 | Operadoras | Puntos por operadora, antes/después | 21.509 pozos de YPF → 0; 251 sin empresa (179 abandonados) |
 | 4 | Ejido | Límite del ejido + radios urbanos + población | 6.205 pozos; 817 activos, 574 producen; 84.519 personas (42,0 % de Comodoro) en radios con pozo |
-| 5 | Km 3 | Zoom a Campamento Central – Bella Vista Este | 2.229 pozos en el ejido; 1.812 abandonados; 77 activos, 56 producen |
+| 5 | Zona norte | Barrios al norte del cerro Chenque (lista municipal); pozos fuera de ellos atenuados | 33 de 36 barrios con pozos; 2.370 pozos (1.801 abandonados, 95 activos); 86,1 % de los vecinos en barrios con 10 o más; Astra 492 pozos y 328 hab.; Mosconi (Km 3, Pozo N° 2) 195 y ninguno activo |
 | 6 | Un radio | Radio urbano 260211203 (Km 3) | 408 pozos, 936 habitantes, 303 abandonados, 3 activos; surgencia CH-679 (27/8/2024) |
 | 7 | Cierre | Mapa liberado | 28.499 pozos sin producir; 13.175 inactivos hace más de 5 años; 169 declaraciones de abandono por año (2018–2025); provisión YPF US$ 915 M |
 

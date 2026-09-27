@@ -13,10 +13,13 @@ const CONTEXTO = {
   ley24799: 'https://www.argentina.gob.ar/normativa/nacional/ley-24799-42613/texto',
   ypf20F: 'https://www.sec.gov/Archives/edgar/data/904851/000119312525067155/d866694d20f.htm',
   decreto1509: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=87339',
-  res596: 'https://servicios.infoleg.gob.ar/infolegInternet/anexos/30000-34999/31996/norma.htm',
   municipioCH679: 'https://www.comodoro.gov.ar/2024/08/27/el-municipio-intervino-ante-un-nuevo-derrame-de-petroleo-en-un-yacimiento-ypf/',
   vacaMuerta: 'https://www.argentina.gob.ar/economia/energia/vaca-muerta/historia',
   vacaMuerta2019: 'https://www.argentina.gob.ar/noticias/por-el-crecimiento-de-vaca-muerta-la-produccion-de-petroleo-y-gas-fue-record-en-mayo',
+  zonaNorte: 'https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/zona-norte/',
+  astra: 'https://www.comodoro.gov.ar/2025/12/12/astra-celebro-su-113-aniversario/',
+  km5: 'https://www.comodoro.gov.ar/2021/08/03/se-presentara-el-libro-historico-sobre-km-5-historia-de-un-pueblo-entre-pozos-y-trenes/',
+  mosconi: 'https://www.comodoro.gov.ar/miciudad/2024/12/04/relevamiento-de-barrios-zona-norte-general-mosconi/',
 };
 /** Enlace a un dataset por su clave en resumen.datasets (procesar.py → DATASETS). */
 const dataset = (R, clave, t) => ({ t, url: R.datasets?.find((d) => d.clave === clave)?.url });
@@ -48,12 +51,12 @@ export function textoPortada(R) {
 
 /** Devuelve la definición de pasos con las cifras ya resueltas. */
 export function definirPasos(R) {
-  const c = R.cuenca, e = R.ejido, p = R.poblacion, pr = R.produccion, k = R.km3.en_ejido;
+  const c = R.cuenca, e = R.ejido, p = R.poblacion, pr = R.produccion;
   const t = R.trayectoria; // null si no se procesó el mensual
   const radio = (p.radio_urbano_mas_pozos || p.radio_mas_pozos)[0];
   const B = R.barrios; // null si no hay capa de barrios
-  const topBarrios = B ? B.por_barrio.slice(0, 3) : [];
-  const barrioSinActivos = B ? B.por_barrio.find((b) => b.activos === 0 && b.pozos >= 100) : null;
+  const Z = R.zona_norte; // barrios de zona norte con pozos y población (procesar.py → resumir_zona_norte)
+  const astra = Z.por_barrio.Astra, mosconi = Z.por_barrio['General Enrique Mosconi'];
   // Ritmo de declaraciones de abandono: años completos posteriores al primero de la serie
   // (el primer año arrastra los pozos que ya estaban abandonados al inicio) y anteriores al último (incompleto).
   let ritmo = null;
@@ -82,7 +85,7 @@ export function definirPasos(R) {
       },
       vista: { center: [-67.480922, -45.837491], zoom: 8 },
       vuelo: { duration: 3000 },
-      pozoArriba: true, // en celular, el pozo queda en la mitad de arriba (la tarjeta tapa la de abajo)
+      focoArriba: true, // en celular, el pozo queda en la mitad de arriba (la tarjeta tapa la de abajo)
       marcador: { idpozo: 121014, etiqueta: 'Pozo N° 2 · 1907' },
       capas: { soloId: 121014, estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
@@ -124,12 +127,21 @@ export function definirPasos(R) {
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarEjido: true, poblacion: true, limites: true, pais: false, concesiones: false, barrios: false },
     },
     {
-      id: 6, kicker: 'Paso 6 · Km 3', cifra: fmt(k.total),
-      titulo: 'pozos en un yacimiento que es un barrio',
-      texto: `En Campamento Central – Bella Vista Este, el yacimiento del Pozo N° 2, hoy hay ${fmt(k.Abandonado)} pozos abandonados y ${fmt(k.Activo)} activos, de los que ${fmt(k.extraccion_efectiva)} producen. La Resolución SE 5/96 exige abandono definitivo en ejidos urbanos; muchos de estos pozos son anteriores a esa norma.${topBarrios.length ? ` Los barrios con más pozos: ${topBarrios.map((b) => `${b.barrio} (${fmt(b.pozos)})`).join(', ')}.${barrioSinActivos ? ` En ${barrioSinActivos.barrio} hay ${fmt(barrioSinActivos.pozos)} pozos y ninguno produce.` : ''}` : ''}`,
-      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Resolución SE 5/96 (InfoLeg)', url: CONTEXTO.res596 }],
-      vista: { center: [-67.49, -45.82], zoom: 13 },
-      capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: true, poblacion: false, limites: true, pais: false, concesiones: false, barrios: true },
+      // Zona norte (texto de los autores del 27/09): los 36 barrios al norte del cerro Chenque según el municipio.
+      // Población del CSV municipal por barrio (Censo 2022). El Pozo N° 2 cae en General Mosconi (resumen: barrio_pozo_2).
+      id: 6, kicker: 'Paso 6 · Zona norte', cifra: `${Z.barrios_con_pozos} de ${Z.barrios}`,
+      titulo: 'barrios de zona norte tienen pozos dentro',
+      texto: `Son los barrios al norte del cerro Chenque. Dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus vecinos vive en un barrio con diez pozos o más. Algunos, como Astra y Km 5, nacieron como asentamientos petroleros${astra.total > astra.poblacion ? `; en Astra hoy hay más pozos que habitantes (${fmt(astra.total)} y ${fmt(astra.poblacion)})` : ''}. En General Mosconi (Km 3), el barrio del Pozo N° 2, hay ${fmt(mosconi.total)} pozos y ${mosconi.Activo ? `${fmt(mosconi.Activo)} activos` : 'ninguno está activo'}.`,
+      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Municipalidad de Comodoro Rivadavia, Relevamiento de barrios', url: CONTEXTO.zonaNorte },
+        dataset(R, 'poblacion_barrios', 'Censo 2022 por barrio'), { t: 'Astra (12/12/2025)', url: CONTEXTO.astra }, { t: 'Km 5 (3/8/2021)', url: CONTEXTO.km5 },
+        { t: 'General Mosconi (Km 3)', url: CONTEXTO.mosconi }],
+      // Encuadre del núcleo de zona norte (Km 3 a Km 8, Laprida, Castelli), elegido por los autores: Astra, Diadema y
+      // Caleta Córdova quedan afuera. El mapa lo ajusta a cada pantalla.
+      vista: { bounds: [[-67.601, -45.870], [-67.389, -45.769]] },
+      focoArriba: true,
+      marcador: { idpozo: 121014, etiqueta: 'Pozo N° 2 · 1907' }, // se destaca; el resto de los pozos sigue a la vista
+      // Toda la cuenca, con los pozos fuera de los barrios de zona norte atenuados y el contorno de esos barrios.
+      capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
       id: 7, kicker: 'Paso 7 · Un radio censal', cifra: fmt(radio.pozos),
@@ -194,15 +206,27 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     if (!paso) { // portada: el país, sin ningún pozo
       mapa.marcador(null);
       document.body.classList.add('sin-leyenda'); // sin pozos en el mapa, la leyenda no tiene qué explicar
-      mapa.aplicar({ soloId: null, pozos: false, soloEjido: false, enfocarEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false, satelite: false });
+      mapa.aplicar({ soloId: null, pozos: false, soloEjido: false, enfocarEjido: false, enfocarZonaNorte: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false, satelite: false });
       mapa.volar({ center: [-66.5, -41.5], zoom: 4.3 });
       return;
     }
     // Cada paso define su vista completa: los filtros que se hayan tocado en el panel no se arrastran.
-    mapa.aplicar({ soloId: null, enfocarEjido: false, sinProducir: null, satelite: false, pozos: true, ...paso.capas });
+    mapa.aplicar({ soloId: null, enfocarEjido: false, enfocarZonaNorte: false, sinProducir: null, satelite: false, pozos: true, ...paso.capas });
     document.body.classList.toggle('sin-leyenda', Boolean(paso.capas.soloId)); // un solo pozo: la leyenda cuenta 44.390
     mapa.marcador(paso.marcador?.idpozo ?? null, paso.marcador?.etiqueta);
-    const padding = paso.pozoArriba && MOVIL.matches ? { top: 0, bottom: Math.round(window.innerHeight * 0.45), left: 0, right: 0 } : undefined;
+    // Lo que tapa la tarjeta: en celular, la mitad de abajo (focoArriba); en escritorio, una vista por límites
+    // (vista.bounds) deja libre la columna de la tarjeta.
+    let padding;
+    if (MOVIL.matches) {
+      // Con vista por límites también se dejan libres la franja de la leyenda (arriba) y toda la altura de la tarjeta.
+      const porLimites = Boolean(paso.vista.bounds);
+      const arriba = porLimites ? Math.round(document.getElementById('leyenda').getBoundingClientRect().bottom) + 8 : 0;
+      const abajo = Math.max(window.innerHeight * 0.45, porLimites ? seccion.querySelector('.card').offsetHeight + 16 : 0);
+      if (paso.focoArriba) padding = { top: arriba, bottom: Math.round(abajo), left: 0, right: 0 };
+    } else if (paso.vista.bounds) {
+      const tarjeta = seccion.querySelector('.card').getBoundingClientRect();
+      padding = { top: 24, bottom: 24, left: Math.round(tarjeta.right) + 24, right: 24 };
+    }
     mapa.volar(paso.vista, { ...(paso.vuelo || {}), ...(padding ? { padding } : {}) });
   }
 

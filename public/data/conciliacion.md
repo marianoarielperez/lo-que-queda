@@ -28,4 +28,6 @@ Generado: 2026-09-27
 | Pozos sin ningún mes de producción en la serie | 25.158 (no abandonados: 11.243) |
 | Barrios con pozos | 52 de 77 (2.507 pozos) |
 | EPH Comodoro–Rada Tilly | 2026T2: 9,2 % (IC 90 %: 3,8–14,6; CV 35,5 %); último valor mayor: 2005T4 (9,3 %, 20,5 años antes) |
+| Zona norte: barrios con pozos / pozos (abandonados, activos) | 33 de 36 / 2.370 (1.801, 95) |
+| Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | 69.219 / 59.594 (86.1 %); sin población: Chacras El Faro, Franja Forestal Cerro de la Cruz |
 | Radio urbano con más pozos | 260211203 (408 pozos, 936 hab.) |

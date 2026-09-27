@@ -18,6 +18,7 @@ Entradas (ver README.md para de dónde sale cada una):
   raw/radios-censales-2022.zip           Shapefile: radios censales del depto. Escalante (Censo 2022)
   raw/poblacion-radio-censal-2022.kmz    Polígonos de radio con población (Censo 2022)
   raw/limites-barrios-2026.gpkg          (opcional) Barrios de Comodoro Rivadavia (datos.comodoro.gov.ar)
+  raw/poblacion-viviendas-barrios-2022.csv  (opcional) Población y viviendas por barrio, Censo 2022 (datos.comodoro.gov.ar)
 
 Salidas (public/data/):
   pozos_gsj.bin + pozos_gsj.meta.json    arrays columnares para deck.gl (44.390 pozos)
@@ -27,7 +28,7 @@ Salidas (public/data/):
   siglas.json                            índice idpozo → sigla (buscador y tooltip)
   radios.geojson                         radios censales con población y pozos por estado
   limites.geojson                        ejido, Rada Tilly, Escalante
-  barrios.geojson                        barrios de Comodoro con pozos por estado (si hay capa de barrios)
+  barrios.geojson                        barrios de Comodoro con pozos por estado y zn = 1 en zona norte (si hay capa de barrios)
   produccion_cuencas.json                serie anual y mensual por cuenca
   operadores.json                        matriz operador anterior -> actual
   resumen.json                           TODAS las cifras que aparecen en la pieza
@@ -105,8 +106,12 @@ DATASETS = [
      "descarga": "18/09/2026", "licencia": None, "uso": "ejido de Comodoro Rivadavia, Rada Tilly y departamento Escalante"},
     {"clave": "radios_censo", "titulo": "Radios censales y población por radio, Censo 2022 (INDEC)", "organismo": "Municipalidad de Comodoro Rivadavia",
      "url": DATOS_COMODORO, "descarga": "18/09/2026", "licencia": None, "uso": "población de cada radio censal"},
-    {"clave": "barrios", "titulo": "Límites de barrios 2026", "organismo": "Municipalidad de Comodoro Rivadavia", "url": DATOS_COMODORO,
-     "descarga": "20/09/2026", "licencia": None, "uso": "barrio de cada pozo"},
+    {"clave": "barrios", "titulo": "Barrios de Comodoro Rivadavia (límites 2026)", "organismo": "Municipalidad de Comodoro Rivadavia",
+     "url": "https://datos.comodoro.gov.ar/dataset/barrios-de-comodoro-rivadavia", "descarga": "20/09/2026", "licencia": "CC BY-SA 4.0",
+     "uso": "barrio de cada pozo"},
+    {"clave": "poblacion_barrios", "titulo": "Población y viviendas por barrio, Censo 2022", "organismo": "Municipalidad de Comodoro Rivadavia (datos del INDEC)",
+     "url": "https://datos.comodoro.gov.ar/dataset/poblacion-y-viviendas-por-barrio-censo-2022", "descarga": "27/09/2026",
+     "licencia": "CC BY-SA 4.0", "uso": "población de los barrios de zona norte"},
     {"clave": "eph_serie", "titulo": "EPH continua: tasa de desempleo, Comodoro Rivadavia (serie 45.2_ECTDTCR_0_T_52)", "organismo": "INDEC, vía datos.gob.ar",
      "url": "https://apis.datos.gob.ar/series/api/series/?ids=45.2_ECTDTCR_0_T_52", "descarga": "26/09/2026", "licencia": None,
      "uso": "desocupación del aglomerado Comodoro Rivadavia–Rada Tilly (portada)"},
@@ -114,6 +119,31 @@ DATASETS = [
      "url": "https://www.indec.gob.ar/uploads/informesdeprensa/mercado_trabajo_eph_2trim26433FCBC5A8.pdf", "descarga": "26/09/2026",
      "licencia": None, "uso": "coeficiente de variación de esa estimación"},
 ]
+
+# Zona Norte: los barrios al norte del cerro Chenque según el "Relevamiento de barrios" de la Municipalidad (DGMIT, 2025):
+# https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/zona-norte/ (35 barrios) más Franja Forestal Cerro de la Cruz,
+# "nuevo barrio de Zona Norte desde el año 2025" según la página del relevamiento. Nombres como en limites-barrios-2026.gpkg.
+ZONA_NORTE = [
+    "25 de Mayo", "Acceso Noroeste", "ARA San Juan", "Astra", "Bella Vista Norte", "Caleta Córdova", "Centenario",
+    "Chacras El Faro", "Chacras Km 17", "Chacras Km 18", "Ciudadela", "Cuarteles Chacabuco", "Diadema Argentina",
+    "Dr. René Gerónimo Favaloro", "Don Bosco", "Gasoducto", "General Enrique Mosconi", "Gesta de Malvinas",
+    "Gobernador Fontana", "Güemes", "Juan José Castelli", "Laprida", "Las Orquídeas", "Manantial Rosales",
+    "Nicolás Rodríguez Peña", "Nuestra Señora de la Divina Providencia", "Padre Juan Corti", "Presidente Roberto M. Ortiz",
+    "Próspero Palazzo", "Restinga Alí", "Saavedra", "Sarmiento", "Standard Norte", "Standard Sur", "Zona de Aeropuerto",
+    "Franja Forestal Cerro de la Cruz",
+]
+# Población por barrio (Censo 2022): nombres del CSV que no coinciden con los polígonos 2026. Un renglón puede
+# abarcar varios polígonos. Solo hacen falta los de zona norte; los demás renglones no se usan.
+POBLACION_A_POLIGONOS = {
+    "Bellavista Norte": ["Bella Vista Norte"],
+    "Doctor René Gerónimo Favaloro": ["Dr. René Gerónimo Favaloro"],
+    "Guemes": ["Güemes"],
+    "Km 17 y km 18": ["Chacras Km 17", "Chacras Km 18"],
+    "Nicolás Rodriguez Peña": ["Nicolás Rodríguez Peña"],
+    "Padre Corti": ["Padre Juan Corti"],
+    "Presidente Ortiz": ["Presidente Roberto M. Ortiz"],
+    "Aeropuerto": ["Zona de Aeropuerto"],
+}
 
 GRUPO_ORDEN = ["Activo", "Inactivo", "A abandonar", "Abandonado", "No informado"]
 GRUPO_COD = {g: i for i, g in enumerate(GRUPO_ORDEN)}
@@ -283,6 +313,51 @@ def cargar_barrios():
     return b
 
 
+def resumir_zona_norte(g, barrios, conteo):
+    """Pozos y población de los barrios de zona norte (tarjeta 6). La población sale del CSV municipal por barrio
+    (Censo 2022): cada renglón se asigna a sus polígonos 2026 (POBLACION_A_POLIGONOS o el mismo nombre). Los barrios
+    sin renglón (p. ej. Franja Forestal, de 2025) quedan fuera de las cifras de población."""
+    f = os.path.join(RAW, "poblacion-viviendas-barrios-2022.csv")
+    if barrios is None or not os.path.exists(f):
+        return None
+    faltan = set(ZONA_NORTE) - set(barrios.barrio)
+    assert not faltan, f"barrios de ZONA_NORTE que no están en la capa: {faltan}"
+    pob = pd.read_csv(f, encoding="utf-8")
+    pozos_barrio = g.barrio.value_counts()
+    filas = []
+    for r in pob.itertuples():
+        pols = POBLACION_A_POLIGONOS.get(r.nombre_barrio, [r.nombre_barrio])
+        if pols and all(p in ZONA_NORTE for p in pols):
+            filas.append({"pols": pols, "poblacion": int(r.poblacion), "viviendas": int(r.viviendas),
+                          "pozos": int(sum(pozos_barrio.get(p, 0) for p in pols))})
+    zn = pd.DataFrame(filas)
+    cubiertos = {p for ps in zn.pols for p in ps}
+    pobl = int(zn.poblacion.sum())
+    con1, con10 = zn[zn.pozos >= 1], zn[zn.pozos >= 10]
+    en_zn = g[g.barrio.isin(ZONA_NORTE)]
+    por_barrio = {b: conteo(en_zn[en_zn.barrio == b]) for b in ZONA_NORTE}
+    for fila in zn.itertuples():  # población solo en los renglones de un único polígono
+        if len(fila.pols) == 1:
+            por_barrio[fila.pols[0]] |= {"poblacion": fila.poblacion, "viviendas": fila.viviendas}
+    pozo2 = g.loc[g.idpozo == 121014, "barrio"]
+    return {
+        "fuente": "https://www.comodoro.gov.ar/miciudad/relevamiento-de-barrios/zona-norte/",
+        "barrios": len(ZONA_NORTE),
+        "barrios_con_pozos": int(sum(pozos_barrio.get(b, 0) > 0 for b in ZONA_NORTE)),
+        "barrios_sin_pozos": [b for b in ZONA_NORTE if pozos_barrio.get(b, 0) == 0],
+        "pozos": conteo(en_zn),
+        "pozos_en_barrios_pct": round(len(en_zn) / int(g.barrio.notna().sum()) * 100, 1),
+        "poblacion": pobl, "viviendas": int(zn.viviendas.sum()),
+        "barrios_sin_poblacion": sorted(set(ZONA_NORTE) - cubiertos),
+        "pobl_en_barrios_con_pozo": int(con1.poblacion.sum()),
+        "pobl_en_barrios_con_pozo_pct": round(con1.poblacion.sum() / pobl * 100, 1),
+        "pobl_en_barrios_con_10_o_mas": int(con10.poblacion.sum()),
+        "pobl_en_barrios_con_10_o_mas_pct": round(con10.poblacion.sum() / pobl * 100, 1),
+        "barrio_pozo_2": None if pozo2.isna().all() else str(pozo2.iat[0]),
+        "por_barrio": dict(sorted(por_barrio.items(), key=lambda kv: -kv[1]["total"])),
+    }
+
+
 def cargar_concesiones(codigos_gsj):
     f = os.path.join(RAW, "concesiones-explotacion.zip")
     if not os.path.exists(f):
@@ -415,6 +490,7 @@ def main(check=False):
     g["prov_cod"] = g.provincia.map(PROV_COD).fillna(0).astype("uint8")
     g["anio_cod"] = g.anio_perf.fillna(0).astype("uint16")
     g["ejido_cod"] = g.en_ejido.astype("uint8")
+    g["zn_cod"] = g.barrio.isin(ZONA_NORTE).astype("uint8")  # dentro de un barrio de zona norte (tarjeta 6)
     g["primera_cod"] = pd.to_numeric(g.primera_prod.str[:4], errors="coerce").fillna(0).astype("uint16")
     g["meses_cod"] = g.meses_sin_producir.fillna(65535).clip(0, 65535).astype("uint16")  # 65535 = sin dato
     g["conc_cod"] = (g.en_concesion.map({True: 1, False: 0}) if conc is not None else pd.Series(np.nan, index=g.index)).fillna(255).astype("uint8")
@@ -424,6 +500,7 @@ def main(check=False):
         ("idpozo", "uint32"), ("lon", "float32"), ("lat", "float32"), ("estado_cod", "uint8"),
         ("empresa_cod", "uint16"), ("yac_cod", "uint16"), ("prov_cod", "uint8"), ("anio_cod", "uint16"),
         ("ejido_cod", "uint8"), ("primera_cod", "uint16"), ("meses_cod", "uint16"), ("conc_cod", "uint8"),
+        ("zn_cod", "uint8"),
     ])
     meta.update({"claves_ficha": CLAVES_FICHA, "estados": GRUPO_ORDEN, "empresas": empresas, "yacimientos": yacimientos,
                  "provincias": {v: k for k, v in PROV_COD.items()}})
@@ -495,6 +572,7 @@ def main(check=False):
         for c in ["pozos", "activos", "inactivos", "abandonados"]:
             b2[c] = b2[c].astype(int)
         b2["geometry"] = b2.geometry.simplify(0.00005, preserve_topology=True)
+        b2["zn"] = b2.barrio.isin(ZONA_NORTE).astype(int)  # zona norte (tarjeta 6)
         b2.to_file(os.path.join(OUT, "barrios.geojson"), driver="GeoJSON")
         # barrio del radio urbano con más pozos (para la tarjeta 6)
         cent_b = barrios.copy()
@@ -652,6 +730,7 @@ def main(check=False):
             "por_barrio": por_barrio.sort_values("pozos", ascending=False).head(15).reset_index().to_dict(orient="records"),
             "barrio_del_radio_urbano_mas_pozos": barrio_de_punto(barrios, por_radio[por_radio.TIPO == "U"].sort_values("pozos", ascending=False).iloc[0]),
         },
+        "zona_norte": resumir_zona_norte(g, barrios, conteo),
         "concesiones": None if conc is None else {
             "poligonos": int(len(conc)),
             "pozos_en_area_con_concesion": int(g.en_concesion.sum()),
@@ -686,6 +765,9 @@ def main(check=False):
             eph_linea += f" (IC 90 %: {coma(E['ic90'][0])}–{coma(E['ic90'][1])}; CV {coma(E['cv'])} %)"
         u = E["ultimo_valor_mayor"]
         eph_linea += f"; último valor mayor: {u['periodo']} ({coma(u['tasa'])} %, {coma(E['anios_sin_un_valor_mayor'])} años antes)" if u else f"; ninguno mayor desde {E['serie_desde']}"
+    Z = resumen["zona_norte"]
+    zn_linea = "-" if Z is None else f"{Z['barrios_con_pozos']} de {Z['barrios']} / {fmt(Z['pozos']['total'])} ({fmt(Z['pozos']['Abandonado'])}, {fmt(Z['pozos']['Activo'])})"
+    zn_pobl = "-" if Z is None else f"{fmt(Z['poblacion'])} / {fmt(Z['pobl_en_barrios_con_10_o_mas'])} ({Z['pobl_en_barrios_con_10_o_mas_pct']} %); sin población: {', '.join(Z['barrios_sin_poblacion'])}"
     lines = ["# Conciliación de cifras", "", f"Generado: {date.today().isoformat()}", "",
              "| Cifra | Valor |", "|---|---|",
              f"| Pozos país | {fmt(resumen['pais']['pozos'])} |",
@@ -712,6 +794,8 @@ def main(check=False):
              f"| Pozos sin ningún mes de producción en la serie | {fmt(resumen['trayectoria']['nunca_en_serie']) if mens is not None else '-'} (no abandonados: {fmt(resumen['trayectoria']['nunca_en_serie_no_abandonados']) if mens is not None else '-'}) |",
              f"| Barrios con pozos | {fmt(resumen['barrios']['barrios_con_pozo']) + ' de ' + fmt(resumen['barrios']['cantidad']) + ' (' + fmt(resumen['barrios']['pozos_en_barrios']) + ' pozos)' if barrios is not None else '-'} |",
              f"| EPH Comodoro–Rada Tilly | {eph_linea} |",
+             f"| Zona norte: barrios con pozos / pozos (abandonados, activos) | {zn_linea} |",
+             f"| Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | {zn_pobl} |",
              f"| Radio urbano con más pozos | {resumen['poblacion']['radio_urbano_mas_pozos'][0]['radio']} ({fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pozos'])} pozos, {fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pobl'])} hab.) |",
              ]
     open(os.path.join(OUT, "conciliacion.md"), "w", encoding="utf-8").write("\n".join(lines))
