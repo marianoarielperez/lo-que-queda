@@ -159,6 +159,16 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 .ficha-error { margin: 4px 40px 0 0; }
 /* tooltip de deck.gl al pasar sobre un pozo (el resto del estilo va en map.js) */
 .tooltip-pozo .ley-dot { width: 9px; height: 9px; margin-right: 5px; }
+/* Cartel de radio censal o barrio (visualizador) */
+/* Arriba del lienzo de deck.gl (los pozos) y debajo del panel (z-index 4) */
+.cartel-area { z-index: 3; }
+.cartel-area .maplibregl-popup-content { background: rgba(255, 252, 246, 0.97); color: var(--texto); font: 14px/1.35 "Source Sans 3", system-ui, sans-serif; padding: 8px 30px 8px 12px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); }
+.cartel-area .maplibregl-popup-content p { margin: 0; }
+.cartel-area .cartel-titulo { font-weight: 600; margin-bottom: 2px; }
+.cartel-area .maplibregl-popup-close-button { width: 28px; height: 28px; font-size: 20px; color: var(--texto); }
+.cartel-area .maplibregl-popup-close-button:focus-visible { outline: 2px solid var(--texto); outline-offset: -2px; }
+.cartel-area.maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: rgba(255, 252, 246, 0.97); }
+.cartel-area.maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: rgba(255, 252, 246, 0.97); }
 .tooltip-sec { font-size: 12.5px; color: var(--texto-sec); }
 
 /* ---- metodología ---- */

@@ -85,6 +85,7 @@ async function iniciar() {
   const mapa = crearMapa({
     onClickPozo: (idpozo) => nav.explorando && exploracion?.alClickPozo(idpozo), // la ficha es del visualizador
     tooltipPozo: (idpozo, fila) => exploracion?.tooltipPozo(idpozo, fila),
+    cartelArea: (tipo, props) => exploracion?.cartelArea(tipo, props),
   });
   precargarDeck();
   const pasos = definirPasos(resumen);

@@ -1259,7 +1259,7 @@
    "url": "https://datos.comodoro.gov.ar/dataset/poblacion-y-viviendas-por-barrio-censo-2022",
    "descarga": "27/09/2026",
    "licencia": "CC BY-SA 4.0",
-   "uso": "población de los barrios de zona norte"
+   "uso": "población de los barrios (zona norte y cartel de barrio del visualizador)"
   },
   {
    "clave": "eph_serie",

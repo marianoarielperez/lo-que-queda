@@ -9,9 +9,10 @@ import { montarUbicacion } from './ubicacion.js';
 const MAX_RESULTADOS = 12;
 
 // Filtros de fábrica: así arranca el visualizador la primera vez (con la vista de la cuenca del paso 8, VISTA_CUENCA).
+// limites: true = el ejido de Comodoro siempre a la vista en el visualizador.
 const estadoInicial = () => ({
   estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, sinProducir: null,
-  soloEjido: false, enfocarEjido: false, enfocarZonaNorte: false, poblacion: false, limites: false, pozos: true, pais: false,
+  soloEjido: false, enfocarEjido: false, enfocarZonaNorte: false, poblacion: false, limites: true, pozos: true, pais: false,
   concesiones: false, barrios: false, soloId: null, resaltado: null, satelite: false,
 });
 
@@ -175,6 +176,15 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     return `${sigla ? `<strong>${esc(sigla)}</strong><br>` : ''}<span class="ley-dot" style="background:${est.hex}"></span>${est.nombre}${yac ? `<br><span class="tooltip-sec">${esc(yac)}</span>` : ''}`;
   }
 
+  // ---- cartel al tocar un radio censal o un barrio (el pozo tiene prioridad: ver map.js) ----
+  function cartelArea(tipo, p) {
+    const n = (x, uno, varios) => `${fmt(x)} ${x === 1 ? uno : varios}`;
+    const pozosTxt = p.pozos ? `${n(p.pozos, 'pozo', 'pozos')}${p.abandonados ? `, ${n(p.abandonados, 'abandonado', 'abandonados')}` : ''}` : 'Sin pozos';
+    if (tipo === 'radio') return `<p class="cartel-titulo">Radio censal</p><p><b>${fmt(p.pobl)}</b> habitantes (Censo 2022)</p><p>${pozosTxt}</p>`;
+    const pobl = p.pobl == null ? '' : `<p><b>${fmt(p.pobl)}</b> habitantes${p.pobl_con ? ` junto con ${esc(p.pobl_con)}` : ''} (Censo 2022)</p>`;
+    return `<p class="cartel-titulo">Barrio ${esc(p.barrio)}</p>${pobl}<p>${pozosTxt}</p>`;
+  }
+
   // ---- ficha: diálogo no modal; toma el foco, Escape la cierra y el foco vuelve a quien la abrió ----
   const ficha = $('ficha');
   let pedido = 0;       // descarta respuestas viejas si se hace clic en otro pozo mientras carga
@@ -280,7 +290,7 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     mapa.habilitarExploracion(false);
   }
 
-  return { alClickPozo: (idpozo) => abrirPozo(idpozo), tooltipPozo, entrar, salir };
+  return { alClickPozo: (idpozo) => abrirPozo(idpozo), tooltipPozo, cartelArea, entrar, salir };
 }
 
 function hayFiltros(e) {

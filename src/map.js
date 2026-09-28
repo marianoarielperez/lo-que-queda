@@ -143,7 +143,7 @@ async function cargarEstiloRemoto(map) {
   }
 }
 
-export function crearMapa({ onClickPozo, tooltipPozo }) {
+export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
   const map = new maplibregl.Map({
     container: 'map',
     style: ESTILO_RESPALDO,
@@ -388,6 +388,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
   }
 
   const colorLimite = hexARgb(PALETA.limite);
+  const colorTexto = hexARgb(PALETA.texto);
   function capaBarrios() {
     if (!barrios) return null;
     return new deck.GeoJsonLayer({
@@ -396,10 +397,11 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       visible: estado.barrios || estado.enfocarZonaNorte,
       filled: false,
       stroked: true,
-      // Con zona norte enfocada se dibujan solo sus barrios (propiedad zn), con trazo más grueso.
-      getLineColor: (f) => (estado.enfocarZonaNorte && !f.properties.zn ? [0, 0, 0, 0] : colorLimite),
-      lineWidthMinPixels: estado.enfocarZonaNorte ? 1.6 : 0.8,
-      updateTriggers: { getLineColor: estado.enfocarZonaNorte },
+      // Con zona norte enfocada se dibujan solo sus barrios (propiedad zn), con trazo más grueso. En el visualizador van
+      // en negro (el color del texto) para que se lean también sobre la imagen satelital.
+      getLineColor: (f) => (estado.enfocarZonaNorte && !f.properties.zn ? [0, 0, 0, 0] : explorando ? colorTexto : colorLimite),
+      lineWidthMinPixels: estado.enfocarZonaNorte ? 1.6 : explorando ? 1.5 : 0.8,
+      updateTriggers: { getLineColor: [estado.enfocarZonaNorte, explorando] },
       pickable: false,
     });
   }
@@ -420,9 +422,14 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       visible: estado.poblacion,
       filled: true,
       stroked: true,
-      getFillColor: (f) => colorPoblacion(f.properties.pobl),
+      // Con un radio elegido (cartel del visualizador), los demás bajan de intensidad y ese queda con su color.
+      getFillColor: (f) => {
+        const c = colorPoblacion(f.properties.pobl);
+        return seleccion?.tipo === 'radio' && f !== seleccion.feature && c[3] ? [c[0], c[1], c[2], 80] : c;
+      },
       getLineColor: hexARgb(PALETA.urbanoBorde),
       lineWidthMinPixels: 0.5,
+      updateTriggers: { getFillColor: seleccion },
       pickable: false,
     });
   }
@@ -435,7 +442,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       visible: estado.limites,
       filled: false,
       stroked: true,
-      getLineColor: hexARgb(PALETA.limite),
+      getLineColor: explorando ? colorTexto : colorLimite, // en el visualizador, negro (se lee sobre el satélite)
       getLineWidth: 2,
       lineWidthUnits: 'pixels',
       getDashArray: [6, 4],
@@ -491,10 +498,54 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
     return i === undefined ? null : [pozos.positions[i * 2], pozos.positions[i * 2 + 1]];
   }
 
+  // Radio censal o barrio elegido con un clic en el visualizador: borde negro grueso, debajo de los pozos.
+  function capaSeleccion() {
+    if (!seleccion) return null;
+    return new deck.GeoJsonLayer({
+      id: 'seleccion',
+      data: [seleccion.feature],
+      filled: false,
+      stroked: true,
+      getLineColor: colorTexto,
+      getLineWidth: 3,
+      lineWidthUnits: 'pixels',
+      pickable: false,
+    });
+  }
+
   function render() {
     if (!overlay) return;
-    overlay.setProps({ layers: [capaPais(), capaConcesiones(), capaRadios(), capaBarrios(), capaLimites(), capaPozos(), capaSinConcesion(), capaResaltado(), ...capasUbicacion()].filter(Boolean) });
+    overlay.setProps({ layers: [capaPais(), capaConcesiones(), capaRadios(), capaBarrios(), capaLimites(), capaSeleccion(), capaPozos(), capaSinConcesion(), capaResaltado(), ...capasUbicacion()].filter(Boolean) });
   }
+
+  // ---- cartel de radio censal o barrio (solo en el visualizador) ----
+  // El pozo tiene prioridad: su capa abre la ficha. Si el clic no cae en un pozo (con el mismo margen del tooltip), se busca
+  // el radio censal (si la población está a la vista) y después el barrio. Los polígonos no son pickables en deck (le
+  // robarían el clic a los pozos): se buscan acá, punto en polígono.
+  let seleccion = null; // { tipo: 'radio' | 'barrio', feature }
+  let cartel = null;    // maplibregl.Popup abierto
+  function abrirCartel(tipo, feature, lngLat) {
+    const html = cartelArea?.(tipo, feature.properties);
+    if (!html) return;
+    cerrarCartel();
+    seleccion = { tipo, feature };
+    // Se abre con mouse o dedo: no le saca el foco al mapa (focusAfterOpen: false). Se cierra con la ✕ o con Escape.
+    cartel = new maplibregl.Popup({ closeButton: true, closeOnClick: false, focusAfterOpen: false, maxWidth: '260px', className: 'cartel-area' })
+      .setLngLat(lngLat).setHTML(html).addTo(map);
+    cartel.on('close', () => { cartel = null; seleccion = null; render(); });
+    render();
+  }
+  function cerrarCartel() { cartel?.remove(); } // el evento 'close' borra la selección
+  map.on('click', (e) => {
+    if (!explorando || !overlay) return;
+    if (overlay.pickObject({ x: e.point.x, y: e.point.y, radius: 6, layerIds: ['pozos'] })) { cerrarCartel(); return; }
+    const p = [e.lngLat.lng, e.lngLat.lat];
+    const radio = estado.poblacion && radios ? radios.features.find((f) => contiene(f.geometry, p)) : null;
+    const barrio = !radio && estado.barrios && barrios ? barrios.features.find((f) => contiene(f.geometry, p)) : null;
+    if (radio || barrio) abrirCartel(radio ? 'radio' : 'barrio', radio || barrio, e.lngLat);
+    else cerrarCartel();
+  });
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') cerrarCartel(); });
 
   // Foco con teclado: durante el recorrido el mapa no es interactivo, así que su lienzo no entra en el
   // orden de tabulación; el lienzo de deck.gl es solo dibujo y nunca lo hace.
@@ -600,6 +651,7 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       // Copia propia: los pasos del recorrido definen su Set y el panel modifica el del mapa; no compartirlos.
       if (cambios.estadosVisibles) estado.estadosVisibles = new Set(cambios.estadosVisibles);
       if (estado.satelite !== eraSatelite) aplicarBase();
+      if (seleccion && !(seleccion.tipo === 'radio' ? estado.poblacion : estado.barrios)) cerrarCartel();
       const aparecenPozos = (eraUnSolo && estado.soloId === null) || (!habiaPozos && estado.pozos);
       actualizar({ fundir: aparecenPozos, repintar: estado.enfocarEjido !== enfoque[0] || estado.enfocarZonaNorte !== enfoque[1] });
       return visibles;
@@ -642,10 +694,26 @@ export function crearMapa({ onClickPozo, tooltipPozo }) {
       for (const h of GESTOS) on ? map[h].enable() : map[h].disable();
       if (on) map.touchZoomRotate.disableRotation();
       explorando = on;
+      if (!on) cerrarCartel();
       document.body.classList.toggle('explorando', on);
       ajustarFoco();
+      render(); // barrios y ejido cambian de color entre el recorrido y el visualizador
     },
   };
+}
+
+/** ¿El punto [lon, lat] cae dentro de un Polygon o MultiPolygon de GeoJSON? (par-impar; los huecos restan) */
+function contiene(geom, p) {
+  const poligonos = geom.type === 'Polygon' ? [geom.coordinates] : geom.type === 'MultiPolygon' ? geom.coordinates : [];
+  return poligonos.some(([exterior, ...huecos]) => enAnillo(p, exterior) && !huecos.some((h) => enAnillo(p, h)));
+}
+function enAnillo([x, y], anillo) {
+  let dentro = false;
+  for (let i = 0, j = anillo.length - 1; i < anillo.length; j = i++) {
+    const [xi, yi] = anillo[i], [xj, yj] = anillo[j];
+    if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) dentro = !dentro;
+  }
+  return dentro;
 }
 
 const ESTILO_TOOLTIP = {

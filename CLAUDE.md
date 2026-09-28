@@ -157,6 +157,10 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   `VISTA_CUENCA` (data.js) es la del arranque del visualizador; la tarjeta 8 usa el mismo encuadre en la computadora
   (`comoVisualizador`, con `paddingPanel()`), así el mapa no se mueve al tocar "Explorá el mapa". Las tarjetas 6 y 7 usan
   `NUCLEO_ZONA_NORTE` (story.js). La capa de límites dibuja solo el ejido de Comodoro.
+- 27/09: visualizador: el ejido siempre a la vista; barrios y ejido en negro (color del texto, 1,5 px) para que se lean sobre el
+  satélite. Clic con prioridad pozo → radio censal (si se ve la población) → barrio (map.js busca el polígono, punto en
+  polígono; los polígonos no son pickables en deck). El cartel lo arma `cartelArea()` de explore.js: radio con habitantes y pozos;
+  barrio con pozos y habitantes del Censo por barrio (`pobl` y `pobl_con` en barrios.geojson; 8 barrios sin renglón en el CSV).
 
 ## Qué NO hacer
 

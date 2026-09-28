@@ -111,7 +111,7 @@ DATASETS = [
      "uso": "barrio de cada pozo"},
     {"clave": "poblacion_barrios", "titulo": "Población y viviendas por barrio, Censo 2022", "organismo": "Municipalidad de Comodoro Rivadavia (datos del INDEC)",
      "url": "https://datos.comodoro.gov.ar/dataset/poblacion-y-viviendas-por-barrio-censo-2022", "descarga": "27/09/2026",
-     "licencia": "CC BY-SA 4.0", "uso": "población de los barrios de zona norte"},
+     "licencia": "CC BY-SA 4.0", "uso": "población de los barrios (zona norte y cartel de barrio del visualizador)"},
     {"clave": "eph_serie", "titulo": "EPH continua: tasa de desempleo, Comodoro Rivadavia (serie 45.2_ECTDTCR_0_T_52)", "organismo": "INDEC, vía datos.gob.ar",
      "url": "https://apis.datos.gob.ar/series/api/series/?ids=45.2_ECTDTCR_0_T_52", "descarga": "26/09/2026", "licencia": None,
      "uso": "desocupación del aglomerado Comodoro Rivadavia–Rada Tilly (portada)"},
@@ -132,17 +132,25 @@ ZONA_NORTE = [
     "Próspero Palazzo", "Restinga Alí", "Saavedra", "Sarmiento", "Standard Norte", "Standard Sur", "Zona de Aeropuerto",
     "Franja Forestal Cerro de la Cruz",
 ]
-# Población por barrio (Censo 2022): nombres del CSV que no coinciden con los polígonos 2026. Un renglón puede
-# abarcar varios polígonos. Solo hacen falta los de zona norte; los demás renglones no se usan.
+# Población por barrio (Censo 2022): nombres del CSV que no coinciden con los polígonos 2026 (los demás se cruzan por
+# nombre). Un renglón puede abarcar varios polígonos; [] = sin polígono claro (no se asigna a ninguno).
 POBLACION_A_POLIGONOS = {
     "Bellavista Norte": ["Bella Vista Norte"],
+    "Bellavista Sur": ["Bella Vista Sur"],
     "Doctor René Gerónimo Favaloro": ["Dr. René Gerónimo Favaloro"],
+    "Ex Radio Estación YPF": ["Ex Radio Estación"],
     "Guemes": ["Güemes"],
     "Km 17 y km 18": ["Chacras Km 17", "Chacras Km 18"],
     "Nicolás Rodriguez Peña": ["Nicolás Rodríguez Peña"],
     "Padre Corti": ["Padre Juan Corti"],
+    "Pietrobelli y Balcón del Paraíso": ["Pietrobelli", "Balcón del Paraíso"],
     "Presidente Ortiz": ["Presidente Roberto M. Ortiz"],
+    "Quirno Costa": ["Dr. Quirno Costa"],
     "Aeropuerto": ["Zona de Aeropuerto"],
+    # dudosos o sin polígono en 2026
+    "Acceso Sur Industrial": [], "Chacras La Herradura, Refugio Lobos": [], "Chacras Tres Pinos, Cañadones": [],
+    "Chacras Minas George Stephenson, Sol de Mayo y San Jorge": [], "Chacras Oeste": [], "Médanos": [],
+    "Lotes Pastoriles Noroeste": [],
 }
 
 GRUPO_ORDEN = ["Activo", "Inactivo", "A abandonar", "Abandonado", "No informado"]
@@ -326,6 +334,21 @@ def cargar_barrios():
     b = b.rename(columns={"nombre": "barrio"})[["id", "barrio", "geometry"]]
     b["geometry"] = b.geometry.apply(force_2d)
     return b
+
+
+def poblacion_por_poligono(barrios):
+    """Polígono de barrio -> (habitantes del Censo 2022, polígonos con los que comparte el renglón o None). Para el cartel
+    del visualizador. Si un renglón abarca dos polígonos, los dos llevan la población del renglón y el nombre del otro."""
+    f = os.path.join(RAW, "poblacion-viviendas-barrios-2022.csv")
+    if barrios is None or not os.path.exists(f):
+        return {}
+    r = {}
+    for fila in pd.read_csv(f, encoding="utf-8").itertuples():
+        pols = [x for x in POBLACION_A_POLIGONOS.get(fila.nombre_barrio, [fila.nombre_barrio]) if x in set(barrios.barrio)]
+        for x in pols:
+            otros = [y for y in pols if y != x]
+            r[x] = (int(fila.poblacion), " y ".join(otros) or None)
+    return r
 
 
 def resumir_zona_norte(g, barrios, conteo):
@@ -598,6 +621,9 @@ def main(check=False):
             b2[c] = b2[c].astype(int)
         b2["geometry"] = b2.geometry.simplify(0.00005, preserve_topology=True)
         b2["zn"] = b2.barrio.isin(ZONA_NORTE).astype(int)  # zona norte (tarjeta 6)
+        pb = poblacion_por_poligono(barrios)  # cartel del visualizador
+        b2["pobl"] = b2.barrio.map(lambda b: pb[b][0] if b in pb else None).astype("Int64")
+        b2["pobl_con"] = b2.barrio.map(lambda b: pb[b][1] if b in pb else None)
         b2.to_file(os.path.join(OUT, "barrios.geojson"), driver="GeoJSON")
         # barrio del radio urbano con más pozos (para la tarjeta 6)
         cent_b = barrios.copy()
