@@ -148,7 +148,8 @@ POBLACION_A_POLIGONOS = {
     "Quirno Costa": ["Dr. Quirno Costa"],
     "Aeropuerto": ["Zona de Aeropuerto"],
     # dudosos o sin polígono en 2026
-    "Acceso Sur Industrial": [], "Chacras La Herradura, Refugio Lobos": [], "Chacras Tres Pinos, Cañadones": [],
+    "Chacras La Herradura, Refugio Lobos": ["Chacras La Herradura"],  # confirmado por los autores (28/09)
+    "Acceso Sur Industrial": [], "Chacras Tres Pinos, Cañadones": [],
     "Chacras Minas George Stephenson, Sol de Mayo y San Jorge": [], "Chacras Oeste": [], "Médanos": [],
     "Lotes Pastoriles Noroeste": [],
 }

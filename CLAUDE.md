@@ -160,7 +160,7 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
 - 27/09: visualizador: el ejido siempre a la vista; barrios y ejido en negro (color del texto, 1,5 px) para que se lean sobre el
   satélite. Clic con prioridad pozo → radio censal (si se ve la población) → barrio (map.js busca el polígono, punto en
   polígono; los polígonos no son pickables en deck). El cartel lo arma `cartelArea()` de explore.js: radio con habitantes y pozos;
-  barrio con pozos y habitantes del Censo por barrio (`pobl` y `pobl_con` en barrios.geojson; 8 barrios sin renglón en el CSV).
+  barrio con pozos y habitantes del Censo por barrio (`pobl` y `pobl_con` en barrios.geojson; 7 barrios sin renglón en el CSV).
   Concesiones: prioridad más baja; cartel con nombre y operadora tal cual la capa de la SE y pozos por código de área
   (`pozos`, `sin_producir` en concesiones.geojson). Un solo pick por clic: la capa de pozos devuelve true y el `onClick` del
   overlay atiende el resto. Teclado: mapa enfocado, flechas y Enter (consulta el centro visible; una mira lo marca).

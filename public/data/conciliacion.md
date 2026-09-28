@@ -1,6 +1,6 @@
 # Conciliación de cifras
 
-Generado: 2026-09-27
+Generado: 2026-09-28
 
 | Cifra | Valor |
 |---|---|
@@ -31,6 +31,6 @@ Generado: 2026-09-27
 | Zona norte: barrios con pozos / pozos (abandonados, activos) | 33 de 36 / 2.370 (1.801, 95) |
 | Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | 69.219 / 59.594 (86.1 %); sin población: Chacras El Faro, Franja Forestal Cerro de la Cruz |
 | Zona norte: no dados de baja / con 60+ meses declarados sin producir | 474 / 393 |
-| Censo por barrio: renglones sin polígono / renglones repartidos en 2 polígonos (su pobl no se suma dos veces) | 7 (1.709 hab.: Acceso Sur Industrial, Chacras La Herradura, Refugio Lobos, Chacras Minas George Stephenson, Sol de Mayo y San Jorge, Chacras Oeste, Chacras Tres Pinos, Cañadones, Lotes Pastoriles Noroeste, Médanos) / 2 |
+| Censo por barrio: renglones sin polígono / renglones repartidos en 2 polígonos (su pobl no se suma dos veces) | 6 (1.596 hab.: Acceso Sur Industrial, Chacras Minas George Stephenson, Sol de Mayo y San Jorge, Chacras Oeste, Chacras Tres Pinos, Cañadones, Lotes Pastoriles Noroeste, Médanos) / 2 |
 | No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | 13.018 / 9.598 |
 | Radio urbano con más pozos | 260211203 (408 pozos, 936 hab.) |
