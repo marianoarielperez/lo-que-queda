@@ -176,12 +176,20 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     return `${sigla ? `<strong>${esc(sigla)}</strong><br>` : ''}<span class="ley-dot" style="background:${est.hex}"></span>${est.nombre}${yac ? `<br><span class="tooltip-sec">${esc(yac)}</span>` : ''}`;
   }
 
-  // ---- cartel al tocar un radio censal o un barrio (el pozo tiene prioridad: ver map.js) ----
-  function cartelArea(tipo, p) {
+  // ---- cartel al tocar un radio censal, un barrio o una concesión (el pozo tiene prioridad: ver map.js) ----
+  function cartelArea(tipo, p, extra = {}) {
     const n = (x, uno, varios) => `${fmt(x)} ${x === 1 ? uno : varios}`;
     const pozosTxt = p.pozos ? `${n(p.pozos, 'pozo', 'pozos')}${p.abandonados ? `, ${n(p.abandonados, 'abandonado', 'abandonados')}` : ''}` : 'Sin pozos';
-    if (tipo === 'radio') return `<p class="cartel-titulo">Radio censal</p><p><b>${fmt(p.pobl)}</b> habitantes (Censo 2022)</p><p>${pozosTxt}</p>`;
-    const pobl = p.pobl == null ? '' : `<p><b>${fmt(p.pobl)}</b> habitantes${p.pobl_con ? ` junto con ${esc(p.pobl_con)}` : ''} (Censo 2022)</p>`;
+    if (tipo === 'radio') return `<p class="cartel-titulo">Radio censal</p>${extra.barrio ? `<p>Barrio ${esc(extra.barrio)}</p>` : ''}<p><b>${fmt(p.pobl)}</b> habitantes (Censo 2022)</p><p>${pozosTxt}</p>`;
+    if (tipo === 'concesion') {
+      // nombre y operadora tal cual la capa de concesiones de la Secretaría de Energía; pozos por código de área (procesar.py)
+      const pozosArea = p.pozos ? `${n(p.pozos, 'pozo', 'pozos')}${p.sin_producir ? `, ${fmt(p.sin_producir)} sin producir` : ''}` : 'Sin pozos en el registro';
+      return `<p class="cartel-titulo">Concesión ${esc(p.nombre)}</p>${p.operadora ? `<p>Operadora: ${esc(p.operadora)}</p>` : ''}<p>${pozosArea}</p>`;
+    }
+    // pobl_con: el Censo por barrio cuenta este barrio junto con otro (un solo renglón para los dos)
+    const pobl = p.pobl == null ? '<p>Sin dato de población por barrio</p>'
+      : p.pobl_con ? `<p><b>${fmt(p.pobl)}</b> habitantes entre este barrio y ${esc(p.pobl_con)} (el Censo 2022 los cuenta juntos)</p>`
+        : `<p><b>${fmt(p.pobl)}</b> habitantes (Censo 2022)</p>`;
     return `<p class="cartel-titulo">Barrio ${esc(p.barrio)}</p>${pobl}<p>${pozosTxt}</p>`;
   }
 

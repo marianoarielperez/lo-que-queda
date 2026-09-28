@@ -9,7 +9,7 @@
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { ESTADOS, PALETA, POBLACION_RAMPA, CORTES_POBLACION } from './paleta.js';
-import { esc, reducirMovimiento } from './data.js';
+import { esc, reducirMovimiento, paddingPanel } from './data.js';
 
 // Mapa base. Por defecto, OpenFreeMap (vectorial, gratuito, sin clave) con los rótulos forzados al
 // nombre en castellano de OpenStreetMap (`name:es`): así dice "Islas Malvinas" y no "Falklands".
@@ -261,7 +261,13 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
       visible: estado.pozos && !estado.pais, // con la capa país encendida, los puntos de la cuenca los dibuja esa capa
       filterRange: [0.5, 1.5],
       extensions: [deck.FILTRO],
-      onClick: ({ index }) => index >= 0 && onClickPozo?.(pozos.cols.idpozo[index], index),
+      // true = clic atendido: el onClick general del overlay (carteles de áreas) no se llama. Un solo pick por clic.
+      onClick: ({ index }) => {
+        if (index < 0) return false;
+        cerrarCartel();
+        onClickPozo?.(pozos.cols.idpozo[index], index);
+        return true;
+      },
     });
   }
 
@@ -380,9 +386,11 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
       visible: estado.concesiones,
       filled: true,
       stroked: true,
-      getFillColor: [31, 95, 168, 18],
-      getLineColor: [31, 95, 168, 160],
+      // Con una concesión elegida (cartel del visualizador), las demás bajan de intensidad.
+      getFillColor: (f) => (atenuada('concesion', f) ? [31, 95, 168, 6] : [31, 95, 168, 18]),
+      getLineColor: (f) => (atenuada('concesion', f) ? [31, 95, 168, 50] : [31, 95, 168, 160]),
       lineWidthMinPixels: 1,
+      updateTriggers: { getFillColor: seleccion, getLineColor: seleccion },
       pickable: false,
     });
   }
@@ -425,7 +433,7 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
       // Con un radio elegido (cartel del visualizador), los demás bajan de intensidad y ese queda con su color.
       getFillColor: (f) => {
         const c = colorPoblacion(f.properties.pobl);
-        return seleccion?.tipo === 'radio' && f !== seleccion.feature && c[3] ? [c[0], c[1], c[2], 80] : c;
+        return atenuada('radio', f) && c[3] ? [c[0], c[1], c[2], 80] : c;
       },
       getLineColor: hexARgb(PALETA.urbanoBorde),
       lineWidthMinPixels: 0.5,
@@ -518,34 +526,79 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     overlay.setProps({ layers: [capaPais(), capaConcesiones(), capaRadios(), capaBarrios(), capaLimites(), capaSeleccion(), capaPozos(), capaSinConcesion(), capaResaltado(), ...capasUbicacion()].filter(Boolean) });
   }
 
-  // ---- cartel de radio censal o barrio (solo en el visualizador) ----
+  // ---- cartel de radio censal, barrio o concesión (solo en el visualizador) ----
   // El pozo tiene prioridad: su capa abre la ficha. Si el clic no cae en un pozo (con el mismo margen del tooltip), se busca
-  // el radio censal (si la población está a la vista) y después el barrio. Los polígonos no son pickables en deck (le
-  // robarían el clic a los pozos): se buscan acá, punto en polígono.
-  let seleccion = null; // { tipo: 'radio' | 'barrio', feature }
+  // el radio censal (si la población está a la vista), después el barrio y por último la concesión. Los polígonos no son
+  // pickables en deck (le robarían el clic a los pozos): se buscan acá, punto en polígono.
+  let seleccion = null; // { tipo: 'radio' | 'barrio' | 'concesion', feature }
+  const CAPA_DE = { radio: 'poblacion', barrio: 'barrios', concesion: 'concesiones' }; // qué capa tiene que verse
+  const atenuada = (tipo, f) => seleccion?.tipo === tipo && f !== seleccion.feature;
   let cartel = null;    // maplibregl.Popup abierto
-  function abrirCartel(tipo, feature, lngLat) {
-    const html = cartelArea?.(tipo, feature.properties);
+  /** Busca, en orden de prioridad, el área que contiene [lon, lat] entre las capas a la vista y abre su cartel. */
+  function tocarArea([lng, lat], conTeclado = false) {
+    const p = [lng, lat];
+    const halladas = {};
+    for (const [tipo, fc] of [['radio', radios], ['barrio', barrios], ['concesion', concesiones]]) {
+      halladas[tipo] = estado[CAPA_DE[tipo]] && fc ? masChico(fc.features.filter((f) => contiene(f.geometry, p))) : null;
+    }
+    const tipo = ['radio', 'barrio', 'concesion'].find((t) => halladas[t]);
+    if (!tipo) { cerrarCartel(); return; }
+    // el cartel del radio suma el barrio, si esa capa también se ve (el barrio no tiene cartel propio ahí)
+    const extra = tipo === 'radio' && halladas.barrio ? { barrio: halladas.barrio.properties.barrio } : {};
+    abrirCartel(tipo, halladas[tipo], { lng, lat }, extra, conTeclado);
+  }
+  function abrirCartel(tipo, feature, lngLat, extra, conTeclado) {
+    const html = cartelArea?.(tipo, feature.properties, extra);
     if (!html) return;
     cerrarCartel();
     seleccion = { tipo, feature };
-    // Se abre con mouse o dedo: no le saca el foco al mapa (focusAfterOpen: false). Se cierra con la ✕ o con Escape.
-    cartel = new maplibregl.Popup({ closeButton: true, closeOnClick: false, focusAfterOpen: false, maxWidth: '260px', className: 'cartel-area' })
+    // Con mouse o dedo no le saca el foco al mapa; con teclado lo lleva a la ✕. padding: no se abre debajo del panel.
+    cartel = new maplibregl.Popup({ closeButton: true, closeOnClick: false, focusAfterOpen: conTeclado, maxWidth: '260px',
+      className: 'cartel-area', padding: paddingPanel() })
       .setLngLat(lngLat).setHTML(html).addTo(map);
-    cartel.on('close', () => { cartel = null; seleccion = null; render(); });
+    cartel.getElement().setAttribute('role', 'status');
+    cartel.on('close', () => {
+      cartel = null; seleccion = null; render();
+      // abierto con teclado y cerrado con la ✕: el foco quedó en la nada (el cartel ya no está); vuelve al mapa
+      if (conTeclado && (!document.activeElement || document.activeElement === document.body)) map.getCanvas().focus();
+    });
     render();
   }
   function cerrarCartel() { cartel?.remove(); } // el evento 'close' borra la selección
-  map.on('click', (e) => {
-    if (!explorando || !overlay) return;
-    if (overlay.pickObject({ x: e.point.x, y: e.point.y, radius: 6, layerIds: ['pozos'] })) { cerrarCartel(); return; }
-    const p = [e.lngLat.lng, e.lngLat.lat];
-    const radio = estado.poblacion && radios ? radios.features.find((f) => contiene(f.geometry, p)) : null;
-    const barrio = !radio && estado.barrios && barrios ? barrios.features.find((f) => contiene(f.geometry, p)) : null;
-    if (radio || barrio) abrirCartel(radio ? 'radio' : 'barrio', radio || barrio, e.lngLat);
-    else cerrarCartel();
+  // Teclado: con el mapa enfocado, las flechas lo mueven y Enter consulta el centro de lo que se ve (sin el panel): pozo,
+  // radio, barrio o concesión. Una mira marca ese punto mientras el mapa tiene el foco del teclado.
+  const mira = document.createElement('div');
+  mira.className = 'mira-teclado';
+  mira.setAttribute('aria-hidden', 'true');
+  map.getContainer().appendChild(mira);
+  function puntoConsulta() {
+    const p = paddingPanel();
+    const { width, height } = map.getContainer().getBoundingClientRect();
+    return { x: (p.left + width - p.right) / 2, y: (p.top + height - p.bottom) / 2 };
+  }
+  map.getCanvas().addEventListener('focus', () => {
+    if (!explorando || !map.getCanvas().matches(':focus-visible')) return;
+    const { x, y } = puntoConsulta();
+    Object.assign(mira.style, { left: `${x}px`, top: `${y}px` });
+    mira.classList.add('visible');
   });
-  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') cerrarCartel(); });
+  map.getCanvas().addEventListener('blur', () => mira.classList.remove('visible'));
+  map.getCanvas().addEventListener('keydown', (ev) => {
+    if (!explorando || !overlay || ev.key !== 'Enter') return;
+    ev.preventDefault(); // si no, la misma tecla "aprieta" la ✕ del cartel recién abierto (el foco pasa a ella) y lo cierra
+    const pt = puntoConsulta();
+    const c = map.unproject([pt.x, pt.y]);
+    let pozo = null;
+    try { pozo = overlay.pickObject({ x: pt.x, y: pt.y, radius: 6, layerIds: ['pozos'] }); } catch { /* deck todavía no está listo */ }
+    if (pozo?.index >= 0) { cerrarCartel(); onClickPozo?.(pozos.cols.idpozo[pozo.index], pozo.index); return; }
+    tocarArea([c.lng, c.lat], true);
+  });
+  // Escape: primero el cartel, en otro Escape la ficha (su listener está en explore.js). Con la Metodología abierta, es de ella.
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key !== 'Escape' || !cartel || document.querySelector('.ventana[open]')) return;
+    cerrarCartel();
+    ev.stopImmediatePropagation();
+  });
 
   // Foco con teclado: durante el recorrido el mapa no es interactivo, así que su lienzo no entra en el
   // orden de tabulación; el lienzo de deck.gl es solo dibujo y nunca lo hace.
@@ -630,6 +683,11 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
         onHover: ({ layer, index }) => {
           map.getCanvas().style.cursor = explorando && layer?.id === 'pozos' && index >= 0 ? 'pointer' : '';
         },
+        // Clic que ninguna capa atendió (la de pozos devuelve true): cartel de radio, barrio o concesión. En un doble clic
+        // (acercar) no se abre.
+        onClick: (info, ev) => {
+          if (explorando && info.coordinate && !(ev?.srcEvent?.detail > 1)) tocarArea(info.coordinate);
+        },
       });
       map.addControl(overlay);
       actualizar({ fundir: estado.pozos });
@@ -651,7 +709,7 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
       // Copia propia: los pasos del recorrido definen su Set y el panel modifica el del mapa; no compartirlos.
       if (cambios.estadosVisibles) estado.estadosVisibles = new Set(cambios.estadosVisibles);
       if (estado.satelite !== eraSatelite) aplicarBase();
-      if (seleccion && !(seleccion.tipo === 'radio' ? estado.poblacion : estado.barrios)) cerrarCartel();
+      if (seleccion && !estado[CAPA_DE[seleccion.tipo]]) cerrarCartel();
       const aparecenPozos = (eraUnSolo && estado.soloId === null) || (!habiaPozos && estado.pozos);
       actualizar({ fundir: aparecenPozos, repintar: estado.enfocarEjido !== enfoque[0] || estado.enfocarZonaNorte !== enfoque[1] });
       return visibles;
@@ -704,8 +762,20 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
 
 /** ¿El punto [lon, lat] cae dentro de un Polygon o MultiPolygon de GeoJSON? (par-impar; los huecos restan) */
 function contiene(geom, p) {
-  const poligonos = geom.type === 'Polygon' ? [geom.coordinates] : geom.type === 'MultiPolygon' ? geom.coordinates : [];
+  const poligonos = geom?.type === 'Polygon' ? [geom.coordinates] : geom?.type === 'MultiPolygon' ? geom.coordinates : [];
   return poligonos.some(([exterior, ...huecos]) => enAnillo(p, exterior) && !huecos.some((h) => enAnillo(p, h)));
+}
+/** De los polígonos que contienen el punto, el más chico (el más específico: las concesiones se pisan en los bordes). */
+function masChico(features) {
+  if (features.length < 2) return features[0] || null;
+  const area = (f) => {
+    const g = f.geometry;
+    const polis = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
+    let a = 0;
+    for (const [ext] of polis) for (let i = 0, j = ext.length - 1; i < ext.length; j = i++) a += (ext[j][0] + ext[i][0]) * (ext[j][1] - ext[i][1]);
+    return Math.abs(a / 2);
+  };
+  return features.reduce((min, f) => (area(f) < area(min) ? f : min));
 }
 function enAnillo([x, y], anillo) {
   let dentro = false;

@@ -23,7 +23,7 @@ Entradas (ver README.md para de dónde sale cada una):
 Salidas (public/data/):
   pozos_gsj.bin + pozos_gsj.meta.json    arrays columnares para deck.gl (44.390 pozos)
   pozos_pais.bin + pozos_pais.meta.json  lon/lat/estado del país entero (portada y paso 1)
-  concesiones.geojson                    polígonos de concesiones de la cuenca con operadora
+  concesiones.geojson                    polígonos de concesiones de la cuenca con operadora y pozos del área
   fichas/NNN.json                        detalle por pozo, en lotes de 1.000, por idpozo
   siglas.json                            índice idpozo → sigla (buscador y tooltip)
   radios.geojson                         radios censales con población y pozos por estado
@@ -608,7 +608,12 @@ def main(check=False):
     pob2 = pob2.merge(rad[["LINK", "TIPO"]], on="LINK", how="left")
     pob2.to_file(os.path.join(OUT, "radios.geojson"), driver="GeoJSON")
     if conc is not None:
-        conc.to_file(os.path.join(OUT, "concesiones.geojson"), driver="GeoJSON")
+        # pozos de cada concesión por su código de área (cartel del visualizador); sin producir = inactivo, a abandonar o abandonado
+        por_area = g.groupby("cod_area").agg(pozos=("idpozo", "size"),
+                                             sin_producir=("grupo", lambda x: int(x.isin(["Inactivo", "A abandonar", "Abandonado"]).sum())))
+        c2 = conc.merge(por_area, left_on="codigo", right_index=True, how="left").fillna({"pozos": 0, "sin_producir": 0})
+        c2[["pozos", "sin_producir"]] = c2[["pozos", "sin_producir"]].astype(int)
+        c2.to_file(os.path.join(OUT, "concesiones.geojson"), driver="GeoJSON")
     if barrios is not None:
         por_barrio = g[g.barrio.notna()].groupby("barrio").agg(
             pozos=("idpozo", "size"),
@@ -827,6 +832,14 @@ def main(check=False):
     zn_nb = "-" if Z is None else f"{fmt(Z['no_dados_de_baja'])} / {fmt(Z['no_dados_de_baja_5_anios'])}"
     T = resumen["trayectoria"]
     t_mas5 = "-" if T is None else f"{fmt(T['inactivos_por_tiempo_sin_producir']['mas_de_5_anios'])} / {fmt(T['dejaron_de_declararse'])}"
+    if barrios is not None and os.path.exists(os.path.join(RAW, "poblacion-viviendas-barrios-2022.csv")):
+        cb = pd.read_csv(os.path.join(RAW, "poblacion-viviendas-barrios-2022.csv"), encoding="utf-8")
+        pols = cb.nombre_barrio.map(lambda n: [x for x in POBLACION_A_POLIGONOS.get(n, [n]) if x in set(barrios.barrio)])
+        sin = cb[pols.str.len() == 0]
+        censo_barrios = (f"{len(sin)} ({fmt(int(sin.poblacion.sum()))} hab.: {', '.join(sin.nombre_barrio)}) / "
+                         f"{int((pols.str.len() > 1).sum())}")
+    else:
+        censo_barrios = "-"
     lines = ["# Conciliación de cifras", "", f"Generado: {date.today().isoformat()}", "",
              "| Cifra | Valor |", "|---|---|",
              f"| Pozos país | {fmt(resumen['pais']['pozos'])} |",
@@ -856,6 +869,7 @@ def main(check=False):
              f"| Zona norte: barrios con pozos / pozos (abandonados, activos) | {zn_linea} |",
              f"| Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | {zn_pobl} |",
              f"| Zona norte: no dados de baja / con 60+ meses declarados sin producir | {zn_nb} |",
+             f"| Censo por barrio: renglones sin polígono / renglones repartidos en 2 polígonos (su pobl no se suma dos veces) | {censo_barrios} |",
              f"| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | {t_mas5} |",
              f"| Radio urbano con más pozos | {resumen['poblacion']['radio_urbano_mas_pozos'][0]['radio']} ({fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pozos'])} pozos, {fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pobl'])} hab.) |",
              ]

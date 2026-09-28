@@ -160,6 +160,12 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 /* tooltip de deck.gl al pasar sobre un pozo (el resto del estilo va en map.js) */
 .tooltip-pozo .ley-dot { width: 9px; height: 9px; margin-right: 5px; }
 /* Cartel de radio censal o barrio (visualizador) */
+/* Mira del teclado en el visualizador: el punto que consulta Enter (ver map.js) */
+.mira-teclado { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; pointer-events: none; z-index: 2; display: none; }
+.mira-teclado.visible { display: block; }
+.mira-teclado::before, .mira-teclado::after { content: ''; position: absolute; background: var(--texto); box-shadow: 0 0 0 1.5px #fff; }
+.mira-teclado::before { left: 12px; top: 0; width: 2px; height: 26px; }
+.mira-teclado::after { top: 12px; left: 0; height: 2px; width: 26px; }
 /* Arriba del lienzo de deck.gl (los pozos) y debajo del panel (z-index 4) */
 .cartel-area { z-index: 3; }
 .cartel-area .maplibregl-popup-content { background: rgba(255, 252, 246, 0.97); color: var(--texto); font: 14px/1.35 "Source Sans 3", system-ui, sans-serif; padding: 8px 30px 8px 12px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); }
