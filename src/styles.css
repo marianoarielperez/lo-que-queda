@@ -159,6 +159,36 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 .ficha-error { margin: 4px 40px 0 0; }
 /* tooltip de deck.gl al pasar sobre un pozo (el resto del estilo va en map.js) */
 .tooltip-pozo .ley-dot { width: 9px; height: 9px; margin-right: 5px; }
+/* Historias de la tarjeta 7: lista en la tarjeta, pozos marcados en el mapa y su ventana */
+.historias { list-style: none; margin: 12px 0 6px; padding: 0; display: grid; gap: 1px; }
+.historia-boton { display: grid; grid-template-columns: 1fr auto; column-gap: 10px; align-items: center; width: 100%; min-height: 32px; text-align: left; padding: 3px 8px; font: inherit; font-size: 15px; line-height: 1.25; color: var(--texto); background: transparent; border: 1px solid transparent; border-radius: 4px; cursor: pointer; }
+.historia-boton:hover, .historia-boton[aria-pressed="true"] { background: rgba(23, 24, 27, 0.06); border-color: rgba(23, 24, 27, 0.18); }
+.historia-boton:focus-visible { outline: 2px solid var(--texto); outline-offset: 1px; }
+.historia-titulo { font-weight: 600; }
+.historia-anio { font-size: 13px; color: var(--texto-sec); font-variant-numeric: tabular-nums; }
+/* marcador: el ícono del Pozo N° 2, más chico; el título aparece con el mouse, el foco o la historia abierta */
+.marcador-historia { z-index: 3; width: 28px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; }
+.marcador-historia .marcador-halo { left: -8px; top: -8px; width: 44px; height: 44px; }
+.marcador-historia .marcador-etiqueta { display: none; left: 38px; top: 2px; }
+.marcador-historia:hover .marcador-etiqueta, .marcador-historia:focus-visible .marcador-etiqueta, .marcador-historia.activa .marcador-etiqueta { display: block; }
+.marcador-historia:hover, .marcador-historia:focus-visible, .marcador-historia.activa { z-index: 4; }
+.marcador-historia.activa .marcador-icono { background: var(--texto); color: #fffcf6; border-color: var(--texto); }
+.marcador-historia:focus-visible { outline: none; }
+.marcador-historia:focus-visible .marcador-icono { outline: 3px solid var(--texto); outline-offset: 2px; }
+/* ventana de la historia: la de Metodología, más angosta y a la medida del texto */
+.ventana.ventana-historia { width: min(640px, calc(100vw - 32px)); height: fit-content; max-height: 85vh; max-height: 85svh; margin: auto; } /* fit-content: un dialog modal con height auto se estira */
+.ventana.ventana-historia .ventana-cuerpo { height: auto; max-height: inherit; padding: 30px 36px 24px; }
+.ventana-historia h2 { font-family: "Fraunces", Georgia, serif; font-size: 26px; line-height: 1.2; margin: 4px 0 14px; }
+.ventana-historia p { margin: 0 0 12px; font-size: 17px; line-height: 1.5; }
+.ventana-historia .historia-registro { font-size: 14px; color: var(--texto-sec); }
+.ventana-historia .historia-registro:empty { display: none; }
+.ventana-historia .fuente { font-size: 13px; }
+.historia-foto { margin: 0 0 14px; }
+.historia-foto img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.historia-foto figcaption { margin-top: 4px; font-size: 12px; color: var(--texto-sec); }
+.historia-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px; }
+.historia-nav button:disabled { opacity: .35; cursor: default; }
+
 /* Cartel de radio censal o barrio (visualizador) */
 /* Mira del teclado en el visualizador: el punto que consulta Enter (ver map.js) */
 .mira-teclado { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; pointer-events: none; z-index: 2; display: none; }

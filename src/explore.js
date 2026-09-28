@@ -278,6 +278,7 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     plegarPanel(false);
     mapa.habilitarExploracion(true);
     mapa.marcador(null);
+    mapa.historias(null); // los marcadores de historias son del recorrido (tarjeta 7)
     if (guardado) {
       mapa.aplicar(guardado.estado);
       mapa.irA(guardado.vista);

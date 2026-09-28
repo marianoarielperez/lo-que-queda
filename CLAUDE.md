@@ -150,6 +150,12 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   dio de baja (`zona_norte.no_dados_de_baja`), 393 con 60 meses o más declarados sin producir, y hechos del municipio con fuente
   (radios de seguridad y gas, Res. 3404-19 de Don Bosco, relevamiento de pozos inactivos, CH-679). Las cifras del relevamiento
   municipal que circulan en medios (1.700, 150 sin localizar, 3.700, 6.000) no tienen fuente oficial: no usarlas.
+- 28/09: la tarjeta 7 suma historias de pozos puntuales (ocho, de 2008 a 2026): el ícono del Pozo N° 2 marca cada pozo en el
+  mapa y la lista de la tarjeta repite los títulos; los dos abren una ventana (`<dialog id="ventana-historia">`) con el texto,
+  lo que dice el registro de ese pozo (de su ficha) y las fuentes. Textos en `historias` del paso 7 (story.js).
+  EXCEPCIÓN a la regla 3, decidida por los autores: estas historias pueden salir de notas periodísticas, siempre citadas en
+  la misma historia; la identificación de cada pozo la confirmaron los autores con la Secretaría de Ambiente municipal (no se
+  dice en la web). YPF.Ch.-2228 queda pendiente de confirmación. Fotos solo con permiso escrito del medio (campo `foto`).
 - 27/09: "meses sin producir" cuenta solo meses declarados. CRI, CPAT e INER dejan de declarar sus pozos antes del final de la
   serie; esos meses no son "sin producir". `meses_desde_ultima_prod` (calendario) sirve para "produjo en el último año";
   `meses_declarados_sin_producir` para "más de cinco años". La ficha muestra "Declaración mensual: hasta …" (`ud`).

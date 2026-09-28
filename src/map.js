@@ -481,6 +481,36 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
   // Si se pide antes de que lleguen los pozos, queda pendiente y se pone cuando llegan.
   let marcador = null;
   let marcadorPendiente = null;
+  // ---- historias (tarjeta 7): pozos marcados con el ícono del Pozo N° 2 (botones; el título aparece con el mouse o el
+  // foco). Al tocarlos se avisa a story.js, que abre la ventana de la historia. ----
+  let marcasHistoria = [];
+  let historiasPendientes = null; // si llegan antes que los pozos
+  let alTocarHistoriaFn = null;
+  const ICONO_POZO = `<svg width="16" height="18" viewBox="0 0 18 20" fill="none" stroke="currentColor" stroke-width="1.4"
+    stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+    <path d="M9 1 L4 19 M9 1 L14 19 M7.3 6.5 L10.7 6.5 M6.2 11 L11.8 11 M5.2 15 L12.8 15 M2 19 L16 19"/></svg>`;
+  function mostrarHistorias(lista) {
+    for (const m of marcasHistoria) m?.remove();
+    marcasHistoria = [];
+    historiasPendientes = null;
+    if (!lista) return;
+    if (!pozos) { historiasPendientes = lista; return; }
+    lista.forEach(({ idpozo, etiqueta }, i) => {
+      const c = coordsDe(idpozo);
+      if (!c) return;
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'marcador-pozo marcador-historia';
+      el.innerHTML = `<span class="marcador-halo"></span><span class="marcador-icono">${ICONO_POZO}</span>
+        <span class="marcador-etiqueta" aria-hidden="true">${esc(etiqueta)}</span>`;
+      el.setAttribute('aria-label', etiqueta);
+      el.addEventListener('click', (ev) => { ev.stopPropagation(); alTocarHistoriaFn?.(i); });
+      marcasHistoria[i] = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(c).addTo(map);
+    });
+  }
+  /** Marca (o desmarca, con null) el pozo de la historia abierta. */
+  function resaltarHistoria(i) { marcasHistoria.forEach((x, j) => x?.getElement().classList.toggle('activa', j === i)); }
+
   function mostrarMarcador(idpozo, etiqueta) {
     marcador?.remove();
     marcador = null;
@@ -692,6 +722,7 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
       map.addControl(overlay);
       actualizar({ fundir: estado.pozos });
       if (marcadorPendiente) mostrarMarcador(...marcadorPendiente);
+      if (historiasPendientes) mostrarHistorias(historiasPendientes);
       ajustarFoco();
     },
     /** Último tiempo: los pozos de todo el país (solo el paso País). */
@@ -717,6 +748,11 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     /** Avisa después de cada cambio (el panel resincroniza controles, leyenda y contadores). */
     alCambiar(fn) { oyentes.push(fn); },
     marcador: mostrarMarcador,
+    /** Pozos marcados de las historias (tarjeta 7): [{ idpozo, etiqueta }] o null para sacarlos. */
+    historias: mostrarHistorias,
+    resaltarHistoria,
+    /** fn(i) cuando se toca el marcador de la historia i. */
+    alTocarHistoria(fn) { alTocarHistoriaFn = fn; },
     volar(vista, opciones = {}) {
       // El padding siempre se pasa explícito: MapLibre lo conserva entre vuelos si no.
       let padding = opciones.padding || { top: 0, bottom: 0, left: 0, right: 0 };

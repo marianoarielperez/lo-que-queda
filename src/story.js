@@ -3,7 +3,7 @@
 // se desincronicen con los datos.
 
 import scrollama from 'scrollama';
-import { fmt, pct, esc, VISTA_CUENCA, paddingPanel } from './data.js';
+import { fmt, pct, esc, VISTA_CUENCA, paddingPanel, cargarFicha } from './data.js';
 import { dibujarProduccion } from './chart.js';
 
 // Fuentes de contexto que citan las tarjetas (normas, informes, comunicados oficiales). Verificadas en
@@ -143,20 +143,52 @@ export function definirPasos(R) {
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
-      // Convivir con pozos (autores, 27/09): pozos de barrios de zona norte que la operadora no dio de baja y lo que documenta
-      // el municipio. Lo que dice el municipio va entre comillas y atribuido; nada de adjetivos propios (regla 2).
+      // Convivir con pozos (autores, 27/09 y 28/09): la cifra, una invitación y historias de pozos puntuales. Cada historia cita
+      // su fuente (diario o comunicado oficial); el pozo de cada caso lo confirmaron los autores (docs/investigacion-contexto.md).
+      // Las cifras de las historias son citas de esas fuentes; lo que dice el registro de cada pozo lo agrega la ficha.
+      // Foto opcional por historia, SOLO con permiso escrito del medio: foto: { src: `${import.meta.env.BASE_URL}img/historias/…`,
+      // alt: '…', credito: 'Foto: <medio>, <fecha>. Publicada con autorización.' }
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(Z.no_dados_de_baja),
       titulo: 'pozos en barrios de zona norte que la operadora no dio de baja',
-      texto: `Están declarados inactivos o a abandonar y ${fmt(Z.no_dados_de_baja_5_anios)} llevan al menos cinco años sin producir. Según el municipio, los radios de seguridad de los pozos impiden a los vecinos «tener servicios como el gas»; en un asentamiento de Don Bosco, que declaró «zona de riesgo» en 2019, los ocupantes no pueden comprar la tierra mientras siga ese radio. También releva los pozos inactivos y anota si hay «interacción con viviendas». En 2024 intervino por la surgencia del CH-679.`,
-      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), '; Municipalidad de Comodoro Rivadavia: ', { t: '20/3/2024', url: CONTEXTO.radiosGas },
-        ', ', { t: 'Res. 3404-19', url: CONTEXTO.res340419 }, ', ', { t: '26/9/2024', url: CONTEXTO.relevamiento }, ' y ',
-        { t: '27/8/2024', url: CONTEXTO.municipioCH679 }],
-      fuenteSep: '',
+      texto: 'Y los que sí se dieron de baja no desaparecen: «abandonado» es lo que declara la operadora, no dice cómo está el pozo. Estas son historias que llegaron a los diarios o al municipio. Tocá un pozo marcado en el mapa o elegí una historia de la lista.',
+      historias: [
+        { idpozo: 120614, titulo: 'Once familias fuera de sus casas', lugar: 'Próspero Palazzo', cuando: '2008',
+          texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
+          fuente: [{ t: 'El Patagónico, 20/3/2008', url: 'https://www.elpatagonico.com/por-la-surgencia-petroleo-viviendas-palazzo-once-familias-fueron-evacuadas-n1320746' },
+            { t: '23/3/2008', url: 'https://www.elpatagonico.com/imponente-maquinaria-trabaja-la-casa-palazzo-donde-broto-petroleo-n1320952' }] },
+        // CH-2228: pendiente de confirmación de los autores (la nota cita a la vecinal: "no es el 2.228 sino el 2.811").
+        { idpozo: 120837, titulo: 'Un lote con una válvula', lugar: 'Laprida', cuando: '2009',
+          texto: 'En diciembre de 2008 el municipio entregó lotes en Laprida y en uno estaba la válvula de este pozo. «No podemos avanzar en la construcción, ni en la instalación de servicios», reclamaba la vecinal.',
+          fuente: [{ t: 'El Patagónico, 1/4/2009', url: 'https://www.elpatagonico.com/en-laprida-se-quejan-porque-les-entregaron-terrenos-un-pozo-petroleo-abierto-n1345550' }] },
+        { idpozo: 121051, titulo: 'Un pozo en el patio', lugar: 'Km 3', cuando: '2010 a 2024',
+          texto: 'En 2010, los departamentos de una propiedad de la calle Buque La Plata estaban desocupados por las emanaciones de gas del pozo. En 2022 la Cámara de Apelaciones le ordenó a YPF abandonarlo de nuevo, en forma definitiva. En 2024 el municipio volvió «ante la preocupación de los vecinos».',
+          fuente: [{ t: 'El Patagónico, 18/12/2010', url: 'https://www.elpatagonico.com/intiman-ypf-un-pozo-abandonado-el-patio-su-casa-n1387155' },
+            { t: 'ADNSUR, 22/5/2022', url: 'https://www.adnsur.com.ar/sociedad/alertan-por-un-viejo-pozo-petrolero-potencialmente--explosivo--que-esta-en-km-3-e-intiman-a-ypf-al-reabandono-_a6286a726ad27edc439d29c52' },
+            { t: 'Municipalidad, 13/6/2024', url: 'https://www.comodoro.gov.ar/2024/06/13/el-municipio-realizo-fuertes-controles-en-yacimientos-para-relevar-los-pasivos-ambientales/' }] },
+        { idpozo: 120200, titulo: 'Olor a gas en Las Orquídeas', lugar: 'Km 5', cuando: '2011',
+          texto: 'Vecinos de Los Ferroviarios y Juan Zabalo sentían olor a gas. Camuzzi descartó que viniera de sus caños y avisó a la Secretaría de Hidrocarburos. El pozo, abandonado por YPF en 1968, se volvió a abandonar en marzo de 2011, con dos calles cortadas.',
+          fuente: [{ t: 'El Patagónico, 27/2/2011', url: 'https://www.elpatagonico.com/una-surgencia-gas-mantiene-vilo-al-barrio-las-orquideas-n1391649' },
+            { t: '31/3/2011', url: 'https://www.elpatagonico.com/cortaron-dos-calles-sellar-el-pozo-petrolero-kilometro-5-n1393660' }] },
+        { idpozo: 161850, titulo: 'Un derrame en el Cañadón La Francesa', lugar: 'Bella Vista', cuando: '2024',
+          texto: 'En junio de 2024 se rompió la línea de conducción de este pozo, que hoy produce. Se derramaron 14 m³ de crudo a lo largo de unos 600 metros, sobre vegetación y lotes de vecinos. La Provincia multó a YPF con el equivalente a 224.000 litros de gasoil.',
+          fuente: [{ t: 'El Chubut, 5/7/2024', url: 'https://www.elchubut.com.ar/regionales/2024-7-5-21-35-0-provincia-sanciono-a-ypf-por-el-derrame-de-hidrocarburos-en-bella-vista' },
+            { t: 'El Extremo Sur, 11/7/2024', url: 'https://www.elextremosur.com/nota/49898-derrames-y-pozos-abandonados-a-la-vuelta-de-la-esquina-una-ciudad-que-crecio-de-la-mano-del-petroleo/' }] },
+        { idpozo: 121621, titulo: 'Una surgencia camino a Laprida', lugar: 'Zona Central', cuando: '2024',
+          texto: 'El 25 de agosto de 2024 salió petróleo de este pozo, perforado en 1927 y abandonado «aparentemente en 1962», según el municipio. El derrame afectó el suelo y parte del arroyo Belgrano. El municipio le pidió a YPF, por acta, estudios de integridad y hermeticidad.',
+          fuente: [{ t: 'Municipalidad, 27/8/2024', url: CONTEXTO.municipioCH679 }] },
+        { idpozo: 121326, titulo: 'Apareció dentro de una casa', lugar: 'Sismográfica', cuando: '2026',
+          texto: 'Tras el deslizamiento del cerro Hermitte, en la casa de un vecino «un pozo petrolero emergió del suelo, rompió su piso». Esos días se evacuaron más de 90 familias del sector. La Provincia sostuvo que la actividad petrolera no causó el deslizamiento.',
+          fuente: [{ t: 'Diario Jornada, 21/1/2026', url: 'https://www.diariojornada.com.ar/409911/magazine/derrumbe_emergio_un_pozo_petrolero_dentro_de_su_casa' },
+            { t: 'El Chubut, 10/2/2026', url: 'https://www.elchubut.com.ar/regionales/2026-2-10-21-55-0-cerro-hermitte-aseguran-que-la-actividad-petrolera-no-fue-el-origen-de-los-deslizamientos' }] },
+        { idpozo: 121660, titulo: 'Petróleo al plantar un árbol', lugar: 'Km 5', cuando: '2026',
+          texto: 'Un vecino de la calle Ferrocarriles Argentinos cavaba en su patio para plantar un árbol y, a un metro diez de profundidad, empezó a salir petróleo. «Ya nos había pasado otras veces», contó.',
+          fuente: [{ t: 'ADNSUR, 27/2/2026', url: 'https://www.adnsur.com.ar/sociedad/cavaba-un-pozo-en-su-patio-de-la-zona-norte-de-comodoro-y-se-encontro-con-petroleo_a69a227fe66a78182fdf02017' }] },
+      ],
+      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), 'historias: cada una cita su fuente'],
       vista: { bounds: NUCLEO_ZONA_NORTE },
       focoArriba: true,
-      marcador: { idpozo: 121621, etiqueta: 'CH-679' },
-      // Mismo encuadre que la tarjeta 6, pero solo los pozos inactivos o a abandonar (los que no están dados de baja).
-      capas: { estadosVisibles: new Set([1, 2]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
+      // Mismo encuadre y pozos que la tarjeta 6; encima, los marcadores numerados de las historias.
+      capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
       id: 8, kicker: 'Paso 8 · Lo que queda', cifra: fmt(c.sin_produccion),
@@ -198,6 +230,9 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
         <h2 class="titulo-paso">${sinCorte(s.titulo)}</h2>
         <p class="texto">${sinCorte(s.texto)}</p>
         ${s.grafico ? '<div class="grafico" id="grafico-cuencas"></div>' : ''}
+        ${s.historias ? `<ol class="historias">${s.historias.map((h, i) => `<li><button type="button" class="historia-boton" data-historia="${i}">
+          <span class="historia-titulo">${esc(h.titulo)}</span>
+          <span class="historia-anio">${esc(h.cuando.slice(0, 4))}</span></button></li>`).join('')}</ol>` : ''}
         ${s.final ? `<div class="acciones-cierre">
           <button type="button" class="empezar" data-ir="explorar">Explorá el mapa</button>
           <button type="button" class="empezar" data-abrir="metodologia">Metodología</button>
@@ -214,6 +249,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     const paso = pasos.find((p) => p.id === id);
     if (!paso) { // portada: el país, sin ningún pozo
       mapa.marcador(null);
+      mapa.historias(null);
       document.body.classList.add('sin-leyenda'); // sin pozos en el mapa, la leyenda no tiene qué explicar
       mapa.aplicar({ soloId: null, pozos: false, soloEjido: false, enfocarEjido: false, enfocarZonaNorte: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false, satelite: false });
       mapa.volar({ center: [-66.5, -41.5], zoom: 4.3 });
@@ -223,6 +259,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     mapa.aplicar({ soloId: null, enfocarEjido: false, enfocarZonaNorte: false, sinProducir: null, satelite: false, pozos: true, ...paso.capas });
     document.body.classList.toggle('sin-leyenda', Boolean(paso.capas.soloId)); // un solo pozo: la leyenda cuenta 44.390
     mapa.marcador(paso.marcador?.idpozo ?? null, paso.marcador?.etiqueta);
+    mapa.historias(paso.historias ? paso.historias.map((h) => ({ idpozo: h.idpozo, etiqueta: `${h.titulo} · ${h.cuando}` })) : null);
     // Lo que tapa la tarjeta: en celular, la mitad de abajo (focoArriba); en escritorio, una vista por límites
     // (vista.bounds) deja libre la columna de la tarjeta.
     let padding;
@@ -230,7 +267,8 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       // Con vista por límites también se dejan libres la franja de la leyenda (arriba) y toda la altura de la tarjeta.
       const porLimites = Boolean(paso.vista.bounds);
       const arriba = porLimites ? Math.round(document.getElementById('leyenda').getBoundingClientRect().bottom) + 8 : 0;
-      const abajo = Math.max(window.innerHeight * 0.45, porLimites ? seccion.querySelector('.card').offsetHeight + 16 : 0);
+      // tope: el mapa conserva al menos el 38 % de la pantalla (si no, con una tarjeta alta se aleja de más)
+      const abajo = Math.min(window.innerHeight * 0.62, Math.max(window.innerHeight * 0.45, porLimites ? seccion.querySelector('.card').offsetHeight + 16 : 0));
       if (paso.focoArriba) padding = { top: arriba, bottom: Math.round(abajo), left: 0, right: 0 };
     } else if (paso.comoVisualizador) {
       padding = paddingPanel(); // mismo encuadre que el visualizador: el mapa no se mueve al pasar a él
@@ -239,6 +277,67 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       padding = { top: 24, bottom: 24, left: Math.round(tarjeta.right) + 24, right: 24 };
     }
     mapa.volar(paso.vista, { ...(paso.vuelo || {}), ...(padding ? { padding } : {}) });
+  }
+
+  // ---- historias (tarjeta 7): los pozos marcados en el mapa y la lista de la tarjeta abren la misma ventana ----
+  // (<dialog id="ventana-historia"> de index.html, con el estilo de la de Metodología; se cierra con ×, Escape o clic afuera).
+  const pasoHistorias = pasos.find((p) => p.historias);
+  const ventana = document.getElementById('ventana-historia');
+  let actual = null;   // índice de la historia abierta
+  let origen = null;   // quién la abrió (el foco vuelve ahí al cerrar)
+  function abrirHistoria(i) {
+    const lista = pasoHistorias.historias;
+    const h = lista[i];
+    if (!h || !ventana) return;
+    if (!ventana.open) origen = document.activeElement;
+    actual = i;
+    const $v = (sel) => ventana.querySelector(sel);
+    $v('#historia-meta').textContent = `${h.lugar} · ${h.cuando}`;
+    $v('#historia-titulo').textContent = h.titulo;
+    // Foto: solo si la historia tiene una cargada, con permiso del medio (crédito obligatorio).
+    const fig = $v('.historia-foto');
+    fig.hidden = !h.foto;
+    if (h.foto) {
+      fig.querySelector('img').src = h.foto.src;
+      fig.querySelector('img').alt = h.foto.alt;
+      fig.querySelector('figcaption').textContent = h.foto.credito;
+    }
+    $v('#historia-texto').textContent = h.texto;
+    $v('#historia-fuente').innerHTML = `Fuente: ${htmlFuente(h.fuente, ', ')}`;
+    const reg = $v('#historia-registro');
+    reg.textContent = '';
+    // Lo que dice el registro de ese pozo (Capítulo IV): estado declarado y años, si los hay.
+    cargarFicha(h.idpozo).then((f) => {
+      if (actual !== i || !f) return;
+      const partes = [`Pozo ${f.s}`, `${f.est}, según lo declarado por la operadora`];
+      if (f.fperf) partes.push(`perforado en ${f.fperf.slice(0, 4)}`);
+      if (f.fab) partes.push(`abandono declarado en ${f.fab.slice(0, 4)}`);
+      reg.textContent = `En el registro: ${partes.join(' · ')}.`;
+    }).catch(() => {});
+    $v('[data-historia-paso="-1"]').disabled = i === 0;
+    $v('[data-historia-paso="1"]').disabled = i === lista.length - 1;
+    document.querySelectorAll('.historia-boton').forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
+    mapa.resaltarHistoria(i);
+    if (!ventana.open) ventana.showModal();
+    $v('.ventana-cuerpo').scrollTop = 0;
+  }
+  if (pasoHistorias && ventana) {
+    cont.addEventListener('click', (ev) => {
+      const b = ev.target.closest('.historia-boton');
+      if (b) abrirHistoria(Number(b.dataset.historia));
+    });
+    mapa.alTocarHistoria((i) => abrirHistoria(i));
+    ventana.addEventListener('click', (ev) => {
+      if (ev.target === ventana || ev.target.closest('[data-cerrar-historia]')) ventana.close(); // clic afuera o ×
+      const paso = ev.target.closest('[data-historia-paso]');
+      if (paso && !paso.disabled) abrirHistoria(actual + Number(paso.dataset.historiaPaso));
+    });
+    ventana.addEventListener('close', () => {
+      actual = null;
+      document.querySelectorAll('.historia-boton').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+      mapa.resaltarHistoria(null);
+      if (origen && document.contains(origen)) origen.focus({ preventScroll: true });
+    });
   }
 
   // Cuándo cambia de paso. En escritorio, cuando la sección (con la tarjeta centrada) cruza el 55 % de la

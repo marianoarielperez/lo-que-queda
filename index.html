@@ -122,6 +122,23 @@
        Las cifras NO se escriben acá: van como <span data-cifra="ruta.en.resumen"> y las completa src/metodologia.js
        desde resumen.json (data-formato="cantidad" cuenta claves; "mes" convierte "2017-01" en "enero de 2017").
        La lista de datasets y la tabla de estados también salen de resumen.json. -->
+  <!-- Ventana de una historia de la tarjeta 7: la completa src/story.js (los textos viven en definirPasos()). -->
+  <dialog id="ventana-historia" class="ventana ventana-historia" aria-labelledby="historia-titulo">
+    <button type="button" class="cerrar" data-cerrar-historia aria-label="Cerrar la historia">×</button>
+    <div class="ventana-cuerpo">
+      <p class="kicker" id="historia-meta"></p>
+      <h2 id="historia-titulo"></h2>
+      <figure class="historia-foto" hidden><img alt=""><figcaption></figcaption></figure>
+      <p id="historia-texto"></p>
+      <p class="historia-registro" id="historia-registro" aria-live="polite"></p>
+      <p class="fuente" id="historia-fuente"></p>
+      <nav class="historia-nav" aria-label="Otras historias">
+        <button type="button" class="empezar" data-historia-paso="-1">← Anterior</button>
+        <button type="button" class="empezar" data-historia-paso="1">Siguiente →</button>
+      </nav>
+    </div>
+  </dialog>
+
   <dialog id="ventana-metodologia" class="ventana" aria-labelledby="metodologia-titulo">
     <button type="button" class="cerrar" data-cerrar-metodologia aria-label="Cerrar la metodología">×</button>
     <div class="ventana-cuerpo metodologia">
@@ -181,6 +198,7 @@
         <li><a href="https://www.comodoro.gov.ar/2024/03/20/coluccio-con-esta-ordenanza-nos-ponemos-a-la-altura-de-la-industria-hidrocarburifera/">Municipalidad de Comodoro Rivadavia, 20/3/2024</a>: los radios de seguridad de los pozos y el servicio de gas.</li>
         <li><a href="https://www.comodoro.gov.ar/archivos/boletin_oficial/pdf/bol_002-2020.pdf">Resolución municipal 3404-19</a> (Boletín Oficial municipal N° 002, 3/1/2020): asentamiento de Don Bosco, «zona de riesgo» por pozos con radio de 60 m.</li>
         <li><a href="https://www.comodoro.gov.ar/2024/09/26/el-municipio-avanza-en-el-relevamiento-de-pozos-petroleros-inactivos-dentro-su-ejido/">Municipalidad de Comodoro Rivadavia, 26/9/2024</a>: relevamiento de pozos inactivos del ejido.</li>
+        <li>Historias del paso 7: cada una cita la nota periodística o el comunicado oficial del que sale. El estado de cada pozo y sus fechas son los del registro de la Secretaría de Energía.</li>
       </ul>
 
       <h3>Uso de inteligencia artificial</h3>

@@ -154,6 +154,26 @@ petróleo en un patio de Km 5 (febrero de 2026); la demanda del municipio contra
 YPF.Ch.-325 (Mosconi) y YPF.Ch.-724 (Presidente Ortiz, perforado en 1928, abandonado el 15/05/1996 según el listado) caen en
 las zonas de esas notas, pero nada oficial dice que sean esos pozos.
 
+## Historias de la tarjeta 7 (28/09/2026)
+
+Excepción a la regla 3 decidida por los autores: cada historia sale de notas periodísticas (o de un comunicado oficial) y las
+cita en la misma historia. La asignación de cada caso a su pozo la confirmaron los autores con la Secretaría de Ambiente de la
+Municipalidad (28/09/2026, en persona, con las notas en mano); no se menciona en la web. Informe de verificación de las notas
+del 28/09 en el scratchpad de esa sesión (resumen acá).
+
+| Pozo | Caso | Fuentes | Nota |
+|---|---|---|---|
+| YPF.Ch.-1953 | Próspero Palazzo, marzo de 2008: surgencia en una vivienda de Juan José Paso y Manuel de Sarratea; unas once familias desalojadas (autorización de la Justicia civil); Repsol selló el pozo | El Patagónico 20 y 23/03/2008 | Otro caso distinto en el mismo barrio (Cámara Sala A, 2012; pozo de 1936): no mezclar |
+| YPF.Ch.-2228 | Laprida, lotes entregados en diciembre de 2008 con "la válvula del pozo" en el Lote 5 | El Patagónico 01/04/2009 | **Pendiente de confirmación.** La nota cita a la vecinal: "este pozo no es el 2.228 sino el 2.811" (en el Capítulo IV no hay YPF.Ch.-2811) |
+| YPF.Ch.-44 | Km 3, calle Buque La Plata: emanaciones de gas (2010), fallo de la Cámara Sala B que ordena el reabandono (2022), visita municipal (2024) | El Patagónico 18/12/2010; ADNSUR 22/05/2022; Municipalidad 13/06/2024 | "potencialmente explosivo" es el título de ADNSUR: no usar como propio |
+| YPF.Ch.-1426 | Las Orquídeas (Los Ferroviarios y Juan Zabalo): olor a gas; Camuzzi descarta sus caños; YPF reabandona el pozo (abandonado en 1968) en marzo de 2011 | El Patagónico 27/02 y 31/03/2011 | "su sellado no quedó en condiciones óptimas" es del periodista: no usar |
+| YPF.Ch.BV-577(d) | Cañadón La Francesa, 25/06/2024: rotura de la línea de conducción, 14 m³ en unos 600 m; Disposición 011/2024, multa de 224.000 l de gasoil | El Chubut 05/07/2024; El Extremo Sur 11/07/2024 | Pozo activo (2020). El municipio habló del "pozo 578": es el de al lado (confirmado por los autores) |
+| YPF.Ch.-679 | Zona Central, 25/08/2024: surgencia; afectó suelo y arroyo Belgrano; acta por estudios de integridad y hermeticidad | Municipalidad 27/08/2024 (oficial) | Perforado en 1927 y abandonado "aparentemente en 1962" según el municipio |
+| YPF.Ch.-325 | Sismográfica (General Mosconi), enero de 2026: tras el deslizamiento del cerro Hermitte, "un pozo petrolero emergió del suelo, rompió su piso" | Diario Jornada 21/01/2026; El Chubut 10/02/2026 | La Provincia (Rivera) sostiene que la actividad petrolera no causó el deslizamiento |
+| YPF.Ch.-724 | Km 5 (calle Ferrocarriles Argentinos), febrero de 2026: petróleo a 1,10 m al cavar para plantar un árbol | ADNSUR 27/02/2026 | La nota no dice que sea un pozo; la identificación es de la Secretaría de Ambiente |
+
+Fotos de los medios: solo con autorización escrita de cada medio (citar no alcanza). Campo `foto` de cada historia.
+
 ## Sin confirmación oficial (no usar)
 
 "6.300 pozos en funcionamiento en Chubut" (declaración en prensa, 2020); "3.700 pozos inactivos a
