@@ -3,7 +3,7 @@
 // se desincronicen con los datos.
 
 import scrollama from 'scrollama';
-import { fmt, pct, esc, VISTA_CUENCA, paddingPanel, cargarFicha } from './data.js';
+import { fmt, pct, esc, VISTA_CUENCA, paddingPanel, cargarFicha, reducirMovimiento } from './data.js';
 import { dibujarProduccion } from './chart.js';
 
 // Fuentes de contexto que citan las tarjetas (normas, informes, comunicados oficiales). Verificadas en
@@ -60,19 +60,6 @@ export function definirPasos(R) {
   const t = R.trayectoria; // null si no se procesó el mensual
   const Z = R.zona_norte; // barrios de zona norte con pozos y población (procesar.py → resumir_zona_norte)
   const astra = Z.por_barrio.Astra, mosconi = Z.por_barrio['General Enrique Mosconi'];
-  // Ritmo de declaraciones de abandono: años completos posteriores al primero de la serie
-  // (el primer año arrastra los pozos que ya estaban abandonados al inicio) y anteriores al último (incompleto).
-  let ritmo = null;
-  if (t) {
-    const anios = Object.entries(t.abandonados_por_anio_de_declaracion).map(([a, n]) => [Number(a), n]).sort((x, y) => x[0] - y[0]);
-    const desde = Number(t.cobertura.desde.slice(0, 4)), hasta = Number(t.cobertura.hasta.slice(0, 4));
-    const completos = anios.filter(([a]) => a > desde && a < hasta);
-    if (completos.length) {
-      const total = completos.reduce((acc, [, n]) => acc + n, 0);
-      const paradosMas5 = t.inactivos_por_tiempo_sin_producir.mas_de_5_anios; // 60 meses declarados sin producir (procesar.py)
-      ritmo = { desdeAnio: completos[0][0], hastaAnio: completos[completos.length - 1][0], total, porAnio: Math.round(total / completos.length), paradosMas5 };
-    }
-  }
   return [
     {
       // El primer pozo. Solo se ve el Pozo N° 2 (idpozo 121014), con su ícono; el mapa vuela desde la portada.
@@ -199,13 +186,25 @@ export function definirPasos(R) {
       capas: { estadosVisibles: new Set([3]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarEjido: true, poblacion: false, limites: true, pais: false, concesiones: false, barrios: false },
     },
     {
+      // Cierre (autores, 28/09): vuelve al Pozo N° 2 y se aleja despacio hasta la cuenca (sin apagar ningún estado: decisión de
+      // los autores). «No hay un registro público…»: docs/investigacion-contexto.md («Lo que NO existe»).
+      // Los datos de la versión anterior (13.018 parados hace más de 5 años, ritmo de abandonos, provisión de YPF) siguen en
+      // resumen.json y en la conciliación.
       id: 8, kicker: 'Paso 8 · Lo que queda', cifra: fmt(c.sin_produccion),
       titulo: 'pozos sin producir en la cuenca',
-      texto: `${ritmo ? `${fmt(ritmo.paradosMas5)} pozos llevan más de cinco años sin producir y no están declarados abandonados. Entre ${ritmo.desdeAnio} y ${ritmo.hastaAnio} las operadoras declararon abandonados ${fmt(ritmo.total)} pozos: unos ${fmt(ritmo.porAnio)} por año. ` : ''}YPF tenía provisionados US$ 915 millones por abandono de pozos al cierre de 2024. No existe un registro público de pasivos ambientales hidrocarburíferos. Lo que hay es este dato, pozo por pozo. Exploralo.`,
-      fuente: [{ t: 'YPF, Form 20-F 2024, Nota 17 (SEC)', url: CONTEXTO.ypf20F }],
+      texto: 'En 1907 buscaban agua y encontraron petróleo. De aquel pozo salieron los campamentos, después los barrios y una ciudad entera. Hoy la cuenca produce cada vez menos y muchos de estos pozos quedaron entre las casas. No hay un registro público de lo que falta hacer con ellos. El petróleo se va. Los pozos se quedan.',
+      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Ministerio de Economía', url: CONTEXTO.minEconomia }],
       vista: VISTA_CUENCA, // en la computadora, el mismo encuadre con el que arranca el visualizador
       comoVisualizador: true,
       focoArriba: true,
+      marcador: { idpozo: 121014, etiqueta: 'Pozo N° 2 · 1907' },
+      foto: {
+        src: `${import.meta.env.BASE_URL}img/bombeo-atardecer.jpg`,
+        alt: 'Un aparato de bombeo petrolero, cercado, en un campo seco bajo un cielo cargado de atardecer; al fondo, un cerro',
+        credito: 'Foto: Mauro Esains.',
+      },
+      // La cámara arranca cerca del Pozo N° 2 (zoom) y se aleja durante `duracion` ms hasta la vista del paso.
+      cierre: { zoom: 14, duracion: 7000 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: true, pais: false, concesiones: false, barrios: false },
       final: true,
     },
@@ -251,8 +250,13 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
   }
   if (produccion) dibujarProduccion(document.getElementById('grafico-cuencas'), produccion);
 
+  let turno = 0; // sube en cada entrada a un paso y en la pausa: una secuencia de cierre vieja no sigue
   function entrar(seccion) {
+    const miTurno = ++turno;
     const id = Number(seccion.dataset.step);
+    // Volver a entrar sin haber salido: scrollama lo hace al cambiar el tamaño de la ventana (en el celular, cuando se
+    // esconde la barra de direcciones) y reanudar() al volver del visualizador. El cierre no arranca de nuevo.
+    const yaEstaba = seccion.classList.contains('activa');
     document.querySelectorAll('#story .step').forEach((el) => el.classList.toggle('activa', el === seccion));
     const paso = pasos.find((p) => p.id === id);
     if (!paso) { // portada: el país, sin ningún pozo
@@ -285,7 +289,28 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       const tarjeta = seccion.querySelector('.card').getBoundingClientRect();
       padding = { top: 24, bottom: 24, left: Math.round(tarjeta.right) + 24, right: 24 };
     }
-    mapa.volar(paso.vista, { ...(paso.vuelo || {}), ...(padding ? { padding } : {}) });
+    const opciones = { ...(paso.vuelo || {}), ...(padding ? { padding } : {}) };
+    if (paso.cierre) recorrerCierre(paso, opciones, seccion, miTurno, yaEstaba);
+    else mapa.volar(paso.vista, opciones);
+  }
+
+  // Cierre (tarjeta 8): la cámara va al Pozo N° 2 y se aleja despacio hasta la cuenca.
+  // Con «reducir movimiento», o si ya se estaba en el paso, directo a la vista del paso.
+  const espera = (ms) => new Promise((r) => setTimeout(r, ms));
+  async function recorrerCierre(paso, opciones, seccion, miTurno, directo) {
+    const pozo2 = mapa.coordsDe(paso.marcador.idpozo);
+    if (pozo2 && !directo && !reducirMovimiento()) {
+      // En la computadora el pozo queda a la derecha de la tarjeta; en el celular, arriba (el mismo padding del paso).
+      const tarjeta = seccion.querySelector('.card').getBoundingClientRect();
+      const padding = MOVIL.matches ? opciones.padding : { top: 24, bottom: 24, left: Math.round(tarjeta.right) + 24, right: 24 };
+      await mapa.volar({ center: pozo2, zoom: paso.cierre.zoom }, { duration: 2000, padding });
+      if (miTurno !== turno) return;
+      await espera(900);
+      if (miTurno !== turno) return;
+      mapa.volar(paso.vista, { ...opciones, duration: paso.cierre.duracion });
+    } else {
+      mapa.volar(paso.vista, opciones);
+    }
   }
 
   // ---- historias (tarjeta 7): los pozos marcados en el mapa y la lista de la tarjeta abren la misma ventana ----
@@ -390,7 +415,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
 
   return {
     /** Mientras se explora, el recorrido no reacciona al desplazamiento. */
-    pausar() { pausado = true; scroller.disable(); },
+    pausar() { pausado = true; turno++; scroller.disable(); },
     /** Al volver del visualizador: vuelve a escuchar y reaplica el paso que quedó en pantalla. */
     reanudar() { pausado = false; scroller.enable(); entrar(pasoEnPantalla()); },
   };

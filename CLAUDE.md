@@ -162,6 +162,13 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   solo los abandonados, con el foco en el ejido. `zona_norte.no_dados_de_baja` (474) y el 393 siguen en resumen.json pero ya no
   se muestran. Fotos en cinco historias (44, BV-577(d), 679, 325, 724), crédito «Foto: <fuente>» y recorte 16:9 por CSS
   (`posicion` = object-position); el permiso de cada fuente lo gestionan los autores.
+- 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
+  (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
+  Los pozos se quedan.». Los autores descartaron apagar los activos. Salieron de la tarjeta 13.018, el ritmo de abandonos y los
+  US$ 915 M (siguen en resumen.json / conciliación; el 20-F sigue en la metodología). `volar()` devuelve una promesa y lleva a
+  cero el padding que dejó el vuelo anterior antes de `cameraForBounds` (MapLibre lo suma: el encuadre salía más lejos y en el
+  celular no salía). Volver a entrar al mismo paso (resize, volver del visualizador) no repite el vuelo desde el Pozo N° 2.
+  En la computadora la tarjeta 8 termina en la misma cámara que el visualizador; en el celular no (tarjeta y panel tapan distinto).
 - 27/09: "meses sin producir" cuenta solo meses declarados. CRI, CPAT e INER dejan de declarar sus pozos antes del final de la
   serie; esos meses no son "sin producir". `meses_desde_ultima_prod` (calendario) sirve para "produjo en el último año";
   `meses_declarados_sin_producir` para "más de cinco años". La ficha muestra "Declaración mensual: hasta …" (`ud`).

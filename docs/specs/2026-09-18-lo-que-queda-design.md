@@ -32,7 +32,7 @@ Opción A: relato primero, mapa después. Una página; el mapa ocupa la pantalla
 | 4 | Ejido | Límite del ejido + radios urbanos + población | 6.205 pozos; 817 activos, 574 producen; 84.519 personas (42,0 % de Comodoro) en radios con pozo |
 | 5 | Zona norte | Barrios al norte del cerro Chenque (lista municipal); pozos fuera de ellos atenuados | 33 de 36 barrios con pozos; 2.370 pozos (1.801 abandonados, 95 activos); 86,1 % de los vecinos en barrios con 10 o más; Astra 492 pozos y 328 hab.; Mosconi (Km 3, Pozo N° 2) 195 y ninguno activo |
 | 6 | Convivir con pozos | Núcleo de zona norte, solo los abandonados (foco en el ejido); ocho pozos con historia marcados (ventana con la historia, fuentes y foto al tocarlos) | 3.543 pozos abandonados en el ejido («que la operadora declare un pozo como abandonado no garantiza que esté bien sellado»); ocho historias de 2008 a 2026, cada una con su fuente |
-| 7 | Cierre | Mapa liberado | 28.499 pozos sin producir; 13.018 inactivos hace más de 5 años (meses declarados); 169 declaraciones de abandono por año (2018–2025); provisión YPF US$ 915 M |
+| 7 | Cierre | Vuelo desde el Pozo N° 2 (de cerca) hasta la cuenca, que termina en el encuadre del visualizador; foto de Mauro Esains | 28.499 pozos sin producir; 1907, «No hay un registro público de lo que falta hacer con ellos», «El petróleo se va. Los pozos se quedan.» |
 
 Exploración: filtros por estado (4 grupos, con detalle de los 17 originales en la ficha), operadora,
 yacimiento, provincia; capa de población; buscador por sigla; ficha al clic; contadores.

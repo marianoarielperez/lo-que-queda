@@ -759,12 +759,28 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
       // Vista por límites ([[oeste, sur], [este, norte]]): centro y zoom para esta pantalla, sin lo que tapa el padding.
       // cameraForBounds ya corre el centro por el padding, así que el vuelo va sin padding (si no, lo corre dos veces).
       if (vista.bounds) {
+        // MapLibre le suma al padding pedido el que haya dejado un vuelo anterior (transform.padding): con un vuelo previo
+        // con padding (p. ej. el del Pozo N° 2 en el cierre), el encuadre salía más lejos o, en el celular, no salía.
+        // Se lo lleva a cero sin mover lo que se ve: el punto del centro de la pantalla pasa a ser el centro.
+        const previo = map.getPadding();
+        if (previo.top || previo.bottom || previo.left || previo.right) {
+          const { clientWidth: w, clientHeight: h } = map.getContainer();
+          map.jumpTo({ center: map.unproject([w / 2, h / 2]), padding: { top: 0, bottom: 0, left: 0, right: 0 } });
+        }
         vista = map.cameraForBounds(vista.bounds, { padding }) || { center: map.getCenter(), zoom: map.getZoom() };
         padding = { top: 0, bottom: 0, left: 0, right: 0 };
       }
       // Con "reducir movimiento" se salta directo (MapLibre lo haría solo, pero `essential` lo impide).
-      if (reducirMovimiento()) { map.jumpTo({ ...vista, padding }); return; }
+      if (reducirMovimiento()) { map.jumpTo({ ...vista, padding }); return Promise.resolve(); }
+      const duracion = opciones.duration ?? 1600;
       map.flyTo({ ...vista, duration: 1600, essential: true, ...opciones, padding });
+      // Promesa que se cumple al terminar (o cortarse) el vuelo. El oyente va después de flyTo: el moveend del vuelo que
+      // este corta se dispara adentro de flyTo. Por las dudas, un reloj la cumple igual.
+      return new Promise((listo) => {
+        const fin = () => { clearTimeout(reloj); map.off('moveend', fin); listo(); };
+        const reloj = setTimeout(fin, duracion + 500);
+        map.on('moveend', fin);
+      });
     },
     filaDe(idpozo) { return pozos?.filaPorId.get(idpozo); },
     coordsDe,
