@@ -296,8 +296,10 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
 
   // Cierre (tarjeta 8): la cámara va al Pozo N° 2 y se aleja despacio hasta la cuenca.
   // Con «reducir movimiento», o si ya se estaba en el paso, directo a la vista del paso.
+  // Al terminar, la tarjeta queda marcada (data-cierre-listo): el visualizador arranca desde esa cámara sin moverla.
   const espera = (ms) => new Promise((r) => setTimeout(r, ms));
   async function recorrerCierre(paso, opciones, seccion, miTurno, directo) {
+    delete seccion.dataset.cierreListo;
     const pozo2 = mapa.coordsDe(paso.marcador.idpozo);
     if (pozo2 && !directo && !reducirMovimiento()) {
       // En la computadora el pozo queda a la derecha de la tarjeta; en el celular, arriba (el mismo padding del paso).
@@ -307,10 +309,11 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       if (miTurno !== turno) return;
       await espera(900);
       if (miTurno !== turno) return;
-      mapa.volar(paso.vista, { ...opciones, duration: paso.cierre.duracion });
+      await mapa.volar(paso.vista, { ...opciones, duration: paso.cierre.duracion });
     } else {
-      mapa.volar(paso.vista, opciones);
+      await mapa.volar(paso.vista, opciones);
     }
+    if (miTurno === turno) seccion.dataset.cierreListo = '';
   }
 
   // ---- historias (tarjeta 7): los pozos marcados en el mapa y la lista de la tarjeta abren la misma ventana ----

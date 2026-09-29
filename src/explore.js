@@ -285,8 +285,14 @@ export function montarExploracion({ mapa, pozos, resumen }) {
       if (guardado.ficha !== null) abrirPozo(guardado.ficha, { foco: false });
     } else {
       mapa.aplicar(estadoInicial());
-      // La cuenca en lo que queda libre del mapa: a la izquierda del panel (computadora) o arriba de él (celular).
-      mapa.volar(VISTA_CUENCA, { padding: paddingPanel() });
+      if (document.querySelector('#story .step.activa[data-cierre-listo]')) {
+        // Desde el final del recorrido, con su vuelo terminado, el mapa ya muestra la cuenca: no se mueve. En el celular el
+        // panel arranca plegado, así se ve lo mismo que en la tarjeta (abierto taparía el sur de la cuenca).
+        if (window.matchMedia('(max-width: 700px)').matches) plegarPanel(true);
+      } else {
+        // La cuenca en lo que queda libre del mapa: a la izquierda del panel (computadora) o arriba de él (celular).
+        mapa.volar(VISTA_CUENCA, { padding: paddingPanel() });
+      }
     }
     $('explore-titulo').focus({ preventScroll: true });
     cargarSiglas().then((S) => { indiceSiglas = S; }).catch(() => {}); // para el tooltip y el buscador

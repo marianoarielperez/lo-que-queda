@@ -168,7 +168,8 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   US$ 915 M (siguen en resumen.json / conciliación; el 20-F sigue en la metodología). `volar()` devuelve una promesa y lleva a
   cero el padding que dejó el vuelo anterior antes de `cameraForBounds` (MapLibre lo suma: el encuadre salía más lejos y en el
   celular no salía). Volver a entrar al mismo paso (resize, volver del visualizador) no repite el vuelo desde el Pozo N° 2.
-  En la computadora la tarjeta 8 termina en la misma cámara que el visualizador; en el celular no (tarjeta y panel tapan distinto).
+  Al terminar el vuelo, la tarjeta queda con `data-cierre-listo` y el visualizador arranca desde esa cámara sin moverla (en el
+  celular, con el panel plegado); desde la portada o con el vuelo sin terminar, arranca como siempre (`VISTA_CUENCA`).
 - 27/09: "meses sin producir" cuenta solo meses declarados. CRI, CPAT e INER dejan de declarar sus pozos antes del final de la
   serie; esos meses no son "sin producir". `meses_desde_ultima_prod` (calendario) sirve para "produjo en el último año";
   `meses_declarados_sin_producir` para "más de cinco años". La ficha muestra "Declaración mensual: hasta …" (`ud`).
