@@ -162,6 +162,13 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   solo los abandonados, con el foco en el ejido. `zona_norte.no_dados_de_baja` (474) y el 393 siguen en resumen.json pero ya no
   se muestran. Fotos en cinco historias (44, BV-577(d), 679, 325, 724), crédito «Foto: <fuente>» y recorte 16:9 por CSS
   (`posicion` = object-position); el permiso de cada fuente lo gestionan los autores.
+- 29/09: la tarjeta 7 suma dos historias (diez en total): Escuela 169 de Stella Maris (tres pozos: R-87, R-88 y S/L-564; `idpozo`
+  puede ser una lista y la línea del registro los agrupa) e YPF.Ch.-182 en una rotonda de un loteo de Presidente Ortiz (Decreto Chubut
+  135/2025, que rechaza el recurso de YPF contra la Res. 23-15-MH de 2015: radio de 60 m llevado a 5 m para un loteo de 600 lotes;
+  la rotonda, del plano municipal y de Google Earth). La lista de la tarjeta se
+  reemplazó por el botón «Leer las N historias» (la ventana dice «3 de 10» y tiene Anterior/Siguiente); el encuadre de la tarjeta 7
+  abarca justo los pozos de las historias (`vistaDeHistorias()`), con `AIRE_ICONO` (44 px) de margen; en la computadora se le
+  reserva a la leyenda su columna de la derecha.
 - 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
   (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
   Los pozos se quedan.». Los autores descartaron apagar los activos. Salieron de la tarjeta 13.018, el ritmo de abandonos y los

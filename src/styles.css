@@ -160,12 +160,7 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 /* tooltip de deck.gl al pasar sobre un pozo (el resto del estilo va en map.js) */
 .tooltip-pozo .ley-dot { width: 9px; height: 9px; margin-right: 5px; }
 /* Historias de la tarjeta 7: lista en la tarjeta, pozos marcados en el mapa y su ventana */
-.historias { list-style: none; margin: 12px 0 6px; padding: 0; display: grid; gap: 1px; }
-.historia-boton { display: grid; grid-template-columns: 1fr auto; column-gap: 10px; align-items: center; width: 100%; min-height: 32px; text-align: left; padding: 3px 8px; font: inherit; font-size: 15px; line-height: 1.25; color: var(--texto); background: transparent; border: 1px solid transparent; border-radius: 4px; cursor: pointer; }
-.historia-boton:hover, .historia-boton[aria-pressed="true"] { background: rgba(23, 24, 27, 0.06); border-color: rgba(23, 24, 27, 0.18); }
-.historia-boton:focus-visible { outline: 2px solid var(--texto); outline-offset: 1px; }
-.historia-titulo { font-weight: 600; }
-.historia-anio { font-size: 13px; color: var(--texto-sec); font-variant-numeric: tabular-nums; }
+.acciones-historias { margin: 14px 0 12px; }
 /* marcador: el ícono del Pozo N° 2, más chico; el título aparece con el mouse, el foco o la historia abierta */
 .marcador-historia { z-index: 3; width: 28px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; }
 .marcador-historia .marcador-halo { left: -8px; top: -8px; width: 44px; height: 44px; }

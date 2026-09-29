@@ -11,6 +11,7 @@ import { dibujarProduccion } from './chart.js';
 const CONTEXTO = {
   minEconomia: 'https://www.argentina.gob.ar/noticias/13-de-diciembre-descubrimiento-de-petroleo-en-comodoro-rivadavia',
   ley24799: 'https://www.argentina.gob.ar/normativa/nacional/ley-24799-42613/texto',
+  decreto135: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=88733',
   ypf20F: 'https://www.sec.gov/Archives/edgar/data/904851/000119312525067155/d866694d20f.htm',
   decreto1509: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=87339',
   municipioCH679: 'https://www.comodoro.gov.ar/2024/08/27/el-municipio-intervino-ante-un-nuevo-derrame-de-petroleo-en-un-yacimiento-ypf/',
@@ -25,7 +26,13 @@ const CONTEXTO = {
 // Caleta Córdova quedan afuera. [[oeste, sur], [este, norte]]; el mapa lo ajusta a cada pantalla.
 const NUCLEO_ZONA_NORTE = [[-67.601, -45.870], [-67.389, -45.769]];
 /** Foto de una historia del paso 7 (public/img/historias/, la genera scripts/optimizar_fotos.py). */
-const fotoHistoria = (archivo, alt, credito, posicion) => ({ src: `${import.meta.env.BASE_URL}img/historias/${archivo}.jpg`, alt, credito, posicion });
+/** Pozos de una historia: `idpozo` es un número o, si hay varios en el mismo lugar, una lista (el marcador va en el primero). */
+const pozosDe = (h) => [].concat(h.idpozo);
+/** «a», «a y b», «a, b y c». */
+const enLista = (xs) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} y ${xs[xs.length - 1]}` : xs.join(''));
+// posicion: object-position del recorte 16:9. proporcion: [ancho, alto] de la foto web cuando va con su forma propia, sin recorte
+// (la del CH-182 la recortaron los autores para que la ventana no tenga desplazamiento).
+const fotoHistoria = (archivo, alt, credito, posicion, proporcion) => ({ src: `${import.meta.env.BASE_URL}img/historias/${archivo}.jpg`, alt, credito, posicion, proporcion });
 /** Enlace a un dataset por su clave en resumen.datasets (procesar.py → DATASETS). */
 const dataset = (R, clave, t) => ({ t, url: R.datasets?.find((d) => d.clave === clave)?.url });
 
@@ -135,12 +142,21 @@ export function definirPasos(R) {
       // Convivir con pozos (autores, 28/09): retoma los abandonados del ejido de la tarjeta 5 y cuenta historias de pozos puntuales.
       // Cada historia cita su fuente (diario o comunicado oficial); el pozo de cada caso lo confirmaron los autores
       // (docs/investigacion-contexto.md). Las cifras de las historias son citas de esas fuentes; lo que dice el registro de cada
-      // pozo lo agrega la ficha. 7 de los 8 pozos figuran como abandonados en el Capítulo IV (el BV-577(d) produce). Texto de los autores.
+      // pozo lo agrega la ficha. Todas salvo la del BV-577(d), que produce, son de pozos que figuran como abandonados en el Capítulo IV.
+      // La del CH-182 no salió en medios: sale del Decreto 135/2025, del plano municipal y de la imagen satelital. Texto de los autores.
       // Foto opcional por historia (fotoHistoria), SOLO con permiso escrito de quien la sacó; el crédito va debajo.
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
       titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
-      texto: 'Pero que la operadora declare un pozo como «abandonado» no garantiza que esté bien sellado. Hay muchos casos que lo demuestran: estas son algunas de las historias que llegaron a los medios. Te invitamos a descubrirlas.',
+      texto: 'Pero que la operadora declare un pozo como «abandonado» no garantiza que esté bien sellado. Hay muchos casos que lo demuestran: estas son algunas de las historias que llegaron a los medios o a documentos oficiales. Te invitamos a descubrirlas.',
       historias: [
+        // Tres pozos (R-87, R-88 y S/L-564, confirmados por los autores). La Nación, del momento, da mayo de 2002; Jornada y
+        // El Patagónico 2015 dicen 2001 (el registro, con los abandonos declarados en junio y julio de 2002, apoya 2002).
+        { idpozo: [92810, 92730, 70082], titulo: 'Una escuela sobre tres pozos', lugar: 'Stella Maris', cuando: '2002 a 2011',
+          texto: 'El edificio se había inaugurado en 1994. En mayo de 2002, por el olor a gas en aulas y galerías, Camuzzi cortó el gas y unos 400 alumnos tuvieron que trasladarse. Debajo había «tres pozos petroleros mal sellados», según El Patagónico. Repsol YPF hizo los trabajos de sellado y hubo que desmontar el techo. Los chicos pasaron por el Ceret de Km 3, el Deán Funes y la vecinal. A ese edificio no volvieron: tuvieron uno nuevo recién en diciembre de 2011.',
+          fuente: [{ t: 'La Nación, 27/5/2002', url: 'https://www.lanacion.com.ar/sociedad/peligro-bajo-tierra-en-comodoro-rivadavia-nid399990/' },
+            { t: 'El Patagónico, 7/12/2011', url: 'https://www.elpatagonico.com/inauguraron-el-nuevo-edificio-la-escuela-169-el-stella-maris-n1411164' },
+            { t: '18/3/2015', url: 'https://www.elpatagonico.com/la-escuela-que-se-construyo-tres-pozos-petroleros-que-no-habian-sido-sellados-n773657' }],
+          foto: fotoHistoria('escuela-169', 'Cartel de la Escuela Provincial N° 169 «Estrella de Mar», del barrio Stella Maris, frente a un edificio escolar de ladrillo', 'Foto: El Patagónico') },
         { idpozo: 120614, titulo: 'Once familias fuera de sus casas', lugar: 'Próspero Palazzo', cuando: '2008',
           texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
           fuente: [{ t: 'El Patagónico, 20/3/2008', url: 'https://www.elpatagonico.com/por-la-surgencia-petroleo-viviendas-palazzo-once-familias-fueron-evacuadas-n1320746' },
@@ -159,6 +175,12 @@ export function definirPasos(R) {
           texto: 'Vecinos de Los Ferroviarios y Juan Zabalo sentían olor a gas. Camuzzi descartó que viniera de sus caños y avisó a la Secretaría de Hidrocarburos. El pozo, abandonado por YPF en 1968, se volvió a abandonar en marzo de 2011, con dos calles cortadas.',
           fuente: [{ t: 'El Patagónico, 27/2/2011', url: 'https://www.elpatagonico.com/una-surgencia-gas-mantiene-vilo-al-barrio-las-orquideas-n1391649' },
             { t: '31/3/2011', url: 'https://www.elpatagonico.com/cortaron-dos-calles-sellar-el-pozo-petrolero-kilometro-5-n1393660' }] },
+        // CH-182: Decreto 135/2025 (rechaza el recurso de YPF contra la Res. 23-15-MH del 29/10/2015); la rotonda, del plano
+        // municipal y de la imagen de Google Earth (3/2026).
+        { idpozo: 121188, titulo: 'Un pozo en la rotonda', lugar: 'Presidente Ortiz', cuando: '2015 a 2025',
+          texto: 'El Sindicato de Petróleo y Gas Privado le pidió a YPF parte de sus tierras para un loteo de 600 lotes. El pozo YPF.Ch.-182 tenía un radio de seguridad de 60 metros: en 2015 la Provincia le fijó uno de 5, con un pasillo hasta la calle, y le exigió a YPF un plan de contingencia anual. YPF recurrió y sostuvo que el pozo, por su ubicación, «no podría en ningún caso generar daños a bienes o a personas». En 2025 la Provincia rechazó el recurso. Hoy el pozo está en el centro de una rotonda del loteo.',
+          fuente: [{ t: 'Decreto Chubut 135/2025', url: CONTEXTO.decreto135 }, { t: 'plano de la Municipalidad de Comodoro Rivadavia' }, { t: 'Google Earth, 3/2026' }],
+          foto: fotoHistoria('ypf-ch-182', 'Imagen satelital de un loteo con calles nuevas y pocas casas; en el centro, una rotonda con el pozo YPF.Ch.-182 marcado', 'Imagen: Google Earth · © 2026 Airbus', null, [1000, 385]) },
         { idpozo: 161850, titulo: 'Un derrame en el Cañadón La Francesa', lugar: 'Bella Vista', cuando: '2024',
           texto: 'En junio de 2024 se rompió la línea de conducción de este pozo, que hoy produce. Se derramaron 14 m³ de crudo a lo largo de unos 600 metros, sobre vegetación y lotes de vecinos. La Provincia multó a YPF con el equivalente a 224.000 litros de gasoil.',
           fuente: [{ t: 'El Chubut, 5/7/2024', url: 'https://www.elchubut.com.ar/regionales/2024-7-5-21-35-0-provincia-sanciono-a-ypf-por-el-derrame-de-hidrocarburos-en-bella-vista' },
@@ -237,9 +259,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
         <h2 class="titulo-paso">${sinCorte(s.titulo)}</h2>
         <p class="texto">${sinCorte(s.texto)}</p>
         ${s.grafico ? '<div class="grafico" id="grafico-cuencas"></div>' : ''}
-        ${s.historias ? `<ol class="historias">${s.historias.map((h, i) => `<li><button type="button" class="historia-boton" data-historia="${i}">
-          <span class="historia-titulo">${esc(h.titulo)}</span>
-          <span class="historia-anio">${esc(h.cuando.slice(0, 4))}</span></button></li>`).join('')}</ol>` : ''}
+        ${s.historias ? `<p class="acciones-historias"><button type="button" class="empezar" data-historia="0">Leer las ${s.historias.length} historias <span aria-hidden="true">→</span></button></p>` : ''}
         ${s.final ? `<div class="acciones-cierre">
           <button type="button" class="empezar" data-ir="explorar">Explorá el mapa</button>
           <button type="button" class="empezar" data-abrir="metodologia">Metodología</button>
@@ -271,27 +291,46 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     mapa.aplicar({ soloId: null, enfocarEjido: false, enfocarZonaNorte: false, sinProducir: null, satelite: false, pozos: true, ...paso.capas });
     document.body.classList.toggle('sin-leyenda', Boolean(paso.capas.soloId)); // un solo pozo: la leyenda cuenta 44.390
     mapa.marcador(paso.marcador?.idpozo ?? null, paso.marcador?.etiqueta);
-    mapa.historias(paso.historias ? paso.historias.map((h) => ({ idpozo: h.idpozo, etiqueta: `${h.titulo} · ${h.cuando}` })) : null);
+    mapa.historias(paso.historias ? paso.historias.map((h) => ({ idpozo: pozosDe(h)[0], etiqueta: `${h.titulo} · ${h.cuando}` })) : null);
     if (paso.historias) precargarFotos(paso.historias);
+    const vista = (paso.historias && vistaDeHistorias(paso.historias)) || paso.vista;
     // Lo que tapa la tarjeta: en celular, la mitad de abajo (focoArriba); en escritorio, una vista por límites
     // (vista.bounds) deja libre la columna de la tarjeta.
     let padding;
     if (MOVIL.matches) {
       // Con vista por límites también se dejan libres la franja de la leyenda (arriba) y toda la altura de la tarjeta.
-      const porLimites = Boolean(paso.vista.bounds);
+      const porLimites = Boolean(vista.bounds);
       const arriba = porLimites ? Math.round(document.getElementById('leyenda').getBoundingClientRect().bottom) + 8 : 0;
       // tope: el mapa conserva al menos el 38 % de la pantalla (si no, con una tarjeta alta se aleja de más)
       const abajo = Math.min(window.innerHeight * 0.62, Math.max(window.innerHeight * 0.45, porLimites ? seccion.querySelector('.card').offsetHeight + 16 : 0));
       if (paso.focoArriba) padding = { top: arriba, bottom: Math.round(abajo), left: 0, right: 0 };
+      // con historias, aire para que los íconos de los bordes no queden cortados
+      if (padding && paso.historias) padding = { top: padding.top + AIRE_ICONO / 2, bottom: padding.bottom + AIRE_ICONO / 2, left: AIRE_ICONO / 2, right: AIRE_ICONO / 2 };
     } else if (paso.comoVisualizador) {
       padding = paddingPanel(); // mismo encuadre que el visualizador: el mapa no se mueve al pasar a él
-    } else if (paso.vista.bounds) {
+    } else if (vista.bounds) {
       const tarjeta = seccion.querySelector('.card').getBoundingClientRect();
       padding = { top: 24, bottom: 24, left: Math.round(tarjeta.right) + 24, right: 24 };
+      if (paso.historias) {
+        // Tarjeta 7: los pozos de las historias lo más cerca posible, con el aire justo para los íconos, y sin pasar por
+        // debajo de la leyenda (se le reserva su columna, a la derecha: ocupa solo la esquina de arriba).
+        const ley = document.getElementById('leyenda').getBoundingClientRect();
+        padding = { top: AIRE_ICONO, bottom: AIRE_ICONO, left: Math.round(tarjeta.right) + AIRE_ICONO,
+          right: ley.width ? Math.round(window.innerWidth - ley.left) + 16 : AIRE_ICONO };
+      }
     }
     const opciones = { ...(paso.vuelo || {}), ...(padding ? { padding } : {}) };
     if (paso.cierre) recorrerCierre(paso, opciones, seccion, miTurno, yaEstaba);
-    else mapa.volar(paso.vista, opciones);
+    else mapa.volar(vista, opciones);
+  }
+
+  // Tarjeta 7: el encuadre abarca justo los pozos de las historias (el aire para los íconos lo pone el padding, en píxeles).
+  // Sin los pozos cargados todavía, queda la vista del paso.
+  function vistaDeHistorias(lista) {
+    const c = lista.map((h) => mapa.coordsDe(pozosDe(h)[0])).filter(Boolean);
+    if (!c.length) return null;
+    const lon = c.map((p) => p[0]), lat = c.map((p) => p[1]);
+    return { bounds: [[Math.min(...lon), Math.min(...lat)], [Math.max(...lon), Math.max(...lat)]] };
   }
 
   // Cierre (tarjeta 8): la cámara va al Pozo N° 2 y se aleja despacio hasta la cuenca.
@@ -316,7 +355,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     if (miTurno === turno) seccion.dataset.cierreListo = '';
   }
 
-  // ---- historias (tarjeta 7): los pozos marcados en el mapa y la lista de la tarjeta abren la misma ventana ----
+  // ---- historias (tarjeta 7): los pozos marcados en el mapa y el botón de la tarjeta abren la misma ventana ----
   // (<dialog id="ventana-historia"> de index.html, con el estilo de la de Metodología; se cierra con ×, Escape o clic afuera).
   const pasoHistorias = pasos.find((p) => p.historias);
   const ventana = document.getElementById('ventana-historia');
@@ -339,7 +378,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     if (!ventana.open) origen = document.activeElement;
     actual = i;
     const $v = (sel) => ventana.querySelector(sel);
-    $v('#historia-meta').textContent = `${h.lugar} · ${h.cuando}`;
+    $v('#historia-meta').textContent = `${i + 1} de ${lista.length} · ${h.lugar} · ${h.cuando}`;
     $v('#historia-titulo').textContent = h.titulo;
     // Foto: solo si la historia tiene una cargada, con permiso de quien la sacó (crédito obligatorio). WebP con JPEG de
     // respaldo, como las del paso 1 y la portada; el recorte 16:9 lo hace el CSS (posicion = object-position).
@@ -347,8 +386,10 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     const fig = $v('.historia-foto');
     fig.hidden = !h.foto;
     if (h.foto) {
+      const [ancho, alto] = h.foto.proporcion || [1000, 562];
+      const estilo = [h.foto.posicion && `object-position: ${h.foto.posicion}`, h.foto.proporcion && `aspect-ratio: ${ancho} / ${alto}`].filter(Boolean).join('; ');
       fig.querySelector('picture').innerHTML = `<source srcset="${h.foto.src.replace(/\.jpg$/, '.webp')}" type="image/webp">`
-        + `<img src="${h.foto.src}" alt="${esc(h.foto.alt)}" width="1000" height="562"${h.foto.posicion ? ` style="object-position: ${h.foto.posicion}"` : ''}>`;
+        + `<img src="${h.foto.src}" alt="${esc(h.foto.alt)}" width="${ancho}" height="${alto}"${estilo ? ` style="${estilo}"` : ''}>`;
       fig.querySelector('figcaption').textContent = h.foto.credito;
     } else {
       fig.querySelector('picture').innerHTML = '';
@@ -357,24 +398,30 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     $v('#historia-fuente').innerHTML = `Fuente: ${htmlFuente(h.fuente, ', ')}`;
     const reg = $v('#historia-registro');
     reg.textContent = '';
-    // Lo que dice el registro de ese pozo (Capítulo IV): estado declarado y años, si los hay.
-    cargarFicha(h.idpozo).then((f) => {
-      if (actual !== i || !f) return;
-      const partes = [`Pozo ${f.s}`, `${f.est}, según lo declarado por la operadora`];
-      if (f.fperf) partes.push(`perforado en ${f.fperf.slice(0, 4)}`);
-      if (f.fab) partes.push(`abandono declarado en ${f.fab.slice(0, 4)}`);
-      reg.textContent = `En el registro: ${partes.join(' · ')}.`;
+    // Lo que dice el registro de esos pozos (Capítulo IV): estado declarado y años, si los hay. Con varios pozos (la Escuela 169
+    // tiene tres), los que comparten años van juntos: «R-87 y R-88: perforados en 1978, abandono declarado en 2002».
+    Promise.all(pozosDe(h).map(cargarFicha)).then((fichas) => {
+      if (actual !== i || fichas.some((f) => !f)) return;
+      const anios = (f) => [f.fperf && `perforado en ${f.fperf.slice(0, 4)}`, f.fab && `abandono declarado en ${f.fab.slice(0, 4)}`].filter(Boolean).join(', ');
+      const estados = enLista([...new Set(fichas.map((f) => f.est))]);
+      if (fichas.length === 1) {
+        reg.textContent = `En el registro: ${[`Pozo ${fichas[0].s}`, `${estados}, según lo declarado por la operadora`, anios(fichas[0])].filter(Boolean).join(' · ')}.`;
+        return;
+      }
+      const grupos = new Map(); // años → siglas
+      for (const f of fichas) if (anios(f)) grupos.set(anios(f), [...(grupos.get(anios(f)) || []), f.s]);
+      const detalle = [...grupos].map(([t, siglas]) => `${enLista(siglas)}: ${siglas.length > 1 ? t.replace('perforado', 'perforados') : t}`);
+      reg.textContent = `En el registro: ${[`Pozos ${enLista(fichas.map((f) => f.s))}`, `${estados}, según lo declarado por la operadora`, ...detalle].join(' · ')}.`;
     }).catch(() => {});
     $v('[data-historia-paso="-1"]').disabled = i === 0;
     $v('[data-historia-paso="1"]').disabled = i === lista.length - 1;
-    document.querySelectorAll('.historia-boton').forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
     mapa.resaltarHistoria(i);
     if (!ventana.open) ventana.showModal();
     $v('.ventana-cuerpo').scrollTop = 0;
   }
   if (pasoHistorias && ventana) {
     cont.addEventListener('click', (ev) => {
-      const b = ev.target.closest('.historia-boton');
+      const b = ev.target.closest('[data-historia]');
       if (b) abrirHistoria(Number(b.dataset.historia));
     });
     mapa.alTocarHistoria((i) => abrirHistoria(i));
@@ -385,7 +432,6 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     });
     ventana.addEventListener('close', () => {
       actual = null;
-      document.querySelectorAll('.historia-boton').forEach((b) => b.setAttribute('aria-pressed', 'false'));
       mapa.resaltarHistoria(null);
       if (origen && document.contains(origen)) origen.focus({ preventScroll: true });
     });
@@ -425,3 +471,4 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
 }
 
 const MOVIL = window.matchMedia('(max-width: 700px)');
+const AIRE_ICONO = 44; // px: el ícono de una historia con su halo, para que no quede cortado en el borde del encuadre
