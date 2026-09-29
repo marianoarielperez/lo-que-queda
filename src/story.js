@@ -24,6 +24,8 @@ const CONTEXTO = {
 // Núcleo de zona norte (Km 3 a Km 8, Laprida, Castelli), elegido por los autores para las tarjetas 6 y 7: Astra, Diadema y
 // Caleta Córdova quedan afuera. [[oeste, sur], [este, norte]]; el mapa lo ajusta a cada pantalla.
 const NUCLEO_ZONA_NORTE = [[-67.601, -45.870], [-67.389, -45.769]];
+/** Foto de una historia del paso 7 (public/img/historias/, la genera scripts/optimizar_fotos.py). */
+const fotoHistoria = (archivo, alt, credito, posicion) => ({ src: `${import.meta.env.BASE_URL}img/historias/${archivo}.jpg`, alt, credito, posicion });
 /** Enlace a un dataset por su clave en resumen.datasets (procesar.py → DATASETS). */
 const dataset = (R, clave, t) => ({ t, url: R.datasets?.find((d) => d.clave === clave)?.url });
 
@@ -143,14 +145,14 @@ export function definirPasos(R) {
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
-      // Convivir con pozos (autores, 27/09 y 28/09): la cifra, una invitación y historias de pozos puntuales. Cada historia cita
-      // su fuente (diario o comunicado oficial); el pozo de cada caso lo confirmaron los autores (docs/investigacion-contexto.md).
-      // Las cifras de las historias son citas de esas fuentes; lo que dice el registro de cada pozo lo agrega la ficha.
-      // Foto opcional por historia, SOLO con permiso escrito del medio: foto: { src: `${import.meta.env.BASE_URL}img/historias/…`,
-      // alt: '…', credito: 'Foto: <medio>, <fecha>. Publicada con autorización.' }
-      id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(Z.no_dados_de_baja),
-      titulo: 'pozos en barrios de zona norte que la operadora no dio de baja',
-      texto: 'Y los que sí se dieron de baja no desaparecen: «abandonado» es lo que declara la operadora, no dice cómo está el pozo. Estas son historias que llegaron a los diarios o al municipio. Tocá un pozo marcado en el mapa o elegí una historia de la lista.',
+      // Convivir con pozos (autores, 28/09): retoma los abandonados del ejido de la tarjeta 5 y cuenta historias de pozos puntuales.
+      // Cada historia cita su fuente (diario o comunicado oficial); el pozo de cada caso lo confirmaron los autores
+      // (docs/investigacion-contexto.md). Las cifras de las historias son citas de esas fuentes; lo que dice el registro de cada
+      // pozo lo agrega la ficha. 7 de los 8 pozos figuran como abandonados en el Capítulo IV (el BV-577(d) produce). Texto de los autores.
+      // Foto opcional por historia (fotoHistoria), SOLO con permiso escrito de quien la sacó; el crédito va debajo.
+      id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
+      titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
+      texto: 'Pero que estén abandonados no quiere decir que estén bien sellados: «Abandonado» es lo que declara la operadora y no garantiza que el pozo esté bien sellado. Estas son algunas de las historias que llegaron a los medios. Te invitamos a descubrirlas.',
       historias: [
         { idpozo: 120614, titulo: 'Once familias fuera de sus casas', lugar: 'Próspero Palazzo', cuando: '2008',
           texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
@@ -164,7 +166,8 @@ export function definirPasos(R) {
           texto: 'En 2010, los departamentos de una propiedad de la calle Buque La Plata estaban desocupados por las emanaciones de gas del pozo. En 2022 la Cámara de Apelaciones le ordenó a YPF abandonarlo de nuevo, en forma definitiva. En 2024 el municipio volvió «ante la preocupación de los vecinos».',
           fuente: [{ t: 'El Patagónico, 18/12/2010', url: 'https://www.elpatagonico.com/intiman-ypf-un-pozo-abandonado-el-patio-su-casa-n1387155' },
             { t: 'ADNSUR, 22/5/2022', url: 'https://www.adnsur.com.ar/sociedad/alertan-por-un-viejo-pozo-petrolero-potencialmente--explosivo--que-esta-en-km-3-e-intiman-a-ypf-al-reabandono-_a6286a726ad27edc439d29c52' },
-            { t: 'Municipalidad, 13/6/2024', url: 'https://www.comodoro.gov.ar/2024/06/13/el-municipio-realizo-fuertes-controles-en-yacimientos-para-relevar-los-pasivos-ambientales/' }] },
+            { t: 'Municipalidad, 13/6/2024', url: 'https://www.comodoro.gov.ar/2024/06/13/el-municipio-realizo-fuertes-controles-en-yacimientos-para-relevar-los-pasivos-ambientales/' }],
+          foto: fotoHistoria('ypf-ch-44', 'Vista aérea de casas de Km 3; una de las propiedades está marcada en rojo', 'Foto: ADNSUR') },
         { idpozo: 120200, titulo: 'Olor a gas en Las Orquídeas', lugar: 'Km 5', cuando: '2011',
           texto: 'Vecinos de Los Ferroviarios y Juan Zabalo sentían olor a gas. Camuzzi descartó que viniera de sus caños y avisó a la Secretaría de Hidrocarburos. El pozo, abandonado por YPF en 1968, se volvió a abandonar en marzo de 2011, con dos calles cortadas.',
           fuente: [{ t: 'El Patagónico, 27/2/2011', url: 'https://www.elpatagonico.com/una-surgencia-gas-mantiene-vilo-al-barrio-las-orquideas-n1391649' },
@@ -172,23 +175,28 @@ export function definirPasos(R) {
         { idpozo: 161850, titulo: 'Un derrame en el Cañadón La Francesa', lugar: 'Bella Vista', cuando: '2024',
           texto: 'En junio de 2024 se rompió la línea de conducción de este pozo, que hoy produce. Se derramaron 14 m³ de crudo a lo largo de unos 600 metros, sobre vegetación y lotes de vecinos. La Provincia multó a YPF con el equivalente a 224.000 litros de gasoil.',
           fuente: [{ t: 'El Chubut, 5/7/2024', url: 'https://www.elchubut.com.ar/regionales/2024-7-5-21-35-0-provincia-sanciono-a-ypf-por-el-derrame-de-hidrocarburos-en-bella-vista' },
-            { t: 'El Extremo Sur, 11/7/2024', url: 'https://www.elextremosur.com/nota/49898-derrames-y-pozos-abandonados-a-la-vuelta-de-la-esquina-una-ciudad-que-crecio-de-la-mano-del-petroleo/' }] },
+            { t: 'El Extremo Sur, 11/7/2024', url: 'https://www.elextremosur.com/nota/49898-derrames-y-pozos-abandonados-a-la-vuelta-de-la-esquina-una-ciudad-que-crecio-de-la-mano-del-petroleo/' }],
+          foto: fotoHistoria('ypf-ch-bv-577d', 'Un arroyo con manchas de crudo entre pasto seco; atrás, tierra removida, una camioneta blanca y casas', 'Foto: El Extremo Sur') },
         { idpozo: 121621, titulo: 'Una surgencia camino a Laprida', lugar: 'Zona Central', cuando: '2024',
           texto: 'El 25 de agosto de 2024 salió petróleo de este pozo, perforado en 1927 y abandonado «aparentemente en 1962», según el municipio. El derrame afectó el suelo y parte del arroyo Belgrano. El municipio le pidió a YPF, por acta, estudios de integridad y hermeticidad.',
-          fuente: [{ t: 'Municipalidad, 27/8/2024', url: CONTEXTO.municipioCH679 }] },
+          fuente: [{ t: 'Municipalidad, 27/8/2024', url: CONTEXTO.municipioCH679 }],
+          foto: fotoHistoria('ypf-ch-679', 'Dos personas con casco junto a un charco y a un caño que baja por la ladera; adelante, tierra oscura', 'Foto: Municipalidad de Comodoro Rivadavia', '50% 75%') },
         { idpozo: 121326, titulo: 'Apareció dentro de una casa', lugar: 'Sismográfica', cuando: '2026',
           texto: 'Tras el deslizamiento del cerro Hermitte, en la casa de un vecino «un pozo petrolero emergió del suelo, rompió su piso». Esos días se evacuaron más de 90 familias del sector. La Provincia sostuvo que la actividad petrolera no causó el deslizamiento.',
           fuente: [{ t: 'Diario Jornada, 21/1/2026', url: 'https://www.diariojornada.com.ar/409911/magazine/derrumbe_emergio_un_pozo_petrolero_dentro_de_su_casa' },
-            { t: 'El Chubut, 10/2/2026', url: 'https://www.elchubut.com.ar/regionales/2026-2-10-21-55-0-cerro-hermitte-aseguran-que-la-actividad-petrolera-no-fue-el-origen-de-los-deslizamientos' }] },
+            { t: 'El Chubut, 10/2/2026', url: 'https://www.elchubut.com.ar/regionales/2026-2-10-21-55-0-cerro-hermitte-aseguran-que-la-actividad-petrolera-no-fue-el-origen-de-los-deslizamientos' }],
+          foto: fotoHistoria('ypf-ch-325', 'La boca de un pozo, cubierta de tierra, asoma entre las baldosas rotas del piso de una casa', 'Foto: vecino damnificado') },
         { idpozo: 121660, titulo: 'Petróleo al plantar un árbol', lugar: 'Km 5', cuando: '2026',
           texto: 'Un vecino de la calle Ferrocarriles Argentinos cavaba en su patio para plantar un árbol y, a un metro diez de profundidad, empezó a salir petróleo. «Ya nos había pasado otras veces», contó.',
-          fuente: [{ t: 'ADNSUR, 27/2/2026', url: 'https://www.adnsur.com.ar/sociedad/cavaba-un-pozo-en-su-patio-de-la-zona-norte-de-comodoro-y-se-encontro-con-petroleo_a69a227fe66a78182fdf02017' }] },
+          fuente: [{ t: 'ADNSUR, 27/2/2026', url: 'https://www.adnsur.com.ar/sociedad/cavaba-un-pozo-en-su-patio-de-la-zona-norte-de-comodoro-y-se-encontro-con-petroleo_a69a227fe66a78182fdf02017' }],
+          foto: fotoHistoria('ypf-ch-724', 'Un pozo cavado a pala en la tierra, con un hueco oscuro en el fondo; al lado, la pala y un balde con tierra', 'Foto: ADNSUR') },
       ],
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), 'historias: cada una cita su fuente'],
       vista: { bounds: NUCLEO_ZONA_NORTE },
       focoArriba: true,
-      // Mismo encuadre y pozos que la tarjeta 6; encima, los marcadores numerados de las historias.
-      capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarZonaNorte: true, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
+      // Mismo encuadre que la tarjeta 6, pero solo los abandonados (como la cifra), con los de fuera del ejido atenuados;
+      // encima, los marcadores de las historias.
+      capas: { estadosVisibles: new Set([3]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarEjido: true, poblacion: false, limites: true, pais: false, concesiones: false, barrios: false },
     },
     {
       id: 8, kicker: 'Paso 8 · Lo que queda', cifra: fmt(c.sin_produccion),
@@ -260,6 +268,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     document.body.classList.toggle('sin-leyenda', Boolean(paso.capas.soloId)); // un solo pozo: la leyenda cuenta 44.390
     mapa.marcador(paso.marcador?.idpozo ?? null, paso.marcador?.etiqueta);
     mapa.historias(paso.historias ? paso.historias.map((h) => ({ idpozo: h.idpozo, etiqueta: `${h.titulo} · ${h.cuando}` })) : null);
+    if (paso.historias) precargarFotos(paso.historias);
     // Lo que tapa la tarjeta: en celular, la mitad de abajo (focoArriba); en escritorio, una vista por límites
     // (vista.bounds) deja libre la columna de la tarjeta.
     let padding;
@@ -285,6 +294,16 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
   const ventana = document.getElementById('ventana-historia');
   let actual = null;   // índice de la historia abierta
   let origen = null;   // quién la abrió (el foco vuelve ahí al cerrar)
+  // Las fotos de las historias (~350 KB en WebP) se piden al llegar a la tarjeta, una sola vez: al abrir la ventana ya están.
+  let precargadas = null;
+  function precargarFotos(lista) {
+    if (precargadas) return;
+    precargadas = lista.filter((h) => h.foto).map((h) => {
+      const im = new Image();
+      im.src = h.foto.src.replace(/\.jpg$/, '.webp');
+      return im;
+    });
+  }
   function abrirHistoria(i) {
     const lista = pasoHistorias.historias;
     const h = lista[i];
@@ -294,13 +313,17 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     const $v = (sel) => ventana.querySelector(sel);
     $v('#historia-meta').textContent = `${h.lugar} · ${h.cuando}`;
     $v('#historia-titulo').textContent = h.titulo;
-    // Foto: solo si la historia tiene una cargada, con permiso del medio (crédito obligatorio).
+    // Foto: solo si la historia tiene una cargada, con permiso de quien la sacó (crédito obligatorio). WebP con JPEG de
+    // respaldo, como las del paso 1 y la portada; el recorte 16:9 lo hace el CSS (posicion = object-position).
+    // Imagen nueva en cada historia: si se reusara la misma, la foto anterior seguiría a la vista hasta que cargue la nueva.
     const fig = $v('.historia-foto');
     fig.hidden = !h.foto;
     if (h.foto) {
-      fig.querySelector('img').src = h.foto.src;
-      fig.querySelector('img').alt = h.foto.alt;
+      fig.querySelector('picture').innerHTML = `<source srcset="${h.foto.src.replace(/\.jpg$/, '.webp')}" type="image/webp">`
+        + `<img src="${h.foto.src}" alt="${esc(h.foto.alt)}" width="1000" height="562"${h.foto.posicion ? ` style="object-position: ${h.foto.posicion}"` : ''}>`;
       fig.querySelector('figcaption').textContent = h.foto.credito;
+    } else {
+      fig.querySelector('picture').innerHTML = '';
     }
     $v('#historia-texto').textContent = h.texto;
     $v('#historia-fuente').innerHTML = `Fuente: ${htmlFuente(h.fuente, ', ')}`;

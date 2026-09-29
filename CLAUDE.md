@@ -73,6 +73,7 @@ src/metodologia.js          completa la metodología de index.html (cifras data-
 index.html                  esqueleto + panel + ficha + sección metodología
 public/fonts/               Fraunces y Source Sans 3 (woff2, OFL): servidas desde el sitio, sin Google Fonts
 public/img/                 fotos a 1000 px, WebP + JPEG; se generan con scripts/optimizar_fotos.py desde fotos-originales/
+                            (las subcarpetas se replican: fotos-originales/historias/ → public/img/historias/)
 .github/workflows/deploy.yml  publica dist/ en GitHub Pages en cada push a main
 ```
 
@@ -156,6 +157,11 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   EXCEPCIÓN a la regla 3, decidida por los autores: estas historias pueden salir de notas periodísticas, siempre citadas en
   la misma historia; la identificación de cada pozo la confirmaron los autores con la Secretaría de Ambiente municipal (no se
   dice en la web). YPF.Ch.-2228 queda pendiente de confirmación. Fotos solo con permiso escrito del medio (campo `foto`).
+- 28/09 (noche): la tarjeta 7 se aliviana: la cifra pasa a los abandonados del ejido (`ejido.Abandonado`, la de la tarjeta 5) con
+  «que estén abandonados no quiere decir que estén bien sellados»; 7 de las 8 historias son de pozos abandonados. El mapa muestra
+  solo los abandonados, con el foco en el ejido. `zona_norte.no_dados_de_baja` (474) y el 393 siguen en resumen.json pero ya no
+  se muestran. Fotos en cinco historias (44, BV-577(d), 679, 325, 724), crédito «Foto: <fuente>» y recorte 16:9 por CSS
+  (`posicion` = object-position); el permiso de cada fuente lo gestionan los autores.
 - 27/09: "meses sin producir" cuenta solo meses declarados. CRI, CPAT e INER dejan de declarar sus pozos antes del final de la
   serie; esos meses no son "sin producir". `meses_desde_ultima_prod` (calendario) sirve para "produjo en el último año";
   `meses_declarados_sin_producir` para "más de cinco años". La ficha muestra "Declaración mensual: hasta …" (`ud`).

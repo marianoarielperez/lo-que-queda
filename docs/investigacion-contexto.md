@@ -173,6 +173,9 @@ del 28/09 en el scratchpad de esa sesión (resumen acá).
 | YPF.Ch.-724 | Km 5 (calle Ferrocarriles Argentinos), febrero de 2026: petróleo a 1,10 m al cavar para plantar un árbol | ADNSUR 27/02/2026 | La nota no dice que sea un pozo; la identificación es de la Secretaría de Ambiente |
 
 Fotos de los medios: solo con autorización escrita de cada medio (citar no alcanza). Campo `foto` de cada historia.
+Cargadas el 28/09/2026 por pedido de los autores (el permiso de cada fuente lo gestionan ellos): YPF.Ch.-44 y YPF.Ch.-724 (ADNSUR), YPF.Ch.BV-577(d)
+(El Extremo Sur), YPF.Ch.-679 (Municipalidad de Comodoro Rivadavia) e YPF.Ch.-325 (el vecino damnificado). Originales en
+`fotos-originales/historias/`.
 
 ## Sin confirmación oficial (no usar)
 

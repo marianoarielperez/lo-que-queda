@@ -184,9 +184,10 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 .ventana-historia .historia-registro:empty { display: none; }
 .ventana-historia .fuente { font-size: 13px; }
 .historia-foto { margin: 0 0 14px; }
-.historia-foto img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.historia-foto img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; background: var(--urbano, #e7e1d4); }
 .historia-foto figcaption { margin-top: 4px; font-size: 12px; color: var(--texto-sec); }
-.historia-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px; }
+/* Anterior/Siguiente quedan al pie aunque la historia (con foto) no entre en la ventana y haya que desplazarla */
+.historia-nav { position: sticky; bottom: -24px; display: flex; justify-content: space-between; gap: 12px; margin: 18px -36px -24px; padding: 12px 36px 24px; background: var(--tarjeta-solida); }
 .historia-nav button:disabled { opacity: .35; cursor: default; }
 
 /* Cartel de radio censal o barrio (visualizador) */
