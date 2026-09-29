@@ -152,7 +152,7 @@ export function definirPasos(R) {
       // Foto opcional por historia (fotoHistoria), SOLO con permiso escrito de quien la sacó; el crédito va debajo.
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
       titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
-      texto: 'Pero que estén abandonados no quiere decir que estén bien sellados: «Abandonado» es lo que declara la operadora y no garantiza que el pozo esté bien sellado. Estas son algunas de las historias que llegaron a los medios. Te invitamos a descubrirlas.',
+      texto: 'Pero que la operadora declare un pozo como «abandonado» no garantiza que esté bien sellado. Hay muchos casos que lo demuestran: estas son algunas de las historias que llegaron a los medios. Te invitamos a descubrirlas.',
       historias: [
         { idpozo: 120614, titulo: 'Once familias fuera de sus casas', lugar: 'Próspero Palazzo', cuando: '2008',
           texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
@@ -181,7 +181,7 @@ export function definirPasos(R) {
           texto: 'El 25 de agosto de 2024 salió petróleo de este pozo, perforado en 1927 y abandonado «aparentemente en 1962», según el municipio. El derrame afectó el suelo y parte del arroyo Belgrano. El municipio le pidió a YPF, por acta, estudios de integridad y hermeticidad.',
           fuente: [{ t: 'Municipalidad, 27/8/2024', url: CONTEXTO.municipioCH679 }],
           foto: fotoHistoria('ypf-ch-679', 'Dos personas con casco junto a un charco y a un caño que baja por la ladera; adelante, tierra oscura', 'Foto: Municipalidad de Comodoro Rivadavia', '50% 75%') },
-        { idpozo: 121326, titulo: 'Apareció dentro de una casa', lugar: 'Sismográfica', cuando: '2026',
+        { idpozo: 121326, titulo: 'Cuando un pozo apareció dentro de una casa', lugar: 'Sismográfica', cuando: '2026',
           texto: 'Tras el deslizamiento del cerro Hermitte, en la casa de un vecino «un pozo petrolero emergió del suelo, rompió su piso». Esos días se evacuaron más de 90 familias del sector. La Provincia sostuvo que la actividad petrolera no causó el deslizamiento.',
           fuente: [{ t: 'Diario Jornada, 21/1/2026', url: 'https://www.diariojornada.com.ar/409911/magazine/derrumbe_emergio_un_pozo_petrolero_dentro_de_su_casa' },
             { t: 'El Chubut, 10/2/2026', url: 'https://www.elchubut.com.ar/regionales/2026-2-10-21-55-0-cerro-hermitte-aseguran-que-la-actividad-petrolera-no-fue-el-origen-de-los-deslizamientos' }],

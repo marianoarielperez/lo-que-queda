@@ -158,7 +158,7 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   la misma historia; la identificación de cada pozo la confirmaron los autores con la Secretaría de Ambiente municipal (no se
   dice en la web). YPF.Ch.-2228 queda pendiente de confirmación. Fotos solo con permiso escrito del medio (campo `foto`).
 - 28/09 (noche): la tarjeta 7 se aliviana: la cifra pasa a los abandonados del ejido (`ejido.Abandonado`, la de la tarjeta 5) con
-  «que estén abandonados no quiere decir que estén bien sellados»; 7 de las 8 historias son de pozos abandonados. El mapa muestra
+  «que la operadora declare un pozo como abandonado no garantiza que esté bien sellado»; 7 de las 8 historias son de pozos abandonados. El mapa muestra
   solo los abandonados, con el foco en el ejido. `zona_norte.no_dados_de_baja` (474) y el 393 siguen en resumen.json pero ya no
   se muestran. Fotos en cinco historias (44, BV-577(d), 679, 325, 724), crédito «Foto: <fuente>» y recorte 16:9 por CSS
   (`posicion` = object-position); el permiso de cada fuente lo gestionan los autores.
