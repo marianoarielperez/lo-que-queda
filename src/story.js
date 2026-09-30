@@ -414,8 +414,12 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       const detalle = [...grupos].map(([t, siglas]) => `${enLista(siglas)}: ${siglas.length > 1 ? t.replace('perforado', 'perforados') : t}`);
       reg.textContent = `En el registro: ${[`Pozos ${enLista(fichas.map((f) => f.s))}`, `${estados}, según lo declarado por la operadora`, ...detalle].join(' · ')}.`;
     }).catch(() => {});
-    $v('[data-historia-paso="-1"]').disabled = i === 0;
-    $v('[data-historia-paso="1"]').disabled = i === lista.length - 1;
+    // En la primera no hay «Anterior» y en la última «Siguiente» dice «Cerrar» (cierra como la ×). Si el foco estaba en
+    // «Anterior», pasa a «Siguiente» antes de ocultarlo: un botón oculto con el foco lo deja perdido en la página.
+    const anterior = $v('[data-historia-paso="-1"]'), siguiente = $v('[data-historia-paso="1"]');
+    if (i === 0 && document.activeElement === anterior) siguiente.focus();
+    anterior.hidden = i === 0;
+    siguiente.textContent = i === lista.length - 1 ? 'Cerrar' : 'Siguiente →';
     mapa.resaltarHistoria(i);
     if (!ventana.open) ventana.showModal();
     $v('.ventana-cuerpo').scrollTop = 0;
@@ -427,9 +431,12 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     });
     mapa.alTocarHistoria((i) => abrirHistoria(i));
     ventana.addEventListener('click', (ev) => {
-      if (ev.target === ventana || ev.target.closest('[data-cerrar-historia]')) ventana.close(); // clic afuera o ×
+      if (ev.target === ventana || ev.target.closest('[data-cerrar-historia]')) { ventana.close(); return; } // clic afuera o ×
       const paso = ev.target.closest('[data-historia-paso]');
-      if (paso && !paso.disabled) abrirHistoria(actual + Number(paso.dataset.historiaPaso));
+      if (!paso) return;
+      const destino = actual + Number(paso.dataset.historiaPaso);
+      if (destino < pasoHistorias.historias.length) abrirHistoria(destino);
+      else ventana.close(); // la última: el botón dice «Cerrar»
     });
     ventana.addEventListener('close', () => {
       actual = null;
