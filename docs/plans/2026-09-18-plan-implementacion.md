@@ -118,7 +118,7 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
       desactiva las animaciones de cámara; contraste de textos ≥ 4,5:1.
 - [ ] 3.6 Prueba con 2–3 personas ajenas al proyecto: ¿entienden qué es "abandonado"? ¿encuentran
       los filtros? ¿la ficha les dice lo que esperan? Ajustar textos.
-- [ ] 3.7 Deseable: línea de tiempo por año de perforación (`anio_cod` ya está en el binario; 46 %
+- [x] 3.7 DESCARTADA (29/09, autores): solo el 46 % de los pozos tiene fecha de perforación (24 % de los abandonados, 27 % en el ejido) y faltan justo los viejos; la animación mostraría la historia al revés. Idea original: línea de tiempo por año de perforación (`anio_cod` ya está en el binario; 46 %
       con fecha). Solo si 3.1–3.6 están cerradas.
 
 ## Semana 4 · 10–15 oct · Entrega
