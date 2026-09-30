@@ -151,8 +151,9 @@ export function definirPasos(R) {
       historias: [
         // Tres pozos (R-87, R-88 y S/L-564, confirmados por los autores). La Nación, del momento, da mayo de 2002; Jornada y
         // El Patagónico 2015 dicen 2001 (el registro, con los abandonos declarados en junio y julio de 2002, apoya 2002).
+        // Texto de los autores (29/09): «mal sellados» va sin atribución por decisión de ellos (lo dice El Patagónico, 18/3/2015).
         { idpozo: [92810, 92730, 70082], titulo: 'Una escuela sobre tres pozos', lugar: 'Stella Maris', cuando: '2002 a 2011',
-          texto: 'El edificio se había inaugurado en 1994. En mayo de 2002, por el olor a gas en aulas y galerías, Camuzzi cortó el gas y unos 400 alumnos tuvieron que trasladarse. Debajo había «tres pozos petroleros mal sellados», según El Patagónico. Repsol YPF hizo los trabajos de sellado y hubo que desmontar el techo. Los chicos pasaron por el Ceret de Km 3, el Deán Funes y la vecinal. A ese edificio no volvieron: tuvieron uno nuevo recién en diciembre de 2011.',
+          texto: 'El edificio, inaugurado en 1994, debió ser evacuado en 2002 por fuertes olores a gas. Las inspecciones revelaron que la escuela había sido construida sobre tres antiguos pozos petroleros mal sellados. Unos 400 alumnos fueron trasladados al CeRET, al Deán Funes y a la vecinal del Stella Maris. Repsol YPF realizó los trabajos de sellado. La comunidad educativa no pudo volver a ese edificio y recién en diciembre de 2011 inauguró una nueva sede.',
           fuente: [{ t: 'La Nación, 27/5/2002', url: 'https://www.lanacion.com.ar/sociedad/peligro-bajo-tierra-en-comodoro-rivadavia-nid399990/' },
             { t: 'El Patagónico, 7/12/2011', url: 'https://www.elpatagonico.com/inauguraron-el-nuevo-edificio-la-escuela-169-el-stella-maris-n1411164' },
             { t: '18/3/2015', url: 'https://www.elpatagonico.com/la-escuela-que-se-construyo-tres-pozos-petroleros-que-no-habian-sido-sellados-n773657' }],
