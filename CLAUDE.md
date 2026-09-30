@@ -197,6 +197,12 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   clic) y se borra al cerrarla: sin abrirla no se carga nada de YouTube. Es la única excepción a «sin cookies», aclarada en
   la Metodología (Créditos y licencias). El video está en el canal anónimo «Lo que queda... cuando el petróleo se va»
   (@lo-que-queda-2026, youtu.be/BlxDtqlmNEY): para cambiarlo, solo `data-youtube`.
+- 30/09: fotos propias de los autores (sin crédito por foto, por el seudónimo; la Metodología dice «las fotos sin crédito son de
+  los autores»): portada (restos oxidados de un aparato de bombeo en la entrada de Caleta Córdova; reemplaza la de El Patagónico)
+  y pasos 3 a 6 (`fotoPropia()` en story.js: planta deshidratadora de PECOM en Km 9; letras de YPF en sus antiguos almacenes de
+  Km 3; pozo CFP.Ch.SM-549 en Caleta Córdova; pozo PCR.Ch.B-41 en Gobernador Fontana). Los epígrafes solo dicen lugar y pozo:
+  sin «ex YPF» (sin fuente) y sin decir que el SM-549 produzca (CRI no lo declara desde 12/2022). Exportarlas sin metadatos
+  (GPS, modelo): los originales van al repo.
 - 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
   (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
   Los pozos se quedan.». Los autores descartaron apagar los activos. Salieron de la tarjeta 13.018, el ritmo de abandonos y los

@@ -61,6 +61,10 @@ export function textoPortada(R) {
   return { texto, fuente };
 }
 
+/** Foto propia de una tarjeta (de los autores: sin crédito hasta el fallo, por el seudónimo; lo aclara la Metodología).
+ *  El epígrafe va donde las demás llevan el crédito. Solo se ve en la computadora (en el celular, .foto-paso se oculta). */
+const fotoPropia = (archivo, alt, epigrafe) => ({ src: `${import.meta.env.BASE_URL}img/${archivo}.jpg`, alt, credito: epigrafe });
+
 /** Devuelve la definición de pasos con las cifras ya resueltas. */
 export function definirPasos(R) {
   const c = R.cuenca, e = R.ejido, p = R.poblacion, pr = R.produccion;
@@ -101,6 +105,8 @@ export function definirPasos(R) {
       titulo: 'pozos registrados. Es la cuenca con más pozos del país',
       texto: `Dos de cada tres no producen: ${fmt(c.Inactivo)} inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo que cada operadora declara ante la Secretaría de Energía. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Y ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas inactivos o a abandonar no registran ni un mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía, Capítulo IV – Pozos')],
+      // «ex YPF» no va en el epígrafe: que la planta haya sido de YPF no está en los datos ni tiene fuente (30/09).
+      foto: fotoPropia('paso-3', 'Vista aérea de una planta con tanques blancos con el logo de PECOM, oficinas y un estacionamiento, rodeada por la meseta', 'Planta deshidratadora de PECOM en Kilómetro 9.'),
       vista: { center: [-68.3, -46.2], zoom: 7 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
@@ -109,6 +115,7 @@ export function definirPasos(R) {
       titulo: 'pozos de YPF cambiaron de manos',
       texto: `Entre 2024 y 2026 YPF se retiró de la cuenca (Proyecto Andes). Hoy sus pozos figuran a nombre de PECOM, Patagonia Resources, Clear, Quintana, Roch y otras. Y ${fmt(c.sin_empresa.total)} pozos no tienen ninguna empresa asignada; ${fmt(c.sin_empresa.Abandonado)} de ellos están abandonados.`,
       fuente: [dataset(R, 'listado_operadoras', 'Secretaría de Energía'), { t: 'YPF, Form 20-F 2024 (SEC)', url: CONTEXTO.ypf20F }, { t: 'Decreto Chubut 1509/2024', url: CONTEXTO.decreto1509 }],
+      foto: fotoPropia('paso-4', 'Letras metálicas de YPF sobre una base despintada, entre yuyos, frente a galpones abandonados', 'Letras de YPF en la entrada de sus antiguos almacenes, en Km 3.'),
       vista: { center: [-68.3, -46.2], zoom: 7 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: true, barrios: false },
       // TODO semana 3: colorear por operadora con animación antes/después (ver docs/plans).
@@ -119,6 +126,8 @@ export function definirPasos(R) {
       // "Producen" = extracción efectiva; "activos" incluye inyección y reparación. Población: solo los radios de Comodoro.
       texto: `De los ${fmt(e.Activo)} pozos activos, solo ${fmt(e.extraccion_efectiva)} producen. Otros ${fmt(e.Abandonado)} están abandonados. ${fmt(p.comodoro.pobl_en_radios_con_pozo)} personas, el ${pct(p.comodoro.pobl_en_radios_con_pozo_pct)} % de Comodoro, viven en un radio censal con al menos un pozo.${t ? ` ${fmt(t.ejido_nunca_en_serie)} de los pozos del ejido no produjeron ni un mes desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), dataset(R, 'radios_censo', 'Municipalidad de Comodoro Rivadavia, Censo 2022')],
+      // El SM-549 figura «Activo» (extracción efectiva), pero CRI no lo declara desde 12/2022: el epígrafe no dice que produzca.
+      foto: fotoPropia('paso-5', 'Aparato de bombeo cercado con alambre, con el mar y los acantilados detrás', 'Pozo CFP.Ch.SM-549, en Caleta Córdova.'),
       vista: { center: [-67.55, -45.85], zoom: 10.3 },
       // Toda la cuenca, con los pozos fuera del ejido atenuados: la ciudad es el foco (plan 2.3).
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, enfocarEjido: true, poblacion: true, limites: true, pais: false, concesiones: false, barrios: false },
@@ -132,6 +141,7 @@ export function definirPasos(R) {
       // Las fuentes de Astra, Km 5 y Mosconi (Km 3) quedan en la metodología (decisión de los autores: no engordar la tarjeta).
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Municipalidad de Comodoro Rivadavia, Relevamiento de barrios', url: CONTEXTO.zonaNorte },
         dataset(R, 'poblacion_barrios', 'Censo 2022 por barrio')],
+      foto: fotoPropia('paso-6', 'Vista aérea de un aparato de bombeo cercado en medio de una calle de tierra, rodeado de casas', 'Pozo PCR.Ch.B-41, en una calle del barrio Gobernador Fontana.'),
       vista: { bounds: NUCLEO_ZONA_NORTE },
       focoArriba: true,
       marcador: { idpozo: 121014, etiqueta: 'Pozo N° 2 · 1907' }, // se destaca; el resto de los pozos sigue a la vista
