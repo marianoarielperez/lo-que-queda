@@ -33,4 +33,6 @@ Generado: 2026-09-30
 | Zona norte: no dados de baja / con 60+ meses declarados sin producir | 474 / 436 |
 | Censo por barrio: renglones sin polígono / renglones repartidos en 2 polígonos (su pobl no se suma dos veces) | 6 (1.596 hab.: Acceso Sur Industrial, Chacras Minas George Stephenson, Sol de Mayo y San Jorge, Chacras Oeste, Chacras Tres Pinos, Cañadones, Lotes Pastoriles Noroeste, Médanos) / 2 |
 | No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | 13.111 / 4.359 |
+| Pozos con al menos un mes de producción, por año: cuenca | 2011: 13.799; 2012: 14.300; 2013: 14.748; 2014: 15.074; 2015: 15.532; 2016: 15.537; 2017: 15.003; 2018: 14.936; 2019: 15.078; 2020: 15.014; 2021: 14.596; 2022: 14.871; 2023: 14.906; 2024: 14.782; 2025: 14.094; 2026: 13.301 |
+| Pozos con al menos un mes de producción, por año: ejido | 2011: 750; 2012: 715; 2013: 689; 2014: 719; 2015: 706; 2016: 656; 2017: 652; 2018: 616; 2019: 653; 2020: 635; 2021: 633; 2022: 660; 2023: 601; 2024: 613; 2025: 567; 2026: 512 |
 | Radio urbano con más pozos | 260211203 (408 pozos, 936 hab.) |

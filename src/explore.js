@@ -11,7 +11,7 @@ const MAX_RESULTADOS = 12;
 // Filtros de fábrica: así arranca el visualizador la primera vez (con la vista de la cuenca del paso 8, VISTA_CUENCA).
 // limites: true = el ejido de Comodoro siempre a la vista en el visualizador.
 const estadoInicial = () => ({
-  estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, sinProducir: null,
+  estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, sinProducir: null, barrio: null,
   soloEjido: false, enfocarEjido: false, enfocarZonaNorte: false, poblacion: false, limites: true, pozos: true, pais: false,
   concesiones: false, barrios: false, soloId: null, resaltado: null, satelite: false,
 });
@@ -66,17 +66,41 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   $('f-concesiones').addEventListener('change', (ev) => mapa.aplicar({ concesiones: ev.target.checked }));
   $('f-barrios').addEventListener('change', (ev) => mapa.aplicar({ barrios: ev.target.checked }));
 
+  // ---- barrio de Comodoro (cols.barrio_cod; meta.barrios, los 77 con o sin pozos): filtra y acerca el mapa al barrio ----
+  const nombresBarrios = meta.barrios ?? [];
+  const selBarrio = $('f-barrio');
+  if (nombresBarrios.length && pozos.cols.barrio_cod) {
+    const porBarrio = contar(pozos.cols.barrio_cod, nombresBarrios.length + 1);
+    nombresBarrios.map((nombre, k) => ({ nombre, cod: k + 1 }))
+      .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'))
+      .forEach(({ nombre, cod }) => {
+        const o = document.createElement('option');
+        o.value = cod;
+        o.textContent = `${nombre} (${fmt(porBarrio[cod])})`;
+        selBarrio.appendChild(o);
+      });
+    selBarrio.addEventListener('change', (ev) => {
+      const cod = numONull(ev.target.value);
+      // con un barrio elegido se prende la capa de barrios, para ver su contorno
+      mapa.aplicar(cod === null ? { barrio: null } : { barrio: cod, barrios: true });
+      const b = cod !== null && mapa.barrio(nombresBarrios[cod - 1]);
+      if (b) mapa.volar({ bounds: b.bounds, maxZoom: 15 }, { padding: paddingPanel() });
+    });
+  } else {
+    selBarrio.closest('.filtro').classList.add('hidden');
+  }
+
   // ---- tiempo sin producir (serie mensual; tramos en data.js): un botón por tramo, con su barra. Tocarlo filtra;
   // tocarlo de nuevo saca el filtro. La barra va en dos tonos: tinta = el resto, gris = ya declarados abandonados.
   const T = resumen.trayectoria;
   let botonesTramo = [];
+  const etiquetas = T ? {
+    ultimo_anio: 'Produjo en los últimos 12 meses',
+    '1_a_5': 'Entre 1 y 5 años sin producir',
+    mas_de_5: 'Más de 5 años sin producir',
+    nunca: `Ningún mes de producción desde ${T.cobertura.desde.slice(0, 4)}`,
+  } : {};
   if (T) {
-    const etiquetas = {
-      ultimo_anio: 'Produjo en los últimos 12 meses',
-      '1_a_5': 'Entre 1 y 5 años sin producir',
-      mas_de_5: 'Más de 5 años sin producir',
-      nunca: `Ningún mes de producción desde ${T.cobertura.desde.slice(0, 4)}`,
-    };
     const nota = $('f-sinprod-nota');
     botonesTramo = TRAMOS_SIN_PRODUCIR.map((clave, i) => {
       const b = document.createElement('button');
@@ -93,6 +117,36 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   } else {
     $('f-sinprod').classList.add('hidden');
   }
+
+  // ---- descargar los pozos que se ven (CSV, UTF-8 con BOM para que Excel lea los acentos): se arma acá con el binario
+  // y el índice de siglas, con los mismos filtros del mapa. Sin filtros, son todos los pozos de la cuenca. ----
+  const btnCsv = $('btn-csv');
+  function csvPozos(filas, S) {
+    const { idpozo, lon, lat, estado_cod, empresa_cod, yac_cod, prov_cod, ejido_cod, tramo_sp, barrio_cod } = pozos.cols;
+    const campo = (v) => (/[",\r\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v));
+    const encabezado = ['idpozo', 'sigla', 'operadora', 'yacimiento', 'provincia', 'estado_declarado_grupo', 'tiempo_sin_producir',
+      'en_ejido_comodoro', 'barrio', 'lon', 'lat'];
+    const renglones = filas.map((i) => [
+      idpozo[i], S.porId.get(idpozo[i]) ?? '', meta.empresas[empresa_cod[i]], meta.yacimientos[yac_cod[i]],
+      meta.provincias[prov_cod[i]] ?? '', ESTADOS[estado_cod[i]].nombre, etiquetas[TRAMOS_SIN_PRODUCIR[tramo_sp[i]]] ?? '',
+      ejido_cod[i] ? 'sí' : 'no', barrio_cod?.[i] ? nombresBarrios[barrio_cod[i] - 1] : '', lon[i].toFixed(6), lat[i].toFixed(6),
+    ].map(campo).join(','));
+    return `${[encabezado.join(','), ...renglones].join('\r\n')}\r\n`;
+  }
+  btnCsv.addEventListener('click', async () => {
+    let S;
+    try { S = await cargarSiglas(); } catch (err) {
+      console.error(err);
+      avisar('No se pudo armar el archivo. Revisá tu conexión y probá de nuevo.');
+      return;
+    }
+    const url = URL.createObjectURL(new Blob(['﻿', csvPozos(mapa.filasVisibles(), S)], { type: 'text/csv;charset=utf-8' }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: 'pozos-golfo-san-jorge.csv' });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
 
   $('n-total').textContent = fmt(pozos.n);
 
@@ -149,6 +203,18 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     $('f-empresa').value = e.empresa ?? '';
     $('f-yacimiento').value = e.yacimiento ?? '';
     $('f-provincia').value = e.provincia ?? '';
+    selBarrio.value = e.barrio ?? '';
+    const notaBarrio = $('f-barrio-nota');
+    const pb = e.barrio !== null ? mapa.barrio(nombresBarrios[e.barrio - 1])?.props : null;
+    notaBarrio.hidden = !pb;
+    // población del Censo 2022 por barrio, con las mismas salvedades que el cartel de barrio (cartelArea)
+    if (pb) {
+      notaBarrio.textContent = pb.pobl == null ? 'Sin dato de población por barrio.'
+        : pb.pobl_con ? `${fmt(pb.pobl)} habitantes entre este barrio y ${pb.pobl_con} (el Censo 2022 los cuenta juntos).`
+          : `${fmt(pb.pobl)} habitantes (Censo 2022).`;
+    }
+    btnCsv.hidden = mapa.visibles === 0;
+    btnCsv.textContent = `Descargar ${mapa.visibles === 1 ? 'este pozo' : `estos ${fmt(mapa.visibles)} pozos`} (CSV)`;
     $('f-poblacion').checked = e.poblacion;
     $('f-barrios').checked = e.barrios;
     $('f-concesiones').checked = e.concesiones;
@@ -343,7 +409,7 @@ export function montarExploracion({ mapa, pozos, resumen }) {
 }
 
 function hayFiltros(e) {
-  return e.empresa !== null || e.yacimiento !== null || e.provincia !== null || e.sinProducir !== null
+  return e.empresa !== null || e.yacimiento !== null || e.provincia !== null || e.sinProducir !== null || e.barrio !== null
     || ESTADOS.some((x) => !e.estadosVisibles.has(x.cod));
 }
 

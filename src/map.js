@@ -165,6 +165,7 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     yacimiento: null,  // código o null
     provincia: null,   // 1 | 2 | null
     sinProducir: null, // tramo de tiempo sin producir (cols.tramo_sp, ver data.js) o null
+    barrio: null,      // código de barrio (cols.barrio_cod: meta.barrios[cod - 1]) o null
     soloEjido: false,
     enfocarEjido: false, // se ve toda la cuenca, pero los pozos fuera del ejido quedan atenuados (paso Ejido)
     enfocarZonaNorte: false, // igual con los barrios de zona norte, que además se dibujan (paso Zona norte)
@@ -213,8 +214,8 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
   const tramoAbandonados = new Uint32Array(TRAMOS_SIN_PRODUCIR.length);
   let sinConcesion = 0;
   function recalcularFiltro() {
-    const { estado_cod, empresa_cod, yac_cod, prov_cod, ejido_cod, idpozo, tramo_sp, conc_cod } = pozos.cols;
-    const { soloId, estadosVisibles, empresa, yacimiento, provincia, sinProducir, soloEjido } = estado;
+    const { estado_cod, empresa_cod, yac_cod, prov_cod, ejido_cod, idpozo, tramo_sp, conc_cod, barrio_cod } = pozos.cols;
+    const { soloId, estadosVisibles, empresa, yacimiento, provincia, sinProducir, soloEjido, barrio } = estado;
     conteos.fill(0);
     conteosTramo.fill(0);
     tramoAbandonados.fill(0);
@@ -226,6 +227,7 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
         : (empresa === null || empresa_cod[i] === empresa)
           && (yacimiento === null || yac_cod[i] === yacimiento)
           && (provincia === null || prov_cod[i] === provincia)
+          && (barrio === null || barrio_cod?.[i] === barrio)
           && (!soloEjido || ejido_cod[i] === 1);
       const resto = base && (soloId !== null || sinProducir === null || tramo_sp[i] === sinProducir);
       const estadoOk = soloId !== null || estadosVisibles.has(estado_cod[i]);
@@ -783,7 +785,8 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
           const { clientWidth: w, clientHeight: h } = map.getContainer();
           map.jumpTo({ center: map.unproject([w / 2, h / 2]), padding: { top: 0, bottom: 0, left: 0, right: 0 } });
         }
-        vista = map.cameraForBounds(vista.bounds, { padding }) || { center: map.getCenter(), zoom: map.getZoom() };
+        vista = map.cameraForBounds(vista.bounds, { padding, ...(vista.maxZoom && { maxZoom: vista.maxZoom }) })
+          || { center: map.getCenter(), zoom: map.getZoom() };
         padding = { top: 0, bottom: 0, left: 0, right: 0 };
       }
       // Con "reducir movimiento" se salta directo (MapLibre lo haría solo, pero `essential` lo impide).
@@ -800,6 +803,23 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     },
     filaDe(idpozo) { return pozos?.filaPorId.get(idpozo); },
     coordsDe,
+    /** Filas de los pozos que se ven con los filtros actuales (las que cuenta `visibles`): para descargarlos. */
+    filasVisibles() {
+      const filas = [];
+      if (pozos) for (let i = 0; i < pozos.n; i++) if (pasa[i] && enFoco(i)) filas.push(i);
+      return filas;
+    },
+    /** Un barrio por nombre: sus límites ([[oeste, sur], [este, norte]]) y las propiedades de barrios.geojson, o null. */
+    barrio(nombre) {
+      const f = barrios?.features.find((x) => x.properties.barrio === nombre);
+      if (!f) return null;
+      let [o, s, e, n] = [Infinity, Infinity, -Infinity, -Infinity];
+      const recorrer = (c) => (typeof c[0] === 'number'
+        ? ([o, s, e, n] = [Math.min(o, c[0]), Math.min(s, c[1]), Math.max(e, c[0]), Math.max(n, c[1])])
+        : c.forEach(recorrer));
+      recorrer(f.geometry.coordinates);
+      return { bounds: [[o, s], [e, n]], props: f.properties };
+    },
     /** Centro y zoom actuales (para volver al visualizador como se lo dejó). */
     vista() {
       const c = map.getCenter();

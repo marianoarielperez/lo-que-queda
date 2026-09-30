@@ -269,8 +269,15 @@ def cargar_mensual():
     ab = m[m.tipoestado == "Abandonado"].groupby("idpozo").t.min().rename("t_primer_abandono")
     mes = mes.merge(ult, on="idpozo", how="left")
     sin = mes[mes.t_ultima_prod.isna() | (mes.t > mes.t_ultima_prod)].groupby("idpozo").size().rename("meses_declarados_sin_producir")
-    r = pd.concat([ult, decl, ab, sin], axis=1).reset_index()
+    # Años con producción: bit k = el pozo tuvo al menos un mes con petróleo o gas en el año (primer año de la serie + k).
+    # Solo para resumen.trayectoria (produjeron_por_anio). Entra en un uint16 mientras la serie tenga 16 años o menos.
+    anio0 = int(m.t.min() // 12)
+    con = mes[mes.con_prod].assign(a=lambda d: d.t // 12 - anio0).drop_duplicates(["idpozo", "a"])
+    assert con.a.max() < 16, "anios_prod es uint16: la serie mensual no puede pasar de 16 años"
+    anios_prod = pd.Series(np.left_shift(1, con.a.to_numpy(dtype="int64")), index=con.idpozo).groupby(level=0).sum().rename("anios_prod")
+    r = pd.concat([ult, decl, ab, sin, anios_prod], axis=1).reset_index()
     r["meses_declarados_sin_producir"] = r.meses_declarados_sin_producir.fillna(0)
+    r["anios_prod"] = r.anios_prod.fillna(0)
     am = lambda t: f"{int(t // 12)}-{int(t % 12) + 1:02d}" if t == t else None
     r["ultima_prod"] = r.t_ultima_prod.map(am)
     r["primer_abandono"] = r.t_primer_abandono.map(am)
@@ -281,7 +288,7 @@ def cargar_mensual():
     cobertura = {"desde": f"{int(m.t.min() // 12)}-{int(m.t.min() % 12) + 1:02d}", "hasta": f"{ultimo_t // 12}-{ultimo_t % 12 + 1:02d}",
                  "pozos_con_registro": int(m.idpozo.nunique())}
     return r[["idpozo", "ultima_prod", "primer_abandono", "ultima_declaracion", "meses_desde_ultima_prod",
-              "meses_declarados_sin_producir", "meses_sin_producir"]], cobertura
+              "meses_declarados_sin_producir", "meses_sin_producir", "anios_prod"]], cobertura
 
 
 def barrio_de_punto(barrios, fila):
@@ -487,6 +494,13 @@ def cruzar(g, lim, pob):
 # ---------------------------------------------------------------------------
 # 4. Salidas binarias para deck.gl
 # ---------------------------------------------------------------------------
+def produjeron_por_anio(df, cobertura):
+    """{año: pozos con al menos un mes de petróleo o gas ese año} a partir de anios_prod (bits, ver cargar_mensual)."""
+    desde, hasta = int(cobertura["desde"][:4]), int(cobertura["hasta"][:4])
+    bits = df.anios_prod.to_numpy()
+    return {str(desde + k): int((np.right_shift(bits, k) & 1).sum()) for k in range(hasta - desde + 1)}
+
+
 def escribir_bin(df, nombre, columnas):
     """columnas: lista de (nombre, dtype). Escribe arrays concatenados + meta con offsets."""
     buf = io.BytesIO()
@@ -523,6 +537,7 @@ def main(check=False):
     else:
         g["ultima_prod"] = None; g["primer_abandono"] = None; g["ultima_declaracion"] = None
         g["meses_desde_ultima_prod"] = np.nan; g["meses_declarados_sin_producir"] = np.nan; g["meses_sin_producir"] = np.nan
+        g["anios_prod"] = 0
     barrios = cargar_barrios()
     if barrios is not None:
         pts_b = gpd.GeoDataFrame(g[["idpozo"]], geometry=gpd.points_from_xy(g.lon, g.lat), crs=4326)
@@ -546,6 +561,10 @@ def main(check=False):
     g["anio_cod"] = g.anio_perf.fillna(0).astype("uint16")
     g["ejido_cod"] = g.en_ejido.astype("uint8")
     g["zn_cod"] = g.barrio.isin(ZONA_NORTE).astype("uint8")  # dentro de un barrio de zona norte (tarjeta 6)
+    # Barrio de cada pozo para el filtro del panel: 0 = fuera de los barrios; k = meta.barrios[k - 1] (los 77, con o sin pozos)
+    nombres_barrios = sorted(barrios.barrio) if barrios is not None else []
+    g["barrio_cod"] = g.barrio.map({b: i + 1 for i, b in enumerate(nombres_barrios)}).fillna(0).astype("uint8")
+    g["anios_prod"] = g.anios_prod.fillna(0).astype("uint16")  # no va al binario: solo para resumen.trayectoria
     g["primera_cod"] = pd.to_numeric(g.primera_prod.str[:4], errors="coerce").fillna(0).astype("uint16")
     # Tramo de tiempo sin producir (filtro del panel, ver data.js): "último año" por calendario; "más de 5 años" solo con
     # 60 meses declarados sin producir; el resto, 1 a 5 años (mínimo 13). 65535 = ningún mes con producción en la serie.
@@ -559,10 +578,10 @@ def main(check=False):
         ("idpozo", "uint32"), ("lon", "float32"), ("lat", "float32"), ("estado_cod", "uint8"),
         ("empresa_cod", "uint16"), ("yac_cod", "uint16"), ("prov_cod", "uint8"), ("anio_cod", "uint16"),
         ("ejido_cod", "uint8"), ("primera_cod", "uint16"), ("meses_cod", "uint16"), ("conc_cod", "uint8"),
-        ("zn_cod", "uint8"),
+        ("zn_cod", "uint8"), ("barrio_cod", "uint8"),
     ])
     meta.update({"claves_ficha": CLAVES_FICHA, "estados": GRUPO_ORDEN, "empresas": empresas, "yacimientos": yacimientos,
-                 "provincias": {v: k for k, v in PROV_COD.items()}})
+                 "provincias": {v: k for k, v in PROV_COD.items()}, "barrios": nombres_barrios})
     json.dump(meta, open(os.path.join(OUT, "pozos_gsj.meta.json"), "w", encoding="utf-8"), ensure_ascii=False)
 
     pp = p[p.lon.between(LON_MIN, LON_MAX) & p.lat.between(LAT_MIN, LAT_MAX)].copy()
@@ -798,6 +817,10 @@ def main(check=False):
             # los que ya figuraban abandonados el primer mes de la serie: no es su fecha de abandono, es "ya estaban"
             "ya_abandonados_al_inicio": int((g.primer_abandono == cobertura_mensual["desde"]).sum()),
             "abandonados_por_anio_de_declaracion": g.primer_abandono.dropna().str[:4].value_counts().sort_index().to_dict(),
+            # Pozos con al menos un mes de petróleo o gas en cada año (el último, solo hasta cobertura.hasta). En la cuenca la
+            # cantidad casi no cambia (cae el volumen, no los pozos que producen); en el ejido sí baja (30/09).
+            "produjeron_por_anio": produjeron_por_anio(g, cobertura_mensual),
+            "ejido_produjeron_por_anio": produjeron_por_anio(g[g.en_ejido], cobertura_mensual),
         },
         "barrios": None if barrios is None else {
             "cantidad": int(len(barrios)),
@@ -886,6 +909,8 @@ def main(check=False):
              f"| Zona norte: no dados de baja / con 60+ meses declarados sin producir | {zn_nb} |",
              f"| Censo por barrio: renglones sin polígono / renglones repartidos en 2 polígonos (su pobl no se suma dos veces) | {censo_barrios} |",
              f"| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | {t_mas5} |",
+             f"| Pozos con al menos un mes de producción, por año: cuenca | {'; '.join(f'{a}: {fmt(n)}' for a, n in resumen['trayectoria']['produjeron_por_anio'].items()) if mens is not None else '-'} |",
+             f"| Pozos con al menos un mes de producción, por año: ejido | {'; '.join(f'{a}: {fmt(n)}' for a, n in resumen['trayectoria']['ejido_produjeron_por_anio'].items()) if mens is not None else '-'} |",
              f"| Radio urbano con más pozos | {resumen['poblacion']['radio_urbano_mas_pozos'][0]['radio']} ({fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pozos'])} pozos, {fmt(resumen['poblacion']['radio_urbano_mas_pozos'][0]['pobl'])} hab.) |",
              ]
     open(os.path.join(OUT, "conciliacion.md"), "w", encoding="utf-8").write("\n".join(lines))

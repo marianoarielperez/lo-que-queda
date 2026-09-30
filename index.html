@@ -76,6 +76,11 @@
         <option value="2">Santa Cruz</option>
       </select>
     </div>
+    <div class="filtro">
+      <label for="f-barrio">Barrio de Comodoro</label>
+      <select id="f-barrio"><option value="">Todos</option></select>
+      <p class="nota" id="f-barrio-nota" hidden></p>
+    </div>
     <fieldset id="f-sinprod" class="filtro">
       <legend>Tiempo sin producir</legend>
       <!-- se llena desde explore.js: un botón por tramo, con su conteo y su barra -->
@@ -99,6 +104,10 @@
       <label for="f-buscar">Buscar por sigla</label>
       <input type="search" id="f-buscar" placeholder="Ej.: CH-679" autocomplete="off" aria-describedby="f-resultados">
       <div id="f-resultados" aria-live="polite"></div>
+    </div>
+    <div class="filtro">
+      <button type="button" id="btn-csv" class="empezar">Descargar estos pozos (CSV)</button>
+      <p class="nota">Los que se ven con los filtros elegidos. Datos de la Secretaría de Energía (CC-BY 4.0) y barrios de la Municipalidad de Comodoro Rivadavia (CC BY-SA 4.0).</p>
     </div>
     <p class="fuente">Fuentes: Secretaría de Energía (Capítulo IV – Pozos, CC-BY 4.0); Municipalidad de Comodoro Rivadavia (límites y radios censales 2022). <a href="#metodologia" data-abrir="metodologia">Metodología</a></p>
     </div>
@@ -164,6 +173,7 @@
         <li>Del registro de todo el país (<span data-cifra="pais.pozos"></span> pozos) se toman los <span data-cifra="cuenca.total"></span> de la Cuenca del Golfo San Jorge.</li>
         <li>Fechas de perforación: se descartan las de relleno (el 1/1/1902 y cualquier fecha anterior al 1/1/1907); son <span data-cifra="calidad.fechas_relleno_descartadas"></span>.</li>
         <li>Con sus coordenadas, cada pozo se ubica en el ejido de Comodoro Rivadavia, en un radio censal del Censo 2022 y en un barrio.</li>
+        <li>Descarga: desde el visualizador se bajan en CSV los pozos que se ven con los filtros elegidos (sin filtros, los <span data-cifra="cuenca.total"></span>), con su sigla, operadora, yacimiento, provincia, grupo de estado declarado, tiempo sin producir, si están en el ejido, barrio y coordenadas.</li>
         <li>Tiempo sin producir: meses desde el último con petróleo o gas mayor que cero en la serie mensual, que va de <span data-cifra="trayectoria.cobertura.desde" data-formato="mes"></span> a <span data-cifra="trayectoria.cobertura.hasta" data-formato="mes"></span>.</li>
         <li>«Más de cinco años sin producir» exige 60 meses declarados sin producción: algunas operadoras dejan de declarar sus pozos antes del final de la serie (<span data-cifra="trayectoria.dejaron_de_declararse"></span> pozos en total, muchos ya abandonados) y esos meses no se cuentan.</li>
         <li>Concesiones: un pozo está «en un área que no figura como concesión vigente» cuando el código de su área no aparece en la capa de concesiones de explotación de la Secretaría de Energía. Son <span data-cifra="concesiones.pozos_en_area_sin_concesion"></span> pozos.</li>

@@ -289,7 +289,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       return;
     }
     // Cada paso define su vista completa: los filtros que se hayan tocado en el panel no se arrastran.
-    mapa.aplicar({ soloId: null, enfocarEjido: false, enfocarZonaNorte: false, sinProducir: null, satelite: false, pozos: true, ...paso.capas });
+    mapa.aplicar({ soloId: null, enfocarEjido: false, enfocarZonaNorte: false, sinProducir: null, barrio: null, satelite: false, pozos: true, ...paso.capas });
     document.body.classList.toggle('sin-leyenda', Boolean(paso.capas.soloId)); // un solo pozo: la leyenda cuenta 44.390
     mapa.marcador(paso.marcador?.idpozo ?? null, paso.marcador?.etiqueta);
     mapa.historias(paso.historias ? paso.historias.map((h) => ({ idpozo: pozosDe(h)[0], etiqueta: `${h.titulo} · ${h.cuando}` })) : null);

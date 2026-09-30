@@ -185,6 +185,12 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   en lugar del desplegable. La barra de cada tramo va en tinta y, en gris, los que la operadora ya declaró abandonados
   (`mapa.conteosTramo` y `mapa.tramoAbandonados`, que cuentan como `conteos`: todos los filtros salvo el propio). Los autores
   descartaron la «operadora en el listado anterior» (son códigos de la SE, a veces de la misma empresa de hoy).
+- 30/09 (tarde): el panel suma «Barrio de Comodoro» (los 77 barrios; `barrio_cod` en el binario, `meta.barrios`): filtra los
+  pozos del barrio, acerca el mapa a su contorno (`mapa.barrio(nombre)`, zoom máximo 15), prende la capa de barrios y muestra
+  la población del Censo 2022 por barrio. Y «Descargar estos N pozos (CSV)»: los que se ven con los filtros (`mapa.filasVisibles()`),
+  armado en el navegador (UTF-8 con BOM). Se descartó un selector de año «Así se apagó la cuenca»: la cantidad de pozos que
+  producen casi no cambia en la cuenca (13.799 en 2011, 14.094 en 2025; cae el volumen, no los pozos); en el ejido sí baja
+  (750 → 567). Las dos series quedan en `trayectoria.produjeron_por_anio` y `ejido_produjeron_por_anio` para una tarjeta.
 - 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
   (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
   Los pozos se quedan.». Los autores descartaron apagar los activos. Salieron de la tarjeta 13.018, el ritmo de abandonos y los
