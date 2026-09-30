@@ -188,6 +188,7 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 /* ventana de la historia: la de Metodología, más angosta y a la medida del texto */
 .ventana.ventana-historia { width: min(640px, calc(100vw - 32px)); height: fit-content; max-height: 85vh; max-height: 85svh; margin: auto; } /* fit-content: un dialog modal con height auto se estira */
 .ventana.ventana-historia .ventana-cuerpo { height: auto; max-height: inherit; padding: 30px 36px 24px; }
+.ventana-historia #historia-meta { padding-right: 28px; } /* que la línea no pase por debajo del botón de cerrar (en el celular se corta en dos) */
 .ventana-historia h2 { font-family: "Fraunces", Georgia, serif; font-size: 26px; line-height: 1.2; margin: 4px 0 14px; }
 .ventana-historia p { margin: 0 0 12px; font-size: 17px; line-height: 1.5; }
 .ventana-historia .historia-registro { font-size: 14px; color: var(--texto-sec); }

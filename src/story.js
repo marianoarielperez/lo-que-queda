@@ -157,7 +157,7 @@ export function definirPasos(R) {
           fuente: [{ t: 'La Nación, 27/5/2002', url: 'https://www.lanacion.com.ar/sociedad/peligro-bajo-tierra-en-comodoro-rivadavia-nid399990/' },
             { t: 'El Patagónico, 7/12/2011', url: 'https://www.elpatagonico.com/inauguraron-el-nuevo-edificio-la-escuela-169-el-stella-maris-n1411164' },
             { t: '18/3/2015', url: 'https://www.elpatagonico.com/la-escuela-que-se-construyo-tres-pozos-petroleros-que-no-habian-sido-sellados-n773657' }],
-          foto: fotoHistoria('escuela-169', 'Cartel de la Escuela Provincial N° 169 «Estrella de Mar», del barrio Stella Maris, frente a un edificio escolar de ladrillo', 'Foto: El Patagónico') },
+          foto: fotoHistoria('escuela-169', 'Cartel de la Escuela Provincial N° 169 «Estrella de Mar», del barrio Stella Maris, frente a un edificio escolar de ladrillo', 'Foto: El Patagónico', null, [1000, 513]) },
         { idpozo: 120614, titulo: 'Once familias fuera de sus casas', lugar: 'Próspero Palazzo', cuando: '2008',
           texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
           fuente: [{ t: 'El Patagónico, 20/3/2008', url: 'https://www.elpatagonico.com/por-la-surgencia-petroleo-viviendas-palazzo-once-familias-fueron-evacuadas-n1320746' },
