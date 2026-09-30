@@ -9,7 +9,7 @@
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { ESTADOS, PALETA, POBLACION_RAMPA, CORTES_POBLACION } from './paleta.js';
-import { esc, reducirMovimiento, paddingPanel } from './data.js';
+import { esc, reducirMovimiento, paddingPanel, TRAMOS_SIN_PRODUCIR } from './data.js';
 
 // Mapa base. Por defecto, OpenFreeMap (vectorial, gratuito, sin clave) con los rótulos forzados al
 // nombre en castellano de OpenStreetMap (`name:es`): así dice "Islas Malvinas" y no "Falklands".
@@ -184,6 +184,7 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
   let overlay = null; // deck.gl: existe desde que llegan los pozos
 
   const colorEstado = ESTADOS.map((e) => e.rgb);
+  const ABANDONADO = ESTADOS.find((e) => e.nombre === 'Abandonado').cod;
 
   // Colores RGBA por pozo, calculados en CPU una vez. Solo se repintan cuando cambia el enfoque del ejido.
   let colores;
@@ -206,31 +207,40 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
   // son los números de la leyenda y del panel (así un estado desmarcado muestra cuántos agregaría).
   let pasa, pasaSinConcesion; // el segundo: visibles y en un área sin concesión vigente (anillo)
   const conteos = new Uint32Array(ESTADOS.length);
+  // Tramos de tiempo sin producir (gráfico del panel): pozos que pasan los filtros salvo el de tramo, como `conteos` con
+  // los estados, y de esos los que la operadora ya declaró abandonados (la parte gris de cada barra).
+  const conteosTramo = new Uint32Array(TRAMOS_SIN_PRODUCIR.length);
+  const tramoAbandonados = new Uint32Array(TRAMOS_SIN_PRODUCIR.length);
   let sinConcesion = 0;
   function recalcularFiltro() {
     const { estado_cod, empresa_cod, yac_cod, prov_cod, ejido_cod, idpozo, tramo_sp, conc_cod } = pozos.cols;
     const { soloId, estadosVisibles, empresa, yacimiento, provincia, sinProducir, soloEjido } = estado;
     conteos.fill(0);
+    conteosTramo.fill(0);
+    tramoAbandonados.fill(0);
     sinConcesion = 0;
     let n = 0;
     for (let i = 0; i < pozos.n; i++) {
-      let resto;
-      if (soloId !== null) resto = idpozo[i] === soloId;
-      else {
-        resto = (empresa === null || empresa_cod[i] === empresa)
+      // base: todos los filtros salvo el de estado y el de tramo
+      const base = soloId !== null ? idpozo[i] === soloId
+        : (empresa === null || empresa_cod[i] === empresa)
           && (yacimiento === null || yac_cod[i] === yacimiento)
           && (provincia === null || prov_cod[i] === provincia)
-          && (sinProducir === null || tramo_sp[i] === sinProducir)
           && (!soloEjido || ejido_cod[i] === 1);
-      }
-      const ok = resto && (soloId !== null || estadosVisibles.has(estado_cod[i]));
+      const resto = base && (soloId !== null || sinProducir === null || tramo_sp[i] === sinProducir);
+      const estadoOk = soloId !== null || estadosVisibles.has(estado_cod[i]);
+      const ok = resto && estadoOk;
       pasa[i] = ok ? 1 : 0;
       const sinConc = ok && conc_cod !== undefined && conc_cod[i] === 0;
       pasaSinConcesion[i] = sinConc ? 1 : 0;
       if (sinConc) sinConcesion++;
-      const destacado = enFoco(i);
-      if (resto && destacado) conteos[estado_cod[i]]++;
-      if (ok && destacado) n++;
+      if (!enFoco(i)) continue; // fuera del foco (ejido o zona norte) no se cuenta
+      if (resto) conteos[estado_cod[i]]++;
+      if (base && estadoOk) {
+        conteosTramo[tramo_sp[i]]++;
+        if (estado_cod[i] === ABANDONADO) tramoAbandonados[tramo_sp[i]]++;
+      }
+      if (ok) n++;
     }
     return n;
   }
@@ -680,6 +690,8 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     for (const f of oyentes) f(estado);
   }
 
+  // Solo en desarrollo (npm run dev): el mapa a mano para los scripts de captura del video y de prueba. No va en el build.
+  if (import.meta.env.DEV) window.__mapa = map;
   // ---- API que usan main.js, story.js y explore.js ----
   return {
     map,
@@ -690,6 +702,10 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     get conteos() { return conteos; },
     /** Pozos visibles en áreas que no figuran como concesión vigente (los del anillo). */
     get sinConcesion() { return sinConcesion; },
+    /** Pozos por tramo de tiempo sin producir (índice = tramo_sp) que pasan los filtros salvo el de tramo. */
+    get conteosTramo() { return conteosTramo; },
+    /** De conteosTramo, los que la operadora ya declaró abandonados. */
+    get tramoAbandonados() { return tramoAbandonados; },
     /** Segundo tiempo de la carga: baja deck.gl y dibuja pozos y polígonos con el estado que haya
      *  (el recorrido pudo haber avanzado mientras tanto). */
     async cargarCapas(datos) {

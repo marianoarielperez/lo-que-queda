@@ -169,6 +169,11 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   reemplazó por el botón «Leer las N historias» (la ventana dice «3 de 10» y tiene Anterior/Siguiente); el encuadre de la tarjeta 7
   abarca justo los pozos de las historias (`vistaDeHistorias()`), con `AIRE_ICONO` (44 px) de margen; en la computadora se le
   reserva a la leyenda su columna de la derecha.
+- 30/09: el panel del visualizador suma dos gráficos atados a los filtros: una barra apilada de «Estado declarado» (con % en
+  cada fila) y «Tiempo sin producir» como cuatro botones con barra (`aria-pressed`; tocar filtra, tocar de nuevo saca el filtro)
+  en lugar del desplegable. La barra de cada tramo va en tinta y, en gris, los que la operadora ya declaró abandonados
+  (`mapa.conteosTramo` y `mapa.tramoAbandonados`, que cuentan como `conteos`: todos los filtros salvo el propio). Los autores
+  descartaron la «operadora en el listado anterior» (son códigos de la SE, a veces de la misma empresa de hoy).
 - 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
   (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
   Los pozos se quedan.». Los autores descartaron apagar los activos. Salieron de la tarjeta 13.018, el ritmo de abandonos y los

@@ -28,16 +28,30 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   // ---- filtro de estado: una casilla por estado, con su conteo alineado a la derecha ----
   const fEstado = $('f-estado');
   const cuentaEstado = new Map();
+  const pctEstado = new Map();
+  // Barra de estados: la proporción de cada estado en lo que pasa los demás filtros (los mismos conteos de las casillas).
+  // Para lectores de pantalla sobra: los números están en las casillas.
+  const barraEstados = document.createElement('div');
+  barraEstados.className = 'barra-estados';
+  barraEstados.setAttribute('aria-hidden', 'true');
+  const segmentos = new Map(estados.map((e) => {
+    const s = document.createElement('span');
+    s.style.background = e.hex;
+    barraEstados.appendChild(s);
+    return [e.cod, s];
+  }));
+  fEstado.appendChild(barraEstados);
   for (const e of estados) {
     const id = `est-${e.cod}`;
     const row = document.createElement('div');
     row.className = 'filtro-inline';
-    row.innerHTML = `<input type="checkbox" id="${id}" checked><label for="${id}"><span class="ley-dot" style="background:${e.hex}"></span>${e.nombre}<span class="cuenta"></span></label>`;
+    row.innerHTML = `<input type="checkbox" id="${id}" checked><label for="${id}"><span class="ley-dot" style="background:${e.hex}"></span>${e.nombre}<span class="cuenta"></span><span class="pct"></span></label>`;
     row.querySelector('input').addEventListener('change', (ev) => {
       ev.target.checked ? mapa.estado.estadosVisibles.add(e.cod) : mapa.estado.estadosVisibles.delete(e.cod);
       mapa.aplicar();
     });
     cuentaEstado.set(e.cod, row.querySelector('.cuenta'));
+    pctEstado.set(e.cod, row.querySelector('.pct'));
     fEstado.appendChild(row);
   }
 
@@ -52,26 +66,32 @@ export function montarExploracion({ mapa, pozos, resumen }) {
   $('f-concesiones').addEventListener('change', (ev) => mapa.aplicar({ concesiones: ev.target.checked }));
   $('f-barrios').addEventListener('change', (ev) => mapa.aplicar({ barrios: ev.target.checked }));
 
-  // ---- tiempo sin producir (serie mensual; tramos definidos en data.js) ----
+  // ---- tiempo sin producir (serie mensual; tramos en data.js): un botón por tramo, con su barra. Tocarlo filtra;
+  // tocarlo de nuevo saca el filtro. La barra va en dos tonos: tinta = el resto, gris = ya declarados abandonados.
   const T = resumen.trayectoria;
+  let botonesTramo = [];
   if (T) {
-    const porTramo = contar(pozos.cols.tramo_sp, TRAMOS_SIN_PRODUCIR.length);
     const etiquetas = {
       ultimo_anio: 'Produjo en los últimos 12 meses',
       '1_a_5': 'Entre 1 y 5 años sin producir',
       mas_de_5: 'Más de 5 años sin producir',
       nunca: `Ningún mes de producción desde ${T.cobertura.desde.slice(0, 4)}`,
     };
-    const sel = $('f-sinprod');
-    TRAMOS_SIN_PRODUCIR.forEach((clave, i) => {
-      const o = document.createElement('option');
-      o.value = i; o.textContent = `${etiquetas[clave]} (${fmt(porTramo[i])})`;
-      sel.appendChild(o);
+    const nota = $('f-sinprod-nota');
+    botonesTramo = TRAMOS_SIN_PRODUCIR.map((clave, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tramo';
+      b.dataset.etiqueta = etiquetas[clave];
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = `<span class="tramo-fila">${etiquetas[clave]}<span class="cuenta"></span></span><span class="pista" aria-hidden="true"><span class="pista-resto"></span><span class="pista-ab"></span></span>`;
+      b.addEventListener('click', () => mapa.aplicar({ sinProducir: mapa.estado.sinProducir === i ? null : i }));
+      $('f-sinprod').insertBefore(b, nota);
+      return b;
     });
-    $('f-sinprod-nota').textContent = `Según la producción mensual declarada, de ${mesAnio(T.cobertura.desde)} a ${mesAnio(T.cobertura.hasta)}.`;
-    sel.addEventListener('change', (ev) => mapa.aplicar({ sinProducir: numONull(ev.target.value) }));
+    nota.textContent = `En gris, los que la operadora ya declaró abandonados. Tocá una barra para filtrar el mapa. Según la producción mensual declarada, de ${mesAnio(T.cobertura.desde)} a ${mesAnio(T.cobertura.hasta)}.`;
   } else {
-    $('f-sinprod').closest('.filtro').classList.add('hidden');
+    $('f-sinprod').classList.add('hidden');
   }
 
   $('n-total').textContent = fmt(pozos.n);
@@ -107,14 +127,28 @@ export function montarExploracion({ mapa, pozos, resumen }) {
       + estados.filter((x) => c[x.cod] > 0).map((x) => `<div class="ley-item${e.estadosVisibles.has(x.cod) ? '' : ' apagado'}"><span class="ley-dot" style="background:${x.hex}"></span>${x.nombre}<b>${fmt(c[x.cod])}</b></div>`).join('')
       + (e.concesiones && e.soloId === null ? leyendaSinConcesion(mapa.sinConcesion) : '')
       + (e.poblacion ? leyendaPoblacion() : '');
+    const suma = estados.reduce((s, x) => s + c[x.cod], 0);
     for (const x of estados) {
       $(`est-${x.cod}`).checked = e.estadosVisibles.has(x.cod);
       cuentaEstado.get(x.cod).textContent = fmt(c[x.cod]);
+      pctEstado.get(x.cod).textContent = suma ? pct(c[x.cod], suma) : '';
+      const seg = segmentos.get(x.cod);
+      seg.style.flexGrow = c[x.cod];
+      seg.hidden = c[x.cod] === 0;
+      seg.classList.toggle('apagado', !e.estadosVisibles.has(x.cod));
     }
+    const ct = mapa.conteosTramo, ab = mapa.tramoAbandonados;
+    const mayor = Math.max(1, ...ct);
+    botonesTramo.forEach((b, i) => {
+      b.setAttribute('aria-pressed', String(e.sinProducir === i));
+      b.setAttribute('aria-label', `${b.dataset.etiqueta}: ${fmt(ct[i])} pozos${ab[i] ? `, ${fmt(ab[i])} ya declarados abandonados` : ''}`);
+      b.querySelector('.cuenta').textContent = fmt(ct[i]);
+      b.querySelector('.pista-resto').style.width = `${((ct[i] - ab[i]) / mayor) * 100}%`;
+      b.querySelector('.pista-ab').style.width = `${(ab[i] / mayor) * 100}%`;
+    });
     $('f-empresa').value = e.empresa ?? '';
     $('f-yacimiento').value = e.yacimiento ?? '';
     $('f-provincia').value = e.provincia ?? '';
-    $('f-sinprod').value = e.sinProducir ?? '';
     $('f-poblacion').checked = e.poblacion;
     $('f-barrios').checked = e.barrios;
     $('f-concesiones').checked = e.concesiones;
@@ -311,6 +345,15 @@ export function montarExploracion({ mapa, pozos, resumen }) {
 function hayFiltros(e) {
   return e.empresa !== null || e.yacimiento !== null || e.provincia !== null || e.sinProducir !== null
     || ESTADOS.some((x) => !e.estadosVisibles.has(x.cod));
+}
+
+/** Porcentaje entero para el panel («36 %»); los extremos no se redondean a 0 ni a 100. */
+function pct(n, total) {
+  const p = (n * 100) / total;
+  if (n === 0) return '0 %';
+  if (p < 1) return '<1 %';
+  if (p > 99 && n < total) return '>99 %';
+  return `${Math.round(p)} %`;
 }
 
 function leyendaSinConcesion(n) {

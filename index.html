@@ -76,11 +76,11 @@
         <option value="2">Santa Cruz</option>
       </select>
     </div>
-    <div class="filtro">
-      <label for="f-sinprod">Tiempo sin producir</label>
-      <select id="f-sinprod"><option value="">Todos</option></select>
+    <fieldset id="f-sinprod" class="filtro">
+      <legend>Tiempo sin producir</legend>
+      <!-- se llena desde explore.js: un botón por tramo, con su conteo y su barra -->
       <p class="nota" id="f-sinprod-nota"></p>
-    </div>
+    </fieldset>
     <div class="filtro filtro-inline">
       <input type="checkbox" id="f-poblacion">
       <label for="f-poblacion">Ver población por radio censal (Comodoro)</label>
