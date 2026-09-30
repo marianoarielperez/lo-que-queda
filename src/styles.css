@@ -228,6 +228,12 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 .ventana .cerrar { position: absolute; top: 6px; right: 8px; z-index: 1; width: 44px; height: 44px; border: 0; background: none; font-size: 26px; line-height: 1; cursor: pointer; color: var(--texto-sec); }
 .ventana .cerrar:hover { color: var(--texto); }
 html:has(.ventana[open]) { overflow: hidden; } /* la página de atrás no se desplaza */
+/* Ventana del video (#video): se ajusta al video 16:9; el reproductor lo crea navegacion.js al abrirla */
+.ventana.ventana-video { width: min(1000px, calc(100vw - 32px)); height: fit-content; max-height: none; margin: auto; }
+.ventana.ventana-video .ventana-cuerpo { height: auto; padding: 16px 20px 20px; }
+.video-titulo { margin: 0 44px 12px 0; font-family: var(--serif); font-size: 21px; font-weight: 600; line-height: 1.2; }
+.video-marco { position: relative; aspect-ratio: 16 / 9; background: var(--texto); border-radius: 4px; overflow: hidden; }
+.video-marco iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .metodologia h2 { margin: 0 40px 12px 0; font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.15; }
 .metodologia h3 { margin: 28px 0 8px; font-family: var(--serif); font-size: 21px; font-weight: 600; line-height: 1.2; }
 .metodologia p { margin: 0 0 12px; }

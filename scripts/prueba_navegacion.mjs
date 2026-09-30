@@ -155,6 +155,29 @@ async function bajarHastaElFinal(page) {
   await page.close();
 }
 
+// ---- Video (ventana #video desde la portada) ----
+{
+  const page = await pagina(BASE);
+  const video = () => page.evaluate(() => {
+    const d = document.getElementById('ventana-video');
+    const f = document.activeElement;
+    return { abierta: d.open, src: d.querySelector('iframe')?.src || '', hash: location.hash, foco: f?.dataset?.abrir || f?.tagName };
+  });
+  let v = await video();
+  ok(!v.abierta && v.src === '', 'sin abrir la ventana no se carga nada de YouTube');
+  await page.click('.accesos [data-abrir="video"]');
+  await espera(600);
+  v = await video();
+  ok(v.abierta && v.hash === '#video', 'el link de la portada abre la ventana del video (#video)');
+  ok(v.src.startsWith('https://www.youtube-nocookie.com/embed/') && v.src.includes('autoplay=1'), `reproductor sin cookies y con arranque automático (${v.src.split('?')[0]})`);
+  await page.keyboard.press('Escape');
+  await espera(600);
+  v = await video();
+  ok(!v.abierta && v.src === '' && v.hash === '', 'Escape la cierra, borra el reproductor y vuelve a la portada');
+  ok(v.foco === 'video', `el foco vuelve al link del video (${v.foco})`);
+  await page.close();
+}
+
 // ---- Satélite y ubicación (visualizador) ----
 {
   const ctx = await browser.createBrowserContext();

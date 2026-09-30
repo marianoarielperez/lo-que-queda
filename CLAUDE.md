@@ -191,6 +191,12 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   armado en el navegador (UTF-8 con BOM). Se descartó un selector de año «Así se apagó la cuenca»: la cantidad de pozos que
   producen casi no cambia en la cuenca (13.799 en 2011, 14.094 en 2025; cae el volumen, no los pozos); en el ejido sí baja
   (750 → 567). Las dos series quedan en `trayectoria.produjeron_por_anio` y `ejido_produjeron_por_anio` para una tarjeta.
+- 30/09: portada con «Ver el video (1 min)» (junto a «Ir directo al mapa · Metodología»): ventana `#video` (`<dialog
+  id="ventana-video" data-youtube="…">`) que maneja `navegacion.js` como la Metodología (dirección, «Atrás», Escape, foco;
+  `data-abrir="video"`, `data-cerrar-ventana`). El reproductor de youtube-nocookie.com se crea al abrirla (autoplay con el
+  clic) y se borra al cerrarla: sin abrirla no se carga nada de YouTube. Es la única excepción a «sin cookies», aclarada en
+  la Metodología (Créditos y licencias). El video está en el canal anónimo «Lo que queda... cuando el petróleo se va»
+  (@lo-que-queda-2026, youtu.be/BlxDtqlmNEY): para cambiarlo, solo `data-youtube`.
 - 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
   (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
   Los pozos se quedan.». Los autores descartaron apagar los activos. Salieron de la tarjeta 13.018, el ritmo de abandonos y los

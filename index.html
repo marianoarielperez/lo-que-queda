@@ -37,6 +37,8 @@
         <a href="#explorar" class="enlace-chico" data-ir="explorar">Ir directo al mapa</a>
         <span aria-hidden="true">·</span>
         <a href="#metodologia" class="enlace-chico" data-abrir="metodologia">Metodología</a>
+        <span aria-hidden="true">·</span>
+        <a href="#video" class="enlace-chico" data-abrir="video">Ver el video (1 min)</a>
       </p>
       <p class="fuente" id="portada-fuente"></p>
     </div></section>
@@ -149,7 +151,7 @@
   </dialog>
 
   <dialog id="ventana-metodologia" class="ventana" aria-labelledby="metodologia-titulo">
-    <button type="button" class="cerrar" data-cerrar-metodologia aria-label="Cerrar la metodología">×</button>
+    <button type="button" class="cerrar" data-cerrar-ventana aria-label="Cerrar la metodología">×</button>
     <div class="ventana-cuerpo metodologia">
       <h2 id="metodologia-titulo">Metodología y fuentes</h2>
       <p class="pendiente">Párrafo de apertura: lo escriben los autores.</p>
@@ -219,12 +221,24 @@
         <li>Fotos: Pozo N° 2, diciembre de 1907, Fototeca de Comodoro Rivadavia – Archivo Histórico Municipal (negativo cedido por el Archivo General de la Nación). Comodoro Rivadavia hoy: gentileza El Patagónico. Historias del paso 7: El Patagónico (Stella Maris), ADNSUR (Km 3 y Km 5), El Extremo Sur (Bella Vista), Municipalidad de Comodoro Rivadavia (Zona Central), un vecino damnificado (Sismográfica) y Google Earth, imagen © 2026 Airbus (Presidente Ortiz). Paso 8: Mauro Esains.</li>
         <li>Mapa base: <a href="https://openfreemap.org/">OpenFreeMap</a>, con datos de <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (ODbL) y <a href="https://openmaptiles.org/">OpenMapTiles</a>.</li>
         <li>Imagen satelital (visualizador): © Esri — Esri, Vantor, Earthstar Geographics y la comunidad de usuarios GIS.</li>
-        <li>Privacidad: si pedís tu ubicación en el visualizador, se usa solo en tu dispositivo para mostrarte en el mapa; no se guarda, no se envía y no se calcula nada con ella.</li>
+        <li>Privacidad: si pedís tu ubicación en el visualizador, se usa solo en tu dispositivo para mostrarte en el mapa; no se guarda, no se envía y no se calcula nada con ella. El video de la portada está en YouTube, en su modo de privacidad mejorada (youtube-nocookie.com): se carga solo si abrís su ventana, y al reproducirlo YouTube puede guardar datos en tu navegador.</li>
+        <li>Música del video: «Phase Shift», de Scott Buckley (CC BY 4.0, <a href="https://www.scottbuckley.com.au/">scottbuckley.com.au</a>).</li>
         <li>Tipografías: Fraunces y Source Sans 3 (SIL Open Font License; licencias en <code>public/fonts/</code>).</li>
         <li>Programas: MapLibre GL JS (BSD-3-Clause), deck.gl (MIT), D3 (ISC), Scrollama (MIT), Vite (MIT).</li>
         <li>Esta pieza: código con licencia MIT; datos derivados con licencia CC-BY 4.0, citando las fuentes de arriba.</li>
         <li class="pendiente">Enlace al repositorio con el código y los datos (tarea 1.6).</li>
       </ul>
+    </div>
+  </dialog>
+
+  <!-- Ventana del video (…/#video): la abre y la cierra src/navegacion.js. El reproductor de YouTube (modo de privacidad
+       mejorada) se crea al abrirla y se borra al cerrarla, así el video se detiene y no se carga nada de YouTube antes.
+       Para cambiar el video, basta con cambiar data-youtube (el identificador del link youtu.be/…). -->
+  <dialog id="ventana-video" class="ventana ventana-video" aria-labelledby="video-titulo" data-youtube="BlxDtqlmNEY">
+    <button type="button" class="cerrar" data-cerrar-ventana aria-label="Cerrar el video">×</button>
+    <div class="ventana-cuerpo">
+      <h2 id="video-titulo" class="video-titulo">Lo que queda, en un minuto</h2>
+      <div class="video-marco"></div>
     </div>
   </dialog>
 
