@@ -44,9 +44,10 @@ Marcar con [x] al terminar. Cada tarea termina con `npm run build` sin errores y
 - [x] 2.8 (26/09: `pct()` en `data.js`; GSJ y Neuquina etiquetadas, las otras tres con una sola etiqueta en gris) Gráfico del paso 1: las etiquetas de Cuyana/Austral/Noroeste se pisan; apilarlas o dejar solo
       GSJ y Neuquina etiquetadas. Porcentajes con coma decimal ("22,8 %") en vez de punto.
 - [x] 2.9a Tarjetas 2 y 4 con la frase de trayectoria ("no registran ni un mes de producción desde 2017").
-- [x] 2.9c Tarjeta 7 con ritmo de declaraciones de abandono (calculado en `story.js` desde `abandonados_por_anio_de_declaracion`).
-- [ ] 2.9b (PARCIAL 26/09: filtro hecho, `cols.tramo_sp` en `data.js`; el gráfico chico espera la decisión sobre `pab`,
-      ver `docs/revision-2026-09-26.md` §C) Filtro "tiempo sin producir" en el panel (`meses_cod`: 65535 = nunca en la serie) con cuatro
+- [x] 2.9c (28/09: el ritmo salió de las tarjetas; 30/09: no vuelve) Tarjeta 7 con ritmo de declaraciones de abandono (calculado en `story.js` desde `abandonados_por_anio_de_declaracion`).
+- [x] 2.9b (30/09: los tramos son botones con barra en el panel y la serie arranca en 2011, así que el último tramo es «nunca
+      desde 2011». El gráfico chico de abandonos por año queda DESCARTADO por los autores: cargas administrativas como la de
+      CAPSA en 2012 y 807 pozos con `pab` que hoy no están abandonados) Filtro "tiempo sin producir" en el panel (`meses_cod`: 65535 = nunca en la serie) con cuatro
       tramos: menos de 1 año / 1–5 / 5–9 / nunca desde 2017. Gráfico chico de `abandonados_por_anio_de_declaracion`.
 - [ ] 2.11 Tarjeta 5 quedó larga (~110 palabras) con los barrios: Aldana decide qué sacar o si los barrios
       van en una tarjeta propia entre la 5 y la 6. Etiquetas de nombre de barrio al hacer zoom (`TextLayer`).

@@ -776,6 +776,9 @@ def main(check=False):
             "nunca_en_serie": int(g.ultima_prod.isna().sum()),
             "nunca_en_serie_por_grupo": {k: int((g.ultima_prod.isna() & (g.grupo == k)).sum()) for k in GRUPO_ORDEN[:4]},
             "nunca_en_serie_no_abandonados": int((g.ultima_prod.isna() & g.grupo.isin(["Inactivo", "A abandonar"])).sum()),
+            # tarjeta 3 (30/09): solo pozos hechos para producir; los inyectores, acuíferos y sumideros no producen por diseño
+            "nunca_en_serie_no_abandonados_petroleo_gas": int((g.ultima_prod.isna() & g.grupo.isin(["Inactivo", "A abandonar"])
+                                                              & g.tipopozo.isin(["Petrolífero", "Gasífero"])).sum()),
             "produjeron_ultimos_12_meses": int((g.meses_desde_ultima_prod <= 12).sum()),
             "sin_producir_1_a_5_anios": int(((g.meses_desde_ultima_prod > 12) & (g.meses_sin_producir < 60)).sum()),
             "sin_producir_mas_de_5_anios": int((g.meses_sin_producir >= 60).sum()),
@@ -875,7 +878,7 @@ def main(check=False):
              f"| Pozos país con coordenadas | {fmt(len(pp))} |",
              f"| Concesiones GSJ / pozos en área sin concesión | {resumen['concesiones']['poligonos'] if conc is not None else '-'} / {fmt(resumen['concesiones']['pozos_en_area_sin_concesion']) if conc is not None else '-'} |",
              f"| Mensual: cobertura | {cobertura_mensual if mens is not None else 'sin archivo'} |",
-             f"| Pozos sin ningún mes de producción en la serie | {fmt(resumen['trayectoria']['nunca_en_serie']) if mens is not None else '-'} (no abandonados: {fmt(resumen['trayectoria']['nunca_en_serie_no_abandonados']) if mens is not None else '-'}) |",
+             f"| Pozos sin ningún mes de producción en la serie | {fmt(resumen['trayectoria']['nunca_en_serie']) if mens is not None else '-'} (no abandonados: {fmt(resumen['trayectoria']['nunca_en_serie_no_abandonados']) if mens is not None else '-'}; de esos, petrolíferos o gasíferos, tarjeta 3: {fmt(resumen['trayectoria']['nunca_en_serie_no_abandonados_petroleo_gas']) if mens is not None else '-'}) |",
              f"| Barrios con pozos | {fmt(resumen['barrios']['barrios_con_pozo']) + ' de ' + fmt(resumen['barrios']['cantidad']) + ' (' + fmt(resumen['barrios']['pozos_en_barrios']) + ' pozos)' if barrios is not None else '-'} |",
              f"| EPH Comodoro–Rada Tilly | {eph_linea} |",
              f"| Zona norte: barrios con pozos / pozos (abandonados, activos) | {zn_linea} |",

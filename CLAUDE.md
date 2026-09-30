@@ -103,7 +103,11 @@ public/img/                 fotos a 1000 px, WebP + JPEG; se generan con scripts
   producción desde 2011 (desde 2017 eran 11.243); 4.982 en el ejido (eran 5.256); 13.111 inactivos con 60 meses o más
   declarados sin producir. Abandonos por año de declaración: los 8.166 de enero de 2011 ya estaban abandonados al inicio de
   la serie (`ya_abandonados_al_inicio`: no usar como «declarados en 2011»); agosto de 2012 tiene 492 de una sola operadora
-  (CAPSA), una carga administrativa. Decir «ni un mes de producción desde 2011», nunca «no producen hace 15 años»: incluye
+  (CAPSA), una carga administrativa; además 807 pozos tienen `pab` pero hoy no figuran abandonados. Por eso los abandonos
+  por año NO van en la web (decisión de los autores, 30/09): quedan en `resumen.json` y la conciliación. Tarjeta 3 (30/09):
+  solo petrolíferos y gasíferos inactivos o a abandonar (`nunca_en_serie_no_abandonados_petroleo_gas`, 3.643; de los 9.099,
+  el resto son inyectores, «otro tipo», acuíferos y sumideros, que no producen por diseño).
+  Decir «ni un mes de producción desde 2011», nunca «no producen hace 15 años»: incluye
   pozos perforados después de 2011 (decisión de los autores). Con la descarga del 20/09, 5.322 pozos de Clear, Roch, Azruge
   y Pilgrim figuraban «sin declarar después de julio de 2026» porque declararon agosto tarde; `dejaron_de_declararse`
   bajó de 9.598 a 4.359.

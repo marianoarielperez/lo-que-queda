@@ -27,7 +27,7 @@ Opción A: relato primero, mapa después. Una página; el mapa ocupa la pantalla
 |---|---|---|---|
 | 0 | Portada | Mapa papel; título | — |
 | 1 | País | Gráfico de producción por cuenca 2006–último año completo | GSJ: 44 % → 23 % del petróleo nacional; produce el 65 % de 2006 y cae todos los años desde 2019; Neuquina 218 % de 2006 y 73,7 % del total (Vaca Muerta) |
-| 2 | Cuenca | Puntos por estado | 44.390 pozos; 15.880 activos, 15.894 inactivos, 1.444 a abandonar, 11.161 abandonados; de los 36.507 que ya figuraban en 2006 producen 7.459 (extracción efectiva); 11.243 no abandonados sin un mes de producción desde 2017 |
+| 2 | Cuenca | Puntos por estado | 44.390 pozos; 15.880 activos, 15.894 inactivos, 1.444 a abandonar, 11.161 abandonados; de los 36.507 que ya figuraban en 2006 producen 7.459 (extracción efectiva); 3.643 pozos de petróleo o gas inactivos o a abandonar sin un mes de producción desde 2011 (30/09; antes 11.243 de todo tipo desde 2017) |
 | 3 | Operadoras | Puntos por operadora, antes/después | 21.509 pozos de YPF → 0; 251 sin empresa (179 abandonados) |
 | 4 | Ejido | Límite del ejido + radios urbanos + población | 6.205 pozos; 817 activos, 574 producen; 84.519 personas (42,0 % de Comodoro) en radios con pozo |
 | 5 | Zona norte | Barrios al norte del cerro Chenque (lista municipal); pozos fuera de ellos atenuados | 33 de 36 barrios con pozos; 2.370 pozos (1.801 abandonados, 95 activos); 86,1 % de los vecinos en barrios con 10 o más; Astra 492 pozos y 328 hab.; Mosconi (Km 3, Pozo N° 2) 195 y ninguno activo |

@@ -25,7 +25,7 @@ Generado: 2026-09-30
 | Pozos país con coordenadas | 85.609 |
 | Concesiones GSJ / pozos en área sin concesión | 55 / 2.207 |
 | Mensual: cobertura | {'desde': '2011-01', 'hasta': '2026-08', 'pozos_con_registro': 44437} |
-| Pozos sin ningún mes de producción en la serie | 22.258 (no abandonados: 9.099) |
+| Pozos sin ningún mes de producción en la serie | 22.258 (no abandonados: 9.099; de esos, petrolíferos o gasíferos, tarjeta 3: 3.643) |
 | Barrios con pozos | 52 de 77 (2.507 pozos) |
 | EPH Comodoro–Rada Tilly | 2026T2: 9,2 % (IC 90 %: 3,8–14,6; CV 35,5 %); último valor mayor: 2005T4 (9,3 %, 20,5 años antes) |
 | Zona norte: barrios con pozos / pozos (abandonados, activos) | 33 de 36 / 2.370 (1.801, 95) |

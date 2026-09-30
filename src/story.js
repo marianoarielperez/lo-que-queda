@@ -99,7 +99,7 @@ export function definirPasos(R) {
     {
       id: 3, kicker: 'Paso 3 · Cuenca', cifra: fmt(c.total),
       titulo: 'pozos registrados. Es la cuenca con más pozos del país',
-      texto: `Dos de cada tres no producen: ${fmt(c.Inactivo)} inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo que cada operadora declara ante la Secretaría de Energía. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Y ${fmt(t.nunca_en_serie_no_abandonados)} pozos que no están declarados abandonados no registran ni un mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
+      texto: `Dos de cada tres no producen: ${fmt(c.Inactivo)} inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo que cada operadora declara ante la Secretaría de Energía. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Y ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas inactivos o a abandonar no registran ni un mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía, Capítulo IV – Pozos')],
       vista: { center: [-68.3, -46.2], zoom: 7 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
