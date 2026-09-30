@@ -1,6 +1,6 @@
 # Conciliación de cifras
 
-Generado: 2026-09-28
+Generado: 2026-09-30
 
 | Cifra | Valor |
 |---|---|
@@ -24,13 +24,13 @@ Generado: 2026-09-28
 | Con primera producción (padrón) | 44.379; ya en 2006-01: 36.507 |
 | Pozos país con coordenadas | 85.609 |
 | Concesiones GSJ / pozos en área sin concesión | 55 / 2.207 |
-| Mensual: cobertura | {'desde': '2017-01', 'hasta': '2026-08', 'pozos_con_registro': 44354} |
-| Pozos sin ningún mes de producción en la serie | 25.158 (no abandonados: 11.243) |
+| Mensual: cobertura | {'desde': '2011-01', 'hasta': '2026-08', 'pozos_con_registro': 44437} |
+| Pozos sin ningún mes de producción en la serie | 22.258 (no abandonados: 9.099) |
 | Barrios con pozos | 52 de 77 (2.507 pozos) |
 | EPH Comodoro–Rada Tilly | 2026T2: 9,2 % (IC 90 %: 3,8–14,6; CV 35,5 %); último valor mayor: 2005T4 (9,3 %, 20,5 años antes) |
 | Zona norte: barrios con pozos / pozos (abandonados, activos) | 33 de 36 / 2.370 (1.801, 95) |
 | Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | 69.219 / 59.594 (86.1 %); sin población: Chacras El Faro, Franja Forestal Cerro de la Cruz |
-| Zona norte: no dados de baja / con 60+ meses declarados sin producir | 474 / 393 |
+| Zona norte: no dados de baja / con 60+ meses declarados sin producir | 474 / 436 |
 | Censo por barrio: renglones sin polígono / renglones repartidos en 2 polígonos (su pobl no se suma dos veces) | 6 (1.596 hab.: Acceso Sur Industrial, Chacras Minas George Stephenson, Sol de Mayo y San Jorge, Chacras Oeste, Chacras Tres Pinos, Cañadones, Lotes Pastoriles Noroeste, Médanos) / 2 |
-| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | 13.018 / 9.598 |
+| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | 13.111 / 4.359 |
 | Radio urbano con más pozos | 260211203 (408 pozos, 936 hab.) |

@@ -41,7 +41,7 @@ yacimiento, provincia; capa de población; buscador por sigla; ficha al clic; co
 
 Fuentes: ver `data-pipeline/README.md`. Pipeline: `data-pipeline/procesar.py`, reproducible.
 Integrados el 20/09: Capítulo IV país con coordenadas, padrón de primera producción (serie desde
-2006-01), concesiones de explotación (SHP) y mensual por pozo 2017-01 a 2026-08 (4.873.490 filas).
+2006-01), concesiones de explotación (SHP) y mensual por pozo 2011-01 a 2026-08 (7.689.762 filas; desde el 30/09, antes 2017-01).
 Salidas en `public/data/`. Tabla de equivalencias de estados en `GRUPOS` (procesar.py) y en la
 página de metodología. Controles de calidad en `conciliacion.md` y `resumen.calidad`.
 

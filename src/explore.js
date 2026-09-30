@@ -271,7 +271,7 @@ export function montarExploracion({ mapa, pozos, resumen }) {
           ${f.pp ? `<dt>Primera producción</dt><dd>${f.pp06 ? 'ya figuraba en enero de 2006 (inicio de la serie)' : esc(f.pp)}</dd>` : ''}
           ${f.up ? `<dt>Última producción</dt><dd>${esc(f.up)}${anios ? ` · ${f.ud ? 'al menos ' : ''}${anios} ${anios === 1 ? 'año' : 'años'} sin producir` : ''}</dd>` : ''}
           ${f.ud ? `<dt>Declaración mensual</dt><dd>hasta ${mesAnio(f.ud)}; después la operadora no lo declara</dd>` : ''}
-          ${declaradoAbandonado(f)}
+          ${declaradoAbandonado(f, resumen.trayectoria?.cobertura.desde)}
           ${f.conc === false ? `<dt>Concesión</dt><dd><em>el área no figura como concesión vigente</em></dd>` : ''}
           ${f.prof ? `<dt>Profundidad</dt><dd>${fmt(f.prof)} m</dd>` : ''}
           ${f.ej ? `<dt>Ubicación</dt><dd>${f.b ? `Barrio ${esc(f.b)}, ` : ''}dentro del ejido de Comodoro Rivadavia${f.rp ? ` · radio censal con ${fmt(f.rp)} habitantes` : ''}</dd>` : ''}
@@ -367,14 +367,14 @@ function leyendaPoblacion() {
     `<div class="ley-item"><span class="ley-caja" style="background:${hex}"></span>${rotulos[i]}</div>`).join('')}</div>`;
 }
 
-// "Declarado abandonado": la serie mensual arranca en enero de 2017, así que "2017-01" significa
+// "Declarado abandonado": si `pab` es el primer mes de la serie mensual (`desde`, hoy "2011-01"), significa
 // "ya figuraba abandonado al empezar la serie", no la fecha real. Si el listado de operadoras trae
 // la fecha de abandono (pocos pozos, a veces muy viejos), se muestra esa. Solo para pozos que hoy
 // figuran abandonados: `pab` es el primer mes en ese estado, aunque después haya cambiado.
-function declaradoAbandonado(f) {
+function declaradoAbandonado(f, desde) {
   if (f.g !== 'Abandonado') return '';
   if (f.fab) return `<dt>Declarado abandonado</dt><dd>${esc(f.fab)} <em>(listado de operadoras)</em></dd>`;
-  if (f.pab === '2017-01') return '<dt>Declarado abandonado</dt><dd>ya figuraba así en enero de 2017 (inicio de la serie mensual)</dd>';
+  if (desde && f.pab === desde) return `<dt>Declarado abandonado</dt><dd>ya figuraba así en ${mesAnio(desde)} (inicio de la serie mensual)</dd>`;
   if (f.pab) return `<dt>Declarado abandonado</dt><dd>desde ${esc(f.pab)}</dd>`;
   return '';
 }

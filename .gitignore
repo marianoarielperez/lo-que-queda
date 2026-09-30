@@ -8,3 +8,5 @@ data-pipeline/_tmp_*/
 *.rar
 # Configuración local de Claude Code (no va al repo)
 .claude/
+# CSV anuales de producción de la SE (cientos de MB cada uno): se filtran con data-pipeline/filtrar_mensuales.py
+datasets-*/

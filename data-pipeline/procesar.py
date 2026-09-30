@@ -11,7 +11,8 @@ Entradas (ver README.md para de dónde sale cada una):
   raw/capitulo-iv-pozos.csv              Capítulo IV – Pozos, país entero (85.611 pozos, con geojson)
   raw/padron-primera-produccion.csv      Padrón con año/mes de primera producción (serie desde 2006-01)
   raw/concesiones-explotacion.zip        Shapefile de concesiones de explotación (polígonos con operadora)
-  raw/produccion-mensual_gsj.csv         (opcional) mensual por pozo de la cuenca, salida de filtrar_mensuales.py
+  raw/produccion-mensual_gsj*.zip        (opcional) mensual por pozo de la cuenca, salida de filtrar_mensuales.py; se leen
+                                         todos (hoy 2011–2016 y 2017–2026)
   raw/listado-pozos-operadoras_gsj.csv   Listado de pozos cargados por empresas operadoras (versión anterior), GSJ
   raw/serie-produccion-petroleo-por-cuenca.csv
   raw/limites-administrativos-2025.zip   Shapefile: ejido Comodoro, Rada Tilly, depto. Escalante
@@ -35,6 +36,7 @@ Salidas (public/data/):
   conciliacion.md                        tabla de control de calidad
 """
 import argparse
+import glob
 import io
 import json
 import os
@@ -91,8 +93,8 @@ DATASETS = [
     {"clave": "padron", "titulo": "Padrón de pozos de Capítulo IV con fecha de primera producción", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "20/09/2026", "licencia": "CC-BY 4.0",
      "uso": "mes de primera producción (la serie empieza en enero de 2006)"},
-    {"clave": "mensual", "titulo": "Producción de pozos de gas y petróleo, mensual 2017–2026", "organismo": "Secretaría de Energía",
-     "url": CAP_IV, "descarga": "20/09/2026", "licencia": "CC-BY 4.0",
+    {"clave": "mensual", "titulo": "Producción de pozos de gas y petróleo, mensual 2011–2026", "organismo": "Secretaría de Energía",
+     "url": CAP_IV, "descarga": "20/09/2026 (2017–2025) y 30/09/2026 (2011–2016 y 2026)", "licencia": "CC-BY 4.0",
      "uso": "último mes con producción y primer mes declarado como abandonado"},
     {"clave": "listado_operadoras", "titulo": "Listado de pozos cargados por empresas operadoras (actualizado el 20/10/2025)", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "18/09/2026", "licencia": "CC-BY 4.0",
@@ -240,15 +242,23 @@ def cargar_mensual():
       meses_desde_ultima_prod        calendario, del último mes con producción al último de la serie ("produjo en el último año")
       meses_declarados_sin_producir  meses con declaración y sin producción después del último con producción (o todos, si
                                      nunca produjo en la serie): lo que se puede afirmar ("más de cinco años sin producir")."""
-    # Acepta .csv, .csv.gz o .zip (pandas descomprime solo). El .gz es el que va al repo (~40 MB).
-    f = next((os.path.join(RAW, n) for n in ("produccion-mensual_gsj.csv.gz", "produccion-mensual_gsj.zip", "produccion-mensual_gsj.csv")
-              if os.path.exists(os.path.join(RAW, n))), None)
-    if f is None:
+    # Uno o más archivos por períodos que no se pisan (hoy 2011–2016 y 2017–2026, cada uno menor a 50 MB para el repo).
+    # Acepta .csv, .csv.gz o .zip (pandas descomprime solo); si un período está en dos formatos, se lee uno.
+    archivos = {}
+    for ext in (".csv", ".csv.gz", ".zip"):  # el último que aparece gana
+        for f in glob.glob(os.path.join(RAW, f"produccion-mensual_gsj*{ext}")):
+            archivos[os.path.basename(f)[: -len(ext)]] = f
+    if not archivos:
         return None, None
-    partes = []
-    for chunk in pd.read_csv(f, low_memory=False, chunksize=500_000,
-                             usecols=lambda c: c in {"idpozo", "anio", "mes", "tipoestado", "prod_pet", "prod_gas"}):
-        partes.append(chunk)
+    partes, anios_vistos = [], set()
+    for f in sorted(archivos.values()):
+        p = pd.concat(pd.read_csv(f, low_memory=False, chunksize=500_000,
+                                  usecols=lambda c: c in {"idpozo", "anio", "mes", "tipoestado", "prod_pet", "prod_gas"}),
+                      ignore_index=True)
+        anios = set(p.anio.unique())
+        assert not anios & anios_vistos, f"{os.path.basename(f)} repite años de otro archivo mensual: {sorted(anios & anios_vistos)}"
+        anios_vistos |= anios
+        partes.append(p)
     m = pd.concat(partes, ignore_index=True)
     m["t"] = m.anio * 12 + m.mes - 1
     ultimo_t = int(m.t.max())
@@ -424,7 +434,7 @@ def cargar_listado_anterior():
     old = pd.read_csv(os.path.join(RAW, "listado-pozos-operadoras_gsj.csv"), low_memory=False,
                       usecols=["idpozo", "idempresa", "adjiv_fecha_abandono"])
     # fecha de abandono informada por la operadora (serial de Excel; solo la tiene ~3 % de los pozos).
-    # Es la única fuente de fechas de abandono anteriores a 2017, cuando arranca la serie mensual.
+    # Es la única fuente de fechas de abandono anteriores al comienzo de la serie mensual (enero de 2011).
     f = pd.Timestamp("1899-12-30") + pd.to_timedelta(old.adjiv_fecha_abandono, unit="D")
     f = f.where(f >= pd.Timestamp("1907-01-01"))
     old["fecha_abandono_listado"] = f.dt.strftime("%Y-%m-%d")
@@ -782,7 +792,8 @@ def main(check=False):
             "ejido_nunca_en_serie": int((g.ultima_prod.isna() & g.en_ejido).sum()),
             "ejido_nunca_en_serie_no_abandonados": int((g.ultima_prod.isna() & g.en_ejido & g.grupo.isin(["Inactivo", "A abandonar"])).sum()),
             "con_primer_abandono": int(g.primer_abandono.notna().sum()),
-            "abandonados_declarados_desde_2017": int(g.primer_abandono.notna().sum()),
+            # los que ya figuraban abandonados el primer mes de la serie: no es su fecha de abandono, es "ya estaban"
+            "ya_abandonados_al_inicio": int((g.primer_abandono == cobertura_mensual["desde"]).sum()),
             "abandonados_por_anio_de_declaracion": g.primer_abandono.dropna().str[:4].value_counts().sort_index().to_dict(),
         },
         "barrios": None if barrios is None else {

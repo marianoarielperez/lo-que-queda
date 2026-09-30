@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-28",
+ "generado": "2026-09-30",
  "fuentes": {
   "pozos": "Secretaría de Energía, Capítulo IV – Pozos (datos.energia.gob.ar), descargado 18/09/2026, CC-BY 4.0",
   "listado_anterior": "Secretaría de Energía, Listado de pozos cargados por empresas operadoras (actualizado 20/10/2025)",
@@ -493,46 +493,52 @@
  },
  "trayectoria": {
   "cobertura": {
-   "desde": "2017-01",
+   "desde": "2011-01",
    "hasta": "2026-08",
-   "pozos_con_registro": 44354
+   "pozos_con_registro": 44437
   },
   "nota": "ultima_prod = último mes con petróleo o gas > 0 dentro de la cobertura; 'nunca_en_serie' = ningún mes con producción en toda la cobertura; 'más de 5 años' = 60 meses o más declarados sin producir (no cuentan los meses en que la operadora ya no declara el pozo)",
-  "dejaron_de_declararse": 9598,
-  "con_ultima_prod": 19232,
-  "nunca_en_serie": 25158,
+  "dejaron_de_declararse": 4359,
+  "con_ultima_prod": 22132,
+  "nunca_en_serie": 22258,
   "nunca_en_serie_por_grupo": {
-   "Activo": 2942,
-   "Inactivo": 10029,
-   "A abandonar": 1214,
-   "Abandonado": 10962
+   "Activo": 2453,
+   "Inactivo": 7998,
+   "A abandonar": 1101,
+   "Abandonado": 10695
   },
-  "nunca_en_serie_no_abandonados": 11243,
-  "produjeron_ultimos_12_meses": 13778,
-  "sin_producir_1_a_5_anios": 2978,
-  "sin_producir_mas_de_5_anios": 2476,
-  "sin_producir_mas_de_5_anios_no_abandonados": 2333,
+  "nunca_en_serie_no_abandonados": 9099,
+  "produjeron_ultimos_12_meses": 13779,
+  "sin_producir_1_a_5_anios": 2990,
+  "sin_producir_mas_de_5_anios": 5363,
+  "sin_producir_mas_de_5_anios_no_abandonados": 4953,
   "inactivos_por_tiempo_sin_producir": {
-   "menos_de_1_anio": 1589,
-   "1_a_5_anios": 2598,
-   "5_a_9_anios": 1908,
-   "nunca_en_serie": 11243,
-   "nunca_en_serie_60_meses_declarados": 11110,
-   "mas_de_5_anios": 13018
+   "menos_de_1_anio": 1590,
+   "1_a_5_anios": 2601,
+   "5_a_9_anios": 4048,
+   "nunca_en_serie": 9099,
+   "nunca_en_serie_60_meses_declarados": 9063,
+   "mas_de_5_anios": 13111
   },
-  "ejido_nunca_en_serie": 5256,
-  "ejido_nunca_en_serie_no_abandonados": 1509,
-  "con_primer_abandono": 11282,
-  "abandonados_declarados_desde_2017": 11282,
+  "ejido_nunca_en_serie": 4982,
+  "ejido_nunca_en_serie_no_abandonados": 1324,
+  "con_primer_abandono": 11968,
+  "ya_abandonados_al_inicio": 8166,
   "abandonados_por_anio_de_declaracion": {
-   "2017": 9895,
-   "2018": 284,
-   "2019": 272,
-   "2020": 96,
-   "2021": 99,
-   "2022": 127,
-   "2023": 202,
-   "2024": 136,
+   "2011": 8495,
+   "2012": 880,
+   "2013": 153,
+   "2014": 318,
+   "2015": 195,
+   "2016": 325,
+   "2017": 229,
+   "2018": 281,
+   "2019": 271,
+   "2020": 95,
+   "2021": 97,
+   "2022": 124,
+   "2023": 200,
+   "2024": 134,
    "2025": 136,
    "2026": 35
   }
@@ -681,7 +687,7 @@
   "pobl_en_barrios_con_10_o_mas_pct": 86.1,
   "barrio_pozo_2": "General Enrique Mosconi",
   "no_dados_de_baja": 474,
-  "no_dados_de_baja_5_anios": 393,
+  "no_dados_de_baja_5_anios": 436,
   "no_dados_de_baja_por_estado": {
    "En Estudio": 263,
    "En Reserva para Recup. Sec./Asist.": 101,
@@ -1191,10 +1197,10 @@
   },
   {
    "clave": "mensual",
-   "titulo": "Producción de pozos de gas y petróleo, mensual 2017–2026",
+   "titulo": "Producción de pozos de gas y petróleo, mensual 2011–2026",
    "organismo": "Secretaría de Energía",
    "url": "http://datos.energia.gob.ar/dataset/c846e79c-026c-4040-897f-1ad3543b407c",
-   "descarga": "20/09/2026",
+   "descarga": "20/09/2026 (2017–2025) y 30/09/2026 (2011–2016 y 2026)",
    "licencia": "CC-BY 4.0",
    "uso": "último mes con producción y primer mes declarado como abandonado"
   },

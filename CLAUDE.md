@@ -96,11 +96,17 @@ public/img/                 fotos a 1000 px, WebP + JPEG; se generan con scripts
   OJO: la serie arranca en 2006-01; "ya en 2006" no es una fecha de perforación.
 - Concesiones de explotación (SHP) → `concesiones.geojson`, capa en paso 3 y en el panel; `conc` en la ficha;
   `resumen.concesiones` (2.207 pozos en áreas que no figuran como concesión vigente).
-- Mensual por pozo 2017-01 → 2026-08 (`raw/produccion-mensual_gsj.zip`, 41 MB; el pipeline lo lee
-  comprimido) → `meses_cod` en el binario (65535 = sin ningún mes de producción en la serie), `up`/`msp`/`pab`
-  en la ficha, `resumen.trayectoria`. Hallazgos: 11.243 pozos no abandonados sin un mes de producción desde
-  2017; 13.018 inactivos hace más de 5 años (desde el 27/09, solo meses declarados: antes daba 13.175); ~169 declaraciones de abandono por año entre 2018 y 2025 (los
-  9.895 de "2017" ya estaban abandonados al inicio de la serie: no usar ese año como "declarados en 2017").
+- Mensual por pozo 2011-01 → 2026-08 (desde el 30/09; antes arrancaba en 2017): `raw/produccion-mensual_gsj_2011-2016.zip`
+  (22,5 MB) + `raw/produccion-mensual_gsj.zip` (2017–2026, 41,5 MB; 2026 bajado de nuevo el 30/09 con agosto completo);
+  el pipeline lee todos los `produccion-mensual_gsj*` → `meses_cod` en el binario (65535 = sin ningún mes de producción en
+  la serie), `up`/`msp`/`pab` en la ficha, `resumen.trayectoria`. Hallazgos (30/09): 9.099 pozos no abandonados sin un mes de
+  producción desde 2011 (desde 2017 eran 11.243); 4.982 en el ejido (eran 5.256); 13.111 inactivos con 60 meses o más
+  declarados sin producir. Abandonos por año de declaración: los 8.166 de enero de 2011 ya estaban abandonados al inicio de
+  la serie (`ya_abandonados_al_inicio`: no usar como «declarados en 2011»); agosto de 2012 tiene 492 de una sola operadora
+  (CAPSA), una carga administrativa. Decir «ni un mes de producción desde 2011», nunca «no producen hace 15 años»: incluye
+  pozos perforados después de 2011 (decisión de los autores). Con la descarga del 20/09, 5.322 pozos de Clear, Roch, Azruge
+  y Pilgrim figuraban «sin declarar después de julio de 2026» porque declararon agosto tarde; `dejaron_de_declararse`
+  bajó de 9.598 a 4.359.
 
 - Barrios de Comodoro (`raw/limites-barrios-2026.gpkg`, 77 polígonos) → `barrios.geojson`, `b` en la ficha,
   capa en pasos 5 y 6 y en el panel, `resumen.barrios` (2.507 pozos en 52 barrios; Astra 492, Don Bosco 364,
@@ -118,7 +124,8 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
 - Portada: texto de `textoPortada()` (story.js) con `resumen.eph` (EPH del INDEC, Comodoro–Rada Tilly). Por el
   error muestral de la EPH, nunca decir cuánto subió la desocupación ni atribuirla al petróleo; ver
   `docs/investigacion-contexto.md`.
-- Fechas en la ficha: `pab` sale de la serie mensual, así que "2017-01" = ya abandonado al inicio de la serie.
+- Fechas en la ficha: `pab` sale de la serie mensual, así que el primer mes de la serie ("2011-01") = ya abandonado al
+  inicio de la serie (`declaradoAbandonado()` lo toma de `trayectoria.cobertura.desde`).
   `fab` = fecha de abandono del listado de operadoras (solo ~1.200 pozos). Fechas de perforación anteriores al
   1/1/1907 se descartan como relleno (el Pozo N° 2, idpozo 121014, se perforó desde marzo de 1907).
 

@@ -14,7 +14,8 @@ python procesar.py --check
 | `capitulo-iv-pozos.csv` | Secretaría de Energía, dataset "Producción de petróleo y gas por pozo (Capítulo IV)", recurso "Capítulo IV – Pozos" (CSV, 34 MB, 85.611 pozos con geojson) | Descarga directa (18/09/2026; fecha confirmada el 27/09). El script filtra la cuenca solo |
 | `padron-primera-produccion.csv` | Mismo dataset, "Padrón de Pozos de Capítulo IV con fecha de primera producción" | Descarga directa (20/09/2026). La serie arranca en 2006-01: ese valor significa "ya figuraba al inicio de la serie" |
 | `concesiones-explotacion.zip` | Dataset "Producción de hidrocarburos – Concesiones de Explotación" (SHP) | Descarga directa (20/09/2026); 297 polígonos país, 55 en la cuenca |
-| `produccion-mensual_gsj.zip` | Mensuales "Producción de Pozos de Gas y Petróleo – AAAA", 2017 a 2026 | `python filtrar_mensuales.py` → 4.873.490 filas, comprimido (41 MB). El script lo lee comprimido |
+| `produccion-mensual_gsj.zip` | Mensuales "Producción de Pozos de Gas y Petróleo – AAAA" (dataset [Producción de petróleo y gas por pozo](http://datos.energia.gob.ar/dataset/produccion-de-petroleo-y-gas-por-pozo)), 2017 a 2026 | `python filtrar_mensuales.py` (filtra `cuenca == GOLFO SAN JORGE`). 2017–2025 bajados el 20/09/2026; 2026 reemplazado el 30/09/2026 por la descarga de ese día (agosto completo: +5.322 filas de operadoras que lo declararon tarde). 4.878.812 filas, 41,5 MB |
+| `produccion-mensual_gsj_2011-2016.zip` | Los mismos mensuales, 2011 a 2016 (bajados el 30/09/2026) | `python filtrar_mensuales.py` sobre los seis CSV anuales → 2.810.950 filas, 22,5 MB. `procesar.py` lee todos los `produccion-mensual_gsj*` y verifica que no repitan años. Los CSV anuales (~270 MB cada uno) no van al repo (`datasets-*/` en `.gitignore`) |
 | `listado-pozos-operadoras_gsj.csv` | Mismo dataset, recurso "Listado de pozos cargados por empresas operadoras" (actualizado 20/10/2025) | Filtrado por `idcuenca == GSJ` |
 | `serie-produccion-petroleo-por-cuenca.csv` | Mismo dataset, "Serie histórica de producción de petróleo por cuenca y sub-tipo de recurso" | Descarga directa |
 | `limites-administrativos-2025.zip` | datos.comodoro.gov.ar | Shapefile (ejido Comodoro Rivadavia, Rada Tilly, depto. Escalante) |
@@ -44,6 +45,19 @@ Licencias: Secretaría de Energía CC-BY 4.0; portal municipal según su licenci
 7. `resumen.json`: todas las cifras de la pieza. `conciliacion.md`: tabla de control. Cada conteo por estado
    trae además `extraccion_efectiva`: "Activo" incluye inyectores y pozos en reparación, así que solo esa
    cifra permite decir "producen" (26/09).
+
+## Correr con Docker
+
+Desde el 30/09/2026, Smart App Control de Windows bloquea las DLL de pyogrio y pyproj en la PC de Mariano. El pipeline
+corre igual en un contenedor Linux con las mismas versiones (`Dockerfile`); desde la raíz del repo:
+
+```bash
+docker build -t lo-que-queda-pipeline data-pipeline
+docker run --rm -v "C:/git/lo-que-queda:/repo" lo-que-queda-pipeline python data-pipeline/procesar.py --check
+```
+
+(En Git Bash, anteponer `MSYS_NO_PATHCONV=1`.) Da lo mismo que en Windows salvo diferencias de 10⁻¹⁴ grados en las
+coordenadas de `barrios.geojson` (redondeo de PROJ).
 
 ## Cifras de control (18/09/2026)
 
