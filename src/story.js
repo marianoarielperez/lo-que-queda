@@ -48,7 +48,7 @@ export function textoPortada(R) {
     if (anios === null || anios >= 20) desocupacion = ' y la desocupación es la más alta en décadas';
     else if (anios >= 5) desocupacion = ` y la desocupación es la más alta desde ${E.ultimo_valor_mayor.periodo.slice(0, 4)}`;
   }
-  const texto = `Comodoro Rivadavia creció al ritmo del petróleo durante más de un siglo. Los barrios se armaron al lado de los pozos, y a veces encima. Hoy la cuenca produce cada vez menos, YPF se fue${desocupacion}. Pero los pozos siguen ahí. Esta es la historia de lo que queda… cuando el petróleo se va.`;
+  const texto = `Comodoro Rivadavia creció al ritmo del petróleo durante más de un siglo. Los barrios se armaron alrededor de los pozos, y a veces encima. Hoy la cuenca produce cada vez menos, YPF se fue${desocupacion}. Pero los pozos siguen ahí. Esta es la historia de lo que queda… cuando el petróleo se va.`;
   // Partes para htmlFuente(…, ''): el texto se lee igual que antes, con los nombres enlazados.
   const fuente = ['Fuentes: ', dataset(R, 'capitulo_iv', 'Secretaría de Energía')];
   if (E) {

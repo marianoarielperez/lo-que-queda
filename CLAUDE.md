@@ -196,7 +196,7 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   `data-abrir="video"`, `data-cerrar-ventana`). El reproductor de youtube-nocookie.com se crea al abrirla (autoplay con el
   clic) y se borra al cerrarla: sin abrirla no se carga nada de YouTube. Es la única excepción a «sin cookies», aclarada en
   la Metodología (Créditos y licencias). El video está en el canal anónimo «Lo que queda... cuando el petróleo se va»
-  (@lo-que-queda-2026, youtu.be/BlxDtqlmNEY): para cambiarlo, solo `data-youtube`.
+  (@lo-que-queda-2026, youtu.be/lJ91vFpKvfM): para cambiarlo, solo `data-youtube`.
 - 30/09: fotos propias de los autores (sin crédito por foto, por el seudónimo; la Metodología dice «las fotos sin crédito son de
   los autores»): portada (restos oxidados de un aparato de bombeo en la entrada de Caleta Córdova; reemplaza la de El Patagónico)
   y pasos 3 a 6 (`fotoPropia()` en story.js: planta deshidratadora de PECOM en Km 9; letras de YPF en sus antiguos almacenes de
