@@ -117,7 +117,9 @@ Verificado con fuente oficial:
 
 Afirmación de los autores (27/09/2026), en la tarjeta 6: "Casi todos estos barrios nacieron como asentamientos petroleros"
 (Diadema, Astra, Presidente Ortiz, Don Bosco, etc.). Con fuente oficial registrada solo Astra y Km 5 (arriba).
-PENDIENTE (regla 3): sumar acá la fuente oficial que lo confirme para el conjunto. Ojo: el mismo relevamiento
+01/10: los autores lo cambiaron a «Varios de estos barrios nacieron como asentamientos petroleros» (Astra y Km 5 con
+fuente). Contexto de los autores: muchos barrios nuevos son subdivisiones de barrios grandes que adoptaron nombres nuevos;
+la población ya existía antes. (Antes: PENDIENTE, regla 3, para «casi todos».) Ojo: el mismo relevamiento
 municipal cuenta 14 barrios en Zona Norte en 2004 y 36 en 2025 (14 nuevos entre 2010 y 2022, p. ej. ARA San Juan y
 Franja Forestal Cerro de la Cruz, de 2025): la fuente tiene que explicar que "casi todos" alcanza a esos barrios.
 
@@ -195,10 +197,24 @@ Verificado con fuente oficial o institucional:
 - Profundidad del hallazgo: ~540 m (telegrama de Beghin y Fuchs: 539 m). Los 544 m del Capítulo IV serían la
   profundidad final del pozo. Máquina Fauck, límite teórico 500 m; Julio Krause ordenó seguir.
 - Perforadores: Humberto Beghin y José Fuchs. El Pozo N° 1 (1903) se abandonó a 172 m sin agua.
-- Decreto del 14/12/1907 (Figueroa Alcorta): prohíbe denuncias de pertenencias mineras y permisos de cateo en
-  un radio de 5 leguas kilométricas desde el centro del pueblo (art. 15, Ley 4.167). Sin número conocido:
-  citarlo por fecha. Texto: Favaro, Morinelli y Ragno (CEAL, 1989). No dar hectáreas (las fuentes chocan).
-- YPF: 1922 (Yrigoyen). La sigla "YPF.Ch.-2" es posterior al pozo.
+- Decreto del 14/12/1907 (Figueroa Alcorta y el ministro de Agricultura Pedro Ezcurra): decreto S/N (sin número; los
+  decretos del PEN de 1907 se citan por fecha). Art. 1º: «Queda prohibida la denuncia de pertenencias mineras y concesión
+  de permisos de cateos en el Puerto de Comodoro Rivadavia, Territorio del Chubut, en un radio de 5 leguas kilométricas, a
+  todo rumbo, contándose desde el centro de la población». Fundamento: art. 15 de la Ley 4.167 (texto oficial:
+  https://www.argentina.gob.ar/normativa/nacional/norma-285291/texto, «El P. E. podrá prohibir la denuncia de minas en los
+  territorios que explore»). 1 legua kilométrica = 5 km → radio de 25 km, desde el pueblo (no desde el pozo, como dice
+  parte de la prensa). El texto no está en línea (al Registro Nacional digitalizado le falta el 4.º trimestre de 1907): se
+  cita por Kaplan, «La primera fase de la política petrolera argentina (1907-1916)», Desarrollo Económico 13 (1974);
+  Gadano, Historia del petróleo en la Argentina 1907-1955 (2006); Favaro, Morinelli y Ragno (CEAL, 1989). Fuente oficial
+  que lo resume: Casa Rosada, 13/12/2024 («apenas notificado, decretó una reserva fiscal de 5 leguas a todo rumbo, tomando
+  como centro el de la población de Comodoro Rivadavia»),
+  https://www.casarosada.gob.ar/informacion/actividad-oficial/9-noticias/50819-dia-nacional-del-petroleo-a-117-anos-de-su-descubrimiento
+  Dachevsky (2014) lo fecha el 15/12 en una nota, pero en el cuerpo dice «un día después». No dar hectáreas (las fuentes
+  chocan: 100.000, 110.000 en tierra, 200.000). Investigaciones de los autores del 01/10/2026 (ChatGPT y Claude).
+- YPF: 3/6/1922, decreto bajo la presidencia de Hipólito Yrigoyen que crea la Dirección General de YPF. Fuentes oficiales:
+  la nota del Ministerio («Quince años después, Hipólito Yrigoyen fundó Yacimientos Petrolíferos Fiscales (YPF)», la que
+  cita la tarjeta 1) y https://www.argentina.gob.ar/noticias/3-de-junio-de-1922-creacion-de-la-direccion-general-de-ypf .
+  La sigla "YPF.Ch.-2" es posterior al pozo.
 - El sitio es hoy el Museo Nacional del Petróleo (UNPSJB), bien de interés histórico: Ley 24.799 (1997),
   https://www.argentina.gob.ar/normativa/nacional/ley-24799-42613/texto
 - Capítulo IV / listado de operadoras (Secretaría de Energía): idpozo 121014, inicio de perforación

@@ -191,7 +191,7 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   armado en el navegador (UTF-8 con BOM). Se descartó un selector de año «Así se apagó la cuenca»: la cantidad de pozos que
   producen casi no cambia en la cuenca (13.799 en 2011, 14.094 en 2025; cae el volumen, no los pozos); en el ejido sí baja
   (750 → 567). Las dos series quedan en `trayectoria.produjeron_por_anio` y `ejido_produjeron_por_anio` para una tarjeta.
-- 30/09: portada con «Ver el video (1 min)» (junto a «Ir directo al mapa · Metodología»): ventana `#video` (`<dialog
+- 30/09: portada con «Videotutorial (1 min)» (así desde el 01/10; antes «Ver el video») (junto a «Ir directo al mapa · Metodología»): ventana `#video` (`<dialog
   id="ventana-video" data-youtube="…">`) que maneja `navegacion.js` como la Metodología (dirección, «Atrás», Escape, foco;
   `data-abrir="video"`, `data-cerrar-ventana`). El reproductor de youtube-nocookie.com se crea al abrirla (autoplay con el
   clic) y se borra al cerrarla: sin abrirla no se carga nada de YouTube. Es la única excepción a «sin cookies», aclarada en
@@ -203,6 +203,12 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   Km 3; pozo CFP.Ch.SM-549 en Caleta Córdova; pozo PCR.Ch.B-41 en Gobernador Fontana). Los epígrafes solo dicen lugar y pozo:
   sin «ex YPF» (sin fuente) y sin decir que el SM-549 produzca (CRI no lo declara desde 12/2022). Exportarlas sin metadatos
   (GPS, modelo): los originales van al repo.
+- 01/10: textos de las tarjetas revisados por los autores. Paso 1: el decreto del 14/12/1907 (S/N; radio de 5 leguas
+  kilométricas = 25 km desde el pueblo, no desde el pozo) y la creación de YPF por Yrigoyen (fuentes en
+  `docs/investigacion-contexto.md`; ya no se nombra el museo ni los 540 m). Paso 2: «produce cada vez menos: desde 2019, cae
+  todos los años» (antes de 2019 hubo repuntes). Paso 3: «casi dos de cada tres» sale de `fraccionEnPalabras()`. Paso 6:
+  «Varios de estos barrios nacieron como asentamientos petroleros» (no «casi todos»). Paso 8: «entre las casas» es decisión
+  de los autores para el cierre (el satélite y las historias del paso 7); en el resto, «dentro del barrio».
 - 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
   (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
   Los pozos se quedan.». Los autores descartaron apagar los activos. Salieron de la tarjeta 13.018, el ritmo de abandonos y los

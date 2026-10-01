@@ -10,7 +10,7 @@ import { dibujarProduccion } from './chart.js';
 // docs/investigacion-contexto.md; la metodología (index.html) lista las mismas.
 const CONTEXTO = {
   minEconomia: 'https://www.argentina.gob.ar/noticias/13-de-diciembre-descubrimiento-de-petroleo-en-comodoro-rivadavia',
-  ley24799: 'https://www.argentina.gob.ar/normativa/nacional/ley-24799-42613/texto',
+  casaRosada1907: 'https://www.casarosada.gob.ar/informacion/actividad-oficial/9-noticias/50819-dia-nacional-del-petroleo-a-117-anos-de-su-descubrimiento',
   decreto135: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=88733',
   ypf20F: 'https://www.sec.gov/Archives/edgar/data/904851/000119312525067155/d866694d20f.htm',
   decreto1509: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=87339',
@@ -25,11 +25,21 @@ const CONTEXTO = {
 // Núcleo de zona norte (Km 3 a Km 8, Laprida, Castelli), elegido por los autores para las tarjetas 6 y 7: Astra, Diadema y
 // Caleta Córdova quedan afuera. [[oeste, sur], [este, norte]]; el mapa lo ajusta a cada pantalla.
 const NUCLEO_ZONA_NORTE = [[-67.601, -45.870], [-67.389, -45.769]];
-/** Foto de una historia del paso 7 (public/img/historias/, la genera scripts/optimizar_fotos.py). */
+/** Una proporción en palabras («casi dos de cada tres») si queda cerca de una fracción simple; si no, el porcentaje.
+ *  Así la frase sigue a los datos y no hay que tipearla. */
+function fraccionEnPalabras(parte, total) {
+  const r = parte / total;
+  const FRACCIONES = [[1, 4, 'uno de cada cuatro'], [1, 3, 'uno de cada tres'], [1, 2, 'uno de cada dos'], [2, 3, 'dos de cada tres'], [3, 4, 'tres de cada cuatro']];
+  const [n, d, texto] = FRACCIONES.reduce((a, b) => (Math.abs(b[0] / b[1] - r) < Math.abs(a[0] / a[1] - r) ? b : a));
+  const dif = r - n / d;
+  if (Math.abs(dif) > 0.04) return `el ${pct(r * 100)} %`;
+  return Math.abs(dif) < 0.005 ? texto : `${dif < 0 ? 'casi' : 'más de'} ${texto}`;
+}
 /** Pozos de una historia: `idpozo` es un número o, si hay varios en el mismo lugar, una lista (el marcador va en el primero). */
 const pozosDe = (h) => [].concat(h.idpozo);
 /** «a», «a y b», «a, b y c». */
 const enLista = (xs) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} y ${xs[xs.length - 1]}` : xs.join(''));
+// Foto de una historia del paso 7 (public/img/historias/, la genera scripts/optimizar_fotos.py).
 // posicion: object-position del recorte 16:9. proporcion: [ancho, alto] de la foto web cuando va con su forma propia, sin recorte
 // (la del CH-182 la recortaron los autores para que la ventana no tenga desplazamiento).
 const fotoHistoria = (archivo, alt, credito, posicion, proporcion) => ({ src: `${import.meta.env.BASE_URL}img/historias/${archivo}.jpg`, alt, credito, posicion, proporcion });
@@ -77,8 +87,11 @@ export function definirPasos(R) {
       // Hechos y fuentes: docs/investigacion-contexto.md. Texto definido por los autores el 26/09.
       id: 1, kicker: 'Paso 1 · El primer pozo', cifra: '1907',
       titulo: 'buscaban agua y encontraron petróleo',
-      texto: 'El Estado perforaba en Comodoro Rivadavia para darle agua al pueblo. La mañana del 13 de diciembre, a unos 540 metros, del Pozo N° 2 salió petróleo. Al día siguiente, un decreto del presidente Figueroa Alcorta prohibió pedir permisos mineros en cinco leguas a la redonda. En su lugar hoy está el Museo Nacional del Petróleo.',
-      fuente: [{ t: 'Ministerio de Economía', url: CONTEXTO.minEconomia }, { t: 'Ley 24.799', url: CONTEXTO.ley24799 }],
+      // Texto de los autores (01/10). El decreto es S/N del 14/12/1907 (Figueroa Alcorta–Ezcurra, art. 15 de la Ley 4.167):
+      // «en un radio de 5 leguas kilométricas, a todo rumbo, contándose desde el centro de la población»; la Casa Rosada lo
+      // resume como reserva fiscal de 5 leguas. «Quince años después, Hipólito Yrigoyen fundó YPF»: la nota del Ministerio.
+      texto: 'El 13 de diciembre, mientras se perforaba en busca de agua, del Pozo N° 2 comenzó a surgir petróleo. Al día siguiente, el presidente Figueroa Alcorta firmó un decreto que prohibía cualquier permiso minero en un radio de cinco leguas (25 km) alrededor del pueblo. Quince años después, Hipólito Yrigoyen creó Yacimientos Petrolíferos Fiscales (YPF).',
+      fuente: [{ t: 'Ministerio de Economía', url: CONTEXTO.minEconomia }, { t: 'Casa Rosada, 13/12/2024', url: CONTEXTO.casaRosada1907 }],
       foto: {
         src: `${import.meta.env.BASE_URL}img/pozo2-1907.jpg`,
         alt: 'Torre de perforación del Pozo N° 2, con carros tirados por caballos y trabajadores al pie, diciembre de 1907',
@@ -91,10 +104,11 @@ export function definirPasos(R) {
       capas: { soloId: 121014, estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
-      // Texto de los autores del 27/09. "Desde <año>" solo si la caída es de todos los años hasta el último completo.
+      // Texto de los autores (27/09; final, 01/10). "Desde <año>" solo si la caída es de todos los años hasta el último completo:
+      // antes de 2019 hubo repuntes chicos (2009, 2012, 2014, 2015, 2018), así que «cada vez menos» es la tendencia.
       id: 2, kicker: 'Paso 2 · País', cifra: `${pct(pr.gsj_pct_ref)} %`,
       titulo: 'del petróleo argentino sale hoy del Golfo San Jorge',
-      texto: `Pero en ${pr.anio_base} era el ${pct(pr.gsj_pct_base)} %. Desde entonces la Cuenca Neuquina, gracias a Vaca Muerta, ${pr.neuquina_ref_sobre_base_pct >= 200 ? 'más que duplicó' : 'aumentó'} su producción y hoy aporta el ${pct(pr.neuquina_pct_ref)} % del total nacional. La cuenca más vieja del país, en cambio, ${pr.gsj_cae_desde ? `produce menos cada año desde ${pr.gsj_cae_desde}: hoy, el` : 'produce hoy el'} ${pr.gsj_ref_sobre_base_pct} % de lo que producía en ${pr.anio_base}.`,
+      texto: `Pero en ${pr.anio_base} era el ${pct(pr.gsj_pct_base)} %. Desde entonces la Cuenca Neuquina, gracias a Vaca Muerta, ${pr.neuquina_ref_sobre_base_pct >= 200 ? 'más que duplicó' : 'aumentó'} su producción y hoy aporta el ${pct(pr.neuquina_pct_ref)} % del total nacional. La cuenca más vieja del país, en cambio, ${pr.gsj_cae_desde && pr.gsj_ref_sobre_base_pct < 100 ? `produce cada vez menos: desde ${pr.gsj_cae_desde}, cae todos los años.` : `produce hoy el ${pct(pr.gsj_ref_sobre_base_pct, 0)} % de lo que producía en ${pr.anio_base}.`}`,
       fuente: [dataset(R, 'serie_cuencas', 'Secretaría de Energía, serie histórica de producción por cuenca'), { t: 'Historia de Vaca Muerta (Secretaría de Energía)', url: CONTEXTO.vacaMuerta }, { t: 'Argentina.gob.ar, 2/7/2019', url: CONTEXTO.vacaMuerta2019 }],
       vista: { center: [-66.5, -41.5], zoom: 4.3 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: true, concesiones: false, barrios: false },
@@ -103,7 +117,8 @@ export function definirPasos(R) {
     {
       id: 3, kicker: 'Paso 3 · Cuenca', cifra: fmt(c.total),
       titulo: 'pozos registrados. Es la cuenca con más pozos del país',
-      texto: `Dos de cada tres no producen: ${fmt(c.Inactivo)} inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo que cada operadora declara ante la Secretaría de Energía. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Y ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas inactivos o a abandonar no registran ni un mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
+      // Texto de los autores (01/10). «Casi dos de cada tres» lo arma fraccionEnPalabras() con sin_produccion / total.
+      texto: `Pero ${fraccionEnPalabras(c.sin_produccion, c.total)} no producen: ${fmt(c.Inactivo)} figuran inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo declarado por las operadoras. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Además, ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas, inactivos o a abandonar, no registran un solo mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía, Capítulo IV – Pozos')],
       // «ex YPF» no va en el epígrafe: que la planta haya sido de YPF no está en los datos ni tiene fuente (30/09).
       foto: fotoPropia('paso-3', 'Vista aérea de una planta con tanques blancos con el logo de PECOM, oficinas y un estacionamiento, rodeada por la meseta', 'Planta deshidratadora de PECOM en Kilómetro 9.'),
@@ -124,7 +139,7 @@ export function definirPasos(R) {
       id: 5, kicker: 'Paso 5 · Ejido', cifra: fmt(e.total),
       titulo: 'pozos dentro del ejido de Comodoro Rivadavia',
       // "Producen" = extracción efectiva; "activos" incluye inyección y reparación. Población: solo los radios de Comodoro.
-      texto: `De los ${fmt(e.Activo)} pozos activos, solo ${fmt(e.extraccion_efectiva)} producen. Otros ${fmt(e.Abandonado)} están abandonados. ${fmt(p.comodoro.pobl_en_radios_con_pozo)} personas, el ${pct(p.comodoro.pobl_en_radios_con_pozo_pct)} % de Comodoro, viven en un radio censal con al menos un pozo.${t ? ` ${fmt(t.ejido_nunca_en_serie)} de los pozos del ejido no produjeron ni un mes desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
+      texto: `De los ${fmt(e.Activo)} clasificados como activos, solo ${fmt(e.extraccion_efectiva)} producen. Otros ${fmt(e.Abandonado)} están abandonados. En total, ${fmt(p.comodoro.pobl_en_radios_con_pozo)} personas -el ${pct(p.comodoro.pobl_en_radios_con_pozo_pct)} % de la población de Comodoro- viven en un radio censal con al menos un pozo.${t ? ` Además, ${fmt(t.ejido_nunca_en_serie)} pozos en el ejido no registran un solo mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), dataset(R, 'radios_censo', 'Municipalidad de Comodoro Rivadavia, Censo 2022')],
       // El SM-549 figura «Activo» (extracción efectiva), pero CRI no lo declara desde 12/2022: el epígrafe no dice que produzca.
       foto: fotoPropia('paso-5', 'Aparato de bombeo cercado con alambre, con el mar y los acantilados detrás', 'Pozo CFP.Ch.SM-549, en Caleta Córdova.'),
@@ -136,8 +151,9 @@ export function definirPasos(R) {
       // Zona norte (texto de los autores del 27/09): los 36 barrios al norte del cerro Chenque según el municipio.
       // Población del CSV municipal por barrio (Censo 2022). El Pozo N° 2 cae en General Mosconi (resumen: barrio_pozo_2).
       id: 6, kicker: 'Paso 6 · Zona norte', cifra: `${Z.barrios_con_pozos} de ${Z.barrios}`,
-      titulo: 'barrios de zona norte tienen pozos dentro',
-      texto: `Son los barrios al norte del cerro Chenque. Dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus vecinos vive en un barrio con diez pozos o más. Casi todos estos barrios nacieron como asentamientos petroleros${astra.total > astra.poblacion ? `; en Astra hoy hay más pozos que habitantes (${fmt(astra.total)} y ${fmt(astra.poblacion)})` : ''}. En General Mosconi (Km 3), el barrio del Pozo N° 2, hay ${fmt(mosconi.total)} pozos y ${mosconi.Activo ? `${fmt(mosconi.Activo)} activos` : 'ninguno está activo'}.`,
+      titulo: 'barrios al norte del cerro Chenque tienen pozos dentro',
+      // Texto de los autores (01/10). «Varios» y no «casi todos»: con fuente oficial, Astra y Km 5 (docs/investigacion-contexto.md).
+      texto: `En conjunto, dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} están abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus habitantes vive en un barrio con diez pozos o más. Varios de estos barrios nacieron como asentamientos petroleros.${astra.total > astra.poblacion ? ` En Astra hoy hay más pozos que habitantes: ${fmt(astra.total)} frente a ${fmt(astra.poblacion)}.` : ''} Y en General Mosconi (Km 3), el barrio del Pozo N° 2, hay ${fmt(mosconi.total)} pozos y ${mosconi.Activo ? `${fmt(mosconi.Activo)} activos` : 'ninguno está activo'}.`,
       // Las fuentes de Astra, Km 5 y Mosconi (Km 3) quedan en la metodología (decisión de los autores: no engordar la tarjeta).
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Municipalidad de Comodoro Rivadavia, Relevamiento de barrios', url: CONTEXTO.zonaNorte },
         dataset(R, 'poblacion_barrios', 'Censo 2022 por barrio')],
@@ -157,7 +173,7 @@ export function definirPasos(R) {
       // Foto opcional por historia (fotoHistoria), SOLO con permiso escrito de quien la sacó; el crédito va debajo.
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
       titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
-      texto: 'Pero que la operadora declare un pozo como «abandonado» no garantiza que esté bien sellado. Hay muchos casos que lo demuestran: estas son algunas de las historias que llegaron a los medios o a documentos oficiales. Te invitamos a descubrirlas.',
+      texto: 'Pero que un pozo figure como «abandonado» no garantiza que esté bien sellado. Y los riesgos no terminan ahí: también hay incidentes en pozos activos. Estas son algunas historias documentadas en medios y fuentes oficiales: te invitamos a descubrirlas.',
       historias: [
         // Tres pozos (R-87, R-88 y S/L-564, confirmados por los autores). La Nación, del momento, da mayo de 2002; Jornada y
         // El Patagónico 2015 dicen 2001 (el registro, con los abandonos declarados en junio y julio de 2002, apoya 2002).
@@ -220,12 +236,13 @@ export function definirPasos(R) {
     },
     {
       // Cierre (autores, 28/09): vuelve al Pozo N° 2 y se aleja despacio hasta la cuenca (sin apagar ningún estado: decisión de
-      // los autores). «No hay un registro público…»: docs/investigacion-contexto.md («Lo que NO existe»).
+      // los autores). Texto final de los autores (01/10): «entre las casas» es decisión de ellos (lo muestran el satélite y las
+      // historias del paso 7); salió «No hay un registro público…», que no tenía fuente en la tarjeta.
       // Los datos de la versión anterior (13.018 parados hace más de 5 años, ritmo de abandonos, provisión de YPF) siguen en
       // resumen.json y en la conciliación.
       id: 8, kicker: 'Paso 8 · Lo que queda', cifra: fmt(c.sin_produccion),
       titulo: 'pozos sin producir en la cuenca',
-      texto: 'En 1907 buscaban agua y encontraron petróleo. De aquel pozo salieron los campamentos, después los barrios y una ciudad entera. Hoy la cuenca produce cada vez menos y muchos de estos pozos quedaron entre las casas. No hay un registro público de lo que falta hacer con ellos. El petróleo se va. Los pozos se quedan.',
+      texto: 'En 1907 se buscaba agua y se encontró petróleo. A partir de aquel hallazgo nacieron campamentos, crecieron barrios y la ciudad se expandió a su alrededor. Hoy la cuenca produce cada vez menos y muchos de esos pozos quedaron entre las casas. El petróleo se va, pero los pozos se quedan.',
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Ministerio de Economía', url: CONTEXTO.minEconomia }],
       vista: VISTA_CUENCA, // en la computadora, el mismo encuadre con el que arranca el visualizador
       comoVisualizador: true,
