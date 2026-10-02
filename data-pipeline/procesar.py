@@ -12,7 +12,7 @@ Entradas (ver README.md para de dónde sale cada una):
   raw/padron-primera-produccion.csv      Padrón con año/mes de primera producción (serie desde 2006-01)
   raw/concesiones-explotacion.zip        Shapefile de concesiones de explotación (polígonos con operadora)
   raw/produccion-mensual_gsj*.zip        (opcional) mensual por pozo de la cuenca, salida de filtrar_mensuales.py; se leen
-                                         todos (hoy 2011–2016 y 2017–2026)
+                                         todos (hoy 2006–2010, 2011–2016, 2017–2025 y 2026)
   raw/listado-pozos-operadoras_gsj.csv   Listado de pozos cargados por empresas operadoras (versión anterior), GSJ
   raw/serie-produccion-petroleo-por-cuenca.csv
   raw/limites-administrativos-2025.zip   Shapefile: ejido Comodoro, Rada Tilly, depto. Escalante
@@ -93,8 +93,8 @@ DATASETS = [
     {"clave": "padron", "titulo": "Padrón de pozos de Capítulo IV con fecha de primera producción", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "20/09/2026", "licencia": "CC-BY 4.0",
      "uso": "mes de primera producción (la serie empieza en enero de 2006)"},
-    {"clave": "mensual", "titulo": "Producción de pozos de gas y petróleo, mensual 2011–2026", "organismo": "Secretaría de Energía",
-     "url": CAP_IV, "descarga": "20/09/2026 (2017–2025) y 30/09/2026 (2011–2016 y 2026)", "licencia": "CC-BY 4.0",
+    {"clave": "mensual", "titulo": "Producción de pozos de gas y petróleo, mensual 2006–2026", "organismo": "Secretaría de Energía",
+     "url": CAP_IV, "descarga": "20/09/2026 (2017–2025), 30/09/2026 (2011–2016) y 02/10/2026 (2006–2010 y 2026)", "licencia": "CC-BY 4.0",
      "uso": "último mes con producción y primer mes declarado como abandonado"},
     {"clave": "listado_operadoras", "titulo": "Listado de pozos cargados por empresas operadoras (actualizado el 20/10/2025)", "organismo": "Secretaría de Energía",
      "url": CAP_IV, "descarga": "18/09/2026", "licencia": "CC-BY 4.0",
@@ -234,6 +234,16 @@ def cargar_padron():
     return pad[["idpozo", "primera_prod", "ya_en_2006"]].rename(columns={"primera_prod": "primera_prod"})
 
 
+# Fecha en que se bajó el archivo mensual más reciente (2026). La Res. SE 319/93 (Anexo I, punto 2) pide entregar el
+# Capítulo IV "mensualmente y antes del día 20 de cada mes": la producción de un mes vence el día 20 del siguiente. La serie
+# llega hasta el último mes vencido a esta fecha; los posteriores están incompletos por definición (al 02/10/2026,
+# septiembre tenía 106 pozos declarados de unos 43.000) y se descartan.
+DESCARGA_MENSUAL = date(2026, 10, 2)
+# Un pozo "dejó de declararse" si le faltan los últimos 3 meses de la serie o más. Con menos, es atraso: Brest S.A. declaró
+# junio de 2026 recién en la descarga del 02/10 y todavía no julio ni agosto (3.012 pozos).
+MESES_SIN_DECLARAR = 3
+
+
 def cargar_mensual():
     """Mensual por pozo (salida de filtrar_mensuales.py). Devuelve por pozo: último mes con producción, primer mes en
     estado Abandonado, último mes declarado y meses sin producir.
@@ -242,7 +252,8 @@ def cargar_mensual():
       meses_desde_ultima_prod        calendario, del último mes con producción al último de la serie ("produjo en el último año")
       meses_declarados_sin_producir  meses con declaración y sin producción después del último con producción (o todos, si
                                      nunca produjo en la serie): lo que se puede afirmar ("más de cinco años sin producir")."""
-    # Uno o más archivos por períodos que no se pisan (hoy 2011–2016 y 2017–2026, cada uno menor a 50 MB para el repo).
+    # Uno o más archivos por períodos que no se pisan (hoy 2006–2010, 2011–2016, 2017–2025 y 2026, cada uno menor a 50 MB para el repo;
+    # el 2026 va aparte para que actualizarlo no reescriba los años cerrados).
     # Acepta .csv, .csv.gz o .zip (pandas descomprime solo); si un período está en dos formatos, se lee uno.
     archivos = {}
     for ext in (".csv", ".csv.gz", ".zip"):  # el último que aparece gana
@@ -261,6 +272,14 @@ def cargar_mensual():
         partes.append(p)
     m = pd.concat(partes, ignore_index=True)
     m["t"] = m.anio * 12 + m.mes - 1
+    # Corte legal (ver DESCARGA_MENSUAL): último mes cuyo plazo de declaración (día 20 del mes siguiente) ya venció.
+    d = DESCARGA_MENSUAL
+    t_corte = d.year * 12 + d.month - 1 - (1 if d.day >= 20 else 2)
+    fuera = m.t > t_corte
+    if fuera.any():
+        log(f"   mensual: se descartan {int(fuera.sum()):,} filas de meses con el plazo sin vencer al {d:%d/%m/%Y} "
+            f"(después de {t_corte // 12}-{t_corte % 12 + 1:02d})")
+        m = m[~fuera]
     ultimo_t = int(m.t.max())
     m["con_prod"] = (m.prod_pet.fillna(0) > 0) | (m.prod_gas.fillna(0) > 0)
     mes = m.groupby(["idpozo", "t"], as_index=False).con_prod.max()  # un renglón por pozo y mes declarado
@@ -270,10 +289,10 @@ def cargar_mensual():
     mes = mes.merge(ult, on="idpozo", how="left")
     sin = mes[mes.t_ultima_prod.isna() | (mes.t > mes.t_ultima_prod)].groupby("idpozo").size().rename("meses_declarados_sin_producir")
     # Años con producción: bit k = el pozo tuvo al menos un mes con petróleo o gas en el año (primer año de la serie + k).
-    # Solo para resumen.trayectoria (produjeron_por_anio). Entra en un uint16 mientras la serie tenga 16 años o menos.
+    # Solo para resumen.trayectoria (produjeron_por_anio). Entra en un uint32 mientras la serie tenga 32 años o menos.
     anio0 = int(m.t.min() // 12)
     con = mes[mes.con_prod].assign(a=lambda d: d.t // 12 - anio0).drop_duplicates(["idpozo", "a"])
-    assert con.a.max() < 16, "anios_prod es uint16: la serie mensual no puede pasar de 16 años"
+    assert con.a.max() < 32, "anios_prod es uint32: la serie mensual no puede pasar de 32 años"
     anios_prod = pd.Series(np.left_shift(1, con.a.to_numpy(dtype="int64")), index=con.idpozo).groupby(level=0).sum().rename("anios_prod")
     r = pd.concat([ult, decl, ab, sin, anios_prod], axis=1).reset_index()
     r["meses_declarados_sin_producir"] = r.meses_declarados_sin_producir.fillna(0)
@@ -281,13 +300,15 @@ def cargar_mensual():
     am = lambda t: f"{int(t // 12)}-{int(t % 12) + 1:02d}" if t == t else None
     r["ultima_prod"] = r.t_ultima_prod.map(am)
     r["primer_abandono"] = r.t_primer_abandono.map(am)
-    # último mes declarado, solo si es anterior al final de la serie (la ficha avisa que después no hay datos)
-    r["ultima_declaracion"] = r.t_ultima_declaracion.where(r.t_ultima_declaracion < ultimo_t).map(am)
+    # último mes declarado, solo si al pozo le faltan los últimos MESES_SIN_DECLARAR meses o más (la ficha avisa que después
+    # no hay datos). Un atraso menor no cuenta: se informa aparte (declaracion_atrasada).
+    r["ultima_declaracion"] = r.t_ultima_declaracion.where(r.t_ultima_declaracion <= ultimo_t - MESES_SIN_DECLARAR).map(am)
+    r["declaracion_atrasada"] = (r.t_ultima_declaracion < ultimo_t) & (r.t_ultima_declaracion > ultimo_t - MESES_SIN_DECLARAR)
     r["meses_desde_ultima_prod"] = (ultimo_t - r.t_ultima_prod).where(r.t_ultima_prod.notna())
     r["meses_sin_producir"] = r.meses_declarados_sin_producir.where(r.t_ultima_prod.notna())  # la ficha: lo que se puede afirmar
     cobertura = {"desde": f"{int(m.t.min() // 12)}-{int(m.t.min() % 12) + 1:02d}", "hasta": f"{ultimo_t // 12}-{ultimo_t % 12 + 1:02d}",
                  "pozos_con_registro": int(m.idpozo.nunique())}
-    return r[["idpozo", "ultima_prod", "primer_abandono", "ultima_declaracion", "meses_desde_ultima_prod",
+    return r[["idpozo", "ultima_prod", "primer_abandono", "ultima_declaracion", "declaracion_atrasada", "meses_desde_ultima_prod",
               "meses_declarados_sin_producir", "meses_sin_producir", "anios_prod"]], cobertura
 
 
@@ -441,7 +462,7 @@ def cargar_listado_anterior():
     old = pd.read_csv(os.path.join(RAW, "listado-pozos-operadoras_gsj.csv"), low_memory=False,
                       usecols=["idpozo", "idempresa", "adjiv_fecha_abandono"])
     # fecha de abandono informada por la operadora (serial de Excel; solo la tiene ~3 % de los pozos).
-    # Es la única fuente de fechas de abandono anteriores al comienzo de la serie mensual (enero de 2011).
+    # Es la única fuente de fechas de abandono anteriores al comienzo de la serie mensual (enero de 2006).
     f = pd.Timestamp("1899-12-30") + pd.to_timedelta(old.adjiv_fecha_abandono, unit="D")
     f = f.where(f >= pd.Timestamp("1907-01-01"))
     old["fecha_abandono_listado"] = f.dt.strftime("%Y-%m-%d")
@@ -535,7 +556,7 @@ def main(check=False):
     if mens is not None:
         g = g.merge(mens, on="idpozo", how="left")
     else:
-        g["ultima_prod"] = None; g["primer_abandono"] = None; g["ultima_declaracion"] = None
+        g["ultima_prod"] = None; g["primer_abandono"] = None; g["ultima_declaracion"] = None; g["declaracion_atrasada"] = False
         g["meses_desde_ultima_prod"] = np.nan; g["meses_declarados_sin_producir"] = np.nan; g["meses_sin_producir"] = np.nan
         g["anios_prod"] = 0
     barrios = cargar_barrios()
@@ -564,7 +585,7 @@ def main(check=False):
     # Barrio de cada pozo para el filtro del panel: 0 = fuera de los barrios; k = meta.barrios[k - 1] (los 77, con o sin pozos)
     nombres_barrios = sorted(barrios.barrio) if barrios is not None else []
     g["barrio_cod"] = g.barrio.map({b: i + 1 for i, b in enumerate(nombres_barrios)}).fillna(0).astype("uint8")
-    g["anios_prod"] = g.anios_prod.fillna(0).astype("uint16")  # no va al binario: solo para resumen.trayectoria
+    g["anios_prod"] = g.anios_prod.fillna(0).astype("uint32")  # no va al binario: solo para resumen.trayectoria
     g["primera_cod"] = pd.to_numeric(g.primera_prod.str[:4], errors="coerce").fillna(0).astype("uint16")
     # Tramo de tiempo sin producir (filtro del panel, ver data.js): "último año" por calendario; "más de 5 años" solo con
     # 60 meses declarados sin producir; el resto, 1 a 5 años (mínimo 13). 65535 = ningún mes con producción en la serie.
@@ -790,7 +811,10 @@ def main(check=False):
         "trayectoria": None if mens is None else {
             "cobertura": cobertura_mensual,
             "nota": "ultima_prod = último mes con petróleo o gas > 0 dentro de la cobertura; 'nunca_en_serie' = ningún mes con producción en toda la cobertura; 'más de 5 años' = 60 meses o más declarados sin producir (no cuentan los meses en que la operadora ya no declara el pozo)",
+            # sin declarar los últimos MESES_SIN_DECLARAR meses o más; con menos, atraso (declaraciones_atrasadas)
             "dejaron_de_declararse": int(g.ultima_declaracion.notna().sum()),
+            "meses_sin_declarar_minimo": MESES_SIN_DECLARAR,
+            "declaraciones_atrasadas": int(g.declaracion_atrasada.fillna(False).astype(bool).sum()),
             "con_ultima_prod": int(g.ultima_prod.notna().sum()),
             "nunca_en_serie": int(g.ultima_prod.isna().sum()),
             "nunca_en_serie_por_grupo": {k: int((g.ultima_prod.isna() & (g.grupo == k)).sum()) for k in GRUPO_ORDEN[:4]},

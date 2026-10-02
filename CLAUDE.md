@@ -96,8 +96,10 @@ public/img/                 fotos a 1000 px, WebP + JPEG; se generan con scripts
   OJO: la serie arranca en 2006-01; "ya en 2006" no es una fecha de perforación.
 - Concesiones de explotación (SHP) → `concesiones.geojson`, capa en paso 3 y en el panel; `conc` en la ficha;
   `resumen.concesiones` (2.207 pozos en áreas que no figuran como concesión vigente).
-- Mensual por pozo 2011-01 → 2026-08 (desde el 30/09; antes arrancaba en 2017): `raw/produccion-mensual_gsj_2011-2016.zip`
-  (22,5 MB) + `raw/produccion-mensual_gsj.zip` (2017–2026, 41,5 MB; 2026 bajado de nuevo el 30/09 con agosto completo);
+- Mensual por pozo 2006-01 → 2026-08 (desde el 02/10; el 30/09 arrancaba en 2011 y antes en 2017): `raw/produccion-mensual_gsj_2006-2010.zip`
+  (16,8 MB) + `raw/produccion-mensual_gsj_2011-2016.zip`
+  (22,5 MB) + `raw/produccion-mensual_gsj_2017-2025.zip` (38,5 MB) + `raw/produccion-mensual_gsj_2026.zip` (3 MB; aparte para que
+  actualizarlo no reescriba los años cerrados; bajado de nuevo el 02/10: al cambiarlo, actualizar `DESCARGA_MENSUAL`);
   el pipeline lee todos los `produccion-mensual_gsj*` → `meses_cod` en el binario (65535 = sin ningún mes de producción en
   la serie), `up`/`msp`/`pab` en la ficha, `resumen.trayectoria`. Hallazgos (30/09): 9.099 pozos no abandonados sin un mes de
   producción desde 2011 (desde 2017 eran 11.243); 4.982 en el ejido (eran 5.256); 13.111 inactivos con 60 meses o más
@@ -107,7 +109,13 @@ public/img/                 fotos a 1000 px, WebP + JPEG; se generan con scripts
   por año NO van en la web (decisión de los autores, 30/09): quedan en `resumen.json` y la conciliación. Tarjeta 3 (30/09):
   solo petrolíferos y gasíferos inactivos o a abandonar (`nunca_en_serie_no_abandonados_petroleo_gas`, 3.643; de los 9.099,
   el resto son inyectores, «otro tipo», acuíferos y sumideros, que no producen por diseño).
-  Decir «ni un mes de producción desde 2011», nunca «no producen hace 15 años»: incluye
+  02/10 (serie desde 2006): 7.523 no abandonados sin un mes de producción; tarjeta 3, 2.713 («desde entonces», porque el
+  padrón también empieza en 2006); tarjeta 5, 4.809 en el ejido. Corte legal: la Res. SE 319/93 (Anexo I, punto 2) pide el
+  Capítulo IV «antes del día 20 de cada mes», así que la serie llega al último mes vencido a la fecha de descarga
+  (`DESCARGA_MENSUAL` en procesar.py; al 02/10, agosto: septiembre tenía 106 pozos). «Dejaron de declararse» = sin
+  declaración los últimos 3 meses o más (1.347, decisión de los autores); Brest S.A. (3.012 pozos) declara con atraso y queda
+  en `declaraciones_atrasadas`.
+  Decir «ni un mes de producción desde 2006», nunca «no producen hace 20 años»: incluye
   pozos perforados después de 2011 (decisión de los autores). Con la descarga del 20/09, 5.322 pozos de Clear, Roch, Azruge
   y Pilgrim figuraban «sin declarar después de julio de 2026» porque declararon agosto tarde; `dejaron_de_declararse`
   bajó de 9.598 a 4.359.

@@ -1,6 +1,6 @@
 # Conciliación de cifras
 
-Generado: 2026-09-30
+Generado: 2026-10-02
 
 | Cifra | Valor |
 |---|---|
@@ -24,15 +24,15 @@ Generado: 2026-09-30
 | Con primera producción (padrón) | 44.379; ya en 2006-01: 36.507 |
 | Pozos país con coordenadas | 85.609 |
 | Concesiones GSJ / pozos en área sin concesión | 55 / 2.207 |
-| Mensual: cobertura | {'desde': '2011-01', 'hasta': '2026-08', 'pozos_con_registro': 44437} |
-| Pozos sin ningún mes de producción en la serie | 22.258 (no abandonados: 9.099; de esos, petrolíferos o gasíferos, tarjeta 3: 3.643) |
+| Mensual: cobertura | {'desde': '2006-01', 'hasta': '2026-08', 'pozos_con_registro': 44438} |
+| Pozos sin ningún mes de producción en la serie | 19.972 (no abandonados: 7.523; de esos, petrolíferos o gasíferos, tarjeta 3: 2.713) |
 | Barrios con pozos | 52 de 77 (2.507 pozos) |
 | EPH Comodoro–Rada Tilly | 2026T2: 9,2 % (IC 90 %: 3,8–14,6; CV 35,5 %); último valor mayor: 2005T4 (9,3 %, 20,5 años antes) |
 | Zona norte: barrios con pozos / pozos (abandonados, activos) | 33 de 36 / 2.370 (1.801, 95) |
 | Zona norte: población (CSV por barrio) / en barrios con 10 o más pozos | 69.219 / 59.594 (86.1 %); sin población: Chacras El Faro, Franja Forestal Cerro de la Cruz |
 | Zona norte: no dados de baja / con 60+ meses declarados sin producir | 474 / 436 |
 | Censo por barrio: renglones sin polígono / renglones repartidos en 2 polígonos (su pobl no se suma dos veces) | 6 (1.596 hab.: Acceso Sur Industrial, Chacras Minas George Stephenson, Sol de Mayo y San Jorge, Chacras Oeste, Chacras Tres Pinos, Cañadones, Lotes Pastoriles Noroeste, Médanos) / 2 |
-| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | 13.111 / 4.359 |
-| Pozos con al menos un mes de producción, por año: cuenca | 2011: 13.799; 2012: 14.300; 2013: 14.748; 2014: 15.074; 2015: 15.532; 2016: 15.537; 2017: 15.003; 2018: 14.936; 2019: 15.078; 2020: 15.014; 2021: 14.596; 2022: 14.871; 2023: 14.906; 2024: 14.782; 2025: 14.094; 2026: 13.301 |
-| Pozos con al menos un mes de producción, por año: ejido | 2011: 750; 2012: 715; 2013: 689; 2014: 719; 2015: 706; 2016: 656; 2017: 652; 2018: 616; 2019: 653; 2020: 635; 2021: 633; 2022: 660; 2023: 601; 2024: 613; 2025: 567; 2026: 512 |
+| No abandonados con 60+ meses declarados sin producir (tarjeta 8) / pozos que dejaron de declararse | 13.125 / 1.347 |
+| Pozos con al menos un mes de producción, por año: cuenca | 2006: 12.836; 2007: 13.367; 2008: 13.878; 2009: 13.950; 2010: 13.922; 2011: 13.799; 2012: 14.300; 2013: 14.748; 2014: 15.074; 2015: 15.532; 2016: 15.537; 2017: 15.003; 2018: 14.936; 2019: 15.078; 2020: 15.014; 2021: 14.596; 2022: 14.871; 2023: 14.906; 2024: 14.782; 2025: 14.094; 2026: 13.411 |
+| Pozos con al menos un mes de producción, por año: ejido | 2006: 762; 2007: 799; 2008: 788; 2009: 752; 2010: 769; 2011: 750; 2012: 715; 2013: 689; 2014: 719; 2015: 706; 2016: 656; 2017: 652; 2018: 616; 2019: 653; 2020: 635; 2021: 633; 2022: 660; 2023: 601; 2024: 613; 2025: 567; 2026: 512 |
 | Radio urbano con más pozos | 260211203 (408 pozos, 936 hab.) |

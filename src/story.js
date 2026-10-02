@@ -118,7 +118,9 @@ export function definirPasos(R) {
       id: 3, kicker: 'Paso 3 · Cuenca', cifra: fmt(c.total),
       titulo: 'pozos registrados. Es la cuenca con más pozos del país',
       // Texto de los autores (01/10). «Casi dos de cada tres» lo arma fraccionEnPalabras() con sin_produccion / total.
-      texto: `Pero ${fraccionEnPalabras(c.sin_produccion, c.total)} no producen: ${fmt(c.Inactivo)} figuran inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo declarado por las operadoras. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Además, ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas, inactivos o a abandonar, no registran un solo mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
+      // «desde entonces» = desde 2006, el primer año del padrón («ya figuraban en 2006») y de la serie mensual (02/10); si la
+      // serie empezara otro año, la frase vuelve a decir el año.
+      texto: `Pero ${fraccionEnPalabras(c.sin_produccion, c.total)} no producen: ${fmt(c.Inactivo)} figuran inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo declarado por las operadoras. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Además, ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas, inactivos o a abandonar, no registran un solo mes de producción ${t.cobertura.desde.startsWith('2006') ? 'desde entonces' : `desde ${t.cobertura.desde.slice(0, 4)}`}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía, Capítulo IV – Pozos')],
       // «ex YPF» no va en el epígrafe: que la planta haya sido de YPF no está en los datos ni tiene fuente (30/09).
       foto: fotoPropia('paso-3', 'Vista aérea de una planta con tanques blancos con el logo de PECOM, oficinas y un estacionamiento, rodeada por la meseta', 'Planta deshidratadora de PECOM en Kilómetro 9.'),

@@ -433,7 +433,7 @@ function leyendaPoblacion() {
     `<div class="ley-item"><span class="ley-caja" style="background:${hex}"></span>${rotulos[i]}</div>`).join('')}</div>`;
 }
 
-// "Declarado abandonado": si `pab` es el primer mes de la serie mensual (`desde`, hoy "2011-01"), significa
+// "Declarado abandonado": si `pab` es el primer mes de la serie mensual (`desde`, hoy "2006-01"), significa
 // "ya figuraba abandonado al empezar la serie", no la fecha real. Si el listado de operadoras trae
 // la fecha de abandono (pocos pozos, a veces muy viejos), se muestra esa. Solo para pozos que hoy
 // figuran abandonados: `pab` es el primer mes en ese estado, aunque después haya cambiado.

@@ -66,6 +66,15 @@ que defina "En estudio", "En reserva…", "Parado transitoriamente" (solo las 3 
   Neuquina; no da cifras por cuenca útiles para GSJ) y visor SIG https://sig.energia.gob.ar/v/ .
   El venteo con quema es distinto del pozo abandonado: no usarlo como proxy del pasivo.
 
+## Plazo para declarar la producción (serie mensual)
+
+- Resolución SE 319/93, Anexo I, punto 2 «Periodicidad y plazos»: «Deberán entregarse mensualmente y antes del día 20 de
+  cada mes las Planillas 1 a 7, Análisis de la Producción por Pozo y Yacimiento (Capítulo IV) y Planillas 13 a 22».
+  Texto original leído en la copia del Tribunal de Cuentas de Tierra del Fuego
+  (https://www1.tcptdf.gob.ar/wp-content/uploads/leyes-mas-info/Mas-Info-Ley-Nacional-N-17319/Resolucion-SEN-N-319-1993.pdf);
+  la ficha oficial es https://www.argentina.gob.ar/normativa/nacional/312880/texto (el 02/10/2026 daba error 500). La Res. SE
+  2057/2005 no cambia ese plazo. Sin verificar si otra norma posterior lo modificó.
+
 ## Historia y demografía
 
 - 13/12/1907: petróleo a ~535 m en lo que hoy es Km 3, buscando agua (Beghin y Fuchs; Dirección de
