@@ -6,25 +6,22 @@ con `public/data/resumen.json`.
 ## Categoría
 Exploración interactiva
 
-## Título (de trabajo)
-Lo que queda — cuando el petróleo se va
+## Título
+Lo que queda… cuando el petróleo se va
 
-## Descripción metodológica (196 palabras; máximo 200)
+## Descripción metodológica (190 palabras; máximo 200)
 
-Cruzamos cuatro fuentes abiertas: el registro "Capítulo IV – Pozos" de la Secretaría de Energía
-(85.611 pozos con ubicación, operadora, yacimiento y estado declarado), el listado anterior de pozos
-por operadora (para reconstruir el cambio de manos tras la salida de YPF), la serie histórica de
-producción por cuenca 2006–2026, y los límites administrativos y radios censales 2022 con población
-del portal de datos abiertos de Comodoro Rivadavia. Agrupamos los 17 estados oficiales en cuatro
-categorías (activo, inactivo, a abandonar, abandonado) con una tabla de equivalencias publicada.
-Corregimos coordenadas cargadas sin punto decimal y descartamos fechas de relleno. Con un cruce
-espacial contamos pozos por ejido, por radio censal y por población expuesta. Elegimos un recorrido
-guiado de siete pasos, del país a una manzana de Km 3, seguido de un mapa libre con filtros, porque
-la escala es el argumento: la cuenca más vieja del país pierde producción y quedan 28.499 pozos sin
-producir, 6.205 de ellos dentro de una ciudad. Usamos gris para "abandonado" porque es ausencia, no
-una categoría más. Toda cifra visible se calcula desde el código publicado. El uso de IA
-(procesamiento de datos, asistencia en código, búsqueda de fuentes, bajo supervisión) se declara en
-la metodología.
+Versión final de los autores (01/10/2026). Es el mismo texto que abre la ventana de Metodología de la web («Breve
+descripción metodológica»). Incluye la declaración de IA, porque el formulario no tiene un campo propio para eso y el
+Anexo A la pide en la descripción metodológica.
+
+Para la producción de esta pieza se utilizaron datos abiertos de la Secretaría de Energía y de la Municipalidad de Comodoro Rivadavia y datos del INDEC (EPH).
+
+La visualización consiste en un recorrido de ocho pasos, desde el nivel nacional al barrio, y finaliza en un mapa con filtros y descarga de datos en CSV.
+
+Un script de Python procesa los datos y agrupa los 17 estados declarados de los pozos en cuatro categorías, descarta fechas inválidas, calcula cuándo produjo cada pozo por última vez y lo ubica en el ejido, en el barrio y en el radio censal. Todas las cifras de los datos provienen de ese script. «Abandonado» refiere al estado declarado por la operadora y no a la condición física del pozo; del mismo modo, un pozo «activo» no necesariamente registra producción.
+
+Se utilizó Claude (Anthropic), con supervisión humana, para la limpieza y organización de los datos y asistencia en el código de procesamiento y del desarrollo web. No se generaron imágenes con IA. Las decisiones de diseño visual, la selección de contenidos, los textos finales y la composición de la pieza fueron realizados por los autores.
 
 ## Fuente de los datos (con links)
 
