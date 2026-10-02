@@ -9,7 +9,7 @@ Exploración interactiva
 ## Título
 Lo que queda… cuando el petróleo se va
 
-## Descripción metodológica (190 palabras; máximo 200)
+## Descripción metodológica (194 palabras; máximo 200)
 
 Versión final de los autores (01/10/2026). Es el mismo texto que abre la ventana de Metodología de la web («Breve
 descripción metodológica»). Incluye la declaración de IA, porque el formulario no tiene un campo propio para eso y el
@@ -19,7 +19,7 @@ Para la producción de esta pieza se utilizaron datos abiertos de la Secretaría
 
 La visualización consiste en un recorrido de ocho pasos, desde el nivel nacional al barrio, y finaliza en un mapa con filtros y descarga de datos en CSV.
 
-Un script de Python procesa los datos y agrupa los 17 estados declarados de los pozos en cuatro categorías, descarta fechas inválidas, calcula cuándo produjo cada pozo por última vez y lo ubica en el ejido, en el barrio y en el radio censal. Todas las cifras de los datos provienen de ese script. «Abandonado» refiere al estado declarado por la operadora y no a la condición física del pozo; del mismo modo, un pozo «activo» no necesariamente registra producción.
+Un script de Python procesa los datos y agrupa los 17 estados declarados de los pozos en cuatro categorías, descarta fechas inválidas, calcula cuándo produjo cada pozo por última vez y lo ubica en el ejido, en el barrio y en el radio censal. Las cifras sobre los pozos, su producción y la población provienen de ese script. «Abandonado» refiere al estado declarado por la operadora y no a la condición física del pozo; del mismo modo, un pozo «activo» no necesariamente registra producción.
 
 Se utilizó Claude (Anthropic), con supervisión humana, para la limpieza y organización de los datos y asistencia en el código de procesamiento y del desarrollo web. No se generaron imágenes con IA. Las decisiones de diseño visual, la selección de contenidos, los textos finales y la composición de la pieza fueron realizados por los autores.
 
