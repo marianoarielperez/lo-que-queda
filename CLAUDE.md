@@ -175,7 +175,7 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   lo que dice el registro de ese pozo (de su ficha) y las fuentes. Textos en `historias` del paso 7 (story.js).
   EXCEPCIÓN a la regla 3, decidida por los autores: estas historias pueden salir de notas periodísticas, siempre citadas en
   la misma historia; la identificación de cada pozo la confirmaron los autores con la Secretaría de Ambiente municipal (no se
-  dice en la web). YPF.Ch.-2228 queda pendiente de confirmación. Fotos solo con permiso escrito del medio (campo `foto`).
+  dice en la web). La de Laprida es el YPF.Ch.-811 (03/10: lote 5 de la manzana 9 del plano de catastro; antes figuraba el CH-2228). Fotos solo con permiso escrito del medio (campo `foto`).
 - 28/09 (noche): la tarjeta 7 se aliviana: la cifra pasa a los abandonados del ejido (`ejido.Abandonado`, la de la tarjeta 5) con
   «que la operadora declare un pozo como abandonado no garantiza que esté bien sellado»; 7 de las 8 historias son de pozos abandonados. El mapa muestra
   solo los abandonados, con el foco en el ejido. `zona_norte.no_dados_de_baja` (474) y el 393 siguen en resumen.json pero ya no

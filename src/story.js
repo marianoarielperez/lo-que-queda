@@ -207,8 +207,10 @@ export function definirPasos(R) {
           texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
           fuente: [{ t: 'El Patagónico, 20/3/2008', url: 'https://www.elpatagonico.com/por-la-surgencia-petroleo-viviendas-palazzo-once-familias-fueron-evacuadas-n1320746' },
             { t: '23/3/2008', url: 'https://www.elpatagonico.com/imponente-maquinaria-trabaja-la-casa-palazzo-donde-broto-petroleo-n1320952' }] },
-        // CH-2228: pendiente de confirmación de los autores (la nota cita a la vecinal: "no es el 2.228 sino el 2.811").
-        { idpozo: 120837, titulo: 'Un lote con una válvula', lugar: 'Laprida', cuando: '2009',
+        // YPF.Ch.-811 (identificado por los autores el 03/10, antes figuraba el CH-2228): la nota ubica la válvula en el «Lote 5» y
+        // el 811 cae en el lote 5 de la manzana 9 del plano de catastro, en Laprida. La vecinal hablaba del «2.811», que no existe
+        // en el Capítulo IV. Las imágenes satelitales de 2008 y 2026 muestran los lotes nuevos junto al pozo.
+        { idpozo: 121741, titulo: 'Un lote con una válvula', lugar: 'Laprida', cuando: '2009',
           texto: 'En diciembre de 2008 el municipio entregó lotes en Laprida y en uno estaba la válvula de este pozo. «No podemos avanzar en la construcción, ni en la instalación de servicios», reclamaba la vecinal.',
           fuente: [{ t: 'El Patagónico, 1/4/2009', url: 'https://www.elpatagonico.com/en-laprida-se-quejan-porque-les-entregaron-terrenos-un-pozo-petroleo-abierto-n1345550' }] },
         { idpozo: 121051, titulo: 'Un pozo en el patio', lugar: 'Km 3', cuando: '2010 a 2024',
