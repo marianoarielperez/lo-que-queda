@@ -192,7 +192,7 @@ export function definirPasos(R) {
       // Foto opcional por historia (fotoHistoria), SOLO con permiso escrito de quien la sacó; el crédito va debajo.
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
       titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
-      texto: 'Pero que un pozo figure como «abandonado» no garantiza que esté bien sellado. Y los riesgos no terminan ahí: también hay incidentes en pozos activos. Estas son algunas historias documentadas en medios y fuentes oficiales, te invitamos a descubrirlas.',
+      texto: 'Pero que un pozo figure como «abandonado» no garantiza que esté bien sellado. Y los riesgos no terminan ahí: también hay incidentes en pozos activos. Estas son algunas historias documentadas en medios y fuentes oficiales; te invitamos a descubrirlas.',
       historias: [
         // Tres pozos (R-87, R-88 y S/L-564, confirmados por los autores). La Nación, del momento, da mayo de 2002; Jornada y
         // El Patagónico 2015 dicen 2001 (el registro, con los abandonos declarados en junio y julio de 2002, apoya 2002).
