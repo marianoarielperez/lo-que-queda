@@ -13,6 +13,7 @@ const CONTEXTO = {
   casaRosada1907: 'https://www.casarosada.gob.ar/informacion/actividad-oficial/9-noticias/50819-dia-nacional-del-petroleo-a-117-anos-de-su-descubrimiento',
   decreto135: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=88733',
   ypf20F: 'https://www.sec.gov/Archives/edgar/data/904851/000119312525067155/d866694d20f.htm',
+  ypf6K2026: 'https://www.sec.gov/Archives/edgar/data/904851/000119312526057719/d47643d6k.htm',
   decreto1509: 'https://sistemas.chubut.gov.ar/digesto/sistema/consulta.php?idile1=87339',
   municipioCH679: 'https://www.comodoro.gov.ar/2024/08/27/el-municipio-intervino-ante-un-nuevo-derrame-de-petroleo-en-un-yacimiento-ypf/',
   vacaMuerta: 'https://www.argentina.gob.ar/economia/energia/vaca-muerta/historia',
@@ -29,11 +30,18 @@ const NUCLEO_ZONA_NORTE = [[-67.601, -45.870], [-67.389, -45.769]];
  *  Así la frase sigue a los datos y no hay que tipearla. */
 function fraccionEnPalabras(parte, total) {
   const r = parte / total;
-  const FRACCIONES = [[1, 4, 'uno de cada cuatro'], [1, 3, 'uno de cada tres'], [1, 2, 'uno de cada dos'], [2, 3, 'dos de cada tres'], [3, 4, 'tres de cada cuatro']];
+  const FRACCIONES = [[1, 5, 'uno de cada cinco'], [1, 4, 'uno de cada cuatro'], [1, 3, 'uno de cada tres'], [1, 2, 'uno de cada dos'], [2, 3, 'dos de cada tres'], [3, 4, 'tres de cada cuatro']];
   const [n, d, texto] = FRACCIONES.reduce((a, b) => (Math.abs(b[0] / b[1] - r) < Math.abs(a[0] / a[1] - r) ? b : a));
   const dif = r - n / d;
   if (Math.abs(dif) > 0.04) return `el ${pct(r * 100)} %`;
   return Math.abs(dif) < 0.005 ? texto : `${dif < 0 ? 'casi' : 'más de'} ${texto}`;
+}
+/** «produce solo uno de cada cinco» / «producen dos de cada tres»: el verbo concuerda con la fracción y «solo» va si es
+ *  menos de la mitad. */
+function produciendo(parte, total) {
+  const f = fraccionEnPalabras(parte, total);
+  const verbo = /^(casi |más de )?(uno|el) /.test(f) ? 'produce' : 'producen';
+  return `${verbo}${parte / total < 0.5 ? ' solo' : ''} ${f}`;
 }
 /** Pozos de una historia: `idpozo` es un número o, si hay varios en el mismo lugar, una lista (el marcador va en el primero). */
 const pozosDe = (h) => [].concat(h.idpozo);
@@ -79,6 +87,7 @@ const fotoPropia = (archivo, alt, epigrafe) => ({ src: `${import.meta.env.BASE_U
 export function definirPasos(R) {
   const c = R.cuenca, e = R.ejido, p = R.poblacion, pr = R.produccion;
   const t = R.trayectoria; // null si no se procesó el mensual
+  const A = R.antiguedad; // padrón de primera producción (desde enero de 2006)
   const Z = R.zona_norte; // barrios de zona norte con pozos y población (procesar.py → resumir_zona_norte)
   const astra = Z.por_barrio.Astra, mosconi = Z.por_barrio['General Enrique Mosconi'];
   return [
@@ -118,20 +127,27 @@ export function definirPasos(R) {
       id: 3, kicker: 'Paso 3 · Cuenca', cifra: fmt(c.total),
       titulo: 'pozos registrados. Es la cuenca con más pozos del país',
       // Texto de los autores (01/10). «Casi dos de cada tres» lo arma fraccionEnPalabras() con sin_produccion / total.
-      // «desde entonces» = desde 2006, el primer año del padrón («ya figuraban en 2006») y de la serie mensual (02/10); si la
+      // «Ya existían en 2006» = primer mes en el padrón de primera producción = enero de 2006, el inicio del padrón (todo pozo
+      // anterior figura con ese mes, aunque esté abandonado: se sigue declarando). «Uno de cada cinco» = fraccionEnPalabras().
+      // «desde entonces» = desde 2006, el primer año del padrón («ya existían en 2006») y de la serie mensual (02/10); si la
       // serie empezara otro año, la frase vuelve a decir el año.
-      texto: `Pero ${fraccionEnPalabras(c.sin_produccion, c.total)} no producen: ${fmt(c.Inactivo)} figuran inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo declarado por las operadoras. De los ${fmt(R.antiguedad.ya_en_2006)} pozos que ya figuraban en 2006, hoy producen ${fmt(R.antiguedad.ya_en_2006_extraccion_efectiva)}.${t ? ` Además, ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas, inactivos o a abandonar, no registran un solo mes de producción ${t.cobertura.desde.startsWith('2006') ? 'desde entonces' : `desde ${t.cobertura.desde.slice(0, 4)}`}.` : ''}`,
-      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía, Capítulo IV – Pozos')],
+      texto: `Pero ${fraccionEnPalabras(c.sin_produccion, c.total)} no producen: ${fmt(c.Inactivo)} figuran inactivos, ${fmt(c['A abandonar'])} a abandonar y ${fmt(c.Abandonado)} abandonados, según lo declarado por las operadoras. De los ${fmt(A.ya_en_2006)} pozos que ya existían en 2006, hoy ${produciendo(A.ya_en_2006_extraccion_efectiva, A.ya_en_2006)}: ${fmt(A.ya_en_2006_extraccion_efectiva)}.${t ? ` Además, ${fmt(t.nunca_en_serie_no_abandonados_petroleo_gas)} pozos de petróleo o gas, inactivos o a abandonar, no registran un solo mes de producción ${t.cobertura.desde.startsWith('2006') ? 'desde entonces' : `desde ${t.cobertura.desde.slice(0, 4)}`}.` : ''}`,
+      // Las tres cifras salen de tres datasets: estados (Capítulo IV), «ya existían en 2006» (padrón) y «ni un mes» (mensual).
+      fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía, Capítulo IV – Pozos'), dataset(R, 'padron', 'padrón de primera producción'),
+        dataset(R, 'mensual', 'producción mensual por pozo')],
       // «ex YPF» no va en el epígrafe: que la planta haya sido de YPF no está en los datos ni tiene fuente (30/09).
       foto: fotoPropia('paso-3', 'Vista aérea de una planta con tanques blancos con el logo de PECOM, oficinas y un estacionamiento, rodeada por la meseta', 'Planta deshidratadora de PECOM en Kilómetro 9.'),
       vista: { center: [-68.3, -46.2], zoom: 7 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: false, barrios: false },
     },
     {
+      // Texto de los autores (03/10). «Todos sus pozos»: ypf_pozos_actual = 0. Los pozos sin empresa no eran de YPF (243 sin
+      // operadora anterior y 8 de OMYS): por eso van en una oración aparte, sin un conector que sugiera que quedaron huérfanos.
       id: 4, kicker: 'Paso 4 · Operadoras', cifra: fmt(c.ypf_pozos_listado_anterior),
       titulo: 'pozos de YPF cambiaron de manos',
-      texto: `Entre 2024 y 2026 YPF se retiró de la cuenca (Proyecto Andes). Hoy sus pozos figuran a nombre de PECOM, Patagonia Resources, Clear, Quintana, Roch y otras. Y ${fmt(c.sin_empresa.total)} pozos no tienen ninguna empresa asignada; ${fmt(c.sin_empresa.Abandonado)} de ellos están abandonados.`,
-      fuente: [dataset(R, 'listado_operadoras', 'Secretaría de Energía'), { t: 'YPF, Form 20-F 2024 (SEC)', url: CONTEXTO.ypf20F }, { t: 'Decreto Chubut 1509/2024', url: CONTEXTO.decreto1509 }],
+      texto: `Entre 2024 y 2026 YPF se retiró de la cuenca (Proyecto Andes). Hoy ${c.ypf_pozos_actual === 0 ? 'todos sus pozos están en nuevas manos:' : 'sus pozos figuran a nombre de'} PECOM, Patagonia Resources, Clear, Quintana, Roch y otras. Además, ${fmt(c.sin_empresa.total)} pozos no tienen ninguna empresa asignada y ${fmt(c.sin_empresa.Abandonado)} de ellos están abandonados.`,
+      fuente: [dataset(R, 'listado_operadoras', 'Secretaría de Energía'), { t: 'YPF, Form 20-F 2024 (SEC)', url: CONTEXTO.ypf20F }, { t: 'Decreto Chubut 1509/2024', url: CONTEXTO.decreto1509 },
+        { t: 'YPF, Form 6-K del 19/2/2026 (SEC)', url: CONTEXTO.ypf6K2026 }],
       foto: fotoPropia('paso-4', 'Letras metálicas de YPF sobre una base despintada, entre yuyos, frente a galpones abandonados', 'Letras de YPF en la entrada de sus antiguos almacenes, en Km 3.'),
       vista: { center: [-68.3, -46.2], zoom: 7 },
       capas: { estadosVisibles: new Set([0, 1, 2, 3, 4]), empresa: null, yacimiento: null, provincia: null, soloEjido: false, poblacion: false, limites: false, pais: false, concesiones: true, barrios: false },
@@ -141,7 +157,7 @@ export function definirPasos(R) {
       id: 5, kicker: 'Paso 5 · Ejido', cifra: fmt(e.total),
       titulo: 'pozos dentro del ejido de Comodoro Rivadavia',
       // "Producen" = extracción efectiva; "activos" incluye inyección y reparación. Población: solo los radios de Comodoro.
-      texto: `De los ${fmt(e.Activo)} clasificados como activos, solo ${fmt(e.extraccion_efectiva)} producen. Otros ${fmt(e.Abandonado)} están abandonados. En total, ${fmt(p.comodoro.pobl_en_radios_con_pozo)} personas -el ${pct(p.comodoro.pobl_en_radios_con_pozo_pct)} % de la población de Comodoro- viven en un radio censal con al menos un pozo.${t ? ` Además, ${fmt(t.ejido_nunca_en_serie)} pozos en el ejido no registran un solo mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
+      texto: `De los ${fmt(e.Activo)} pozos clasificados como activos, solo ${fmt(e.extraccion_efectiva)} producen. Otros ${fmt(e.Abandonado)} están abandonados. En total, ${fmt(p.comodoro.pobl_en_radios_con_pozo)} personas -el ${pct(p.comodoro.pobl_en_radios_con_pozo_pct)} % de la población de Comodoro- viven en un radio censal con al menos un pozo.${t ? ` Además, ${fmt(t.ejido_nunca_en_serie)} pozos en el ejido no registran un solo mes de producción desde ${t.cobertura.desde.slice(0, 4)}.` : ''}`,
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), dataset(R, 'radios_censo', 'Municipalidad de Comodoro Rivadavia, Censo 2022')],
       // El SM-549 figura «Activo» (extracción efectiva), pero CRI no lo declara desde 12/2022: el epígrafe no dice que produzca.
       foto: fotoPropia('paso-5', 'Aparato de bombeo cercado con alambre, con el mar y los acantilados detrás', 'Pozo CFP.Ch.SM-549, en Caleta Córdova.'),
@@ -154,12 +170,13 @@ export function definirPasos(R) {
       // Población del CSV municipal por barrio (Censo 2022). El Pozo N° 2 cae en General Mosconi (resumen: barrio_pozo_2).
       id: 6, kicker: 'Paso 6 · Zona norte', cifra: `${Z.barrios_con_pozos} de ${Z.barrios}`,
       titulo: 'barrios al norte del cerro Chenque tienen pozos dentro',
-      // Texto de los autores (01/10). «Varios» y no «casi todos»: con fuente oficial, Astra y Km 5 (docs/investigacion-contexto.md).
-      texto: `En conjunto, dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} están abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus habitantes vive en un barrio con diez pozos o más. Varios de estos barrios nacieron como asentamientos petroleros.${astra.total > astra.poblacion ? ` En Astra hoy hay más pozos que habitantes: ${fmt(astra.total)} frente a ${fmt(astra.poblacion)}.` : ''} Y en General Mosconi (Km 3), el barrio del Pozo N° 2, hay ${fmt(mosconi.total)} pozos y ${mosconi.Activo ? `${fmt(mosconi.Activo)} activos` : 'ninguno está activo'}.`,
+      // Texto de los autores (01/10 y 03/10). «Varios» y no «casi todos»: con fuente oficial, Astra y Km 5 (docs/investigacion-contexto.md).
+      // «El barrio donde se encontró el petróleo»: el Pozo N° 2 (idpozo 121014) cae en General Mosconi (zona_norte.barrio_pozo_2).
+      texto: `En conjunto, dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} están abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus habitantes vive en un barrio con diez o más pozos. Varios de estos barrios nacieron como campamentos petroleros.${astra.total > astra.poblacion ? ` En Astra hoy hay más pozos que habitantes: ${fmt(astra.total)} frente a ${fmt(astra.poblacion)}.` : ''} Y en General Mosconi (Km 3), el barrio donde se encontró el petróleo, existen ${fmt(mosconi.total)} pozos.`,
       // Las fuentes de Astra, Km 5 y Mosconi (Km 3) quedan en la metodología (decisión de los autores: no engordar la tarjeta).
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Municipalidad de Comodoro Rivadavia, Relevamiento de barrios', url: CONTEXTO.zonaNorte },
         dataset(R, 'poblacion_barrios', 'Censo 2022 por barrio')],
-      foto: fotoPropia('paso-6', 'Vista aérea de un aparato de bombeo cercado en medio de una calle de tierra, rodeado de casas', 'Pozo PCR.Ch.B-41, en una calle del barrio Gobernador Fontana.'),
+      foto: fotoPropia('paso-6', 'Vista aérea de un aparato de bombeo cercado en un descampado de tierra, rodeado de casas', 'Pozo PCR.Ch.B-41, en un descampado rodeado de casas del barrio Gobernador Fontana.'),
       vista: { bounds: NUCLEO_ZONA_NORTE },
       focoArriba: true,
       marcador: { idpozo: 121014, etiqueta: 'Pozo N° 2 · 1907' }, // se destaca; el resto de los pozos sigue a la vista
@@ -175,7 +192,7 @@ export function definirPasos(R) {
       // Foto opcional por historia (fotoHistoria), SOLO con permiso escrito de quien la sacó; el crédito va debajo.
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
       titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
-      texto: 'Pero que un pozo figure como «abandonado» no garantiza que esté bien sellado. Y los riesgos no terminan ahí: también hay incidentes en pozos activos. Estas son algunas historias documentadas en medios y fuentes oficiales: te invitamos a descubrirlas.',
+      texto: 'Pero que un pozo figure como «abandonado» no garantiza que esté bien sellado. Y los riesgos no terminan ahí: también hay incidentes en pozos activos. Estas son algunas historias documentadas en medios y fuentes oficiales, te invitamos a descubrirlas.',
       historias: [
         // Tres pozos (R-87, R-88 y S/L-564, confirmados por los autores). La Nación, del momento, da mayo de 2002; Jornada y
         // El Patagónico 2015 dicen 2001 (el registro, con los abandonos declarados en junio y julio de 2002, apoya 2002).

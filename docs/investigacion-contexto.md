@@ -126,7 +126,7 @@ Verificado con fuente oficial:
 
 Afirmación de los autores (27/09/2026), en la tarjeta 6: "Casi todos estos barrios nacieron como asentamientos petroleros"
 (Diadema, Astra, Presidente Ortiz, Don Bosco, etc.). Con fuente oficial registrada solo Astra y Km 5 (arriba).
-01/10: los autores lo cambiaron a «Varios de estos barrios nacieron como asentamientos petroleros» (Astra y Km 5 con
+01/10: los autores lo cambiaron a «Varios de estos barrios nacieron como asentamientos petroleros» (03/10: «campamentos petroleros») (Astra y Km 5 con
 fuente). Contexto de los autores: muchos barrios nuevos son subdivisiones de barrios grandes que adoptaron nombres nuevos;
 la población ya existía antes. (Antes: PENDIENTE, regla 3, para «casi todos».) Ojo: el mismo relevamiento
 municipal cuenta 14 barrios en Zona Norte en 2004 y 36 en 2025 (14 nuevos entre 2010 y 2022, p. ej. ARA San Juan y

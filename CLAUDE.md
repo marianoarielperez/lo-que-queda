@@ -215,7 +215,7 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   kilométricas = 25 km desde el pueblo, no desde el pozo) y la creación de YPF por Yrigoyen (fuentes en
   `docs/investigacion-contexto.md`; ya no se nombra el museo ni los 540 m). Paso 2: «produce cada vez menos: desde 2019, cae
   todos los años» (antes de 2019 hubo repuntes). Paso 3: «casi dos de cada tres» sale de `fraccionEnPalabras()`. Paso 6:
-  «Varios de estos barrios nacieron como asentamientos petroleros» (no «casi todos»). Paso 8: «entre las casas» es decisión
+  «Varios de estos barrios nacieron como campamentos petroleros» (no «casi todos»; «campamentos» desde el 03/10). Paso 8: «entre las casas» es decisión
   de los autores para el cierre (el satélite y las historias del paso 7); en el resto, «dentro del barrio».
 - 28/09 (noche): la tarjeta 8 se vuelve cierre: vuelve al Pozo N° 2 (zoom 14) y se aleja en 7 s hasta `VISTA_CUENCA`
   (`cierre` en el paso; `recorrerCierre()` en story.js), con foto de Mauro Esains y texto que cierra con «El petróleo se va.
