@@ -49,7 +49,7 @@ const pozosDe = (h) => [].concat(h.idpozo);
 const enLista = (xs) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} y ${xs[xs.length - 1]}` : xs.join(''));
 // Foto de una historia del paso 7 (public/img/historias/, la genera scripts/optimizar_fotos.py).
 // posicion: object-position del recorte 16:9. proporcion: [ancho, alto] de la foto web cuando va con su forma propia, sin recorte
-// (la del CH-182 la recortaron los autores para que la ventana no tenga desplazamiento).
+// (hoy las diez son 16:9 y no los usan).
 const fotoHistoria = (archivo, alt, credito, posicion, proporcion) => ({ src: `${import.meta.env.BASE_URL}img/historias/${archivo}.jpg`, alt, credito, posicion, proporcion });
 /** Enlace a un dataset por su clave en resumen.datasets (procesar.py → DATASETS). */
 const dataset = (R, clave, t) => ({ t, url: R.datasets?.find((d) => d.clave === clave)?.url });
@@ -189,7 +189,8 @@ export function definirPasos(R) {
       // (docs/investigacion-contexto.md). Las cifras de las historias son citas de esas fuentes; lo que dice el registro de cada
       // pozo lo agrega la ficha. Todas salvo la del BV-577(d), que produce, son de pozos que figuran como abandonados en el Capítulo IV.
       // La del CH-182 no salió en medios: sale del Decreto 135/2025, del plano municipal y de la imagen satelital. Texto de los autores.
-      // Foto opcional por historia (fotoHistoria), SOLO con permiso escrito de quien la sacó; el crédito va debajo.
+      // Fotos (03/10): de los autores, sin crédito (las tomas aéreas son de ellos), salvo la 7 y la 8, de las gacetillas de la
+      // Municipalidad (de uso libre citando la fuente). El epígrafe dice el lugar; no se marca ninguna propiedad (privacidad).
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
       titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
       texto: 'Pero que un pozo figure como «abandonado» no garantiza que esté bien sellado. Y los riesgos no terminan ahí: también hay incidentes en pozos activos. Estas son algunas historias documentadas en medios y fuentes oficiales; te invitamos a descubrirlas.',
@@ -202,51 +203,54 @@ export function definirPasos(R) {
           fuente: [{ t: 'La Nación, 27/5/2002', url: 'https://www.lanacion.com.ar/sociedad/peligro-bajo-tierra-en-comodoro-rivadavia-nid399990/' },
             { t: 'El Patagónico, 7/12/2011', url: 'https://www.elpatagonico.com/inauguraron-el-nuevo-edificio-la-escuela-169-el-stella-maris-n1411164' },
             { t: '18/3/2015', url: 'https://www.elpatagonico.com/la-escuela-que-se-construyo-tres-pozos-petroleros-que-no-habian-sido-sellados-n773657' }],
-          foto: fotoHistoria('escuela-169', 'Cartel de la Escuela Provincial N° 169 «Estrella de Mar», del barrio Stella Maris, frente a un edificio escolar de ladrillo', 'Foto: El Patagónico', null, [1000, 513]) },
+          foto: fotoHistoria('historia-1-escuela', 'Vista aérea de un galpón de chapa con techo celeste junto a una avenida, con la costa al fondo', 'Toma aérea del edificio donde funcionaba la Escuela 169, en Stella Maris.') },
         { idpozo: 120614, titulo: 'Once familias fuera de sus casas', lugar: 'Próspero Palazzo', cuando: '2008',
           texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
           fuente: [{ t: 'El Patagónico, 20/3/2008', url: 'https://www.elpatagonico.com/por-la-surgencia-petroleo-viviendas-palazzo-once-familias-fueron-evacuadas-n1320746' },
-            { t: '23/3/2008', url: 'https://www.elpatagonico.com/imponente-maquinaria-trabaja-la-casa-palazzo-donde-broto-petroleo-n1320952' }] },
+            { t: '23/3/2008', url: 'https://www.elpatagonico.com/imponente-maquinaria-trabaja-la-casa-palazzo-donde-broto-petroleo-n1320952' }],
+          foto: fotoHistoria('historia-2-paso-sarratea', 'Vista aérea de un barrio de casas bajas; a la derecha, un loteo con viviendas nuevas', 'Toma aérea de Juan José Paso y Manuel de Sarratea, en Próspero Palazzo.') },
         // YPF.Ch.-811 (identificado por los autores el 03/10, antes figuraba el CH-2228): la nota ubica la válvula en el «Lote 5» y
         // el 811 cae en el lote 5 de la manzana 9 del plano de catastro, en Laprida. La vecinal hablaba del «2.811», que no existe
         // en el Capítulo IV. Las imágenes satelitales de 2008 y 2026 muestran los lotes nuevos junto al pozo.
         { idpozo: 121741, titulo: 'Un lote con una válvula', lugar: 'Laprida', cuando: '2009',
           texto: 'En diciembre de 2008 el municipio entregó lotes en Laprida y en uno estaba la válvula de este pozo. «No podemos avanzar en la construcción, ni en la instalación de servicios», reclamaba la vecinal.',
-          fuente: [{ t: 'El Patagónico, 1/4/2009', url: 'https://www.elpatagonico.com/en-laprida-se-quejan-porque-les-entregaron-terrenos-un-pozo-petroleo-abierto-n1345550' }] },
+          fuente: [{ t: 'El Patagónico, 1/4/2009', url: 'https://www.elpatagonico.com/en-laprida-se-quejan-porque-les-entregaron-terrenos-un-pozo-petroleo-abierto-n1345550' }],
+          foto: fotoHistoria('historia-3-laprida', 'Vista aérea de casas sobre la ladera de un cerro con vegetación', 'Toma aérea de los lotes de Laprida, al pie del cerro.') },
         { idpozo: 121051, titulo: 'Un pozo en el patio', lugar: 'Km 3', cuando: '2010 a 2024',
           texto: 'En 2010, los departamentos de una propiedad de la calle Buque La Plata estaban desocupados por las emanaciones de gas del pozo. En 2022 la Cámara de Apelaciones le ordenó a YPF abandonarlo de nuevo, en forma definitiva. En 2024 el municipio volvió «ante la preocupación de los vecinos».',
           fuente: [{ t: 'El Patagónico, 18/12/2010', url: 'https://www.elpatagonico.com/intiman-ypf-un-pozo-abandonado-el-patio-su-casa-n1387155' },
             { t: 'ADNSUR, 22/5/2022', url: 'https://www.adnsur.com.ar/sociedad/alertan-por-un-viejo-pozo-petrolero-potencialmente--explosivo--que-esta-en-km-3-e-intiman-a-ypf-al-reabandono-_a6286a726ad27edc439d29c52' },
             { t: 'Municipalidad, 13/6/2024', url: 'https://www.comodoro.gov.ar/2024/06/13/el-municipio-realizo-fuertes-controles-en-yacimientos-para-relevar-los-pasivos-ambientales/' }],
-          foto: fotoHistoria('ypf-ch-44', 'Vista aérea de casas de Km 3; una de las propiedades está marcada en rojo', 'Foto: ADNSUR') },
+          foto: fotoHistoria('historia-4-buque-la-plata', 'Vista aérea de un barrio de casas bajas con el mar al fondo; adelante, un edificio de techo negro', 'Toma aérea de las calles Buque Fray Luis Beltrán y Buque La Plata, en General Mosconi.') },
         { idpozo: 120200, titulo: 'Olor a gas en Las Orquídeas', lugar: 'Km 5', cuando: '2011',
           texto: 'Vecinos de Los Ferroviarios y Juan Zabalo sentían olor a gas. Camuzzi descartó que viniera de sus caños y avisó a la Secretaría de Hidrocarburos. El pozo, abandonado por YPF en 1968, se volvió a abandonar en marzo de 2011, con dos calles cortadas.',
           fuente: [{ t: 'El Patagónico, 27/2/2011', url: 'https://www.elpatagonico.com/una-surgencia-gas-mantiene-vilo-al-barrio-las-orquideas-n1391649' },
-            { t: '31/3/2011', url: 'https://www.elpatagonico.com/cortaron-dos-calles-sellar-el-pozo-petrolero-kilometro-5-n1393660' }] },
+            { t: '31/3/2011', url: 'https://www.elpatagonico.com/cortaron-dos-calles-sellar-el-pozo-petrolero-kilometro-5-n1393660' }],
+          foto: fotoHistoria('historia-5-ferroviarios-zabalo', 'Carteles de las calles Los Ferroviarios y Juan Zabalo contra un cielo con nubes', 'Los Ferroviarios y Juan Zabalo, en Las Orquídeas.') },
         // CH-182: Decreto 135/2025 (rechaza el recurso de YPF contra la Res. 23-15-MH del 29/10/2015); la rotonda, del plano
         // municipal y de la imagen de Google Earth (3/2026).
         { idpozo: 121188, titulo: 'Un pozo en la rotonda', lugar: 'Presidente Ortiz', cuando: '2015 a 2025',
           texto: 'Cuando el Sindicato de Petróleo y Gas Privado solicitó a YPF tierras para una urbanización de 600 lotes, el pozo YPF.Ch.-182 tenía un radio de seguridad de 60 metros. En 2015, el Ministerio de Hidrocarburos de Chubut redujo ese perímetro a 5 metros y le exigió a YPF la presentación de un plan de contingencia anual. La empresa recurrió la medida: sostuvo que el pozo, por su ubicación, «no podría en ningún caso generar daños a bienes o a personas». La Provincia rechazó el recurso en 2025. Hoy, el pozo se encuentra en medio de una rotonda del barrio.',
           fuente: [{ t: 'Decreto Chubut 135/2025', url: CONTEXTO.decreto135 }, { t: 'plano de la Municipalidad de Comodoro Rivadavia' }, { t: 'Google Earth, 3/2026' }],
-          foto: fotoHistoria('ypf-ch-182', 'Imagen satelital de un loteo con calles nuevas y pocas casas; en el centro, una rotonda con el pozo YPF.Ch.-182 marcado', 'Imagen: Google Earth · © 2026 Airbus', null, [1000, 385]) },
+          foto: fotoHistoria('historia-6-rotonda', 'Vista aérea de una rotonda con calles nuevas, postes de luz y lotes casi vacíos', 'Toma aérea de la rotonda del loteo, en Presidente Ortiz.') },
         { idpozo: 161850, titulo: 'Un derrame en el Cañadón La Francesa', lugar: 'Bella Vista', cuando: '2024',
           texto: 'En junio de 2024 se rompió la línea de conducción de este pozo, que hoy produce. Se derramaron 14 m³ de crudo a lo largo de unos 600 metros, sobre vegetación y lotes de vecinos. La Provincia multó a YPF con el equivalente a 224.000 litros de gasoil.',
           fuente: [{ t: 'El Chubut, 5/7/2024', url: 'https://www.elchubut.com.ar/regionales/2024-7-5-21-35-0-provincia-sanciono-a-ypf-por-el-derrame-de-hidrocarburos-en-bella-vista' },
             { t: 'El Extremo Sur, 11/7/2024', url: 'https://www.elextremosur.com/nota/49898-derrames-y-pozos-abandonados-a-la-vuelta-de-la-esquina-una-ciudad-que-crecio-de-la-mano-del-petroleo/' }],
-          foto: fotoHistoria('ypf-ch-bv-577d', 'Un arroyo con manchas de crudo entre pasto seco; atrás, tierra removida, una camioneta blanca y casas', 'Foto: El Extremo Sur') },
+          foto: fotoHistoria('historia-7-la-francesa', 'Un camino de tierra con una mancha de petróleo; al fondo, pinos y cerros nevados', 'El derrame en el Cañadón La Francesa. Foto: Municipalidad de Comodoro Rivadavia.') },
         { idpozo: 121621, titulo: 'Una surgencia camino a Laprida', lugar: 'Zona Central', cuando: '2024',
           texto: 'El 25 de agosto de 2024 salió petróleo de este pozo, perforado en 1927 y abandonado «aparentemente en 1962», según el municipio. El derrame afectó el suelo y parte del arroyo Belgrano. El municipio le pidió a YPF, por acta, estudios de integridad y hermeticidad.',
           fuente: [{ t: 'Municipalidad, 27/8/2024', url: CONTEXTO.municipioCH679 }],
-          foto: fotoHistoria('ypf-ch-679', 'Dos personas con casco junto a un charco y a un caño que baja por la ladera; adelante, tierra oscura', 'Foto: Municipalidad de Comodoro Rivadavia', '50% 75%') },
+          foto: fotoHistoria('historia-8-arroyo-belgrano', 'Dos personas con casco al borde de un arroyo de agua turbia, entre arbustos', 'El arroyo Belgrano después de la surgencia. Foto: Municipalidad de Comodoro Rivadavia.') },
         { idpozo: 121326, titulo: 'Cuando un pozo apareció dentro de una casa', lugar: 'Sismográfica', cuando: '2026',
           texto: 'Tras el deslizamiento del cerro Hermitte, en la casa de un vecino «un pozo petrolero emergió del suelo, rompió su piso». Esos días se evacuaron más de 90 familias del sector. La Provincia sostuvo que la actividad petrolera no causó el deslizamiento.',
           fuente: [{ t: 'Diario Jornada, 21/1/2026', url: 'https://www.diariojornada.com.ar/409911/magazine/derrumbe_emergio_un_pozo_petrolero_dentro_de_su_casa' },
             { t: 'El Chubut, 10/2/2026', url: 'https://www.elchubut.com.ar/regionales/2026-2-10-21-55-0-cerro-hermitte-aseguran-que-la-actividad-petrolera-no-fue-el-origen-de-los-deslizamientos' }],
-          foto: fotoHistoria('ypf-ch-325', 'La boca de un pozo, cubierta de tierra, asoma entre las baldosas rotas del piso de una casa', 'Foto: vecino damnificado') },
+          foto: fotoHistoria('historia-9-sismografica', 'Casas al pie de un cerro con laderas de tierra desmoronada; algunas, dañadas por el deslizamiento', 'Sismográfica, al pie del cerro Hermitte: se ven viviendas dañadas por el deslizamiento.') },
         { idpozo: 121660, titulo: 'Petróleo al plantar un árbol', lugar: 'Km 5', cuando: '2026',
           texto: 'Un vecino de la calle Ferrocarriles Argentinos cavaba en su patio para plantar un árbol y, a un metro diez de profundidad, empezó a salir petróleo. «Ya nos había pasado otras veces», contó.',
           fuente: [{ t: 'ADNSUR, 27/2/2026', url: 'https://www.adnsur.com.ar/sociedad/cavaba-un-pozo-en-su-patio-de-la-zona-norte-de-comodoro-y-se-encontro-con-petroleo_a69a227fe66a78182fdf02017' }],
-          foto: fotoHistoria('ypf-ch-724', 'Un pozo cavado a pala en la tierra, con un hueco oscuro en el fondo; al lado, la pala y un balde con tierra', 'Foto: ADNSUR') },
+          foto: fotoHistoria('historia-10-ferrocarriles-argentinos', 'Vista aérea de una esquina con una plaza, casas y edificios de colores', 'Toma aérea de las calles Ferrocarriles Argentinos y Ferrocarril Patagónico, en Presidente Ortiz.') },
       ],
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), 'historias: cada una cita su fuente'],
       vista: { bounds: NUCLEO_ZONA_NORTE },

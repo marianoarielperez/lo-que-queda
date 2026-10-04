@@ -205,6 +205,10 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   clic) y se borra al cerrarla: sin abrirla no se carga nada de YouTube. Es la única excepción a «sin cookies», aclarada en
   la Metodología (Créditos y licencias). El video está en el canal anónimo «Lo que queda... cuando el petróleo se va»
   (@lo-que-queda-2026, youtu.be/lJ91vFpKvfM): para cambiarlo, solo `data-youtube`.
+- 03/10: las diez historias del paso 7 llevan fotos nuevas (`fotos-originales/historias/historia-N-….jpg`, 16:9): de los autores
+  (sin crédito, casi todas tomas aéreas) salvo la 7 y la 8, de gacetillas de la Municipalidad («Foto: Municipalidad de Comodoro
+  Rivadavia»). Se borraron las de El Patagónico, ADNSUR, El Extremo Sur, el vecino y Google Earth. Ninguna foto marca una
+  propiedad (privacidad; decisión de los autores); el epígrafe dice el lugar.
 - 30/09: fotos propias de los autores (sin crédito por foto, por el seudónimo; la Metodología dice «las fotos sin crédito son de
   los autores»): portada (restos oxidados de un aparato de bombeo en la entrada de Caleta Córdova; reemplaza la de El Patagónico)
   y pasos 3 a 6 (`fotoPropia()` en story.js: planta deshidratadora de PECOM en Km 9; letras de YPF en sus antiguos almacenes de
