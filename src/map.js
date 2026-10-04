@@ -4,7 +4,7 @@
 //
 // Carga en dos tiempos (plan 3.4): este módulo trae solo MapLibre, así la portada tiene su mapa base enseguida.
 // deck.gl (~60 % del JavaScript) se importa aparte cuando llegan los pozos (cargarCapas) y el país al final
-// (agregarPais). Mientras tanto aplicar(), volar() y marcador() funcionan: guardan el estado y se ponen al día.
+// (agregarPais). Mientras tanto aplicar(), volar() y marcadores() funcionan: guardan el estado y se ponen al día.
 
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -488,11 +488,11 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     animFundido = requestAnimationFrame(paso);
   }
 
-  // Marcador del Pozo N° 2 (HTML, así tiene forma propia). El color del borde es el de su estado
-  // declarado (Abandonado): el ícono agrega forma, no cambia la regla color = estado.
-  // Si se pide antes de que lleguen los pozos, queda pendiente y se pone cuando llegan.
-  let marcador = null;
-  let marcadorPendiente = null;
+  // Marcadores del Pozo N° 2 y del pozo de la foto del paso 6 (HTML, así tienen forma propia). El color del borde es el
+  // de su estado declarado: el ícono agrega forma, no cambia la regla color = estado.
+  // Si se piden antes de que lleguen los pozos, quedan pendientes y se ponen cuando llegan.
+  let marcadores = [];
+  let marcadoresPendientes = null;
   // ---- historias (tarjeta 7): pozos marcados con el ícono del Pozo N° 2 (botones; el título aparece con el mouse o el
   // foco). Al tocarlos se avisa a story.js, que abre la ventana de la historia. ----
   let marcasHistoria = [];
@@ -523,24 +523,28 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
   /** Marca (o desmarca, con null) el pozo de la historia abierta. */
   function resaltarHistoria(i) { marcasHistoria.forEach((x, j) => x?.getElement().classList.toggle('activa', j === i)); }
 
-  function mostrarMarcador(idpozo, etiqueta) {
-    marcador?.remove();
-    marcador = null;
-    marcadorPendiente = null;
-    if (idpozo === null || idpozo === undefined) return;
-    if (!pozos) { marcadorPendiente = [idpozo, etiqueta]; return; }
-    const c = coordsDe(idpozo);
-    if (!c) return;
-    const el = document.createElement('div');
-    el.className = 'marcador-pozo';
-    el.innerHTML = `<span class="marcador-halo"></span><span class="marcador-icono">
-      <svg width="18" height="20" viewBox="0 0 18 20" fill="none" stroke="currentColor" stroke-width="1.4"
-        stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-        <path d="M9 1 L4 19 M9 1 L14 19 M7.3 6.5 L10.7 6.5 M6.2 11 L11.8 11 M5.2 15 L12.8 15 M2 19 L16 19"/></svg></span>
-      <span class="marcador-etiqueta">${esc(etiqueta)}</span>`;
-    el.setAttribute('role', 'img');
-    el.setAttribute('aria-label', etiqueta);
-    marcador = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(c).addTo(map);
+  /** lista: [{ idpozo, etiqueta, soloCompu, etiquetaIzquierda }] o null para sacarlos. `soloCompu`: no se muestra en el
+   *  celular (el del pozo de la foto, que ahí se oculta). `etiquetaIzquierda`: para un pozo cerca del borde derecho. */
+  function mostrarMarcadores(lista) {
+    for (const m of marcadores) m.remove();
+    marcadores = [];
+    marcadoresPendientes = null;
+    if (!lista?.length) return;
+    if (!pozos) { marcadoresPendientes = lista; return; }
+    for (const { idpozo, etiqueta, soloCompu, etiquetaIzquierda } of lista) {
+      const c = coordsDe(idpozo);
+      if (!c) continue;
+      const el = document.createElement('div');
+      el.className = `marcador-pozo${soloCompu ? ' solo-compu' : ''}${etiquetaIzquierda ? ' etiqueta-izquierda' : ''}`;
+      el.innerHTML = `<span class="marcador-halo"></span><span class="marcador-icono" style="border-color:${ESTADOS[pozos.cols.estado_cod[pozos.filaPorId.get(idpozo)]].hex}">
+        <svg width="18" height="20" viewBox="0 0 18 20" fill="none" stroke="currentColor" stroke-width="1.4"
+          stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+          <path d="M9 1 L4 19 M9 1 L14 19 M7.3 6.5 L10.7 6.5 M6.2 11 L11.8 11 M5.2 15 L12.8 15 M2 19 L16 19"/></svg></span>
+        <span class="marcador-etiqueta">${esc(etiqueta)}</span>`;
+      el.setAttribute('role', 'img');
+      el.setAttribute('aria-label', etiqueta);
+      marcadores.push(new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(c).addTo(map));
+    }
   }
 
   function coordsDe(idpozo) {
@@ -739,7 +743,7 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
       });
       map.addControl(overlay);
       actualizar({ fundir: estado.pozos });
-      if (marcadorPendiente) mostrarMarcador(...marcadorPendiente);
+      if (marcadoresPendientes) mostrarMarcadores(marcadoresPendientes);
       if (historiasPendientes) mostrarHistorias(historiasPendientes);
       ajustarFoco();
     },
@@ -765,7 +769,8 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     },
     /** Avisa después de cada cambio (el panel resincroniza controles, leyenda y contadores). */
     alCambiar(fn) { oyentes.push(fn); },
-    marcador: mostrarMarcador,
+    /** Pozos marcados con el ícono y la etiqueta a la vista: [{ idpozo, etiqueta, soloCompu, etiquetaIzquierda }] o null. */
+    marcadores: mostrarMarcadores,
     /** Pozos marcados de las historias (tarjeta 7): [{ idpozo, etiqueta }] o null para sacarlos. */
     historias: mostrarHistorias,
     resaltarHistoria,

@@ -209,6 +209,16 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   (sin crédito, casi todas tomas aéreas) salvo la 7 y la 8, de gacetillas de la Municipalidad («Foto: Municipalidad de Comodoro
   Rivadavia»). Se borraron las de El Patagónico, ADNSUR, El Extremo Sur, el vecino y Google Earth. Ninguna foto marca una
   propiedad (privacidad; decisión de los autores); el epígrafe dice el lugar.
+- 04/10: el paso 6 marca el pozo de su foto (PCR.Ch.B-41, idpozo 40066, Gobernador Fontana) con el ícono del Pozo N° 2 y la
+  etiqueta «PCR.Ch.B-41 · en la foto», solo en la computadora (en el celular la foto se oculta); cae dentro de
+  `NUCLEO_ZONA_NORTE`, así la vista no cambia. `mapa.marcadores()` toma una lista y pone el borde del color del estado declarado
+  de cada pozo (el B-41 figura Activo, aunque CRI no lo declara desde 12/2022). Texto: «…el barrio donde se encontró el
+  petróleo en el Pozo N° 2…».
+- 04/10: textos de seis historias del paso 7 revisados por los autores y cotejados con sus notas. Lo que no sale de la nota y es
+  decisión o análisis de ellos (Laprida: «era el YPF.Ch.-811», la vecinal dijo «2.811»; la esquina de Buque La Plata y Petrolero
+  San Lorenzo; La Francesa «por encima de las viviendas» y «descendió»; el «antiguo» pozo del cerro Hermitte) queda anotado en
+  story.js y en `docs/investigacion-contexto.md`. «Su sellado no quedó en condiciones óptimas» (Las Orquídeas) va atribuido a
+  El Patagónico: es del periodista.
 - 30/09: fotos propias de los autores (sin crédito por foto, por el seudónimo; la Metodología dice «las fotos sin crédito son de
   los autores»): portada (restos oxidados de un aparato de bombeo en la entrada de Caleta Córdova; reemplaza la de El Patagónico)
   y pasos 3 a 6 (`fotoPropia()` en story.js: planta deshidratadora de PECOM en Km 9; letras de YPF en sus antiguos almacenes de

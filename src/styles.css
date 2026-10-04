@@ -97,11 +97,12 @@ body.modo-explorar #story, body.modo-explorar #leyenda { display: none; }
 .foto-paso img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: 45% 10%; border-radius: 6px 6px 0 0; background: var(--urbano, #e7e1d4); }
 .foto-paso figcaption { padding: 6px 30px 0; font-size: 12px; line-height: 1.35; color: var(--texto-sec); }
 
-/* marcador del Pozo N° 2 */
+/* marcadores del Pozo N° 2 y del pozo de la foto del paso 6 (el borde, del color de su estado, lo pone map.js) */
 .marcador-pozo { position: relative; z-index: 3; width: 34px; height: 34px; } /* arriba del lienzo de deck.gl (los pozos) */
 .marcador-halo { position: absolute; left: -11px; top: -11px; width: 56px; height: 56px; border-radius: 50%; border: 1px solid rgba(123,127,136,.55); box-sizing: border-box; }
 .marcador-icono { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #fffcf6; border: 2px solid var(--abandonado); box-sizing: border-box; box-shadow: 0 2px 10px rgba(0,0,0,.18); color: var(--texto); }
 .marcador-etiqueta { position: absolute; left: 51px; top: 5px; white-space: nowrap; padding: 4px 10px; background: var(--tarjeta); border-radius: 4px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.12); color: var(--texto); }
+.etiqueta-izquierda .marcador-etiqueta { left: auto; right: 51px; } /* pozo cerca del borde derecho (el de la foto del paso 6) */
 .card.error { border-left: 4px solid var(--a-abandonar); opacity: 1; margin: 16px 0 0 48px; }
 
 /* ---- leyenda compacta ---- */
@@ -261,6 +262,7 @@ html:has(.ventana[open]) { overflow: hidden; } /* la página de atrás no se des
   .card-portada .titulo { font-size: 42px; }
   .card-portada .bajada { font-size: 23px; }
   .foto-paso { display: none; } /* en celular la tarjeta del Pozo N° 2 va sin foto */
+  .marcador-pozo.solo-compu { display: none; } /* el pozo de la foto del paso 6: sin la foto, el marcador no dice nada */
   .foto-portada { margin: -20px -18px 14px; }
   .foto-portada figcaption { padding: 6px 18px 0; }
   #leyenda { right: 12px; top: 12px; font-size: 12.5px; padding: 8px 10px; }
