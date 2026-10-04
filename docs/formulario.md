@@ -33,12 +33,22 @@ Se utilizó Claude (Anthropic), con supervisión humana, para la limpieza y orga
 
 ## Declaración de uso de IA (Anexo A)
 
-Herramientas: Claude (Anthropic). Etapas: limpieza y cruce de datos, asistencia en la escritura de
-código de procesamiento y de la web, búsqueda y verificación de fuentes documentales, generación de
-ideas. Finalidad: acelerar el trabajo técnico bajo supervisión humana. Todas las decisiones de diseño
-visual, la selección de qué mostrar, los textos finales y la composición de la pieza fueron
-realizadas por las autoras/es. No se utilizó IA generativa para producir imágenes, gráficos ni la
-visualización final.
+Igual que en la Metodología de la web (04/10/2026, texto de los autores).
+
+**Para qué se utilizó**
+
+Se utilizó Claude (Anthropic), bajo supervisión humana, como herramienta de apoyo para la limpieza,
+organización y cruce de datos, y para la asistencia en la escritura y revisión del código del script
+de procesamiento y del desarrollo web. En la investigación documental también sirvió de apoyo para
+buscar y cotejar fuentes, a partir de los casos y ejemplos que plantearon los autores. Su finalidad
+fue agilizar el trabajo.
+
+**Para qué no se utilizó**
+
+La IA no se utilizó para generar imágenes, gráficos, mapas ni la visualización final. La
+verificación final de las fuentes, el trabajo de campo, las fotografías, la narrativa visual, el
+guion, la selección y jerarquización de contenidos, las decisiones de diseño y la composición final
+de la pieza fueron realizados por los autores.
 
 ## Tipo de visualización
 Aplicación web interactiva (mapa con recorrido guiado y exploración libre). Link a la aplicación +

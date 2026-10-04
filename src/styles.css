@@ -237,6 +237,7 @@ html:has(.ventana[open]) { overflow: hidden; } /* la página de atrás no se des
 .video-marco iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .metodologia h2 { margin: 0 40px 12px 0; font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.15; }
 .metodologia h3 { margin: 28px 0 8px; font-family: var(--serif); font-size: 21px; font-weight: 600; line-height: 1.2; }
+.metodologia h4 { margin: 16px 0 4px; font-size: 16px; font-weight: 600; line-height: 1.3; } /* subtítulos de «Uso de inteligencia artificial» */
 .metodologia p { margin: 0 0 12px; }
 .metodologia a { color: var(--texto); text-underline-offset: 2px; }
 .metodologia code { font-size: .9em; }
