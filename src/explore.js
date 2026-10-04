@@ -168,7 +168,7 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     clearTimeout(temporizadorAviso);
     temporizadorAviso = setTimeout(() => { aviso.hidden = true; }, 6000);
   }
-  const ubicacion = montarUbicacion({ mapa, avisar });
+  const ubicacion = montarUbicacion({ mapa, avisar, padding: () => paddingLibre() });
 
   // ---- leyenda (recorrido) y controles del panel: se redibujan con cada cambio del mapa ----
   const leyenda = $('leyenda');
@@ -302,10 +302,6 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     const mio = ++pedido;
     fichaAbierta = idpozo;
     if (ficha.classList.contains('hidden')) disparador = document.activeElement;
-    if (volar) {
-      const c = mapa.coordsDe(idpozo);
-      if (c) mapa.volar({ center: c, zoom: Math.max(mapa.map.getZoom(), 14) });
-    }
     mapa.aplicar({ resaltado: idpozo });
     let f;
     try { f = await cargarFicha(idpozo); } catch (err) {
@@ -314,6 +310,30 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     }
     if (mio !== pedido) return;
     mostrarFicha(f, foco);
+    // El vuelo va con la ficha ya a la vista, para dejar el pozo donde no lo tapan ni ella ni el panel (en el celular, la
+    // ficha cubre casi toda la mitad de abajo).
+    if (volar) {
+      const c = mapa.coordsDe(idpozo);
+      if (c) mapa.volar({ center: c, zoom: Math.max(mapa.map.getZoom(), 14) }, { padding: paddingLibre() });
+    }
+  }
+  /** Padding para centrar un pozo o la ubicación en lo que se ve del mapa: sin el panel y, si está abierta, sin la ficha
+   *  (en el celular, abajo y encima del panel; en la computadora, abajo a la izquierda). Siempre deja 40 px de mapa. */
+  function paddingLibre() {
+    const p = paddingPanel();
+    const conFicha = !ficha.classList.contains('hidden');
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      // Arriba, los botones del mapa y los créditos (en el celular van arriba a la derecha). Los créditos aparecen recién
+      // cuando llegan las teselas: si todavía no se ven, se les reserva el alto de dos renglones (20 px de margen + 44).
+      const controles = document.querySelector('.maplibregl-ctrl-bottom-right');
+      const creditos = controles?.querySelector('.maplibregl-ctrl-attrib');
+      const abajoControles = controles ? controles.getBoundingClientRect().bottom + (creditos && !creditos.offsetHeight ? 64 : 0) : 0;
+      const top = Math.max(p.top, Math.round(abajoControles) + 8);
+      const bottom = conFicha ? Math.max(p.bottom, Math.round(window.innerHeight - ficha.getBoundingClientRect().top) + 16) : p.bottom;
+      return { ...p, top, bottom: Math.min(bottom, window.innerHeight - top - 40) };
+    }
+    if (!conFicha) return p;
+    return { ...p, left: Math.min(Math.max(p.left, Math.round(ficha.getBoundingClientRect().right) + 24), window.innerWidth - p.right - 40) };
   }
   function mostrarFicha(f, foco = true) {
     const cerrar = '<button type="button" class="cerrar" aria-label="Cerrar la ficha">×</button>';

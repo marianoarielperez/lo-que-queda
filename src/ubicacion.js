@@ -12,8 +12,9 @@ const ETIQUETAS = {
 };
 const ZOOM_MINIMO = 14;
 
-/** Monta el botón sobre el mapa. `avisar(texto)` muestra un aviso breve. Devuelve { apagar } (al salir). */
-export function montarUbicacion({ mapa, avisar }) {
+/** Monta el botón sobre el mapa. `avisar(texto)` muestra un aviso breve; `padding()`, lo que tapan el panel y la ficha
+ *  (la ubicación se centra en el resto). Devuelve { apagar } (al salir). */
+export function montarUbicacion({ mapa, avisar, padding = () => undefined }) {
   const grupo = document.createElement('div');
   grupo.className = 'maplibregl-ctrl maplibregl-ctrl-group botonera';
   const boton = document.createElement('button');
@@ -39,7 +40,7 @@ export function montarUbicacion({ mapa, avisar }) {
     const [oeste, sur, este, norte] = mapa.limitesCuenca();
     return lng >= oeste && lng <= este && lat >= sur && lat <= norte;
   };
-  const centrar = (p, duracion) => mapa.volar({ center: [p.lng, p.lat], zoom: Math.max(mapa.vista().zoom, ZOOM_MINIMO) }, { duration: duracion });
+  const centrar = (p, duracion) => mapa.volar({ center: [p.lng, p.lat], zoom: Math.max(mapa.vista().zoom, ZOOM_MINIMO) }, { duration: duracion, padding: padding() });
 
   function recibir(pos) {
     ultima = { lng: pos.coords.longitude, lat: pos.coords.latitude, precision: pos.coords.accuracy };

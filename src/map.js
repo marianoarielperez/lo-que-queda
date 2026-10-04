@@ -827,7 +827,10 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     },
     /** Centro y zoom actuales (para volver al visualizador como se lo dejó). */
     vista() {
-      const c = map.getCenter();
+      // El centro de la pantalla y no el de MapLibre: después de un vuelo con padding (un pozo buscado, la ubicación) no
+      // coinciden, e irA() salta sin padding. Así, al volver al visualizador se ve lo mismo que al salir.
+      const { clientWidth: w, clientHeight: h } = map.getContainer();
+      const c = map.unproject([w / 2, h / 2]);
       return { center: [c.lng, c.lat], zoom: map.getZoom() };
     },
     /** Salta a una vista sin animación. */
