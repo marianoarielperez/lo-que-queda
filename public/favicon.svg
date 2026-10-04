@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- Ícono de la pestaña: el mismo del Pozo N° 2 en el mapa (marcador-pozo en src/map.js), con el borde gris de «Abandonado».
+       Las versiones en PNG (favicon.ico, apple-touch-icon.png) salen de este archivo con scripts/favicon.mjs. -->
+  <circle cx="16" cy="16" r="14.5" fill="#fffcf6" stroke="#7b7f88" stroke-width="2.5"/>
+  <g transform="translate(7 6)" fill="none" stroke="#17181b" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M9 1 L4 19 M9 1 L14 19 M7.3 6.5 L10.7 6.5 M6.2 11 L11.8 11 M5.2 15 L12.8 15 M2 19 L16 19"/>
+  </g>
+</svg>

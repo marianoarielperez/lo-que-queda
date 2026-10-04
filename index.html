@@ -8,6 +8,10 @@
   <!-- Mapa base (OpenFreeMap): la conexión se abre ya, así el estilo y las teselas llegan antes -->
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Tipografías propias (public/fonts): se piden ya, en paralelo con la hoja de estilos -->
+  <!-- Ícono de la pestaña: la torre del Pozo N° 2 (public/favicon.svg; el .ico y el de 180 px salen de scripts/favicon.mjs) -->
+  <link rel="icon" href="./favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <link rel="preload" href="./fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./src/styles.css">
@@ -240,7 +244,7 @@
         <li>Tipografías: Fraunces y Source Sans 3 (SIL Open Font License; licencias en <code>public/fonts/</code>).</li>
         <li>Programas: MapLibre GL JS (BSD-3-Clause), deck.gl (MIT), D3 (ISC), Scrollama (MIT), Vite (MIT).</li>
         <li>Esta pieza: código con licencia MIT; datos derivados con licencia CC-BY 4.0, citando las fuentes de arriba.</li>
-        <li class="pendiente">Enlace al repositorio con el código y los datos (tarea 1.6).</li>
+        <li>Repositorio con el código y los datos: <a href="https://github.com/datos26/lo-que-queda">github.com/datos26/lo-que-queda</a>.</li>
       </ul>
     </div>
   </dialog>
