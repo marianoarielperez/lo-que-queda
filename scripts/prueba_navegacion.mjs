@@ -230,6 +230,85 @@ async function bajarHastaElFinal(page) {
   await ctx.close();
 }
 
+// ---- Red lenta o caída ----
+/** Página con la red intervenida: `frenar` demora esas pedidas 3 s; `cortar` las hace fallar. */
+async function paginaConRed(url, { frenar = null, cortar = null } = {}) {
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1366, height: 800 });
+  await page.setRequestInterception(true); // además, sin caché: cada lote de fichas se pide de nuevo
+  page.on('request', (req) => {
+    if (cortar && req.url().includes(cortar)) req.abort();
+    else if (frenar && req.url().includes(frenar)) setTimeout(() => req.continue().catch(() => {}), 3000);
+    else req.continue();
+  });
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  return page;
+}
+const listo = (page, ms) => page.waitForFunction(() => document.body.classList.contains('listo'), { timeout: ms }).then(() => true, () => false);
+// El buscador puede quedar fuera de la vista dentro del panel: se completa y se confirma desde la página (como un Enter)
+const buscarPozo = async (page, sigla, idpozo) => {
+  await page.$eval('#f-buscar', (i, v) => { i.value = v; i.dispatchEvent(new Event('change')); }, sigla);
+  // Si hay más de una sigla parecida, la lista: se elige el pozo
+  const boton = await page.waitForSelector(`#f-resultados button[data-id="${idpozo}"]`, { timeout: 1500 }).catch(() => null);
+  if (boton) await boton.evaluate((b) => b.click());
+};
+{
+  // Una ficha que todavía carga no aparece sobre el recorrido si se sale del visualizador antes de que llegue
+  const page = await paginaConRed(`${BASE}#explorar`, { frenar: '/data/fichas/' });
+  ok(await listo(page, 60000), 'ficha lenta: el visualizador carga');
+  await espera(800);
+  await buscarPozo(page, 'CH-679', 121621);
+  await espera(300);
+  await page.click('.explore-nav [data-ir="inicio"]');
+  await espera(4000);
+  let e = await estado(page);
+  ok(!e.explorar && !e.ficha, 'ficha lenta: al salir antes de que llegue, no aparece sobre el recorrido');
+  ok(e.foco === 'btn-empezar', `ficha lenta: el foco sigue en "Desplazá para empezar" (${e.foco})`);
+  await page.click('.accesos [data-ir="explorar"]');
+  await espera(4000);
+  ok((await estado(page)).ficha, 'ficha lenta: al volver al visualizador se abre la que se había pedido');
+
+  // Escape mientras carga: tampoco aparece después
+  await page.keyboard.press('Escape');
+  await espera(300);
+  ok(!(await estado(page)).ficha, 'ficha lenta: Escape cierra la ficha abierta');
+  await buscarPozo(page, 'PCR.Ch.B-41', 40066);
+  await espera(300);
+  await page.keyboard.press('Escape');
+  await espera(4000);
+  e = await estado(page);
+  ok(e.explorar && !e.ficha, 'ficha lenta: Escape mientras carga la cancela');
+  await page.close();
+}
+{
+  // Sin el gráfico de producción (paso 2), el resto del sitio anda igual
+  const page = await paginaConRed(BASE, { cortar: 'produccion_cuencas.json' });
+  ok(await listo(page, 30000), 'sin produccion_cuencas.json: el mapa y el visualizador cargan igual');
+  const r = await page.evaluate(() => ({
+    pasos: document.querySelectorAll('#story .step').length,
+    grafico: document.getElementById('grafico-cuencas')?.textContent.trim() || '',
+    error: Boolean(document.querySelector('#story .card.error')),
+  }));
+  ok(r.pasos === 9 && !r.error, `sin produccion_cuencas.json: las 9 secciones del recorrido, sin aviso de error (${r.pasos})`);
+  ok(r.grafico.startsWith('No se pudo cargar el gráfico'), `sin produccion_cuencas.json: el paso 2 lo avisa (${r.grafico})`);
+  await page.close();
+}
+{
+  // Si fallan los pozos y se entró por #explorar, el panel lo avisa en lugar de "Cargando el mapa…"
+  const page = await paginaConRed(`${BASE}#explorar`, { cortar: 'pozos_gsj.bin' });
+  await espera(8000);
+  const r = await page.evaluate(() => ({
+    panel: document.querySelector('#explore .panel-cargando').textContent,
+    boton: document.querySelector('#btn-empezar .empezar-texto').textContent,
+  }));
+  ok(r.panel.startsWith('No se pudieron cargar los datos'), `pozos caídos en #explorar: el panel lo avisa (${r.panel})`);
+  ok(r.boton !== 'Cargando el mapa…', `pozos caídos: el botón de la portada deja de decir "Cargando el mapa…" (${r.boton})`);
+  await page.click('.explore-nav [data-ir="inicio"]');
+  await espera(800);
+  ok(await page.$eval('#story .card.error', (c) => getComputedStyle(c).display !== 'none').catch(() => false), 'pozos caídos: en el recorrido, el aviso de error a la vista');
+  await page.close();
+}
+
 // ---- Celular ----
 {
   const page = await pagina(BASE, true);

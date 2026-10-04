@@ -348,8 +348,10 @@ export function montarExploracion({ mapa, pozos, resumen }) {
     ficha.querySelector('.cerrar').addEventListener('click', () => cerrarFicha());
     if (foco) ficha.querySelector('.cerrar').focus();
   }
+  // También cancela una ficha que todavía está cargando (oculta, con fichaAbierta): si no, aparecería después, aunque ya se
+  // haya apretado Escape o salido del visualizador.
   function cerrarFicha({ devolverFoco = true } = {}) {
-    if (ficha.classList.contains('hidden')) return;
+    if (ficha.classList.contains('hidden') && fichaAbierta === null) return;
     pedido++;
     fichaAbierta = null;
     ficha.classList.add('hidden');

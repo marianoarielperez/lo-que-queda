@@ -332,7 +332,9 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       </div>`;
     cont.appendChild(sec);
   }
-  if (produccion) dibujarProduccion(document.getElementById('grafico-cuencas'), produccion);
+  const grafico = document.getElementById('grafico-cuencas');
+  if (produccion) dibujarProduccion(grafico, produccion);
+  else if (grafico) grafico.innerHTML = '<p class="muted">No se pudo cargar el gráfico. Recargá la página para verlo.</p>';
 
   let turno = 0; // sube en cada entrada a un paso y en la pausa: una secuencia de cierre vieja no sigue
   function entrar(seccion) {

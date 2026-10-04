@@ -64,11 +64,12 @@ async function iniciar() {
   // Primero lo liviano (resumen y la serie del gráfico). Los datos pesados y el código del mapa esperan a que la
   // portada esté pintada y su foto bajada: evaluar MapLibre lleva tiempo de CPU y los binarios le disputan la red.
   // El país espera además a que lleguen los pozos.
-  const produccion = cargarProduccion();
+  // Sin la serie, el paso 2 avisa que no hay gráfico; el resto del sitio anda igual.
+  const produccion = cargarProduccion().catch((err) => { console.error('No se pudo cargar el gráfico de producción.', err); return null; });
   const portadaLista = fotoPortada().then(despuesDePintar);
   const datos = portadaLista.then(() => Promise.all([cargarPozos(), cargarRadios(), cargarLimites(), cargarConcesiones(), cargarBarrios()]));
   const moduloMapa = portadaLista.then(() => import('./map.js'));
-  for (const p of [moduloMapa, produccion, datos]) p.catch(() => {}); // el error se maneja al esperarlas
+  for (const p of [moduloMapa, datos]) p.catch(() => {}); // el error se maneja al esperarlas
 
   // ---- 1) portada, metodología y recorrido ----
   const resumen = await cargarResumen();
@@ -116,9 +117,14 @@ function avisarCarga(boton, cargando) {
 
 iniciar().catch((err) => {
   console.error(err); // el detalle técnico queda en la consola; a la persona, un aviso que pueda entender
+  const texto = 'No se pudieron cargar los datos. Revisá tu conexión y recargá la página.';
   const aviso = document.createElement('div');
   aviso.className = 'card error';
   aviso.setAttribute('role', 'alert');
-  aviso.innerHTML = '<p>No se pudieron cargar los datos. Revisá tu conexión y recargá la página.</p>';
+  aviso.innerHTML = `<p>${texto}</p>`;
   document.getElementById('story').prepend(aviso);
+  // En el visualizador (#explorar) el recorrido está oculto: el panel, que decía «Cargando el mapa…», da el mismo aviso.
+  // Y el botón de la portada deja de decir que está cargando.
+  document.querySelector('#explore .panel-cargando').textContent = texto;
+  avisarCarga(document.getElementById('btn-empezar'), false);
 });
