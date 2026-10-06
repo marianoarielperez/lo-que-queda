@@ -232,6 +232,10 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   pisen (`acomodarEtiquetas`); borde del color del estado. Íconos (`ICONOS_HISTORIA` en map.js): cinco de Aldana (escuela, gota,
   casa, brote, agua) y cinco de Tabler Icons (MIT, crédito en la Metodología: mudanza, cerco, edificio, viento, rotonda), elegidos
   por los autores. No dibujar íconos con IA: la Metodología dice que la IA no generó gráficos.
+- 06/10: textos de los autores. Portada: «Los barrios se levantaron alrededor de los pozos y, a veces, encima de ellos» e «YPF se
+  retiró de la zona». Paso 6: «…tienen pozos petroleros» (no «conviven con pozos», para no repetir el título del paso 7). Paso 8:
+  «la ciudad se expandió alrededor de la actividad petrolera» y «muchos de aquellos pozos». Enlaces en otra pestaña: Mauro Esains a
+  su Instagram (epígrafe del paso 8 y créditos de la Metodología) y la Resolución SE 5/96 en «Qué quiere decir cada estado».
 - 30/09: fotos propias de los autores (sin crédito por foto, por el seudónimo; la Metodología dice «las fotos sin crédito son de
   los autores»): portada (restos oxidados de un aparato de bombeo en la entrada de Caleta Córdova; reemplaza la de El Patagónico)
   y pasos 3 a 6 (`fotoPropia()` en story.js: planta deshidratadora de PECOM en Km 9; letras de YPF en sus antiguos almacenes de

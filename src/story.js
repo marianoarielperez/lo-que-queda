@@ -75,7 +75,7 @@ export function textoPortada(R) {
     if (anios === null || anios >= 20) desocupacion = ' y la desocupación es la más alta en décadas';
     else if (anios >= 5) desocupacion = ` y la desocupación es la más alta desde ${E.ultimo_valor_mayor.periodo.slice(0, 4)}`;
   }
-  const texto = `Comodoro Rivadavia creció al ritmo del petróleo durante más de un siglo. Los barrios se armaron alrededor de los pozos, y a veces encima. Hoy la cuenca produce cada vez menos, YPF se fue${desocupacion}. Pero los pozos siguen ahí. Esta es la historia de lo que queda… cuando el petróleo se va.`;
+  const texto = `Comodoro Rivadavia creció al ritmo del petróleo durante más de un siglo. Los barrios se levantaron alrededor de los pozos y, a veces, encima de ellos. Hoy la cuenca produce cada vez menos, YPF se retiró de la zona${desocupacion}. Pero los pozos siguen ahí. Esta es la historia de lo que queda… cuando el petróleo se va.`;
   // Partes para htmlFuente(…, ''): el texto se lee igual que antes, con los nombres enlazados.
   const fuente = ['Fuentes: ', dataset(R, 'capitulo_iv', 'Secretaría de Energía')];
   if (E) {
@@ -178,7 +178,7 @@ export function definirPasos(R) {
       // Zona norte (texto de los autores del 27/09): los 36 barrios al norte del cerro Chenque según el municipio.
       // Población del CSV municipal por barrio (Censo 2022). El Pozo N° 2 cae en General Mosconi (resumen: barrio_pozo_2).
       id: 6, kicker: 'Paso 6 · Zona norte', cifra: `${Z.barrios_con_pozos} de ${Z.barrios}`,
-      titulo: 'barrios al norte del cerro Chenque tienen pozos dentro',
+      titulo: 'barrios al norte del cerro Chenque tienen pozos petroleros',
       // Texto de los autores (01/10 y 03/10). «Varios» y no «casi todos»: con fuente oficial, Astra y Km 5 (docs/investigacion-contexto.md).
       // «El barrio donde se encontró el petróleo en el Pozo N° 2»: el Pozo N° 2 (idpozo 121014) cae en General Mosconi (zona_norte.barrio_pozo_2).
       texto: `En conjunto, dentro de sus límites hay ${fmt(Z.pozos.total)} pozos: ${fmt(Z.pozos.Abandonado)} están abandonados y ${fmt(Z.pozos.Activo)} activos. El ${pct(Z.pobl_en_barrios_con_10_o_mas_pct)} % de sus habitantes vive en un barrio con diez o más pozos. Varios de estos barrios nacieron como campamentos petroleros.${astra.total > astra.poblacion ? ` En Astra hoy hay más pozos que habitantes: ${fmt(astra.total)} frente a ${fmt(astra.poblacion)}.` : ''} Y en General Mosconi (Km 3), el barrio donde se encontró el petróleo en el Pozo N° 2, existen ${fmt(mosconi.total)} pozos.`,
@@ -319,7 +319,7 @@ export function definirPasos(R) {
       // resumen.json y en la conciliación.
       id: 8, kicker: 'Paso 8 · Lo que queda', cifra: fmt(c.sin_produccion),
       titulo: 'pozos sin producir en la cuenca',
-      texto: 'En 1907 se buscaba agua y se encontró petróleo. A partir de aquel hallazgo nacieron campamentos, crecieron barrios y la ciudad se expandió a su alrededor. Hoy la cuenca produce cada vez menos y muchos de esos pozos quedaron entre las casas. El petróleo se va, pero los pozos se quedan.',
+      texto: 'En 1907 se buscaba agua y se encontró petróleo. A partir de aquel hallazgo nacieron campamentos, crecieron barrios y la ciudad se expandió alrededor de la actividad petrolera. Hoy la cuenca produce cada vez menos y muchos de aquellos pozos quedaron entre las casas. El petróleo se va, pero los pozos se quedan.',
       fuente: [dataset(R, 'capitulo_iv', 'Secretaría de Energía'), { t: 'Ministerio de Economía', url: CONTEXTO.minEconomia }],
       vista: VISTA_CUENCA, // en la computadora, el mismo encuadre con el que arranca el visualizador
       comoVisualizador: true,
@@ -328,7 +328,7 @@ export function definirPasos(R) {
       foto: {
         src: `${import.meta.env.BASE_URL}img/bombeo-atardecer.jpg`,
         alt: 'Un aparato de bombeo petrolero, cercado, en un campo seco bajo un cielo cargado de atardecer; al fondo, un cerro',
-        credito: 'Foto: Mauro Esains.',
+        credito: `Foto: ${htmlFuente([{ t: 'Mauro Esains', url: 'https://www.instagram.com/mauroesains/' }])}.`, // su Instagram, en otra pestaña
       },
       // La cámara arranca cerca del Pozo N° 2 (zoom) y se aleja durante `duracion` ms hasta la vista del paso.
       cierre: { zoom: 14, duracion: 7000 },
