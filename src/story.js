@@ -237,10 +237,11 @@ export function definirPasos(R) {
         // YPF.Ch.-811 (identificado por los autores el 03/10, antes figuraba el CH-2228): la nota ubica la válvula en el «Lote 5» y
         // el 811 cae en el lote 5 de la manzana 9 del plano de catastro, en Laprida. La vecinal hablaba del «2.811», que no existe
         // en el Capítulo IV. Las imágenes satelitales de 2008 y 2026 muestran los lotes nuevos junto al pozo.
-        // Texto de los autores (04/10): dice «YPF.Ch.-811» aunque la vecinal habló del «2.811» (decisión de ellos).
+        // Texto de los autores (04/10): dice «YPF.Ch.-811» aunque la vecinal habló del «2.811» (decisión de ellos). La cita va completa
+        // desde el 05/10 («…hasta que el pozo esté sellado»): sin el final, el texto no decía que el pozo estaba abierto.
         { idpozo: 121741, titulo: 'Un lote con una válvula', etiqueta: 'Un pozo en un lote', icono: 'cerco', lugar: 'Laprida', cuando: '2009',
           copete: 'En diciembre de 2008, el municipio entregó lotes en Laprida. En uno de ellos, el lote 5, había un pozo petrolero.',
-          texto: 'Según la vecinal, Repsol YPF lo tenía registrado por error como el pozo YPF.Ch.-2228, que estaba sellado, cuando en realidad era el YPF.Ch.-811. «No podemos avanzar en la construcción, ni en la instalación de servicios», reclamaban los vecinos.',
+          texto: 'Según la vecinal, Repsol YPF lo tenía registrado por error como el pozo YPF.Ch.-2228, que estaba sellado, cuando en realidad era el YPF.Ch.-811. «No podemos avanzar en la construcción, ni en la instalación de servicios hasta que el pozo esté sellado», reclamaban los vecinos.',
           fuente: [{ t: 'El Patagónico, 1/4/2009', url: 'https://www.elpatagonico.com/en-laprida-se-quejan-porque-les-entregaron-terrenos-un-pozo-petroleo-abierto-n1345550' }],
           foto: fotoHistoria('historia-3-laprida', 'Vista aérea de casas sobre la ladera de un cerro con vegetación', 'Toma aérea de los lotes de Laprida, al pie del cerro.') },
         // La esquina con Petrolero San Lorenzo la confirmaron los autores (04/10; queda en el epígrafe de la foto): las notas dicen
@@ -257,9 +258,11 @@ export function definirPasos(R) {
             { t: 'Municipalidad, 13/6/2024', url: 'https://www.comodoro.gov.ar/2024/06/13/el-municipio-realizo-fuertes-controles-en-yacimientos-para-relevar-los-pasivos-ambientales/' }],
           foto: fotoHistoria('historia-4-buque-la-plata', 'Vista aérea de un barrio de casas bajas con el mar al fondo; adelante, un edificio de techo negro', 'Toma aérea de las calles Petrolero San Lorenzo y Buque La Plata, en General Mosconi.') },
         // «Su sellado no quedó en condiciones óptimas» es del periodista (31/3/2011): va atribuido a El Patagónico (autores, 04/10).
+        // Auditoría (05/10): «fuerte olor a gas», como la nota del 27/2; el sellado «comenzó» a fines de marzo (el 31/3 se estaba
+        // cementando en capas y el sellado definitivo «tendrá que» cubrir toda la profundidad: la nota no dice que haya terminado).
         { idpozo: 120200, titulo: 'Olor a gas en Las Orquídeas', etiqueta: 'Olor a gas en Las Orquídeas', icono: 'viento', lugar: 'Km 5', cuando: '2011',
-          copete: 'En febrero de 2011, vecinos de Los Ferroviarios y Juan Zabalo sentían olor a gas. Camuzzi descartó que viniera de la red de gas natural y notificó a la Secretaría de Hidrocarburos.',
-          texto: 'El pozo había sido abandonado por YPF en 1968; según El Patagónico, por la técnica de esa época su sellado no quedó en condiciones óptimas. En marzo, Repsol YPF lo volvió a sellar, cementándolo en toda su profundidad. Los trabajos obligaron a cortar dos calles.',
+          copete: 'En febrero de 2011, vecinos de Los Ferroviarios y Juan Zabalo percibían un fuerte olor a gas. Camuzzi descartó que viniera de la red de gas natural y notificó a la Secretaría de Hidrocarburos.',
+          texto: 'El pozo había sido abandonado por YPF en 1968; según El Patagónico, por la técnica de esa época su sellado no quedó en condiciones óptimas. A fines de marzo, Repsol YPF comenzó a sellarlo de nuevo, cementándolo en toda su profundidad. Los trabajos obligaron a cortar dos calles.',
           fuente: [{ t: 'El Patagónico, 27/2/2011', url: 'https://www.elpatagonico.com/una-surgencia-gas-mantiene-vilo-al-barrio-las-orquideas-n1391649' },
             { t: '31/3/2011', url: 'https://www.elpatagonico.com/cortaron-dos-calles-sellar-el-pozo-petrolero-kilometro-5-n1393660' }],
           foto: fotoHistoria('historia-5-ferroviarios-zabalo', 'Carteles de las calles Los Ferroviarios y Juan Zabalo contra un cielo con nubes', 'Los Ferroviarios y Juan Zabalo, en Las Orquídeas.') },
@@ -271,21 +274,24 @@ export function definirPasos(R) {
           fuente: [{ t: 'Decreto Chubut 135/2025', url: CONTEXTO.decreto135 }, { t: 'plano de la Municipalidad de Comodoro Rivadavia' }, { t: 'Google Earth, 3/2026' }],
           foto: fotoHistoria('historia-6-rotonda', 'Vista aérea de una rotonda con calles nuevas, postes de luz y lotes casi vacíos', 'Toma aérea de la rotonda del loteo, en Presidente Ortiz.') },
         // «Por encima de las viviendas» y «descendió por el terreno»: de la ubicación del pozo en el mapa y del recorrido del
-        // derrame (análisis de los autores, 04/10); las notas dicen «la parte alta del Cañadón La Francesa» y 600 metros.
+        // derrame (análisis de los autores, 04/10); las notas dicen «la parte alta del Cañadón La Francesa» y 600 metros. El Extremo Sur
+        // nombra el «pozo 578»; El Chubut (6/7/2024, con la Disposición 011/2024 de la Provincia), el BV 577 (d): queda el 577(d).
         { idpozo: 161850, titulo: 'Un derrame en el Cañadón La Francesa', etiqueta: 'Derrame en La Francesa', icono: 'gota', lugar: 'Bella Vista', cuando: '2024',
           copete: 'En junio de 2024 se rompió la línea de conducción del pozo activo YPF.Ch.BV-577(d), ubicado en la parte alta del cañadón La Francesa, por encima de las viviendas.',
           texto: 'El crudo descendió por el terreno y afectó unos 600 metros, alcanzando vegetación y lotes de vecinos. La Provincia sancionó a YPF con una multa equivalente a 224.000 litros de gasoil.',
-          fuente: [{ t: 'El Chubut, 5/7/2024', url: 'https://www.elchubut.com.ar/regionales/2024-7-5-21-35-0-provincia-sanciono-a-ypf-por-el-derrame-de-hidrocarburos-en-bella-vista' },
+          fuente: [{ t: 'El Chubut, 6/7/2024', url: 'https://www.elchubut.com.ar/regionales/2024-7-5-21-35-0-provincia-sanciono-a-ypf-por-el-derrame-de-hidrocarburos-en-bella-vista' },
             { t: 'El Extremo Sur, 11/7/2024', url: 'https://www.elextremosur.com/nota/49898-derrames-y-pozos-abandonados-a-la-vuelta-de-la-esquina-una-ciudad-que-crecio-de-la-mano-del-petroleo/' }],
           foto: fotoHistoria('historia-7-la-francesa', 'Un camino de tierra con una mancha de petróleo; al fondo, pinos y cerros nevados', 'El derrame en el Cañadón La Francesa. Foto: Municipalidad de Comodoro Rivadavia.') },
-        { idpozo: 121621, titulo: 'Una surgencia camino a Laprida', etiqueta: 'Surgencia del CH-679', icono: 'agua', lugar: 'Zona Central', cuando: '2024',
+        // Lugar: Campamento Central, el área de concesión del pozo (autores, 05/10; el municipio dice «Yacimiento Central», zona norte).
+        { idpozo: 121621, titulo: 'Una surgencia camino a Laprida', etiqueta: 'Surgencia del CH-679', icono: 'agua', lugar: 'Campamento Central', cuando: '2024',
           copete: 'En agosto de 2024 se produjo una surgencia de petróleo en el pozo YPF.Ch.-679, perforado en 1927 y abandonado «aparentemente en 1962», según el municipio.',
           texto: 'El derrame afectó el suelo y parte del arroyo Belgrano. El municipio exigió a YPF estudios de integridad y hermeticidad del pozo y de las instalaciones cercanas.',
           fuente: [{ t: 'Municipalidad, 27/8/2024', url: CONTEXTO.municipioCH679 }],
           foto: fotoHistoria('historia-8-arroyo-belgrano', 'Dos personas con casco al borde de un arroyo de agua turbia, entre arbustos', 'El arroyo Belgrano después de la surgencia. Foto: Municipalidad de Comodoro Rivadavia.') },
-        // «Antiguo»: de los autores (04/10); la nota dice «un pozo petrolero» y el registro no tiene fecha de perforación.
+        // «Antiguo»: de los autores (04/10); la nota dice «un pozo petrolero» y el registro no tiene fecha de perforación. «Emergió del
+        // suelo y rompió el piso», como Jornada (05/10). La nota no fecha el deslizamiento: el texto no da el mes.
         { idpozo: 121326, titulo: 'Cuando un pozo apareció dentro de una casa', etiqueta: 'Un pozo dentro de una casa', icono: 'casa', lugar: 'Sismográfica', cuando: '2026',
-          copete: 'Tras el deslizamiento del cerro Hermitte, un antiguo pozo petrolero emergió dentro de la casa de un vecino de Sismográfica.',
+          copete: 'Tras el deslizamiento del cerro Hermitte, un antiguo pozo petrolero emergió del suelo y rompió el piso de la casa de un vecino de Sismográfica.',
           texto: 'Más de 90 familias de ese barrio y El Marquesado tuvieron que ser evacuadas. Semanas después, el secretario de Ambiente de Chubut sostuvo que la actividad petrolera no había sido el origen del deslizamiento.',
           fuente: [{ t: 'Diario Jornada, 21/1/2026', url: 'https://www.diariojornada.com.ar/409911/magazine/derrumbe_emergio_un_pozo_petrolero_dentro_de_su_casa' },
             { t: 'El Chubut, 10/2/2026', url: 'https://www.elchubut.com.ar/regionales/2026-2-10-21-55-0-cerro-hermitte-aseguran-que-la-actividad-petrolera-no-fue-el-origen-de-los-deslizamientos' }],
