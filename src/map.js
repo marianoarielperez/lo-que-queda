@@ -493,33 +493,99 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
   // Si se piden antes de que lleguen los pozos, quedan pendientes y se ponen cuando llegan.
   let marcadores = [];
   let marcadoresPendientes = null;
-  // ---- historias (tarjeta 7): pozos marcados con el ícono del Pozo N° 2 (botones; el título aparece con el mouse o el
-  // foco). Al tocarlos se avisa a story.js, que abre la ventana de la historia. ----
+  // ---- historias (tarjeta 7): pozos marcados con un ícono y su etiqueta corta (botones; en el celular la etiqueta aparece
+  // solo con la historia abierta o el foco). Al tocarlos se avisa a story.js, que abre la ventana de la historia. ----
   let marcasHistoria = [];
   let historiasPendientes = null; // si llegan antes que los pozos
   let alTocarHistoriaFn = null;
   const ICONO_POZO = `<svg width="16" height="18" viewBox="0 0 18 20" fill="none" stroke="currentColor" stroke-width="1.4"
     stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
     <path d="M9 1 L4 19 M9 1 L14 19 M7.3 6.5 L10.7 6.5 M6.2 11 L11.8 11 M5.2 15 L12.8 15 M2 19 L16 19"/></svg>`;
+  // Íconos de las historias, uno por tipo de incidente (05/10; trazo en el color del texto). `caja`: lado del viewBox; el grosor
+  // del trazo se ajusta para que en pantalla sea el mismo (1,5 px) en las dos cajas. Sin ícono, el del Pozo N° 2.
+  const ICONOS_HISTORIA = {
+    // De la versión de Aldana (viewBox 16 × 16).
+    escuela: { caja: 16, d: ['M2 14.5h12M3 14.5V7.5L8 4.5l5 3v7M6.5 14.5v-3.5h3v3.5M8 4.5V1.5l2.6.8L8 3.1'] }, // edificio con bandera
+    gota: { caja: 16, d: ['M8 1.8C8 1.8 3.6 7 3.6 10.1a4.4 4.4 0 0 0 8.8 0C12.4 7 8 1.8 8 1.8z'] }, // gota de crudo
+    casa: { caja: 16, d: ['M2 8l6-5.5L14 8M3.5 6.8v7.7h9V6.8M8.4 14.5l-1.2-2.4 1.8-1.6-1.1-2'] }, // casa con el piso partido
+    brote: { caja: 16, d: ['M8 14.5V7M8 9.2C8 6.6 5.8 5.3 3.2 5.3c0 2.4 2 3.9 4.8 3.9M8 7.6c0-2.6 2-4.3 4.8-4.3 0 2.9-2 4.3-4.8 4.3M4.5 14.5h7'] }, // brote
+    agua: { caja: 16, d: ['M1.5 6.2c2-1.5 3.5 1.5 6.5 0s4.5 1.5 6.5 0M1.5 10.2c2-1.5 3.5 1.5 6.5 0s4.5 1.5 6.5 0'] }, // arroyo
+    // Los cinco que siguen son de Tabler Icons 3.49.0 (viewBox 24 × 24), elegidos por los autores el 05/10:
+    // https://tabler.io/icons — Copyright (c) 2020-2026 Paweł Kuna. Licencia MIT
+    // (https://github.com/tabler/tabler-icons/blob/main/LICENSE): el aviso y el enlace van en la Metodología (Créditos y licencias).
+    mudanza: { caja: 24, d: ['M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2', 'M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5', 'M16 19h6', 'M19 16l3 3l-3 3'] }, // home-move
+    cerco: { caja: 24, d: ['M4 12v4h16v-4l-16 0', 'M6 16v4h4v-4m0 -4v-6l-2 -2l-2 2v6', 'M14 16v4h4v-4m0 -4v-6l-2 -2l-2 2v6'] }, // fence
+    edificio: { caja: 24, d: ['M3 21l18 0', 'M9 8l1 0', 'M9 12l1 0', 'M9 16l1 0', 'M14 8l1 0', 'M14 12l1 0', 'M14 16l1 0', 'M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16'] }, // building
+    viento: { caja: 24, d: ['M5 8h8.5a2.5 2.5 0 1 0 -2.34 -3.24', 'M3 12h15.5a2.5 2.5 0 1 1 -2.34 3.24', 'M4 16h5.5a2.5 2.5 0 1 1 -2.34 3.24'] }, // wind
+    rotonda: { caja: 24, d: ['M21 9h-8a5 5 0 1 0 -5 5v7', 'M17 5l4 4l-4 4'] }, // arrow-roundabout-right
+  };
+  function svgHistoria(nombre) {
+    const ic = ICONOS_HISTORIA[nombre];
+    if (!ic) return ICONO_POZO;
+    return `<svg width="16" height="16" viewBox="0 0 ${ic.caja} ${ic.caja}" fill="none" stroke="currentColor" stroke-width="${1.5 * ic.caja / 16}"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ic.d.map((d) => `<path d="${d}"/>`).join('')}</svg>`;
+  }
   function mostrarHistorias(lista) {
     for (const m of marcasHistoria) m?.remove();
     marcasHistoria = [];
     historiasPendientes = null;
     if (!lista) return;
     if (!pozos) { historiasPendientes = lista; return; }
-    lista.forEach(({ idpozo, etiqueta }, i) => {
-      const c = coordsDe(idpozo);
+    lista.forEach(({ idpozos, etiqueta, nombre, icono }, i) => {
+      const c = coordsDe(idpozos[0]); // el marcador va en el primero
       if (!c) return;
+      // Borde: el color del estado declarado de sus pozos, como el del Pozo N° 2; si no comparten estado, el del texto.
+      const estados = new Set(idpozos.map((id) => pozos.filaPorId.get(id)).filter((f) => f !== undefined).map((f) => pozos.cols.estado_cod[f]));
+      const borde = estados.size === 1 ? ESTADOS[[...estados][0]].hex : PALETA.texto;
       const el = document.createElement('button');
       el.type = 'button';
       el.className = 'marcador-pozo marcador-historia';
-      el.innerHTML = `<span class="marcador-halo"></span><span class="marcador-icono">${ICONO_POZO}</span>
+      el.innerHTML = `<span class="marcador-halo"></span><span class="marcador-icono" style="border-color:${borde}">${svgHistoria(icono)}</span>
         <span class="marcador-etiqueta" aria-hidden="true">${esc(etiqueta)}</span>`;
-      el.setAttribute('aria-label', etiqueta);
+      el.setAttribute('aria-label', nombre);
       el.addEventListener('click', (ev) => { ev.stopPropagation(); alTocarHistoriaFn?.(i); });
       marcasHistoria[i] = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(c).addTo(map);
     });
+    acomodarEtiquetas();
   }
+  // Lugar de cada etiqueta: a la derecha o a la izquierda del ícono, centrada o corrida un poco hacia abajo o hacia arriba.
+  // Se toma el primero que no pisa otra etiqueta ni otro ícono, ni queda debajo de la leyenda o la tarjeta, ni se corta en
+  // el borde; si ninguno sirve, el que menos tapa. Se elige de nuevo cada vez que el mapa termina de moverse, porque el
+  // encuadre cambia con la pantalla. En el celular las etiquetas están ocultas.
+  const LADO = 24; // px del centro del ícono al comienzo de la etiqueta (left/right: 38px en styles.css, sobre un botón de 28)
+  const CORRIMIENTO = 15; // px hacia abajo o hacia arriba (--dy en styles.css)
+  const LUGARES = [[false, 0], [true, 0], [false, CORRIMIENTO], [true, CORRIMIENTO], [false, -CORRIMIENTO], [true, -CORRIMIENTO]]; // [izquierda, dy]
+  function acomodarEtiquetas() {
+    const datos = marcasHistoria.filter(Boolean).map((m) => {
+      const el = m.getElement(), et = el.querySelector('.marcador-etiqueta');
+      const { x, y } = map.project(m.getLngLat());
+      return { el, x, y, w: et.offsetWidth + 6, h: et.offsetHeight + 4 }; // con un poco de aire
+    });
+    if (!datos.some((d) => d.w > 6)) return;
+    const cont = map.getContainer().getBoundingClientRect();
+    const obstaculos = datos.map(({ x, y }) => ({ l: x - 18, r: x + 18, t: y - 18, b: y + 18 }));
+    for (const sel of ['#leyenda', '#story .step.activa .card']) {
+      const r = document.querySelector(sel)?.getBoundingClientRect();
+      if (r?.width) obstaculos.push({ l: r.left - cont.left, r: r.right - cont.left, t: r.top - cont.top, b: r.bottom - cont.top });
+    }
+    const tapa = (a, b) => Math.max(0, Math.min(a.r, b.r) - Math.max(a.l, b.l)) * Math.max(0, Math.min(a.b, b.b) - Math.max(a.t, b.t));
+    const pantalla = { l: 0, r: cont.width, t: 0, b: cont.height };
+    const costo = (c) => obstaculos.reduce((s, o) => s + tapa(c, o), 0) + (c.r - c.l) * (c.b - c.t) - tapa(c, pantalla);
+    for (const d of datos) {
+      let mejor = null;
+      for (const [izquierda, dy] of LUGARES) {
+        const l = izquierda ? d.x - LADO - d.w : d.x + LADO;
+        const caja = { l, r: l + d.w, t: d.y + dy - d.h / 2, b: d.y + dy + d.h / 2 };
+        const c = costo(caja);
+        if (!mejor || c < mejor.c) mejor = { izquierda, dy, caja, c };
+        if (c === 0) break;
+      }
+      d.el.classList.toggle('etiqueta-izquierda', mejor.izquierda);
+      d.el.style.setProperty('--dy', `${mejor.dy}px`);
+      obstaculos.push(mejor.caja);
+    }
+  }
+  map.on('moveend', () => { if (marcasHistoria.length) acomodarEtiquetas(); });
   /** Marca (o desmarca, con null) el pozo de la historia abierta. */
   function resaltarHistoria(i) { marcasHistoria.forEach((x, j) => x?.getElement().classList.toggle('activa', j === i)); }
 
@@ -771,7 +837,9 @@ export function crearMapa({ onClickPozo, tooltipPozo, cartelArea }) {
     alCambiar(fn) { oyentes.push(fn); },
     /** Pozos marcados con el ícono y la etiqueta a la vista: [{ idpozo, etiqueta, soloCompu, etiquetaIzquierda }] o null. */
     marcadores: mostrarMarcadores,
-    /** Pozos marcados de las historias (tarjeta 7): [{ idpozo, etiqueta }] o null para sacarlos. */
+    /** Pozos marcados de las historias (tarjeta 7): [{ idpozos, etiqueta, nombre, icono }] o null para
+     *  sacarlos. `etiqueta`: el rótulo visible; `nombre`: el del lector de pantalla (empieza con la etiqueta); `icono`: una clave
+     *  de ICONOS_HISTORIA (sin ella, el ícono del Pozo N° 2). */
     historias: mostrarHistorias,
     resaltarHistoria,
     /** fn(i) cuando se toca el marcador de la historia i. */

@@ -145,9 +145,19 @@
       <p class="kicker" id="historia-meta"></p>
       <h2 id="historia-titulo"></h2>
       <figure class="historia-foto" hidden><picture></picture><figcaption></figcaption></figure>
-      <p id="historia-texto"></p>
-      <p class="historia-registro" id="historia-registro" aria-live="polite"></p>
-      <p class="fuente" id="historia-fuente"></p>
+      <p id="historia-copete"></p>
+      <!-- el resto de la historia, el pozo según el registro y las fuentes: se abre con «Seguir leyendo» -->
+      <div class="historia-mas" id="historia-mas" hidden>
+        <p id="historia-texto" tabindex="-1"></p>
+        <section class="historia-registro" id="historia-registro" aria-labelledby="historia-registro-titulo" hidden>
+          <h3 class="historia-sub" id="historia-registro-titulo"></h3>
+          <ul class="historia-pozos"></ul>
+          <p class="historia-nota">Estado declarado por la operadora ante la Secretaría de Energía; no describe el estado físico del pozo.<span id="historia-antes" hidden> «Antes, YPF»: la operadora que figuraba en el listado de la Secretaría de Energía de 2025, no necesariamente la que estaba a cargo cuando pasó la historia.</span></p>
+        </section>
+        <h3 class="historia-sub">Fuentes</h3>
+        <p class="fuente" id="historia-fuente"></p>
+      </div>
+      <button type="button" class="historia-leer" id="historia-leer" aria-expanded="false" aria-controls="historia-mas"></button>
       <nav class="historia-nav" aria-label="Otras historias">
         <button type="button" class="empezar" data-historia-paso="-1">← Anterior</button>
         <button type="button" class="empezar" data-historia-paso="1">Siguiente →</button>
@@ -242,6 +252,7 @@
         <li>Privacidad: si pedís tu ubicación en el visualizador, se usa solo en tu dispositivo para mostrarte en el mapa; no se guarda, no se envía y no se calcula nada con ella. El video de la portada está en YouTube, en su modo de privacidad mejorada (youtube-nocookie.com): se carga solo si abrís su ventana, y al reproducirlo YouTube puede guardar datos en tu navegador.</li>
         <li>Música del video: «Phase Shift», de Scott Buckley (CC BY 4.0, <a href="https://www.scottbuckley.com.au/">scottbuckley.com.au</a>).</li>
         <li>Tipografías: Fraunces y Source Sans 3 (SIL Open Font License; licencias en <code>public/fonts/</code>).</li>
+        <li>Íconos de cinco historias del paso 7 (Palazzo, Laprida, Km 3, Las Orquídeas y la rotonda): <a href="https://tabler.io/icons">Tabler Icons</a>, © 2020-2026 Paweł Kuna (<a href="https://github.com/tabler/tabler-icons/blob/main/LICENSE">licencia MIT</a>).</li>
         <li>Programas: MapLibre GL JS (BSD-3-Clause), deck.gl (MIT), D3 (ISC), Scrollama (MIT), Vite (MIT).</li>
         <li>Esta pieza: código con licencia MIT; datos derivados con licencia CC-BY 4.0, citando las fuentes de arriba.</li>
         <li>Repositorio con el código y los datos: <a href="https://github.com/datos26/lo-que-queda">github.com/datos26/lo-que-queda</a>.</li>

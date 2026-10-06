@@ -3,7 +3,7 @@
 // (también cuando el recorrido cambia de paso), así nunca muestran un filtro que no está aplicado.
 
 import { ESTADOS, POBLACION_RAMPA, CORTES_POBLACION } from './paleta.js';
-import { cargarFicha, cargarSiglas, normalizarSigla, fmt, esc, mesAnio, TRAMOS_SIN_PRODUCIR, VISTA_CUENCA, paddingPanel } from './data.js';
+import { cargarFicha, cargarSiglas, normalizarSigla, fmt, esc, mesAnio, eraDeYPF, TRAMOS_SIN_PRODUCIR, VISTA_CUENCA, paddingPanel } from './data.js';
 import { montarUbicacion } from './ubicacion.js';
 
 const MAX_RESULTADOS = 12;
@@ -348,7 +348,7 @@ export function montarExploracion({ mapa, pozos, resumen }) {
         <p class="ficha-estado"><span class="ley-dot" style="background:${e?.hex}"></span>${esc(f.est)}</p>
         <dl>
           <dt>Operadora</dt><dd>${f.e ? esc(f.e) : '<em>sin empresa asignada</em>'}</dd>
-          ${f.ea && f.ea !== f.e ? `<dt>Operadora anterior</dt><dd>${esc(f.ea)}</dd>` : ''}
+          ${eraDeYPF(f) ? '<dt>Operadora anterior</dt><dd>YPF <em>(listado de operadoras de la SE, 2025)</em></dd>' : ''}
           <dt>Yacimiento</dt><dd>${esc(f.y || '—')}</dd>
           <dt>Área / concesión</dt><dd>${esc(f.ar || '—')}</dd>
           <dt>Provincia</dt><dd>${esc(f.p)}</dd>

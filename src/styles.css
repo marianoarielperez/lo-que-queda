@@ -177,13 +177,16 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 .tooltip-pozo .ley-dot { width: 9px; height: 9px; margin-right: 5px; }
 /* Historias de la tarjeta 7: lista en la tarjeta, pozos marcados en el mapa y su ventana */
 .acciones-historias { margin: 14px 0 12px; }
-/* marcador: el ícono del Pozo N° 2, más chico; el título aparece con el mouse, el foco o la historia abierta */
+/* marcador: un ícono por tipo de incidente (el borde, del color del estado, lo pone map.js) y su etiqueta corta, siempre a la
+   vista en la computadora; en el celular, solo con la historia abierta o el foco (las diez no entran) */
 .marcador-historia { z-index: 3; width: 28px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; }
 .marcador-historia .marcador-halo { left: -8px; top: -8px; width: 44px; height: 44px; }
-.marcador-historia .marcador-etiqueta { display: none; left: 38px; top: 2px; }
-.marcador-historia:hover .marcador-etiqueta, .marcador-historia:focus-visible .marcador-etiqueta, .marcador-historia.activa .marcador-etiqueta { display: block; }
+/* el lado (etiqueta-izquierda) y el corrimiento hacia abajo o arriba (--dy) los elige map.js para que no se pisen */
+.marcador-historia .marcador-etiqueta { left: 38px; top: 50%; transform: translateY(calc(-50% + var(--dy, 0px))); }
+.marcador-historia.etiqueta-izquierda .marcador-etiqueta { left: auto; right: 38px; }
 .marcador-historia:hover, .marcador-historia:focus-visible, .marcador-historia.activa { z-index: 4; }
-.marcador-historia.activa .marcador-icono { background: var(--texto); color: #fffcf6; border-color: var(--texto); }
+.marcador-historia:hover .marcador-icono, .marcador-historia.activa .marcador-icono,
+.marcador-historia:hover .marcador-etiqueta, .marcador-historia.activa .marcador-etiqueta { background: var(--texto); color: #fffcf6; }
 .marcador-historia:focus-visible { outline: none; }
 .marcador-historia:focus-visible .marcador-icono { outline: 3px solid var(--texto); outline-offset: 2px; }
 /* ventana de la historia: la de Metodología, más angosta y a la medida del texto */
@@ -192,9 +195,21 @@ input[type="checkbox"] { width: 18px; height: 18px; }
 .ventana-historia #historia-meta { padding-right: 28px; } /* que la línea no pase por debajo del botón de cerrar (en el celular se corta en dos) */
 .ventana-historia h2 { font-family: "Fraunces", Georgia, serif; font-size: 26px; line-height: 1.2; margin: 4px 0 14px; }
 .ventana-historia p { margin: 0 0 12px; font-size: 17px; line-height: 1.5; }
-.ventana-historia .historia-registro { font-size: 14px; color: var(--texto-sec); }
-.ventana-historia .historia-registro:empty { display: none; }
 .ventana-historia .fuente { font-size: 13px; }
+/* «Seguir leyendo»: abre el resto del texto, el pozo según el registro y las fuentes */
+.historia-leer { display: block; width: 100%; min-height: 44px; margin: 4px 0 0; padding: 8px 12px; font: inherit; font-size: 15px; font-weight: 600; color: var(--texto); background: none; border: 1.5px solid var(--texto); border-radius: 4px; cursor: pointer; }
+.historia-leer:hover { background: var(--texto); color: var(--tarjeta-solida); }
+.historia-mas { padding-top: 14px; border-top: 1px solid var(--borde); }
+.historia-mas + .historia-leer { margin-top: 18px; }
+.ventana-historia #historia-texto:focus { outline: none; } /* recibe el foco al abrirse (lo pone story.js, no el teclado) */
+.historia-sub { margin: 18px 0 6px; font-size: 12px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-sec); }
+/* el pozo según el registro: un recuadro por pozo, con el punto del color de su estado */
+.historia-pozos { list-style: none; margin: 0 0 8px; padding: 0; font-size: 15.5px; line-height: 1.4; }
+.historia-pozos li { display: flex; align-items: flex-start; gap: 4px; margin: 0 0 6px; padding: 9px 12px; background: #fff; border: 1px solid var(--borde); border-radius: 6px; }
+.historia-pozos .ley-dot { margin-top: 5px; }
+.historia-estado { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 999px; background: #eceae6; color: #3f4147; font-size: 13px; }
+.historia-op { color: var(--texto-sec); font-size: 13.5px; }
+.ventana-historia .historia-nota { font-size: 13px; color: var(--texto-sec); }
 .historia-foto { margin: 0 0 14px; }
 .historia-foto img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; background: var(--urbano, #e7e1d4); }
 .historia-foto figcaption { margin-top: 4px; font-size: 12px; color: var(--texto-sec); }
@@ -264,6 +279,8 @@ html:has(.ventana[open]) { overflow: hidden; } /* la página de atrás no se des
   .card-portada .bajada { font-size: 23px; }
   .foto-paso { display: none; } /* en celular la tarjeta del Pozo N° 2 va sin foto */
   .marcador-pozo.solo-compu { display: none; } /* el pozo de la foto del paso 6: sin la foto, el marcador no dice nada */
+  .marcador-historia .marcador-etiqueta { display: none; }
+  .marcador-historia:focus-visible .marcador-etiqueta, .marcador-historia.activa .marcador-etiqueta { display: block; }
   .foto-portada { margin: -20px -18px 14px; }
   .foto-portada figcaption { padding: 6px 18px 0; }
   #leyenda { right: 12px; top: 12px; font-size: 12.5px; padding: 8px 10px; }

@@ -3,8 +3,9 @@
 // se desincronicen con los datos.
 
 import scrollama from 'scrollama';
-import { fmt, pct, esc, VISTA_CUENCA, paddingPanel, cargarFicha, reducirMovimiento } from './data.js';
+import { fmt, pct, esc, VISTA_CUENCA, paddingPanel, cargarFicha, reducirMovimiento, eraDeYPF } from './data.js';
 import { dibujarProduccion } from './chart.js';
+import { ESTADOS } from './paleta.js';
 
 // Fuentes de contexto que citan las tarjetas (normas, informes, comunicados oficiales). Verificadas en
 // docs/investigacion-contexto.md; la metodología (index.html) lista las mismas.
@@ -45,8 +46,16 @@ function produciendo(parte, total) {
 }
 /** Pozos de una historia: `idpozo` es un número o, si hay varios en el mismo lugar, una lista (el marcador va en el primero). */
 const pozosDe = (h) => [].concat(h.idpozo);
-/** «a», «a y b», «a, b y c». */
-const enLista = (xs) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} y ${xs[xs.length - 1]}` : xs.join(''));
+/** Un pozo en el recuadro «El pozo, según el registro» de una historia (de su ficha): punto del color del estado, sigla, estado
+ *  declarado, operadora de hoy («antes, YPF» si figuraba de YPF en el listado de 2025) y los años que tenga el registro. */
+function renglonRegistro(f) {
+  const e = ESTADOS.find((x) => x.nombre === f.g);
+  const anios = [f.fperf && `perforado en ${f.fperf.slice(0, 4)}`, f.fab && `abandono declarado en ${f.fab.slice(0, 4)}`].filter(Boolean);
+  return `<li><span class="ley-dot" style="background:${e?.hex}" aria-hidden="true"></span><span><strong>${esc(f.s)}</strong>`
+    + `<span class="historia-estado">${esc(f.est)}</span><br>`
+    + `<span class="historia-op">${f.e ? esc(f.e) : '<em>sin empresa asignada</em>'}${eraDeYPF(f) ? ' (antes, YPF)' : ''}`
+    + `${anios.map((a) => ` · ${a}`).join('')}</span></span></li>`;
+}
 // Foto de una historia del paso 7 (public/img/historias/, la genera scripts/optimizar_fotos.py).
 // posicion: object-position del recorte 16:9. proporcion: [ancho, alto] de la foto web cuando va con su forma propia, sin recorte
 // (hoy las diez son 16:9 y no los usan).
@@ -195,21 +204,33 @@ export function definirPasos(R) {
       // La del CH-182 no salió en medios: sale del Decreto 135/2025, del plano municipal y de la imagen satelital. Texto de los autores.
       // Fotos (03/10): de los autores, sin crédito (las tomas aéreas son de ellos), salvo la 7 y la 8, de las gacetillas de la
       // Municipalidad (de uso libre citando la fuente). El epígrafe dice el lugar; no se marca ninguna propiedad (privacidad).
+      // Copete y etiqueta (autores, 05/10): `copete` es el comienzo del texto de los autores, cortado donde ellos aprobaron, y
+      // `texto` sigue con el resto, sin cambiar palabras (aparece con «Seguir leyendo»). `etiqueta`: el rótulo corto del
+      // marcador en el mapa (qué pasó y dónde).
       id: 7, kicker: 'Paso 7 · Convivir con pozos', cifra: fmt(e.Abandonado),
       titulo: 'pozos abandonados en el ejido de Comodoro Rivadavia',
       texto: 'Pero que un pozo figure como «abandonado» no garantiza que esté bien sellado. Y los riesgos no terminan ahí: también hay incidentes en pozos activos. Estas son algunas historias documentadas en medios y fuentes oficiales; te invitamos a descubrirlas.',
       historias: [
         // Tres pozos (R-87, R-88 y S/L-564, confirmados por los autores). La Nación, del momento, da mayo de 2002; Jornada y
         // El Patagónico 2015 dicen 2001 (el registro, con los abandonos declarados en junio y julio de 2002, apoya 2002).
-        // Texto de los autores (29/09): «mal sellados» va sin atribución por decisión de ellos (lo dice El Patagónico, 18/3/2015).
-        { idpozo: [92810, 92730, 70082], titulo: 'Una escuela sobre tres pozos', lugar: 'Stella Maris', cuando: '2002 a 2011',
-          texto: 'El edificio, inaugurado en 1994, debió ser evacuado en 2002 por fuertes olores a gas. Las inspecciones revelaron que la escuela había sido construida sobre tres antiguos pozos petroleros mal sellados. Unos 400 alumnos fueron trasladados al CeRET, al Deán Funes y a la vecinal del Stella Maris. Repsol YPF realizó los trabajos de sellado. La comunidad educativa no pudo volver a ese edificio y recién en diciembre de 2011 inauguró una nueva sede.',
+        // Texto de los autores (05/10): «sin sellar» va sin atribución por decisión de ellos (El Patagónico 18/3/2015: «no habían sido
+        // sellados»; La Nación: un pozo que nunca había sido sellado). Mayo de 2002 y el «persistente olor a gas», de La Nación (el 7 de
+        // mayo Camuzzi cortó el gas); 1994, de El Patagónico 2015. «Unos 400»: 400 en La Nación, unos 420 en El Patagónico 2015. CeRET,
+        // Deán Funes, otras instituciones (la Escuela 766), la vecinal desde 2005 y la Escuela 183 por falta de espacio: El Patagónico
+        // 7/12/2011. Salió que Repsol YPF hizo el sellado (el registro muestra el abandono declarado en 2002).
+        { idpozo: [92810, 92730, 70082], titulo: 'Una escuela sobre tres pozos', etiqueta: 'Gas en la Escuela 169', icono: 'escuela', lugar: 'Stella Maris', cuando: '2002 a 2011',
+          copete: 'En mayo de 2002, un persistente olor a gas obligó a desalojar la Escuela 169 del barrio Stella Maris. El edificio, inaugurado en 1994, había sido construido sobre tres pozos petroleros sin sellar.',
+          texto: 'Unos 400 alumnos tuvieron que ser trasladados. En los años siguientes, la escuela funcionó repartida entre el CeRET, el Deán Funes y otras instituciones; desde 2005, gran parte de la comunidad educativa se instaló en la sede vecinal y algunos alumnos tuvieron que asistir a la Escuela 183 por falta de espacio. Recién en 2011 se inauguró un nuevo edificio propio.',
           fuente: [{ t: 'La Nación, 27/5/2002', url: 'https://www.lanacion.com.ar/sociedad/peligro-bajo-tierra-en-comodoro-rivadavia-nid399990/' },
             { t: 'El Patagónico, 7/12/2011', url: 'https://www.elpatagonico.com/inauguraron-el-nuevo-edificio-la-escuela-169-el-stella-maris-n1411164' },
             { t: '18/3/2015', url: 'https://www.elpatagonico.com/la-escuela-que-se-construyo-tres-pozos-petroleros-que-no-habian-sido-sellados-n773657' }],
           foto: fotoHistoria('historia-1-escuela', 'Vista aérea de un galpón de chapa con techo celeste junto a una avenida, con la costa al fondo', 'Toma aérea del edificio donde funcionaba la Escuela 169, en Stella Maris.') },
-        { idpozo: 120614, titulo: 'Once familias fuera de sus casas', lugar: 'Próspero Palazzo', cuando: '2008',
-          texto: 'En marzo de 2008 surgió petróleo en una vivienda de Juan José Paso y Manuel de Sarratea. Unas once familias tuvieron que dejar sus casas y la Justicia civil autorizó el desalojo. Repsol selló el pozo, que según la nota estaba inactivo desde 1991.',
+        // Texto de los autores (05/10), cotejado con las notas: la denuncia «hace ya varios meses», el pozo inactivo desde 1991, el
+        // techo levantado para entrar con el equipo y el cerco (23/3); el desalojo de «toda la manzana», la faja de clausura y Repsol
+        // para sellar el pozo (20/3). «Repsol YPF»: la empresa de entonces (las notas dicen «Repsol»).
+        { idpozo: 120614, titulo: 'Once familias fuera de sus casas', etiqueta: 'Petróleo en una vivienda', icono: 'mudanza', lugar: 'Próspero Palazzo', cuando: '2008',
+          copete: 'En marzo de 2008, comenzó a brotar petróleo en una vivienda ubicada en Juan José Paso y Manuel de Sarratea. Este hecho obligó a evacuar a once familias de Próspero Palazzo.',
+          texto: 'El problema ya había sido denunciado meses antes y luego se determinó que provenía de un pozo inactivo desde 1991. La Justicia autorizó el desalojo de toda la manzana para que Repsol YPF pudiera hacer el sellado. Se cercó el sector, se clausuraron las viviendas y hasta hubo que retirar parte del techo de la casa para ingresar con los equipos de sellado.',
           fuente: [{ t: 'El Patagónico, 20/3/2008', url: 'https://www.elpatagonico.com/por-la-surgencia-petroleo-viviendas-palazzo-once-familias-fueron-evacuadas-n1320746' },
             { t: '23/3/2008', url: 'https://www.elpatagonico.com/imponente-maquinaria-trabaja-la-casa-palazzo-donde-broto-petroleo-n1320952' }],
           foto: fotoHistoria('historia-2-paso-sarratea', 'Vista aérea de un barrio de casas bajas; a la derecha, un loteo con viviendas nuevas', 'Toma aérea de Juan José Paso y Manuel de Sarratea, en Próspero Palazzo.') },
@@ -217,49 +238,63 @@ export function definirPasos(R) {
         // el 811 cae en el lote 5 de la manzana 9 del plano de catastro, en Laprida. La vecinal hablaba del «2.811», que no existe
         // en el Capítulo IV. Las imágenes satelitales de 2008 y 2026 muestran los lotes nuevos junto al pozo.
         // Texto de los autores (04/10): dice «YPF.Ch.-811» aunque la vecinal habló del «2.811» (decisión de ellos).
-        { idpozo: 121741, titulo: 'Un lote con una válvula', lugar: 'Laprida', cuando: '2009',
-          texto: 'En diciembre de 2008, el municipio entregó lotes en Laprida. En uno de ellos, el lote 5, había un pozo petrolero. Según la vecinal, Repsol YPF lo tenía registrado por error como el pozo YPF.Ch.-2228, que estaba sellado, cuando en realidad era el YPF.Ch.-811. «No podemos avanzar en la construcción, ni en la instalación de servicios», reclamaban los vecinos.',
+        { idpozo: 121741, titulo: 'Un lote con una válvula', etiqueta: 'Un pozo en un lote', icono: 'cerco', lugar: 'Laprida', cuando: '2009',
+          copete: 'En diciembre de 2008, el municipio entregó lotes en Laprida. En uno de ellos, el lote 5, había un pozo petrolero.',
+          texto: 'Según la vecinal, Repsol YPF lo tenía registrado por error como el pozo YPF.Ch.-2228, que estaba sellado, cuando en realidad era el YPF.Ch.-811. «No podemos avanzar en la construcción, ni en la instalación de servicios», reclamaban los vecinos.',
           fuente: [{ t: 'El Patagónico, 1/4/2009', url: 'https://www.elpatagonico.com/en-laprida-se-quejan-porque-les-entregaron-terrenos-un-pozo-petroleo-abierto-n1345550' }],
           foto: fotoHistoria('historia-3-laprida', 'Vista aérea de casas sobre la ladera de un cerro con vegetación', 'Toma aérea de los lotes de Laprida, al pie del cerro.') },
-        // La esquina con Petrolero San Lorenzo la confirmaron los autores (04/10): las notas dicen «Buque La Plata 10» (2010) y
-        // salidas a Buque La Plata y Clemente Onelli (2022).
-        { idpozo: 121051, titulo: 'Un pozo en el patio', lugar: 'Km 3', cuando: '2010 a 2024',
-          texto: 'En 2010, los departamentos de una propiedad en la esquina de Buque La Plata y Petrolero San Lorenzo estaban desocupados por las emanaciones de gas del pozo. En 2022 la Cámara de Apelaciones le ordenó a YPF abandonarlo de nuevo, en forma definitiva. En 2024 el municipio volvió «ante la preocupación de los vecinos».',
+        // La esquina con Petrolero San Lorenzo la confirmaron los autores (04/10; queda en el epígrafe de la foto): las notas dicen
+        // «Buque La Plata 10» (2010) y salidas a Buque La Plata y Clemente Onelli (2022).
+        // Texto de los autores (05/10): el CH 44, los cuatro departamentos y las emanaciones de gas, de El Patagónico 2010 (el dueño
+        // intimó a YPF por carta documento). El acta de inspección (cita textual, sin fecha en la nota) y la orden de reabandono «bajo
+        // la supervisión del Ministerio de Hidrocarburos», de ADNSUR 2022. «Potencialmente explosivo» es el título de ADNSUR: no va
+        // como propio. Salió la visita municipal de 2024, pero el encabezado y su fuente quedan (decisión de los autores).
+        { idpozo: 121051, titulo: 'Un pozo en el patio', etiqueta: 'Gas en unos departamentos', icono: 'edificio', lugar: 'Km 3', cuando: '2010 a 2024',
+          copete: 'En 2010, los propietarios de un terreno de Kilómetro 3 denunciaron que el pozo CH-44 emanaba gas y los obligaba a mantener cuatro departamentos desocupados.',
+          texto: 'En la causa judicial, un acta de inspección concluyó que había un «nivel de mezcla explosiva por encima de los límites de seguridad admisibles». En 2022, la Justicia ordenó a YPF realizar el reabandono definitivo del pozo, bajo supervisión de la Provincia.',
           fuente: [{ t: 'El Patagónico, 18/12/2010', url: 'https://www.elpatagonico.com/intiman-ypf-un-pozo-abandonado-el-patio-su-casa-n1387155' },
             { t: 'ADNSUR, 22/5/2022', url: 'https://www.adnsur.com.ar/sociedad/alertan-por-un-viejo-pozo-petrolero-potencialmente--explosivo--que-esta-en-km-3-e-intiman-a-ypf-al-reabandono-_a6286a726ad27edc439d29c52' },
             { t: 'Municipalidad, 13/6/2024', url: 'https://www.comodoro.gov.ar/2024/06/13/el-municipio-realizo-fuertes-controles-en-yacimientos-para-relevar-los-pasivos-ambientales/' }],
           foto: fotoHistoria('historia-4-buque-la-plata', 'Vista aérea de un barrio de casas bajas con el mar al fondo; adelante, un edificio de techo negro', 'Toma aérea de las calles Petrolero San Lorenzo y Buque La Plata, en General Mosconi.') },
         // «Su sellado no quedó en condiciones óptimas» es del periodista (31/3/2011): va atribuido a El Patagónico (autores, 04/10).
-        { idpozo: 120200, titulo: 'Olor a gas en Las Orquídeas', lugar: 'Km 5', cuando: '2011',
-          texto: 'En febrero de 2011, vecinos de Los Ferroviarios y Juan Zabalo sentían olor a gas. Camuzzi descartó que viniera de la red de gas natural y notificó a la Secretaría de Hidrocarburos. El pozo había sido abandonado por YPF en 1968; según El Patagónico, por la técnica de esa época su sellado no quedó en condiciones óptimas. En marzo, Repsol YPF lo volvió a sellar, cementándolo en toda su profundidad. Los trabajos obligaron a cortar dos calles.',
+        { idpozo: 120200, titulo: 'Olor a gas en Las Orquídeas', etiqueta: 'Olor a gas en Las Orquídeas', icono: 'viento', lugar: 'Km 5', cuando: '2011',
+          copete: 'En febrero de 2011, vecinos de Los Ferroviarios y Juan Zabalo sentían olor a gas. Camuzzi descartó que viniera de la red de gas natural y notificó a la Secretaría de Hidrocarburos.',
+          texto: 'El pozo había sido abandonado por YPF en 1968; según El Patagónico, por la técnica de esa época su sellado no quedó en condiciones óptimas. En marzo, Repsol YPF lo volvió a sellar, cementándolo en toda su profundidad. Los trabajos obligaron a cortar dos calles.',
           fuente: [{ t: 'El Patagónico, 27/2/2011', url: 'https://www.elpatagonico.com/una-surgencia-gas-mantiene-vilo-al-barrio-las-orquideas-n1391649' },
             { t: '31/3/2011', url: 'https://www.elpatagonico.com/cortaron-dos-calles-sellar-el-pozo-petrolero-kilometro-5-n1393660' }],
           foto: fotoHistoria('historia-5-ferroviarios-zabalo', 'Carteles de las calles Los Ferroviarios y Juan Zabalo contra un cielo con nubes', 'Los Ferroviarios y Juan Zabalo, en Las Orquídeas.') },
         // CH-182: Decreto 135/2025 (rechaza el recurso de YPF contra la Res. 23-15-MH del 29/10/2015); la rotonda, del plano
         // municipal y de la imagen de Google Earth (3/2026).
-        { idpozo: 121188, titulo: 'Un pozo en la rotonda', lugar: 'Presidente Ortiz', cuando: '2015 a 2025',
-          texto: 'Cuando el Sindicato de Petróleo y Gas Privado solicitó a YPF tierras para una urbanización de 600 lotes, el pozo YPF.Ch.-182 tenía un radio de seguridad de 60 metros. En 2015, el Ministerio de Hidrocarburos de Chubut redujo ese perímetro a 5 metros y le exigió a YPF la presentación de un plan de contingencia anual. La empresa recurrió la medida: sostuvo que el pozo, por su ubicación, «no podría en ningún caso generar daños a bienes o a personas». La Provincia rechazó el recurso en 2025. Hoy, el pozo se encuentra en medio de una rotonda del barrio.',
+        { idpozo: 121188, titulo: 'Un pozo en la rotonda', etiqueta: 'Un pozo en una rotonda', icono: 'rotonda', lugar: 'Presidente Ortiz', cuando: '2015 a 2025',
+          copete: 'Cuando el Sindicato de Petróleo y Gas Privado solicitó a YPF tierras para una urbanización de 600 lotes, el pozo YPF.Ch.-182 tenía un radio de seguridad de 60 metros. En 2015, el Ministerio de Hidrocarburos de Chubut redujo ese perímetro a 5 metros y le exigió a YPF la presentación de un plan de contingencia anual.',
+          texto: 'La empresa recurrió la medida: sostuvo que el pozo, por su ubicación, «no podría en ningún caso generar daños a bienes o a personas». La Provincia rechazó el recurso en 2025. Hoy, el pozo se encuentra en medio de una rotonda del barrio.',
           fuente: [{ t: 'Decreto Chubut 135/2025', url: CONTEXTO.decreto135 }, { t: 'plano de la Municipalidad de Comodoro Rivadavia' }, { t: 'Google Earth, 3/2026' }],
           foto: fotoHistoria('historia-6-rotonda', 'Vista aérea de una rotonda con calles nuevas, postes de luz y lotes casi vacíos', 'Toma aérea de la rotonda del loteo, en Presidente Ortiz.') },
         // «Por encima de las viviendas» y «descendió por el terreno»: de la ubicación del pozo en el mapa y del recorrido del
         // derrame (análisis de los autores, 04/10); las notas dicen «la parte alta del Cañadón La Francesa» y 600 metros.
-        { idpozo: 161850, titulo: 'Un derrame en el Cañadón La Francesa', lugar: 'Bella Vista', cuando: '2024',
-          texto: 'En junio de 2024 se rompió la línea de conducción del pozo activo YPF.Ch.BV-577(d), ubicado en la parte alta del cañadón La Francesa, por encima de las viviendas. El crudo descendió por el terreno y afectó unos 600 metros, alcanzando vegetación y lotes de vecinos. La Provincia sancionó a YPF con una multa equivalente a 224.000 litros de gasoil.',
+        { idpozo: 161850, titulo: 'Un derrame en el Cañadón La Francesa', etiqueta: 'Derrame en La Francesa', icono: 'gota', lugar: 'Bella Vista', cuando: '2024',
+          copete: 'En junio de 2024 se rompió la línea de conducción del pozo activo YPF.Ch.BV-577(d), ubicado en la parte alta del cañadón La Francesa, por encima de las viviendas.',
+          texto: 'El crudo descendió por el terreno y afectó unos 600 metros, alcanzando vegetación y lotes de vecinos. La Provincia sancionó a YPF con una multa equivalente a 224.000 litros de gasoil.',
           fuente: [{ t: 'El Chubut, 5/7/2024', url: 'https://www.elchubut.com.ar/regionales/2024-7-5-21-35-0-provincia-sanciono-a-ypf-por-el-derrame-de-hidrocarburos-en-bella-vista' },
             { t: 'El Extremo Sur, 11/7/2024', url: 'https://www.elextremosur.com/nota/49898-derrames-y-pozos-abandonados-a-la-vuelta-de-la-esquina-una-ciudad-que-crecio-de-la-mano-del-petroleo/' }],
           foto: fotoHistoria('historia-7-la-francesa', 'Un camino de tierra con una mancha de petróleo; al fondo, pinos y cerros nevados', 'El derrame en el Cañadón La Francesa. Foto: Municipalidad de Comodoro Rivadavia.') },
-        { idpozo: 121621, titulo: 'Una surgencia camino a Laprida', lugar: 'Zona Central', cuando: '2024',
-          texto: 'En agosto de 2024 se produjo una surgencia de petróleo en el pozo YPF.Ch.-679, perforado en 1927 y abandonado «aparentemente en 1962», según el municipio. El derrame afectó el suelo y parte del arroyo Belgrano. El municipio exigió a YPF estudios de integridad y hermeticidad del pozo y de las instalaciones cercanas.',
+        { idpozo: 121621, titulo: 'Una surgencia camino a Laprida', etiqueta: 'Surgencia del CH-679', icono: 'agua', lugar: 'Zona Central', cuando: '2024',
+          copete: 'En agosto de 2024 se produjo una surgencia de petróleo en el pozo YPF.Ch.-679, perforado en 1927 y abandonado «aparentemente en 1962», según el municipio.',
+          texto: 'El derrame afectó el suelo y parte del arroyo Belgrano. El municipio exigió a YPF estudios de integridad y hermeticidad del pozo y de las instalaciones cercanas.',
           fuente: [{ t: 'Municipalidad, 27/8/2024', url: CONTEXTO.municipioCH679 }],
           foto: fotoHistoria('historia-8-arroyo-belgrano', 'Dos personas con casco al borde de un arroyo de agua turbia, entre arbustos', 'El arroyo Belgrano después de la surgencia. Foto: Municipalidad de Comodoro Rivadavia.') },
         // «Antiguo»: de los autores (04/10); la nota dice «un pozo petrolero» y el registro no tiene fecha de perforación.
-        { idpozo: 121326, titulo: 'Cuando un pozo apareció dentro de una casa', lugar: 'Sismográfica', cuando: '2026',
-          texto: 'Tras el deslizamiento del cerro Hermitte, un antiguo pozo petrolero emergió dentro de la casa de un vecino de Sismográfica. Más de 90 familias de ese barrio y El Marquesado tuvieron que ser evacuadas. Semanas después, el secretario de Ambiente de Chubut sostuvo que la actividad petrolera no había sido el origen del deslizamiento.',
+        { idpozo: 121326, titulo: 'Cuando un pozo apareció dentro de una casa', etiqueta: 'Un pozo dentro de una casa', icono: 'casa', lugar: 'Sismográfica', cuando: '2026',
+          copete: 'Tras el deslizamiento del cerro Hermitte, un antiguo pozo petrolero emergió dentro de la casa de un vecino de Sismográfica.',
+          texto: 'Más de 90 familias de ese barrio y El Marquesado tuvieron que ser evacuadas. Semanas después, el secretario de Ambiente de Chubut sostuvo que la actividad petrolera no había sido el origen del deslizamiento.',
           fuente: [{ t: 'Diario Jornada, 21/1/2026', url: 'https://www.diariojornada.com.ar/409911/magazine/derrumbe_emergio_un_pozo_petrolero_dentro_de_su_casa' },
             { t: 'El Chubut, 10/2/2026', url: 'https://www.elchubut.com.ar/regionales/2026-2-10-21-55-0-cerro-hermitte-aseguran-que-la-actividad-petrolera-no-fue-el-origen-de-los-deslizamientos' }],
           foto: fotoHistoria('historia-9-sismografica', 'Casas al pie de un cerro con laderas de tierra desmoronada; algunas, dañadas por el deslizamiento', 'Sismográfica, al pie del cerro Hermitte: se ven viviendas dañadas por el deslizamiento.') },
-        { idpozo: 121660, titulo: 'Petróleo al plantar un árbol', lugar: 'Km 5', cuando: '2026',
-          texto: 'Un vecino de la calle Ferrocarriles Argentinos cavaba en su patio para plantar un árbol y, a un metro diez de profundidad, empezó a salir petróleo. «Ya nos había pasado otras veces», contó.',
+        // Texto de los autores (05/10). Las dos citas son fragmentos textuales del vecino en ADNSUR («ya nos había pasado otras veces
+        // cuando hacemos pozos…»; «Ahora está saliendo como un caño; …»), que también dice que salía «de manera constante».
+        { idpozo: 121660, titulo: 'Petróleo al plantar un árbol', etiqueta: 'Petróleo al plantar un árbol', icono: 'brote', lugar: 'Km 5', cuando: '2026',
+          copete: 'En febrero de 2026, un vecino de la calle Ferrocarriles Argentinos, en Kilómetro 5, cavaba en el patio de su casa para plantar un árbol cuando, a poco más de un metro de profundidad, empezó a brotar petróleo.',
+          texto: '«Ya nos había pasado otras veces», contó el vecino. Esta vez, sin embargo, el crudo siguió saliendo de manera constante: «está saliendo como un caño», finalizó.',
           fuente: [{ t: 'ADNSUR, 27/2/2026', url: 'https://www.adnsur.com.ar/sociedad/cavaba-un-pozo-en-su-patio-de-la-zona-norte-de-comodoro-y-se-encontro-con-petroleo_a69a227fe66a78182fdf02017' }],
           foto: fotoHistoria('historia-10-ferrocarriles-argentinos', 'Vista aérea de una esquina con una plaza, casas y edificios de colores', 'Toma aérea de las calles Ferrocarriles Argentinos y Ferrocarril Patagónico, en Presidente Ortiz.') },
       ],
@@ -357,7 +392,7 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     mapa.aplicar({ soloId: null, enfocarEjido: false, enfocarZonaNorte: false, sinProducir: null, barrio: null, satelite: false, pozos: true, ...paso.capas });
     document.body.classList.toggle('sin-leyenda', Boolean(paso.capas.soloId)); // un solo pozo: la leyenda cuenta 44.390
     mapa.marcadores([paso.marcador, paso.marcadorFoto].filter(Boolean));
-    mapa.historias(paso.historias ? paso.historias.map((h) => ({ idpozo: pozosDe(h)[0], etiqueta: `${h.titulo} · ${h.cuando}` })) : null);
+    mapa.historias(paso.historias ? paso.historias.map((h) => ({ idpozos: pozosDe(h), etiqueta: h.etiqueta, nombre: `${h.etiqueta} · ${h.cuando}`, icono: h.icono })) : null);
     if (paso.historias) precargarFotos(paso.historias);
     const vista = (paso.historias && vistaDeHistorias(paso.historias)) || paso.vista;
     // Lo que tapa la tarjeta: en celular, la mitad de abajo (focoArriba); en escritorio, una vista por límites
@@ -437,7 +472,16 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
       return im;
     });
   }
-  function abrirHistoria(i) {
+  // «Seguir leyendo» / «Ver menos»: muestra u oculta el resto de la historia, el pozo según el registro y las fuentes.
+  let textoLeer = ''; // «Seguir leyendo · 1 pozo · fuentes» de la historia abierta
+  function desplegar(abrir) {
+    ventana.querySelector('#historia-mas').hidden = !abrir;
+    const leer = ventana.querySelector('#historia-leer');
+    leer.setAttribute('aria-expanded', String(abrir));
+    leer.textContent = abrir ? 'Ver menos' : textoLeer;
+  }
+  /** Abre la historia i. Desde el mapa o la tarjeta arranca plegada (el copete); Anterior/Siguiente mantienen lo que eligió el lector. */
+  function abrirHistoria(i, { desplegada = false } = {}) {
     const lista = pasoHistorias.historias;
     const h = lista[i];
     if (!h || !ventana) return;
@@ -460,24 +504,22 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     } else {
       fig.querySelector('picture').innerHTML = '';
     }
+    $v('#historia-copete').textContent = h.copete;
     $v('#historia-texto').textContent = h.texto;
-    $v('#historia-fuente').innerHTML = `Fuente: ${htmlFuente(h.fuente, ', ')}`;
+    $v('#historia-fuente').innerHTML = htmlFuente(h.fuente, ', ');
+    const ids = pozosDe(h);
+    textoLeer = `Seguir leyendo · ${ids.length} ${ids.length > 1 ? 'pozos' : 'pozo'} · fuentes`;
+    desplegar(desplegada);
+    // El pozo según el registro (Capítulo IV): un renglón por pozo (la Escuela 169 tiene tres). Si la ficha no llega, el
+    // recuadro no aparece.
     const reg = $v('#historia-registro');
-    reg.textContent = '';
-    // Lo que dice el registro de esos pozos (Capítulo IV): estado declarado y años, si los hay. Con varios pozos (la Escuela 169
-    // tiene tres), los que comparten años van juntos: «R-87 y R-88: perforados en 1978, abandono declarado en 2002».
-    Promise.all(pozosDe(h).map(cargarFicha)).then((fichas) => {
+    reg.hidden = true;
+    $v('#historia-registro-titulo').textContent = ids.length > 1 ? 'Los pozos, según el registro' : 'El pozo, según el registro';
+    Promise.all(ids.map(cargarFicha)).then((fichas) => {
       if (actual !== i || fichas.some((f) => !f)) return;
-      const anios = (f) => [f.fperf && `perforado en ${f.fperf.slice(0, 4)}`, f.fab && `abandono declarado en ${f.fab.slice(0, 4)}`].filter(Boolean).join(', ');
-      const estados = enLista([...new Set(fichas.map((f) => f.est))]);
-      if (fichas.length === 1) {
-        reg.textContent = `En el registro: ${[`Pozo ${fichas[0].s}`, `${estados}, según lo declarado por la operadora`, anios(fichas[0])].filter(Boolean).join(' · ')}.`;
-        return;
-      }
-      const grupos = new Map(); // años → siglas
-      for (const f of fichas) if (anios(f)) grupos.set(anios(f), [...(grupos.get(anios(f)) || []), f.s]);
-      const detalle = [...grupos].map(([t, siglas]) => `${enLista(siglas)}: ${siglas.length > 1 ? t.replace('perforado', 'perforados') : t}`);
-      reg.textContent = `En el registro: ${[`Pozos ${enLista(fichas.map((f) => f.s))}`, `${estados}, según lo declarado por la operadora`, ...detalle].join(' · ')}.`;
+      reg.querySelector('ul').innerHTML = fichas.map(renglonRegistro).join('');
+      reg.querySelector('#historia-antes').hidden = !fichas.some(eraDeYPF);
+      reg.hidden = false;
     }).catch(() => {});
     // En la primera no hay «Anterior» y en la última «Siguiente» dice «Cerrar» (cierra como la ×). Si el foco estaba en
     // «Anterior», pasa a «Siguiente» antes de ocultarlo: un botón oculto con el foco lo deja perdido en la página.
@@ -497,10 +539,19 @@ export function montarRecorrido({ pasos, mapa, produccion }) {
     mapa.alTocarHistoria((i) => abrirHistoria(i));
     ventana.addEventListener('click', (ev) => {
       if (ev.target === ventana || ev.target.closest('[data-cerrar-historia]')) { ventana.close(); return; } // clic afuera o ×
+      const mas = ventana.querySelector('#historia-mas');
+      if (ev.target.closest('#historia-leer')) {
+        const abrir = mas.hidden;
+        desplegar(abrir);
+        // Al abrir, el foco (y la lectura) sigue en el resto del texto, que aparece arriba del botón; al cerrar, el botón queda a la vista.
+        if (abrir) ventana.querySelector('#historia-texto').focus();
+        else ev.target.closest('#historia-leer').scrollIntoView({ block: 'nearest' });
+        return;
+      }
       const paso = ev.target.closest('[data-historia-paso]');
       if (!paso) return;
       const destino = actual + Number(paso.dataset.historiaPaso);
-      if (destino < pasoHistorias.historias.length) abrirHistoria(destino);
+      if (destino < pasoHistorias.historias.length) abrirHistoria(destino, { desplegada: !mas.hidden });
       else ventana.close(); // la última: el botón dice «Cerrar»
     });
     ventana.addEventListener('close', () => {

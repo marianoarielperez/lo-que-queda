@@ -135,7 +135,8 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
 
 - Portada: texto de `textoPortada()` (story.js) con `resumen.eph` (EPH del INDEC, Comodoro–Rada Tilly). Por el
   error muestral de la EPH, nunca decir cuánto subió la desocupación ni atribuirla al petróleo; ver
-  `docs/investigacion-contexto.md`.
+  `docs/investigacion-contexto.md`. «La desocupación es la más alta en décadas» se queda (decisión de los autores, 04/10,
+  sabiendo que el 2T2026 es provisorio y tiene un coeficiente de variación de 35,5 %): no volver a plantearlo.
 - Fechas en la ficha: `pab` sale de la serie mensual, así que el primer mes de la serie ("2011-01") = ya abandonado al
   inicio de la serie (`declaradoAbandonado()` lo toma de `trayectoria.cobertura.desde`).
   `fab` = fecha de abandono del listado de operadoras (solo ~1.200 pozos). Fechas de perforación anteriores al
@@ -219,6 +220,18 @@ La copia con los datos reales procesados está en la PC de Mariano; `public/data
   San Lorenzo; La Francesa «por encima de las viviendas» y «descendió»; el «antiguo» pozo del cerro Hermitte) queda anotado en
   story.js y en `docs/investigacion-contexto.md`. «Su sellado no quedó en condiciones óptimas» (Las Orquídeas) va atribuido a
   El Patagónico: es del periodista.
+- 05/10: historias del paso 7 con ideas de la versión de Aldana (solo lo aprobado; su copia es anterior y no se copió entera):
+  la ventana sigue centrada y arranca con el `copete` (el comienzo del texto, cortado donde aprobaron los autores, sin cambiar
+  palabras); «Seguir leyendo · N pozo(s) · fuentes» abre el resto (`texto`), el recuadro «El pozo, según el registro» (punto del
+  color del estado, sigla, estado declarado, operadora de hoy y años) y las fuentes. Operadora anterior (autores, 05/10): solo
+  «antes, YPF», en el recuadro y en la ficha del visualizador (`eraDeYPF` en data.js); sale del listado de operadoras de la SE
+  (2025), que usa códigos y a veces es la misma empresa de hoy (CAP = CAPSA, PAE = Pan American), y no dice quién estaba a
+  cargo cuando pasó cada historia. Anterior/Siguiente
+  mantienen lo que eligió el lector. Marcadores: `etiqueta` corta (qué pasó y dónde) siempre a la vista en la computadora y oculta
+  en el celular (decisión de los autores frente a mostrarla solo con el mouse); map.js elige el lado de cada una para que no se
+  pisen (`acomodarEtiquetas`); borde del color del estado. Íconos (`ICONOS_HISTORIA` en map.js): cinco de Aldana (escuela, gota,
+  casa, brote, agua) y cinco de Tabler Icons (MIT, crédito en la Metodología: mudanza, cerco, edificio, viento, rotonda), elegidos
+  por los autores. No dibujar íconos con IA: la Metodología dice que la IA no generó gráficos.
 - 30/09: fotos propias de los autores (sin crédito por foto, por el seudónimo; la Metodología dice «las fotos sin crédito son de
   los autores»): portada (restos oxidados de un aparato de bombeo en la entrada de Caleta Córdova; reemplaza la de El Patagónico)
   y pasos 3 a 6 (`fotoPropia()` en story.js: planta deshidratadora de PECOM en Km 9; letras de YPF en sus antiguos almacenes de

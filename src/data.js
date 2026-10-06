@@ -97,6 +97,11 @@ export async function cargarFicha(idpozo) {
   return recs[String(idpozo)] || null;
 }
 
+/** El pozo figuraba de YPF en el listado de operadoras de la SE (2025) y hoy es de otra empresa (decisión de los autores,
+ *  05/10). Es la única «operadora anterior» que se muestra: el listado usa códigos de la SE y otros, como CAP o PAE, son la
+ *  misma empresa de hoy. No dice quién estaba a cargo en una fecha dada (YPF le pasó áreas a PECOM en octubre de 2024). */
+export const eraDeYPF = (f) => f.ea === 'YPF' && !/^YPF\b/i.test(f.e || '');
+
 /** Sigla sin puntos, guiones, espacios ni tildes, en mayúsculas: "YPF.Ch.-679" → "YPFCH679". */
 export const normalizarSigla = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 
